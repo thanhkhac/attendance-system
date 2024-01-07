@@ -58,7 +58,7 @@ CREATE TABLE Timesheet(
 );
 
 CREATE TABLE Leaves(
-	TimeSheetID int UNIQUE,
+	TimeSheetID int PRIMARY KEY,
 	Reason nvarchar(max),
 	[Status] bit,
 	[ResponedBy] int
