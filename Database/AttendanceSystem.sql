@@ -65,6 +65,7 @@ CREATE TABLE Leaves(
 )
 
 
+
 CREATE TABLE OverTime(
 	[Date] date,
 	[EmployeeID] int,
@@ -79,10 +80,20 @@ CREATE TABLE OverTime(
 CREATE TABLE News(
 	NewsID int PRIMARY KEY,
 	Title nvarchar(50),
-	[Content] nvarchar(max),
+	Content nvarchar(max),
 	[DateTime] datetime,
 	CreatedBy int,
 )
+
+CREATE TABLE [Application](
+	ApplicationID int IDENTITY(1,1) PRIMARY KEY,
+	EmployeeID int,
+	Title nvarchar(50), 
+	Content nvarchar(max),
+	[Status] bit,
+	[ResponedBy] int
+)
+
 
 GO
 --=====================FOREIGN KEY
@@ -123,6 +134,11 @@ ADD CONSTRAINT FK_OverTime_Employees FOREIGN KEY ([EmployeeID]) REFERENCES Emplo
 --News
 ALTER TABLE News
 ADD CONSTRAINT FK_News_Employees_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID)
+
+
+--Application:
+ALTER TABLE [Application]
+ADD CONSTRAINT FK_Application_Employees_ResponedBy FOREIGN KEY (ResponedBy) REFERENCES Employees(EmployeeID)
 
 GO
 --====================INSERT
