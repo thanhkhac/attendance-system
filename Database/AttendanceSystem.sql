@@ -17,6 +17,7 @@ CREATE TABLE Employees(
 	[MiddleName] nvarchar(50) not null,
 	[LastName] nvarchar(50) not null,
 	[Email] nvarchar(50) UNIQUE not null,
+	[Password] nvarchar(50),
 	[CCCD] varchar(50) UNIQUE not null,
 	[PhoneNumber] varchar(50) UNIQUE,
 	[DepartmentID] int,
@@ -60,7 +61,7 @@ CREATE TABLE Timesheet(
 CREATE TABLE Leaves(
 	TimeSheetID int PRIMARY KEY,
 	Reason nvarchar(max),
-	--[Status] bit,
+	[Status] bit,
 	[ResponedBy] int
 )
 
