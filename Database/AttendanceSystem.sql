@@ -18,7 +18,7 @@ CREATE TABLE Employees(
 	[LastName] nvarchar(50) not null,
 	[Email] nvarchar(50) UNIQUE not null,
 	[CCCD] varchar(50) UNIQUE not null,
-	[PhoneNumber] varchar(50),
+	[PhoneNumber] varchar(50) UNIQUE,
 	[DepartmentID] int,
 	[RoleID] int DEFAULT 1,
 	[StartDate] date,
@@ -50,8 +50,8 @@ CREATE TABLE Timesheet(
 	[Date] date,
 	[EmployeeID] int,
 --	[ShiftID] int,
-	[TimeIn] time,
-	[TimeOut] time,
+	[CheckIn] time,
+	[CheckOut] time,
 --	[IsLeave] bit DEFAULT 0,
 	[Note] nvarchar(max),
 	UNIQUE([Date], [EmployeeID])
@@ -60,7 +60,7 @@ CREATE TABLE Timesheet(
 CREATE TABLE Leaves(
 	TimeSheetID int PRIMARY KEY,
 	Reason nvarchar(max),
-	[Status] bit,
+	--[Status] bit,
 	[ResponedBy] int
 )
 
@@ -71,8 +71,8 @@ CREATE TABLE OverTime(
 	[EmployeeID] int,
 	[StartTime] time,
 	[EndTime] time,
-	[TimeIn] time,
-	[TimeOut] time,
+	[CheckIn] time,
+	[CheckOut] time,
 	PRIMARY KEY([Date], [EmployeeID])
 );
 
@@ -94,6 +94,15 @@ CREATE TABLE [Application](
 	[ResponedBy] int
 )
 
+CREATE TABLE[Shifts](
+	[ShiftID] int IDENTITY(1,1) PRIMARY KEY,
+	[StartDate] date,
+	[StartTime] time,
+	[EndTime] time,
+	[OpenBefore] int,
+	[CloseAfter] int,
+	[CreatedBy] int 
+)
 
 GO
 --=====================FOREIGN KEY
@@ -109,6 +118,9 @@ ADD	CONSTRAINT FK_Employees_Roles FOREIGN KEY ([RoleID]) REFERENCES Roles([RoleI
 ALTER TABLE Departments
 ADD CONSTRAINT FK_Departments_Employees FOREIGN KEY([ManagerID]) REFERENCES Employees(EmployeeID)
 
+--Shift
+ALTER TABLE Shifts
+ADD CONSTRAINT FK_Shifts_Employees FOREIGN KEY(CreatedBY) REFERENCES Employees(EmployeeID)
 
 --TimeSheets
 ALTER TABLE Timesheet
@@ -140,6 +152,10 @@ ADD CONSTRAINT FK_News_Employees_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES Em
 ALTER TABLE [Application]
 ADD CONSTRAINT FK_Application_Employees_ResponedBy FOREIGN KEY (ResponedBy) REFERENCES Employees(EmployeeID)
 
+
+
+
+
 GO
 --====================INSERT
 INSERT INTO Roles(RoleID, [Name]) VALUES (1, N'Nhân viên');
@@ -160,17 +176,8 @@ DECLARE @PhongNhanSu int = (SELECT DepartmentID FROM Departments WHERE [Name] = 
 DECLARE @PhongTiepThi int = (SELECT DepartmentID FROM Departments WHERE [Name] = N'Phòng tiếp thị')
 
 
-INSERT INTO Employees (FirstName, MiddleName, LastName, Email, CCCD, PhoneNumber, DepartmentID, RoleID, IsActive) VALUES
-(N'Thành', N'Khắc', N'Nguyễn', 'thanhcqb2048@gmail.com', '456789012', '0382293846', @PhongTiepThi, @NhanVien, 1)
-
---INSERT INTO Shifts([Name],StartTime, EndTime) VALUES (N'Cả ngày', '7:30:00', '17:30:00')
---INSERT INTO Shifts([Name],StartTime, EndTime) VALUES (N'Ca sáng', '7:30:00', '11:30:00')
---INSERT INTO Shifts([Name],StartTime, EndTime) VALUES (N'Ca chiều', '13:30:00', '17:30:00')
 
 
---DECLARE @CaNgay int = (SELECT ShiftID FROM Shifts WHERE [Name] = N'Cả ngày')
---DECLARE @CaSang int = (SELECT ShiftID FROM Shifts WHERE [Name] = N'Ca sáng')
---DECLARE @CaChieu int = (SELECT ShiftID FROM Shifts WHERE [Name] = N'Ca chiều')
 
 
 
