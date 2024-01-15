@@ -1,6 +1,7 @@
 --SELECT
 SELECT * FROM Employees
 SELECT * FROM Departments
+SELECT * FROM [Application]
 
 --VIEW Deparment Manager
 SELECT DE.DepartmentID, DE.ManagerID, EM.FirstName , EM.MiddleName, EM.LastName
