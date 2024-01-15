@@ -81,7 +81,7 @@ CREATE TABLE OverTime(
 
 
 CREATE TABLE News(
-	NewsID int IDENTITY(1,1) PRIMARY KEY,
+	NewsID int PRIMARY KEY,
 	Title nvarchar(50),
 	Content nvarchar(max),
 	[DateTime] datetime,
@@ -215,18 +215,12 @@ INSERT INTO RequestsType(TypeID, [Name]) VALUES
 (4,N'Request OverTime Shift')
 
 
---News
-INSERT INTO News(Title, [Content], [DateTime], CreatedBy) VALUES
-(N'Thông báo cắt điện', N'Công ty thông báo lịch cắt điện đến toàn bộ nhân viên 
-	Từ 12:00AM Ngày 12/03/2024 Đến 16:00PM Ngày 12/03/2024 
-	Xin thông báo để toàn thể nhân viên công ty xắp sếp thời gian làm việc, nghỉ ngơi hợp lí !', '11/03/2024', 4)
-
 --====================INSERT
 
 
 --====================Modify Area
 
-SELECT * FROM News
+--SELECT * FROM RequestsType
 
 UPDATE Departments
 SET ManagerID = (SELECT EmployeeID FROM Employees WHERE CCCD = '026303003033')
