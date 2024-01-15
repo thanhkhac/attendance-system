@@ -89,7 +89,7 @@ CREATE TABLE News(
 )
 
 CREATE TABLE [Requests](
-	ApplicationID int IDENTITY(1,1) PRIMARY KEY,
+	RequestID int IDENTITY(1,1) PRIMARY KEY,
 	EmployeeID int,
 	Title nvarchar(50), 
 	Content nvarchar(max),
