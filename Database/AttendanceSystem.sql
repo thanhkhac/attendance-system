@@ -74,6 +74,8 @@ CREATE TABLE OverTime(
 	[EndTime] time,
 	[CheckIn] time,
 	[CheckOut] time,
+	[OpenBefore] int,
+	[CloseAfter] int,
 	PRIMARY KEY([Date], [EmployeeID])
 );
 
@@ -86,7 +88,7 @@ CREATE TABLE News(
 	CreatedBy int,
 )
 
-CREATE TABLE [Application](
+CREATE TABLE [Requests](
 	ApplicationID int IDENTITY(1,1) PRIMARY KEY,
 	EmployeeID int,
 	Title nvarchar(50), 
@@ -150,8 +152,8 @@ ADD CONSTRAINT FK_News_Employees_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES Em
 
 
 --Application:
-ALTER TABLE [Application]
-ADD CONSTRAINT FK_Application_Employees_ResponedBy FOREIGN KEY (ResponedBy) REFERENCES Employees(EmployeeID)
+ALTER TABLE [Requests]
+ADD CONSTRAINT FK_Requests_Employees_ResponedBy FOREIGN KEY (ResponedBy) REFERENCES Employees(EmployeeID)
 
 
 
@@ -167,15 +169,39 @@ DECLARE @NhanVien int = 1
 DECLARE @QuanLyNhanSu int = 2
 DECLARE @Admin int = 3
 
-INSERT INTO Departments([Name]) VALUES (N'Phòng kế toán')
+--INSERT INTO Departments([Name]) VALUES (N'Phòng kế toán')
 INSERT INTO Departments([Name]) VALUES (N'Phòng nhân sự')
 INSERT INTO Departments([Name]) VALUES (N'Phòng tiếp thị')
 
 
-DECLARE @PhongKeToan int = (SELECT DepartmentID FROM Departments WHERE [Name] = N'Phòng kế toán')
+--DECLARE @PhongKeToan int = (SELECT DepartmentID FROM Departments WHERE [Name] = N'Phòng kế toán')
 DECLARE @PhongNhanSu int = (SELECT DepartmentID FROM Departments WHERE [Name] = N'Phòng nhân sự')
 DECLARE @PhongTiepThi int = (SELECT DepartmentID FROM Departments WHERE [Name] = N'Phòng tiếp thị')
 
+--Employee
+INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Thành', N'Khắc', N'Nguyễn', N'thanhcqb2048@gmail.com', '12345678', '035203004448', '0382293846', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
+INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Trường', N'Xuân', N'Phạm', N'truongnt@gmail.com', '12345678', '001304013023', '453434545454', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
+--HR
+INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Đức', N'Tân', N'Nguyễn', N'ducnt@gmail.com', '12345678', '001203020541', '454545454', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
+--Deparment Manager
+INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Bách', N'Việt', N'Lê', N'bachlv3@fpt.edu.vn', '1234564578', '026303003033', '234432445', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
+--HR Manager
+INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Dương', N'Mạnh', N'Nguyễn', N'duong@gmail.com', '1234564578', '001204002773', '25425345', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
+
+UPDATE Departments
+SET ManagerID = (SELECT EmployeeID FROM Employees WHERE CCCD = '026303003033')
+WHERE DepartmentID = @PhongTiepThi
+
+UPDATE Departments
+SET ManagerID = (SELECT EmployeeID FROM Employees WHERE CCCD = '001204002773')
+WHERE DepartmentID = @PhongNhanSu
+
+--====================================================================================
 
 
 
