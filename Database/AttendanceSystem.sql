@@ -88,10 +88,16 @@ CREATE TABLE News(
 	CreatedBy int,
 )
 
+CREATE TABLE [RequestsType](
+	[TypeID] int PRIMARY KEY,
+	[Name] nvarchar(50)
+)
+
 CREATE TABLE [Requests](
 	RequestID int IDENTITY(1,1) PRIMARY KEY,
 	EmployeeID int,
-	Title nvarchar(50), 
+	Title nvarchar(50),
+	[TypeID] int,
 	Content nvarchar(max),
 	[Status] bit,
 	[ResponedBy] int
@@ -151,10 +157,12 @@ ALTER TABLE News
 ADD CONSTRAINT FK_News_Employees_CreatedBy FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID)
 
 
---Application:
+--Requests:
 ALTER TABLE [Requests]
 ADD CONSTRAINT FK_Requests_Employees_ResponedBy FOREIGN KEY (ResponedBy) REFERENCES Employees(EmployeeID)
 
+ALTER TABLE [Requests]
+ADD CONSTRAINT FK_Requests_RequestsType FOREIGN KEY ([TypeID]) REFERENCES RequestsType([TypeID])
 
 
 
@@ -183,6 +191,8 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, 
 (N'Thành', N'Khắc', N'Nguyễn', N'thanhcqb2048@gmail.com', '12345678', '035203004448', '0382293846', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
 INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
 (N'Trường', N'Xuân', N'Phạm', N'truongnt@gmail.com', '12345678', '001304013023', '453434545454', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
+INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Dương', N'Ngọc Khánh', N'Khánh', N'Duongmnk@gmail.com','123456789', '014205002145', '0987654312', @PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01');
 --HR
 INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
 (N'Đức', N'Tân', N'Nguyễn', N'ducnt@gmail.com', '12345678', '001203020541', '454545454', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
@@ -192,6 +202,25 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, 
 --HR Manager
 INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
 (N'Dương', N'Mạnh', N'Nguyễn', N'duong@gmail.com', '1234564578', '001204002773', '25425345', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
+
+
+--RequestType
+INSERT INTO RequestsType(TypeID, [Name]) VALUES
+(1,N'Leave Application')
+INSERT INTO RequestsType(TypeID, [Name]) VALUES
+(2,N'Resignation Application')
+INSERT INTO RequestsType(TypeID, [Name]) VALUES
+(3,N'Request Grant Accessability')
+INSERT INTO RequestsType(TypeID, [Name]) VALUES
+(4,N'Request OverTime Shift')
+
+
+--====================INSERT
+
+
+--====================Modify Area
+
+--SELECT * FROM RequestsType
 
 UPDATE Departments
 SET ManagerID = (SELECT EmployeeID FROM Employees WHERE CCCD = '026303003033')
