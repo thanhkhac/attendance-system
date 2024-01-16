@@ -4,36 +4,35 @@ package model;
 public class DepartmentDTO {
     private int department;
     private String name;
-    private EmployeeDTO manager;
+    private int managerId;
 
-    public int getDepartment() {
-        return department;
+    public DepartmentDTO() {
     }
 
-    public void setDepartment(int department) {
+    public DepartmentDTO(int department, String name, int managerId) {
         this.department = department;
+        this.name = name;
+        this.managerId = managerId;
+    }
+
+    
+    public int getDepartment() {
+        return department;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public EmployeeDTO getManager() {
-        return manager;
-    }
-
-    public void setManager(EmployeeDTO manager) {
-        this.manager = manager;
+    public int getManagerId() {
+        return managerId;
     }
 
     @Override
     public String toString() {
-        return "DepartmentDTO{" + "department=" + department + ", name=" + name + ", manager=" + manager + '}';
+        return "DepartmentDTO{" + "department=" + department + ", name=" + name + ", managerId=" + managerId + '}';
     }
+
     
     
 }

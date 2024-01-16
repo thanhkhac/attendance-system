@@ -2,20 +2,20 @@ package model;
 
 
 public class RoleDTO {
-    private int roleID;
+    private int roleId;
     private String name;
 
     public RoleDTO(int roleID, String name) {
-        this.roleID = roleID;
+        this.roleId = roleID;
         this.name = name;
     }
 
     public int getRoleID() {
-        return roleID;
+        return roleId;
     }
 
     public void setRoleID(int roleID) {
-        this.roleID = roleID;
+        this.roleId = roleID;
     }
 
     public String getName() {
@@ -28,7 +28,7 @@ public class RoleDTO {
 
     @Override
     public String toString() {
-        return "RoleDTO{" + "roleID=" + roleID + ", name=" + name + '}';
+        return "RoleDTO{" + "roleID=" + roleId + ", name=" + name + '}';
     }
     
     
