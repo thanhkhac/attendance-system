@@ -67,7 +67,7 @@ CREATE TABLE Timesheet(
 	[CheckOut] time,
 --	[IsLeave] bit DEFAULT 0,
 	[Note] nvarchar(max),
-	UNIQUE([Date], [EmployeeID])
+	UNIQUE([Date], [EmployeeID], [ShiftID])
 );
 
 CREATE TABLE Leaves(
