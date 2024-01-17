@@ -118,8 +118,9 @@
             </style>
         </head>
         <body>
+            
             <c:set var="List" value="${requestScope.List}" />
-
+<!--hello-->
             <div id="sidebar">
                 <a href="#">Home</a>
                 <a href="#">About</a>
