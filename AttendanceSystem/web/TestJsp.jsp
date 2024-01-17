@@ -14,11 +14,32 @@
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
             <!--link js drop down-->
 
-            <title>Bootstrap 5 Dropdown Menu</title>
+            <title>Attendance_Checking_System</title>
             <style>
+
+                body {
+                    font-family: "Arial", sans-serif;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .tableFixHead::-webkit-scrollbar {
+                    width: 10px;
+                }
+                .tableFixHead::-webkit-scrollbar-track {
+                    background-color: white; /* Change to background color */
+                }
+                /* Style the thumb (the draggable part of the scroll bar) */
+                .tableFixHead::-webkit-scrollbar-thumb {
+                    background-color: #16B14B; /* Change to thumb color */
+                    border-radius: 6px;    /*Add rounded corners to the thumb*/
+                }
+
                 .tableFixHead {
-                    margin-top: 200px;
+                    margin-top: 100px;
                     overflow: auto;
+                    border: 1px solid #f27227;
+                    height: 640px;
                 }
                 .tableFixHead thead th {
                     position: sticky;
@@ -35,11 +56,7 @@
                     border-spacing: 0 10px;
                 }
 
-                body {
-                    font-family: "Arial", sans-serif;
-                    margin: 0;
-                    padding: 0;
-                }
+
 
                 #sidebar {
                     height: 100vh;
@@ -96,6 +113,7 @@
 
                 .dropdown-menu .dropdown-item:hover {
                     background-color: #f27227;
+                    color: white;
                 }
 
                 @media (max-width: 768px) {
@@ -111,14 +129,14 @@
                         display: block;
                     }
 
-                    /*                .dropdown-menu {
-                                display: block;
-                            }*/
+                    .tableFixHead{
+                        margin-top: 200px;
+                    }
                 }
             </style>
         </head>
         <body>
-            
+
             <c:set var="List" value="${requestScope.List}" />
             <div id="sidebar">
                 <a href="#">Home</a>

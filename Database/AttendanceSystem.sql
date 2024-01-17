@@ -216,6 +216,14 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, 
 INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
 (N'Dương', N'Mạnh', N'Nguyễn', N'duong@gmail.com', '1234564578', '001204002773', '25425345', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
 
+--New Data
+INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Tùng', N'Sơn', N'Nguyễn', N'sontungMtp@gmai.com', '123123', '001204002473', '1231234', @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Cường', N'Đức', N'Nguyễn', N'denVau@gmai.com', '123456', '001203002473', '1231235', @PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Linh', N'Thùy', N'Hoàng', N'hgThuyLing@gmai.com', '123123', '002204002473', '1231236',@PhongTiepThi, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Messi', N'Văn', N'Nguyễn', N'messi@gmai.com', '123123', '001204102473', '1231237', @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Ronaldo', N'Văn', N'Nguyễn', N'ronaldo@gmai.com', '123123', '001214002473', '1231238', @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01')
+
 
 --RequestType
 INSERT INTO RequestsType(TypeID, [Name]) VALUES
