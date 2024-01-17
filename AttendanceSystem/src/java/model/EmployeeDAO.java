@@ -4,7 +4,6 @@
  */
 package model;
 
-import DTO.Employee;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,7 +37,7 @@ public class EmployeeDAO extends DBContext {
                     Date startDate = rs.getDate("StartDate");
                     Date endDate = rs.getDate("EndDate");
                     boolean isActived = rs.getBoolean("isActive");
-                    Employee e = new Employee(employeeID, firstName, middleName, lastName, email, password, cccd, phoneNumber, departmentID, roleID, startDate, endDate, isActived);
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, startDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
                     EmployeeList.add(e);
                 }
             } catch (Exception e) {

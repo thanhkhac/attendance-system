@@ -52,11 +52,11 @@ public class EmployeeDTO {
         this.isActived = isActived;
     }
 
-    public int getEmployeeId() {
+    public int getEmployeeID() {
         return employeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeID(int employeeId) {
         this.employeeId = employeeId;
     }
 
