@@ -67,7 +67,7 @@ CREATE TABLE Timesheet(
 	[CheckOut] time,
 --	[IsLeave] bit DEFAULT 0,
 	[Note] nvarchar(max),
-	UNIQUE([Date], [EmployeeID], [ShiftID])
+	UNIQUE([Date], [EmployeeID])
 );
 
 CREATE TABLE Leaves(
@@ -121,15 +121,6 @@ CREATE TABLE [Requests](
 	[ResponedBy] int
 )
 
---CREATE TABLE[Shifts](
---	[ShiftID] int IDENTITY(1,1) PRIMARY KEY,
---	[StartDate] date,
---	[StartTime] time,
---	[EndTime] time,
---	[OpenBefore] int,
---	[CloseAfter] int,
---	[CreatedBy] int 
---)
 
 GO
 --=====================FOREIGN KEY
