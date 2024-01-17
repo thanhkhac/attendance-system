@@ -47,5 +47,25 @@ public class EmployeeDAO extends DBContext {
         }
         return EmployeeList;
     }
+    public Boolean checkAccount(String Mail,String PassWord){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if(connection!=null){
+            try{
+                String sql = "SELECT * FROM Employees where Email = ? and Password=?";
+                
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, Mail);
+                stm.setString(2,PassWord);
+                rs = stm.executeQuery();
+                if(rs.next())
+                    return true;
+            }catch(Exception e){
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
+    }
 
 }

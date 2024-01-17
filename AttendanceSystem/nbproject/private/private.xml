@@ -17,5 +17,16 @@
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/model/DepartmentDTO.java</file>
         </group>
+        <group name="java_web">
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/Controller/TestServlet.java</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/utils/DBContext.java</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/model/EmployeeDTO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/Controller/Controller.java</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/web/Login.html</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/web/TestJsp.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/Controller/CheckLogin.java</file>
+            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
+        </group>
     </open-files>
 </project-private>
