@@ -242,6 +242,8 @@
                         <option selected>Choose...</option>
                         <option value="1">Part-Time</option>
                         <option value="2">Full-Time</option>
+                        <option value="3">Intern</option>
+
                     </select>
                 </div>
                 <div class="input-group mb-3 select-bar">
