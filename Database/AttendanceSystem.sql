@@ -214,7 +214,7 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, 
 (N'Bách', N'Việt', N'Lê', N'bachlv3@fpt.edu.vn', '1234564578', '026303003033', '234432445', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
 --HR Manager
 INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Dương', N'Mạnh', N'Nguyễn', N'duong@gmail.com', '1234564578', '001204002773', '25425345', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
+(N'Dương', N'Mạnh', N'Nguyễn', N'nguyennduongg039@gmail.com', '1234564578', '001204002773', '25425345', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
 
 --New Data
 INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
