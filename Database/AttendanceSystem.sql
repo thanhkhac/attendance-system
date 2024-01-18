@@ -201,22 +201,37 @@ INSERT INTO Departments([Name]) VALUES (N'Phòng tiếp thị')
 DECLARE @PhongNhanSu int = (SELECT DepartmentID FROM Departments WHERE [Name] = N'Phòng nhân sự')
 DECLARE @PhongTiepThi int = (SELECT DepartmentID FROM Departments WHERE [Name] = N'Phòng tiếp thị')
 
+--INSERT INTO EmployeeType
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Part Time')
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Full Time')
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Intern')
+
+--DECLARE @EmployeeType
+DECLARE @Part_Time int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Part Time')
+DECLARE @Full_Time int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Full Time')
+DECLARE @Intern int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Intern')
+
+
 --Employee
-INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Thành', N'Khắc', N'Nguyễn', N'thanhcqb2048@gmail.com', '12345678', '035203004448', '0382293846', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
-INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Trường', N'Xuân', N'Phạm', N'truongnt@gmail.com', '12345678', '001304013023', '453434545454', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
-INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Dương', N'Ngọc Khánh', N'Khánh', N'Duongmnk@gmail.com','123456789', '014205002145', '0987654312', @PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01');
+INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber, EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Thành', N'Khắc', N'Nguyễn', 1, '2003-01-01', N'thanhcqb2048@gmail.com', '12345678', '035203004448', '0382293846', @Full_Time, @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31'),
+(N'Trường', N'Xuân', N'Phạm', 1, '2003-01-01', N'truongnt@gmail.com', '12345678', '001304013023', '453434545454', @Full_Time, @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31'),
+(N'Dương', N'Ngọc Khánh', N'Khánh', 1,'2003-01-01', N'Duongmnk@gmail.com', '123456789', '014205002145', '0987654312', @Part_Time, @PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
 --HR
-INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Đức', N'Tân', N'Nguyễn', N'ducnt@gmail.com', '12345678', '001203020541', '454545454', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
+(N'Đức', N'Tân', N'Nguyễn', 1, '2003-01-01', N'ducnt@gmail.com', '12345678', '001203020541', '454545454', @Intern, @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31'),
 --Deparment Manager
-INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Bách', N'Việt', N'Lê', N'bachlv3@fpt.edu.vn', '1234564578', '026303003033', '234432445', @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31');
+(N'Bách', N'Việt', N'Lê', 1, '2003-01-01', N'bachlv3@fpt.edu.vn', '1234564578', '026303003033', '234432445', @Part_Time, @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31'),
 --HR Manager
-INSERT INTO Employees(FirstName, MiddleName, LastName, Email, [Password], CCCD, PhoneNumber, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Dương', N'Mạnh', N'Nguyễn', N'duong@gmail.com', '1234564578', '001204002773', '25425345', @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31');
+(N'Dương', N'Mạnh', N'Nguyễn', 1, '2003-01-01', N'duong@gmail.com','1234564578', '001204002773', '25425345', @Intern, @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31')
+
+--New Data
+INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber,EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) VALUES
+(N'Tùng', N'Sơn', N'Nguyễn', 1, '2003-01-01', N'sontungMtp@gmai.com', '123123', '001204002473', '1231234', @Part_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Cường', N'Đức', N'Nguyễn', 1, '2003-01-01', N'denVau@gmai.com', '123456', '001203002473', '1231235', @Full_Time,@PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Linh', N'Thùy', N'Hoàng', 1, '2003-01-01', N'hgThuyLing@gmai.com', '123123', '002204002473', '1231236', @Intern, @PhongTiepThi, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Messi', N'Văn', N'Nguyễn', 1, '2003-01-01', N'messi@gmai.com', '123123', '001204102473', '1231237',@Part_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
+(N'Ronaldo', N'Văn', N'Nguyễn', 1, '2003-01-01', N'ronaldo@gmai.com', '123123', '001214002473', '1231238',@Full_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01')
+
 
 --EmployeeTypes
 INSERT INTO EmployeeTypes([Name]) VALUES (N'Toàn thời gian');

@@ -48,4 +48,36 @@ public class EmployeeDAO extends DBContext {
         return EmployeeList;
     }
 
+    // Select email
+    public String getEmail(String email) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String set_email = "";
+        if (connection != null) {
+            try {
+                String sql = "SELECT Email \n"
+                        + "FROM Employees\n"
+                        + "WHERE Email = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, email);
+                rs = stm.executeQuery();
+                if(rs.next()){
+                    set_email = rs.getString("Email");
+                    return set_email;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    
+    public static void main(String[] args) {
+        EmployeeDAO dao = new EmployeeDAO();
+        
+        System.out.println(dao.getEmail("duong@gmail.com"));
+    }
+    
 }
