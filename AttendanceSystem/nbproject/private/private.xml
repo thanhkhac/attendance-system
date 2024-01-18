@@ -11,5 +11,11 @@
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/utils/DBContext.java</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/web/TestJsp.jsp</file>
         </group>
+        <group name="SWP391">
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/web/index.html</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/web/Recovery_PW_Page.jsp</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/src/java/Controller/MailServlet.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+        </group>
     </open-files>
 </project-private>
