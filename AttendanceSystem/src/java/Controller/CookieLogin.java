@@ -13,18 +13,13 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.Set;
-import model.EmployeeDAO;
-import model.EmployeeDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="CheckLogin", urlPatterns={"/checkLogin"})
-public class CheckLogin extends HttpServlet {
+@WebServlet(name="CookieLogin", urlPatterns={"/cookieLogin"})
+public class CookieLogin extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,40 +30,18 @@ public class CheckLogin extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");        
+        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String Email = request.getParameter("txtEmail");
-        String PassWord = request.getParameter("txtPassword");
-        String Remember = request.getParameter("Remember");        
-        try{
-        EmployeeDAO dao = new EmployeeDAO();
-        EmployeeDTO Account = dao.checkAccount(Email, PassWord);
-        //Account dung luu vao session
-        if(Account!=null){
-            HttpSession session = request.getSession();
-            session.setAttribute("ACCOUNT", Account);
-            //Check nut remember neu tich luu vao Cookie
-            if(Remember!=null){
-            Cookie mail = new Cookie("EmailCookie",Email);
-            Cookie pass = new Cookie("PassWordCookie",PassWord);
-            mail.setMaxAge(60*60*24);
-            pass.setMaxAge(60*60*24);
-       
-            response.addCookie(mail);
-            response.addCookie(pass);
+        Cookie arr[] = request.getCookies();
+            for(Cookie o: arr){
+                if(o.getName().equals("EmailCookie")){
+                request.setAttribute("Email", o.getValue());  
+                }
+                if(o.getName().equals("PassWordCookie"))
+                request.setAttribute("Password", o.getValue());
             }
-            response.sendRedirect("ThanhCong.html");
-        }
-        else{           
             
-            String Error = "Email or password is incorrect, please try again";
-            request.setAttribute("Error", Error);
-            request.getRequestDispatcher("cookieLogin").forward(request, response);
-        }
-        
-        }catch(Exception e){
-            
-        }
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -83,7 +56,6 @@ public class CheckLogin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
-        
     } 
 
     /** 

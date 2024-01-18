@@ -47,9 +47,10 @@ public class EmployeeDAO extends DBContext {
         }
         return EmployeeList;
     }
-    public Boolean checkAccount(String Mail,String PassWord){
+    public EmployeeDTO checkAccount(String Mail,String PassWord){
         PreparedStatement stm = null;
         ResultSet rs = null;
+        EmployeeDTO employee = null;
         if(connection!=null){
             try{
                 String sql = "SELECT * FROM Employees where Email = ? and Password=?";
@@ -58,14 +59,68 @@ public class EmployeeDAO extends DBContext {
                 stm.setString(1, Mail);
                 stm.setString(2,PassWord);
                 rs = stm.executeQuery();
-                if(rs.next())
-                    return true;
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, startDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    employee = e;
+                }
             }catch(Exception e){
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             }
         }
-        return false;
+        return employee;
+    }
+    public EmployeeDTO checkEmail(String Mail){
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        EmployeeDTO employee = null;
+        if(connection!=null){
+            try{
+                String sql = "SELECT * FROM Employees where Email = ?";
+                
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, Mail);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, startDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    employee = e;
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return employee;
     }
 
 }

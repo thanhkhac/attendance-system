@@ -37,6 +37,9 @@ public class Controller extends HttpServlet {
         if(choice.equals("Login")){
             URL = "checkLogin";
         }
+        if(choice.equals("UpdateProfile")){
+            URL = "updateProfileByEmployee";
+        }
         } finally{
             
             request.getRequestDispatcher(URL).forward(request, response);
