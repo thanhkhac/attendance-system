@@ -3,6 +3,7 @@ package utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DAOBase extends DBContext {
 
@@ -22,6 +23,24 @@ public class DAOBase extends DBContext {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void closeResource() {
+        if (rs != null) {
+            try {
+                rs.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
