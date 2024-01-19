@@ -18,7 +18,7 @@ import model.EmployeeDTO;
  *
  * @author admin
  */
-public class TestServlet extends HttpServlet {
+public class ViewAllEmployeeServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,7 +33,7 @@ public class TestServlet extends HttpServlet {
         EmployeeDAO dao = new EmployeeDAO();
         ArrayList<EmployeeDTO> listE = dao.getEmployeeInfo();
         request.setAttribute("List",  listE);
-        request.getRequestDispatcher("TestJsp.jsp").forward(request, response);
+        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
