@@ -133,7 +133,7 @@
             }
         %>
 
-        <form action="controller" method="post">
+        <form action="DispatchController" method="post">
             <div class="login-form">
                 <div class="form-title">
                     Password Recovery

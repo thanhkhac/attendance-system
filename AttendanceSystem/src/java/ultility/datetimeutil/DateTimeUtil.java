@@ -1,4 +1,4 @@
-package ultility.dateutil;
+package ultility.datetimeutil;
 
 import java.sql.Date;
 import java.sql.Time;

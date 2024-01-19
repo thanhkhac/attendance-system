@@ -2,8 +2,8 @@ package model;
 
 import java.sql.Time;
 import java.time.LocalTime;
-import ultility.dateutil.DateTimeUtil;
-import utils.DAOBase;
+import ultility.datetimeutil.DateTimeUtil;
+import dbhelper.DAOBase;
 
 public class ShiftDAO extends DAOBase {
 
