@@ -1,51 +1,35 @@
 package model;
 
-import java.sql.Time;
-
+import java.time.LocalTime;
 
 public class ShiftDTO {
+
     int shiftID;
     String name;
-    Time startTime;
-    Time endTime;
+    LocalTime startTime;
+    LocalTime endTime;
 
-    public ShiftDTO(int shiftID, String name, Time StartTime, Time EndTime) {
+    public ShiftDTO(int shiftID, String name, LocalTime startTime, LocalTime endTime) {
         this.shiftID = shiftID;
         this.name = name;
-        this.startTime = StartTime;
-        this.endTime = EndTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getShiftID() {
         return shiftID;
     }
 
-    public void setShiftID(int shiftID) {
-        this.shiftID = shiftID;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Time getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time StartTime) {
-        this.startTime = StartTime;
-    }
-
-    public Time getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
-    }
-
-    public void setEndTime(Time EndTime) {
-        this.endTime = EndTime;
     }
 
     @Override
@@ -54,5 +38,5 @@ public class ShiftDTO {
     }
     
     
-    
+
 }
