@@ -3,23 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller;
+package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import java.util.ArrayList;
+import model.EmployeeDAO;
+import model.EmployeeDTO;
 /**
  *
- * @author Admin
+ * @author admin
  */
-@WebServlet(name="CookieLogin", urlPatterns={"/cookieLogin"})
-public class CookieLogin extends HttpServlet {
+public class ViewAllEmployeeServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,20 +30,10 @@ public class CookieLogin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        if(request.getCookies()!=null){
-        Cookie arr[] = request.getCookies();
-
-            for(Cookie o: arr){
-                if(o.getName().equals("EmailCookie")){
-                request.setAttribute("Email", o.getValue());  
-                }
-                if(o.getName().equals("PassWordCookie"))
-                request.setAttribute("Password", o.getValue());
-            
-        }
-        }
-            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        EmployeeDAO dao = new EmployeeDAO();
+        ArrayList<EmployeeDTO> listE = dao.getEmployeeInfo();
+        request.setAttribute("List",  listE);
+        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

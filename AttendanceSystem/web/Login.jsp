@@ -69,7 +69,7 @@
                                 Email=""; PassWord="";
                                     }
                                 %>
-                                <form action="controller">
+                                <form action="DispatchController">
                                     <div class="form-floating mb-3">
                                         <input type="email"value="<%= Email %>" class="form-control" id="floatingInput" placeholder="name@example.com" name="txtEmail">
                                         <label for="floatingInput">Email address</label>

@@ -84,7 +84,7 @@
                             Account Details
                         </div>
                         <div class="card-body">
-                            <form action="controller">
+                            <form action="DispatchController">
                                 <div class="mb-2">
 
                                     <div class="row form-group avatar">
