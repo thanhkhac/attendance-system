@@ -153,6 +153,30 @@ public class EmployeeDAO extends DBContext {
         return null;
     }
 
+     // update password
+    public boolean updatePassword(String email, String password) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "UPDATE Employees\n"
+                        + "SET Password = ?\n"
+                        + "WHERE Email = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, password);
+                stm.setString(2, email);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
+    }
+    
     public boolean updateProfileByEmployee(String Phone, int Gender, String Email) {
         PreparedStatement stm = null;
 
