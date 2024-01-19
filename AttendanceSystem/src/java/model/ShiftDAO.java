@@ -1,10 +1,13 @@
 package model;
 
-import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalTime;
+import ultility.dateutil.DateTimeUtil;
 import utils.DAOBase;
 
 public class ShiftDAO extends DAOBase {
+
+    static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public ShiftDTO getTimesheetDTO(int xShiftID) {
         query = "SELECT * FROM Shifts\n" +
@@ -16,9 +19,9 @@ public class ShiftDAO extends DAOBase {
             while (rs.next()) {
                 int shiftID = rs.getInt("ShiftID");
                 String name = rs.getNString("Name");
-                Time StartTime = rs.getTime("StartTime");
-                Time EndTime = rs.getTime("EndTime");;
-                return new ShiftDTO(shiftID, name, StartTime, EndTime);
+                LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
+                LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
+                return new ShiftDTO(shiftID, name, startTime, endTime);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,7 +30,7 @@ public class ShiftDAO extends DAOBase {
         }
         return null;
     }
-    
+
     public static void main(String[] args) {
         ShiftDAO shiftDAO = new ShiftDAO();
         System.out.println("getTimesheetDTO: " + shiftDAO.getTimesheetDTO(1));
