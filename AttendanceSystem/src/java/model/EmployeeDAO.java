@@ -128,7 +128,7 @@ public class EmployeeDAO extends DBContext {
         return employee;
     }
 
-    // Select email
+    // NguyenManhDuong - Select email
     public String getEmail(String email) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -153,7 +153,7 @@ public class EmployeeDAO extends DBContext {
         return null;
     }
 
-     // update password
+    // NguyenManhDuong - update password
     public boolean updatePassword(String email, String password) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -166,7 +166,7 @@ public class EmployeeDAO extends DBContext {
                 stm.setString(1, password);
                 stm.setString(2, email);
                 int row = stm.executeUpdate();
-                if(row > 0){
+                if (row > 0) {
                     return true;
                 }
             } catch (Exception e) {
@@ -176,7 +176,7 @@ public class EmployeeDAO extends DBContext {
         }
         return false;
     }
-    
+
     public boolean updateProfileByEmployee(String Phone, int Gender, String Email) {
         PreparedStatement stm = null;
 

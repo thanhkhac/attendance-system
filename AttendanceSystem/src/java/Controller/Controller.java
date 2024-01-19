@@ -37,8 +37,17 @@ public class Controller extends HttpServlet {
         if(choice.equals("Login")){
             URL = "checkLogin";
         }
-        if(choice.equals("UpdateProfile")){
+        else if(choice.equals("UpdateProfile")){
             URL = "updateProfileByEmployee";
+        }
+        else if(choice.equals("Send")){
+            URL = "MailServlet";
+        }
+        else if(choice.equals("Submit")){
+            URL = "MailServlet";
+        }
+        else if(choice.equals("Save change")){
+            URL = "ChangePasswordServlet";
         }
         } finally{
             
