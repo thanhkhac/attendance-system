@@ -48,7 +48,7 @@ public class UpdateProfileByEmployee extends HttpServlet {
         int gender = 0;
         if(Gender.equals("Male"))
             gender = 1;
-        boolean checkUpdate = dao.updateProfileByEmployye(Phone, gender, Email);
+        boolean checkUpdate = dao.updateProfileByEmployee(Phone, gender, Email);
         if(checkUpdate){
             check = "Update thành công!!!";
         }
