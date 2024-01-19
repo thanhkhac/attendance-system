@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Recovery_PW_Page
-    Created on : Jan 18, 2024, 3:54:48 PM
+    Document   : Forgot_PW
+    Created on : Jan 18, 2024, 9:57:39 PM
     Author     : nguye
 --%>
 
@@ -8,14 +8,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <title>Recovery Password</title>
-
-        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css">
-        <!-- <script src="bootstrap-5.3.2-dist/js/bootstrap.bundle.js"></script> -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
 
         <style>
             * {
@@ -123,7 +118,6 @@
         </style>
 
     </head>
-
     <body>
 
         <%
@@ -133,10 +127,10 @@
             }
         %>
 
-        <form action="MailServlet" method="post">
+        <form action="ChangePasswordServlet" method="post">
             <div class="login-form">
                 <div class="form-title">
-                    Password Recovery
+                    Forgot Password
                 </div>
 
                 <div class="form-input">
@@ -144,13 +138,17 @@
                     <input type="text" name="txtMail" value="<%=mail%>">
                 </div>
 
-                <%--
                 <div class="form-input">
-                    <label for="name">Name</label>
-                    <input type="text" name="txtName" value="<%=name%>">
+                    <label for="name">Password</label>
+                    <input type="text" name="txtPassword" value="">
                 </div> 
-                --%>
-                
+
+                <div class="form-input">
+                    <label for="name">Re-Enter Password</label>
+                    <input type="text" name="txtRePassword" value="">
+                </div>
+
+                <%--
                 <div class="captcha">
                     <label for="captcha-input">OTP</label>
                     <!--<div class="preview"></div>-->
@@ -161,9 +159,10 @@
                         </button>
                     </div>
                 </div>
+                --%>
 
                 <%
-                String msg = (String) request.getAttribute("MSG");
+                    String msg = (String) request.getAttribute("MSG");
                     if(msg != null){
                 %>
                 <p style="color: red"><%=msg%></p>
@@ -172,7 +171,7 @@
                 %>
 
                 <div class="form-input">
-                    <button id="login-btn" name="btAction" value="Submit">login</button>
+                    <button id="login-btn" name="btAction" value="Submit">Save Change</button>
                 </div>
             </div>
         </form>
@@ -180,4 +179,3 @@
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
     </body>
 </html>
-

@@ -27,6 +27,7 @@ public class EmployeeDAO extends DBContext {
                     String middleName = rs.getString("MiddleName");
                     String lastName = rs.getString("LastName");
                     boolean gender = rs.getBoolean("Gender");
+                    Date birthDate = rs.getDate("BirthDate");
                     String email = rs.getString("Email");
                     String password = rs.getString("Password");
                     String cccd = rs.getString("CCCD");
@@ -37,7 +38,7 @@ public class EmployeeDAO extends DBContext {
                     Date startDate = rs.getDate("StartDate");
                     Date endDate = rs.getDate("EndDate");
                     boolean isActived = rs.getBoolean("isActive");
-                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, startDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
                     EmployeeList.add(e);
                 }
             } catch (Exception e) {
@@ -46,6 +47,85 @@ public class EmployeeDAO extends DBContext {
             }
         }
         return EmployeeList;
+    }
+
+    public EmployeeDTO checkAccount(String Mail, String PassWord) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        EmployeeDTO employee = null;
+        if (connection != null) {
+            try {
+                String sql = "SELECT * FROM Employees where Email = ? and Password=?";
+
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, Mail);
+                stm.setString(2, PassWord);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    Date birthDate = rs.getDate("BirthDate");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    employee = e;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return employee;
+    }
+
+    public EmployeeDTO checkEmail(String Mail) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        EmployeeDTO employee = null;
+        if (connection != null) {
+            try {
+                String sql = "SELECT * FROM Employees where Email = ?";
+
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, Mail);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    Date birthDate = rs.getDate("BirthDate");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    employee = e;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return employee;
     }
 
     // Select email
@@ -61,7 +141,7 @@ public class EmployeeDAO extends DBContext {
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();
-                if(rs.next()){
+                if (rs.next()) {
                     set_email = rs.getString("Email");
                     return set_email;
                 }
@@ -73,11 +153,58 @@ public class EmployeeDAO extends DBContext {
         return null;
     }
 
-    
-    public static void main(String[] args) {
-        EmployeeDAO dao = new EmployeeDAO();
-        
-        System.out.println(dao.getEmail("duong@gmail.com"));
+     // update password
+    public boolean updatePassword(String email, String password) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "UPDATE Employees\n"
+                        + "SET Password = ?\n"
+                        + "WHERE Email = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, password);
+                stm.setString(2, email);
+                int row = stm.executeUpdate();
+                if(row > 0){
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
     }
     
+    public boolean updateProfileByEmployee(String Phone, int Gender, String Email) {
+        PreparedStatement stm = null;
+
+        if (connection != null) {
+            try {
+                String sql = "update Employees\n"
+                        + "set PhoneNumber = ? , "
+                        + "Gender = ? "
+                        + "where Email = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, Phone);
+                stm.setInt(2, Gender);
+                stm.setString(3, Email);
+                int a = stm.executeUpdate();
+                if (a > 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        EmployeeDAO dao = new EmployeeDAO();
+
+        System.out.println(dao.getEmail("duong@gmail.com"));
+    }
+
 }

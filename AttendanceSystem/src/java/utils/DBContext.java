@@ -20,7 +20,7 @@ public class DBContext {
             System.out.println("Connect Successfully");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }   
     }
     
     public static void main(String[] args) {

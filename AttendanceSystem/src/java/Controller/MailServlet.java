@@ -86,6 +86,8 @@ public class MailServlet extends HttpServlet {
                 String opt_temp = (String) request.getSession().getAttribute("OTP");
                 if (otp.equals(opt_temp)) {
                     msg = "OTP Correct";
+                    response.sendRedirect("Forgot_PW.jsp");
+                    return;
                 } else {
                     msg = "OTP Incorrect";
                 }

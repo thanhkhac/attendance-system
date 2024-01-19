@@ -5,8 +5,8 @@
         <servlet-class>Servlet.Test</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>Controller.TestServlet</servlet-class>
+        <servlet-name>ViewAllEmployeeServlet</servlet-name>
+        <servlet-class>Controller.ViewAllEmployeeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MailServlet</servlet-name>
@@ -17,8 +17,8 @@
         <url-pattern>/Test</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/TestServlet</url-pattern>
+        <servlet-name>ViewAllEmployeeServlet</servlet-name>
+        <url-pattern>/ViewAllEmployeeServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MailServlet</servlet-name>
