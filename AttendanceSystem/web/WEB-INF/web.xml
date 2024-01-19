@@ -6,15 +6,15 @@
     </servlet>
     <servlet>
         <servlet-name>ViewAllEmployeeServlet</servlet-name>
-        <servlet-class>Controller.ViewAllEmployeeServlet</servlet-class>
+        <servlet-class>controller.ViewAllEmployeeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MailServlet</servlet-name>
-        <servlet-class>Controller.MailServlet</servlet-class>
+        <servlet-class>controller.MailServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePasswordServlet</servlet-name>
-        <servlet-class>Controller.ChangePasswordServlet</servlet-class>
+        <servlet-class>controller.ChangePasswordServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
