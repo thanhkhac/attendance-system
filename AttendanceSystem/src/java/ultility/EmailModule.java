@@ -19,7 +19,7 @@ import javax.mail.internet.MimeMessage;
  *
  * @author nguye
  */
-public class ExternalModule {
+public class EmailModule {
     
     // NguyenManhDuong - Send otp to email
     public String sendOTP(String receiveEmail) {

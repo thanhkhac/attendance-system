@@ -4,7 +4,7 @@
  */
 package controller;
 
-import ultility.ExternalModule;
+import ultility.EmailModule;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -44,7 +44,7 @@ public class MailServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         // get attibute from request
-        String button = request.getParameter("choice");
+        String button = request.getParameter("btAction");
         String receivemail = request.getParameter("txtMail");
         String otp = request.getParameter("txtOTP");
 
@@ -59,7 +59,7 @@ public class MailServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         EmployeeDAO eDao = new EmployeeDAO();
-        ExternalModule external = new ExternalModule();
+        EmailModule external = new EmailModule();
         
         
         String check_email = eDao.getEmail(receivemail);

@@ -31,22 +31,22 @@ public class Controller extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String choice = request.getParameter("choice");
+        String button = request.getParameter("btAction");
         String URL = "";
         try{
-        if(choice.equals("Login")){
+        if(button.equals("Login")){
             URL = "checkLogin";
         }
-        else if(choice.equals("UpdateProfile")){
+        else if(button.equals("UpdateProfile")){
             URL = "updateProfileByEmployee";
         }
-        else if(choice.equals("Send")){
+        else if(button.equals("Send")){
             URL = "MailServlet";
         }
-        else if(choice.equals("Submit")){
+        else if(button.equals("Submit")){
             URL = "MailServlet";
         }
-        else if(choice.equals("Save change")){
+        else if(button.equals("Save change")){
             URL = "ChangePasswordServlet";
         }
         } finally{

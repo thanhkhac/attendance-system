@@ -93,7 +93,7 @@
                                             <%}%>
                                     </div>
                                     <div class="d-grid">
-                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit" name="choice" value="Login">Sign in</button>
+                                        <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit" name="btAction" value="Login">Sign in</button>
                                         <div class="text-center">
                                             <a class="small" href="Recovery_PW_Page.jsp">Forgot password?</a><br> 
                                         </div>

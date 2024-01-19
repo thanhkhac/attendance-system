@@ -157,7 +157,7 @@
                                    Update thành công
                                 </div>
                                 <div class="">
-                                    <button class="btn btn-primary mt-3" name="choice" value="UpdateProfile" type="submit">Save changes</button>
+                                    <button class="btn btn-primary mt-3" name="btAction" value="UpdateProfile" type="submit">Save changes</button>
                                 </div>
 
                             </form>
