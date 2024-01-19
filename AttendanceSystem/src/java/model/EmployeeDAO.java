@@ -149,21 +149,22 @@ public class EmployeeDAO extends DBContext {
     }
     public boolean updateProfileByEmployye(String Phone, int Gender, String Email){
          PreparedStatement stm = null;
-
         if(connection!=null){
            try{
                String sql = "update Employees\n" +
 "set PhoneNumber = ?, Gender = ?" +
-"where Email = ?";
+"  where Email = ?";
                stm = connection.prepareStatement(sql);
                stm.setString(1, Phone);
                stm.setInt(2, Gender);
                stm.setString(3, Email);
                int a = stm.executeUpdate();
+               System.out.println(a);
                if(a>0)
                    return true;
            }catch(Exception e){
-               
+               e.printStackTrace();
+                System.out.println(e.getMessage());
            }
         }
         return false;
@@ -173,7 +174,7 @@ public class EmployeeDAO extends DBContext {
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
         
-        System.out.println(dao.getEmail("duong@gmail.com"));
+        System.out.println(dao.updateProfileByEmployye("0382288844" , 1, "justtr910@gmail.com"));
     }
     
 }

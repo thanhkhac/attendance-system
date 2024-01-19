@@ -43,14 +43,17 @@ public class UpdateProfileByEmployee extends HttpServlet {
         String Gender = request.getParameter("txtGender");
         String Address = request.getParameter("txtAddress");
         EmployeeDAO dao = new EmployeeDAO();
-        String check = "Update không thành công!!!";
+        String check = "ThatBai";
         try{
         int gender = 0;
         if(Gender.equals("Male"))
             gender = 1;
         boolean checkUpdate = dao.updateProfileByEmployye(Phone, gender, Email);
         if(checkUpdate){
-            check = "Update thành công!!!";
+            check = "ThanhCong";
+            HttpSession session = request.getSession();
+            EmployeeDTO account = dao.checkEmail(Email);
+            session.setAttribute("ACCOUNT", account);
         }
         }finally{
             request.setAttribute("CHECK", check);

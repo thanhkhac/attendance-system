@@ -133,7 +133,7 @@
                                     <div class="col-md-6">
                                         <label class="small mb-1" for="txtGender">Gender</label>
                                         <%
-                                          if(employee.getGender()){
+                                          if(employee.getGender()==false){
                                         %>
                                         <select class="form-control" name="txtGender" id="txtGender">
                                             <option value="Male">Male</option>
@@ -153,9 +153,23 @@
                                         <input class="form-control" type="text" name="txtAddress" id="txtAddress" value=""  >
                                     </div>
                                 </div>
-                                <div class="">
-                                   Update thành công
+                                <%
+                                   String checkUpdate = (String)request.getAttribute("CHECK");
+                                   if(checkUpdate!=null){
+                                   if(checkUpdate.equals("ThanhCong")){
+                                %>
+                                <div style="color: #12ce12;
+                                     font-size: large;
+                                     font-family: monospace;" class="">
+                                    Update thành công!!!
                                 </div>
+                                <%} if(checkUpdate.equals("ThatBai")){%>
+                                <div class="" style="color: #db2626;
+                                     font-size: large;
+                                     font-family: monospace;"   >
+                                    Update thất bại!!!
+                                </div>
+                                <%}}%>
                                 <div class="">
                                     <button class="btn btn-primary mt-3" name="choice" value="UpdateProfile" type="submit">Save changes</button>
                                 </div>
