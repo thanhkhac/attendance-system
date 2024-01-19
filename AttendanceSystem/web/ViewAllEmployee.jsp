@@ -6,13 +6,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
-
-        <!--link js drop down-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!--link js drop down-->
+        <!--        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
+        
+                link js drop down
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                link js drop down-->
 
         <title>Attendance_Checking_System</title>
         <style>
@@ -49,36 +49,17 @@
                 background-color: #f27227;
                 color: white;
             }
+            
+            
             tr.space-under > td {
                 padding-bottom: 1em;
             }
             table {
-                border-collapse: separate;
-                border-spacing: 0 10px;
+                /* thằng !important là BỐ */
+                border-collapse: separate !important;
+                border-spacing: 0 15px;
             }
 
-
-
-            #sidebar {
-                height: 100vh;
-                width: 250px;
-                background-color: #0072bb;
-                color: white;
-                position: fixed;
-                left: 0;
-                transition: left 0.3s ease;
-            }
-
-            #sidebar a {
-                display: block;
-                padding: 15px;
-                text-decoration: none;
-                color: white;
-            }
-
-            #sidebar a:hover {
-                background-color: #f27227;
-            }
 
             #content {
                 margin-left: 250px;
@@ -134,18 +115,14 @@
                 max-width: 250px;
                 height: 40px;
             }
+
             @media screen and (orientation: portrait) {
-                #sidebar {
-                    left: -250px;
-                }
+
 
                 #content {
                     margin-left: 0;
                 }
 
-                #navbar {
-                    display: block;
-                }
 
                 .tableFixHead{
                     margin-top: 20px;
@@ -187,34 +164,8 @@
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
-        <div id="sidebar">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
-        </div>
-        <div id="navbar">
-            <div class="dropdown">
-                <button
-                    class="btn btn-success dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                    >
-                    Menu
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button class="dropdown-item" type="button">Home</button>
-                    <button class="dropdown-item" type="button">About</button>
-                    <button class="dropdown-item" type="button">Service</button>
 
-                    <div class="dropdown-divider"></div>
-                    <button class="dropdown-item" type="button">
-                        Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-
+        <%@include file="Sidebar.jsp" %>
         <div id="content">
             <div class="search-filter-bar">
                 <div class="input-group mb-3 search-bar">

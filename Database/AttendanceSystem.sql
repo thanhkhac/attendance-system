@@ -230,7 +230,7 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email,
 (N'Cường', N'Đức', N'Nguyễn', 1, '2003-01-01', N'denVau@gmai.com', '123456', '001203002473', '1231235', @Full_Time,@PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
 (N'Linh', N'Thùy', N'Hoàng', 1, '2003-01-01', N'hgThuyLing@gmai.com', '123123', '002204002473', '1231236', @Intern, @PhongTiepThi, @NhanVien, '2023-01-01', '2025-01-01'),
 (N'Messi', N'Văn', N'Nguyễn', 1, '2003-01-01', N'messi@gmai.com', '123123', '001204102473', '1231237',@Part_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
-(N'Ronaldo', N'Văn', N'Nguyễn', 1, '2003-01-01', N'ronaldo@gmai.com', '123123', '001214002473', '1231238',@Full_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01')
+(N'6h50', N'Văn', N'Nguyễn', 1, '2003-01-01', N'ronaldo@gmai.com', '123123', '001214002473', '1231238',@Full_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01')
 
 
 --EmployeeTypes

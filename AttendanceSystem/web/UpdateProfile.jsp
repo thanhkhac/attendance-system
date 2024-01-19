@@ -22,7 +22,6 @@
             }
             .img-profile{
                 height: 9em;
-
             }
             .card {
                 box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
@@ -43,13 +42,12 @@
                 width: max-content;
                 padding: 4px 9px;
                 border-radius: 9px;
-
             }
 
         </style>
     </head>
     <body>
-
+        <%@include file="Sidebar.jsp" %>
         <div class="container-xl px-4 mt-4">
             <%
                EmployeeDTO employee =(EmployeeDTO) session.getAttribute("ACCOUNT");
@@ -154,7 +152,7 @@
                                     </div>
                                 </div>
                                 <div class="">
-                                   Update thành công
+                                    Update thành công
                                 </div>
                                 <div class="">
                                     <button class="btn btn-primary mt-3" name="choice" value="UpdateProfile" type="submit">Save changes</button>
