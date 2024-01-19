@@ -65,7 +65,7 @@
                                 String Email = (String)request.getAttribute("Email");
                                 String PassWord = (String)request.getAttribute("Password");
                                 String Error = (String) request.getAttribute("Error");
-                                if(Email==null){
+                                if(Email==null||PassWord==null){
                                 Email=""; PassWord="";
                                     }
                                 %>

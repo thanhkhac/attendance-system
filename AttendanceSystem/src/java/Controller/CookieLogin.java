@@ -32,15 +32,18 @@ public class CookieLogin extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        if(request.getCookies()!=null){
         Cookie arr[] = request.getCookies();
+
             for(Cookie o: arr){
                 if(o.getName().equals("EmailCookie")){
                 request.setAttribute("Email", o.getValue());  
                 }
                 if(o.getName().equals("PassWordCookie"))
                 request.setAttribute("Password", o.getValue());
-            }
             
+        }
+        }
             request.getRequestDispatcher("Login.jsp").forward(request, response);
     } 
 

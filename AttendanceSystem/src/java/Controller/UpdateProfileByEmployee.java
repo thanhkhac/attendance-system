@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.EmployeeDAO;
 import model.EmployeeDTO;
 
 /**
@@ -41,7 +42,20 @@ public class UpdateProfileByEmployee extends HttpServlet {
         String CCCD = request.getParameter("txtCCCD");
         String Gender = request.getParameter("txtGender");
         String Address = request.getParameter("txtAddress");
-        
+        EmployeeDAO dao = new EmployeeDAO();
+        String check = "Update không thành công!!!";
+        try{
+        int gender = 0;
+        if(Gender.equals("Male"))
+            gender = 1;
+        boolean checkUpdate = dao.updateProfileByEmployye(Phone, gender, Email);
+        if(checkUpdate){
+            check = "Update thành công!!!";
+        }
+        }finally{
+            request.setAttribute("CHECK", check);
+            request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
