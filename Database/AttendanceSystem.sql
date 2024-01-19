@@ -102,7 +102,7 @@ CREATE TABLE News(
 )
 
 CREATE TABLE NewsTypes(
-	NewsTypeID int PRIMARY KEY,
+	NewsTypeID int PRIMARY KEY IDENTITY(1,1),
 	[Name] nvarchar(50)
 );
 
@@ -146,6 +146,8 @@ ADD CONSTRAINT FK_Timesheet_Employees FOREIGN KEY ([EmployeeID]) REFERENCES Empl
 
 ALTER TABLE Timesheet
 ADD CONSTRAINT FK_Timesheet_Shifts FOREIGN KEY ([ShiftID]) REFERENCES Shifts(ShiftID)
+
+
 
 
 --Leaves
@@ -231,6 +233,9 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email,
 (N'Ronaldo', N'Văn', N'Nguyễn', 1, '2003-01-01', N'ronaldo@gmai.com', '123123', '001214002473', '1231238',@Full_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01')
 
 
+--EmployeeTypes
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Toàn thời gian');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'PartTime');
 
 --RequestType
 INSERT INTO RequestsType(TypeID, [Name]) VALUES
@@ -243,12 +248,37 @@ INSERT INTO RequestsType(TypeID, [Name]) VALUES
 (4,N'Request OverTime Shift')
 
 
---====================INSERT
+--Shift
+INSERT INTO Shifts ([Name], [StartTime], [EndTime])
+VALUES
+    ('Ca làm sáng', '07:30:00', '11:30:00'),
+    ('Ca làm chiều', '13:30:00', '17:30:00'),
+    ('Ca cả ngày', '07:30:00', '17:30:00');
+
+
+--Timesheet 
+DECLARE @KhacThanh int = (SELECT EmployeeID FROM Employees WHERE Email = N'thanhcqb2048@gmail.com')
+DECLARE @EmployeeID INT = @KhacThanh;
+DECLARE @ShiftID INT = 1;
+
+DECLARE @DateList TABLE (SelectedDate DATE);
+
+DECLARE @CurrentDate DATE = '2024-01-01';
+WHILE @CurrentDate <= '2024-01-31'
+BEGIN
+    SET @CurrentDate = DATEADD(DAY, 1, @CurrentDate);
+    
+    IF DATEPART(WEEKDAY, @CurrentDate) BETWEEN 2 AND 6
+        INSERT INTO @DateList (SelectedDate) VALUES (@CurrentDate);
+END
+
+INSERT INTO Timesheet ([Date], EmployeeID, ShiftID)
+SELECT SelectedDate, @EmployeeID, @ShiftID
+FROM @DateList;
+
 
 
 --====================Modify Area
-
---SELECT * FROM RequestsType
 
 UPDATE Departments
 SET ManagerID = (SELECT EmployeeID FROM Employees WHERE CCCD = '026303003033')
