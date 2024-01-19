@@ -127,7 +127,7 @@
             }
         %>
 
-        <form action="ChangePasswordServlet" method="get">
+        <form action="ChangePasswordServlet" method="post">
             <div class="login-form">
                 <div class="form-title">
                     Forgot Password

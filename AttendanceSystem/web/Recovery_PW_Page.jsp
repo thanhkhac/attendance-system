@@ -133,7 +133,7 @@
             }
         %>
 
-        <form action="MailServlet" method="get">
+        <form action="MailServlet" method="post">
             <div class="login-form">
                 <div class="form-title">
                     Password Recovery

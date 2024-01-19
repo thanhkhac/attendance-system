@@ -12,5 +12,11 @@
             <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/web/TestJsp.jsp</file>
             <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
         </group>
+        <group name="SWP391">
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/src/java/Controller/MailServlet.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/web/index.html</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP391_Proj/attendance-system/AttendanceSystem/src/java/Controller/ChangePasswordServlet.java</file>
+        </group>
     </open-files>
 </project-private>
