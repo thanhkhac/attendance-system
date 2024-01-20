@@ -45,14 +45,15 @@
             .tableFixHead thead th {
                 position: sticky;
                 top: 0;
-                z-index: 1;
+                z-index: 0;
                 background-color: #f27227;
                 color: white;
             }
-            
-            
+
+
             tr.space-under > td {
                 padding-bottom: 1em;
+                cursor: pointer;
             }
             table {
                 /* thằng !important là BỐ */
@@ -159,6 +160,37 @@
                 }
 
             }
+            #popup {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+            }
+
+            .popup-content {
+                width: 1000px;
+                height: 600px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            }
+
+            .close {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 50px;
+                cursor: pointer;
+            }
+
         </style>
     </head>
     <body>
@@ -217,19 +249,74 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${List}" var="a">
-                            <tr class="table-primary space-under">
+                            <tr class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
                                 <td>${a.getEmployeeID()}</td>
                                 <td>${a.getFirstName()}</td>
                                 <td>${a.getMiddleName()}</td>
                                 <td>${a.getLastName()}</td>
                                 <td>${a.getEmail()}</td>
+                                <td style="display: none">${a.getGender()}</td>
+                                <td style="display: none">${a.getBirthDate()}</td>
+                                <td style="display: none">${a.getCccd()}</td>
+                                <td style="display: none">${a.getPhoneNumber()}</td>
+                                <td style="display: none">${a.getEmployeeTypeID()}</td>
+                                <td style="display: none">${a.getDepartmentID()}</td>
+                                <td style="display: none">${a.getRoleID()}</td>
+                                <td style="display: none">${a.getStartDate()}</td>
+                                <td style="display: none">${a.getEndDate()}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
             </div>
+            <div id="popup" class="popup">
+                <div id="popupContent" class="popup-content">
+                    <span class="close" onclick="closePopup()">&times;</span>
+                    <h2 id="popupTitle">Employee Details</h2>
+                    <div id="popupBody"></div>
+                </div>
+            </div>
         </div>
 
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
+        <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const employeeRows = document.querySelectorAll(".employeeRow");
+                            employeeRows.forEach((row) => {
+                                row.addEventListener("click", function () {
+                                    const id = row.getAttribute("data-employee-id");
+                                    const firstName = row.cells[1].innerText;
+                                    const middleName = row.cells[2].innerText;
+                                    const lastName = row.cells[3].innerText;
+                                    const email = row.cells[4].innerText;
+                                    const gender = row.cells[5].innerText;
+                                    const birthDate = row.cells[6].innerText;
+                                    const cccd = row.cells[7].innerText;
+                                    const phoneNumber = row.cells[8].innerText;
+
+                                    console.log("Clicked row:", id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber);
+                                    displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber);
+                                });
+                            });
+
+
+                        });
+                        function displayPopup(id, firstName, middleName,
+                                lastName, email, gender, birthDate, cccd, phoneNumber) {
+                            const fullName = lastName+" "+ middleName+" "+ firstName;
+                            const popup = document.getElementById("popup");
+                            const popupTitle = document.getElementById("popupTitle");
+                            const popupBody = document.getElementById("popupBody");
+                            popupTitle.innerText = `EmployeeID : \${id}`;
+                            popupBody.innerHTML = `<p>fullName: \${fullName}</p>
+                                                  <p>cccd: \${cccd}</p> <p>birthDate: \${birthDate}</p>  `;
+                            popup.style.display = "block";
+//                            console.log("Data: ", id,fullName, email, gender, birthDate, cccd, phoneNumber);
+                        }
+                        function closePopup() {
+                            const popup = document.getElementById("popup");
+                            popup.style.display = "none";
+                        }
+        </script>
     </body>
 </html>
