@@ -17,8 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Admin
  */
-@WebServlet(name="Controller", urlPatterns={"/controller"})
-public class Controller extends HttpServlet {
+@WebServlet(name="Controller", urlPatterns={"/dispatchController"})
+public class dispatchController extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,7 +31,7 @@ public class Controller extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String choice = request.getParameter("choice");
+        String choice = request.getParameter("btAction");
         String URL = "";
         try{
         if(choice.equals("Login")){
@@ -39,6 +39,9 @@ public class Controller extends HttpServlet {
         }
         if(choice.equals("UpdateProfile")){
             URL = "updateProfileByEmployee";
+        }
+        if(choice.equals("viewListByDepartment")){
+            URL = "listByDepartment";
         }
         } finally{
             

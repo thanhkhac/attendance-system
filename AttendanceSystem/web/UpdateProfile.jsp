@@ -84,12 +84,12 @@
                             Account Details
                         </div>
                         <div class="card-body">
-                            <form action="controller">
+                            <form action="dispatchController">
                                 <div class="mb-2">
 
                                     <div class="row form-group avatar">
                                         <figure class="figure col-md-3 col-sm-3 col-xs-12">
-                                            <img class="img-rounded rounded-circle img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                                                <img class="img-rounded rounded-circle img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
                                         </figure>
                                         <div class="form-inline col-md-9 col-sm-9 col-xs-12 mt-4 ">
                                             <input type="file" class="file-uploader pull-left mt-4 mb-2">
@@ -171,7 +171,7 @@
                                 </div>
                                 <%}}%>
                                 <div class="">
-                                    <button class="btn btn-primary mt-3" name="choice" value="UpdateProfile" type="submit">Save changes</button>
+                                    <button class="btn btn-primary mt-3" name="btAction" value="UpdateProfile" type="submit">Save changes</button>
                                 </div>
 
                             </form>

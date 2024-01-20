@@ -14,7 +14,14 @@
 
 
             <a href="Recovery_PW_Page.jsp">recovery page</a>
-
+            <form action="dispatchController">
+                <select name="department">
+                    <option value="1">Phòng nhân sự</option>
+                    <option value="2">Phòng tiếp thị</option>
+                </select>
+                <input type="submit" name="btAction" value="viewListByDepartment">
+            </form>
+            
         </div>
         
     </body>

@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="java_web">
-            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
-            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/Controller/LoginGoogle.java</file>
-            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/Controller/UpdateProfileByEmployee.java</file>
-            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/utils/DBContext.java</file>
-            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/src/java/Controller/Controller.java</file>
-            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/web/Recovery_PW_Page.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/New%20folder/attendance-system/AttendanceSystem/web/TestJsp.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/web/index.html</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/src/java/Controller/dispatchController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/web/UpdateProfile.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/src/java/model/EmployeeDTO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/src/java/Controller/CheckLogin.java</file>
         </group>
     </open-files>
 </project-private>
