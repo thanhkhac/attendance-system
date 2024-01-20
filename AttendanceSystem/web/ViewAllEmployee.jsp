@@ -28,6 +28,7 @@
             }
             .tableFixHead::-webkit-scrollbar-track {
                 background-color: white; /* Change to background color */
+                border-radius: 5px;
             }
             /* Style the thumb (the draggable part of the scroll bar) */
             .tableFixHead::-webkit-scrollbar-thumb {
@@ -39,6 +40,7 @@
                 /*margin-top: 100px;*/
                 overflow: auto;
                 border: 1px solid #f27227;
+                border-radius: 5px;
                 height: 500px;
                 margin-top: 10px;
             }
@@ -49,7 +51,7 @@
                 background-color: #f27227;
                 color: white;
             }
-
+            
 
             tr.space-under > td {
                 padding-bottom: 1em;
@@ -60,7 +62,9 @@
                 border-collapse: separate !important;
                 border-spacing: 0 15px;
             }
-
+            table tr{
+                border: 1px solid black;
+            }
 
             #content {
                 margin-left: 250px;
@@ -143,6 +147,18 @@
                 .input-group{
                     flex-basis: 100%;
                 }
+                .popup-content{
+                    max-width: 90%;
+                }
+                .popup-content-left{
+                    display: none;
+                }
+                .popupBody-content{
+                    display: block;
+                    flex-direction: column;
+                    overflow-y: auto;
+                }
+                
             }
             @media (max-width:1450px) {
                 .tableFixHead{
@@ -248,7 +264,6 @@
                 font-size: 50px;
                 cursor: pointer;
                 font-size: 18px;
-                background-color: red;
                 border-radius: 5px;
             }
             .update-button{
@@ -259,6 +274,24 @@
                 font-size: 20px;
                 margin-top: 43px;
                 margin-left: 70px;
+            }
+            .add-button{
+                margin-top: 20px;
+            }
+            .add-button button{
+                width: 200px;
+                height: 40px;
+                border: none;
+                background-color: #0072bb;
+                color: white;
+                font-size: larger;
+                font-weight: 600;
+                border-radius: 5px;
+            }
+            .add-button button:hover{
+                background-color: white;
+                border: 3px solid #0072bb;
+                color: #0072bb;
             }
 
         </style>
@@ -313,18 +346,18 @@
                 <table class="table table-hover">
                     <thead>
                     <th>EmployeeID</th>
-                    <th>FirstName</th>
-                    <th>MiddleName</th>
                     <th>LastName</th>
+                    <th>MiddleName</th>
+                    <th>FirstName</th>
                     <th>Email</th>
                     </thead>
                     <tbody>
                         <c:forEach items="${List}" var="a">
                             <tr class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
                                 <td>${a.getEmployeeID()}</td>
-                                <td>${a.getFirstName()}</td>
-                                <td>${a.getMiddleName()}</td>
                                 <td>${a.getLastName()}</td>
+                                <td>${a.getMiddleName()}</td>
+                                <td>${a.getFirstName()}</td>
                                 <td>${a.getEmail()}</td>
                                 <td style="display: none">${a.getGender()}</td>
                                 <td style="display: none">${a.getBirthDate()}</td>
@@ -339,6 +372,9 @@
                         </c:forEach>
                     </tbody>
                 </table>
+            </div>
+            <div class="add-button">
+                <button>+ Add Employee ...</button>
             </div>
             <div id="popup" class="popup">
                 <div id="popupContent" class="popup-content">
@@ -358,9 +394,9 @@
                             employeeRows.forEach((row) => {
                                 row.addEventListener("click", function () {
                                     const id = row.getAttribute("data-employee-id");
-                                    const firstName = row.cells[1].innerText;
+                                    const firstName = row.cells[3].innerText;
                                     const middleName = row.cells[2].innerText;
-                                    const lastName = row.cells[3].innerText;
+                                    const lastName = row.cells[1].innerText;
                                     const email = row.cells[4].innerText;
                                     const gender = row.cells[5].innerText;
                                     const birthDate = row.cells[6].innerText;
