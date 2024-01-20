@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class TimesheetDTO {
+
     private int timesheetID;
     private LocalDate date;
     private int employeeID;
@@ -54,5 +55,5 @@ public class TimesheetDTO {
     public String toString() {
         return "TimesheetDTO{" + "timesheetID=" + timesheetID + ", date=" + date + ", employeeID=" + employeeID + ", shiftID=" + shiftID + ", checkin=" + checkin + ", checkout=" + checkout + ", note=" + note + '}';
     }
-    
+
 }

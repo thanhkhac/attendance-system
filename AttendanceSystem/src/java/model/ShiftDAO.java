@@ -9,7 +9,7 @@ public class ShiftDAO extends DAOBase {
 
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
-    public ShiftDTO getTimesheetDTO(int xShiftID) {
+    public ShiftDTO getShiftDTO(int xShiftID) {
         query = "SELECT * FROM Shifts\n" +
                 "WHERE ShiftID = ?";
         try {
@@ -20,7 +20,7 @@ public class ShiftDAO extends DAOBase {
                 int shiftID = rs.getInt("ShiftID");
                 String name = rs.getNString("Name");
                 LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
-                LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
+                LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("EndTime"));
                 return new ShiftDTO(shiftID, name, startTime, endTime);
             }
         } catch (Exception e) {
@@ -33,6 +33,6 @@ public class ShiftDAO extends DAOBase {
 
     public static void main(String[] args) {
         ShiftDAO shiftDAO = new ShiftDAO();
-        System.out.println("getTimesheetDTO: " + shiftDAO.getTimesheetDTO(1));
+        System.out.println("getTimesheetDTO: " + shiftDAO.getShiftDTO(1));
     }
 }
