@@ -4,10 +4,10 @@ import java.time.LocalTime;
 
 public class ShiftDTO {
 
-    int shiftID;
-    String name;
-    LocalTime startTime;
-    LocalTime endTime;
+    public int shiftID;
+    public String name;
+    public LocalTime startTime;
+    public LocalTime endTime;
 
     public ShiftDTO(int shiftID, String name, LocalTime startTime, LocalTime endTime) {
         this.shiftID = shiftID;
