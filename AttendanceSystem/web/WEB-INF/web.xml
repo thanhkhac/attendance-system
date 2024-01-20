@@ -6,11 +6,15 @@
     </servlet>
     <servlet>
         <servlet-name>ViewAllEmployeeServlet</servlet-name>
-        <servlet-class>Controller.ViewAllEmployeeServlet</servlet-class>
+        <servlet-class>control.ViewAllEmployeeServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MailServlet</servlet-name>
-        <servlet-class>Controller.MailServlet</servlet-class>
+        <servlet-class>control.MailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <servlet-class>control.ChangePasswordServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>MailServlet</servlet-name>
         <url-pattern>/MailServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePasswordServlet</servlet-name>
+        <url-pattern>/ChangePasswordServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

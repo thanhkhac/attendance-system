@@ -3,22 +3,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller;
+package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+import jakarta.servlet.http.HttpSession;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
+
 /**
  *
- * @author admin
+ * @author Admin
  */
-public class ViewAllEmployeeServlet extends HttpServlet {
+@WebServlet(name="UpdateProfileByEmployee", urlPatterns={"/updateProfileByEmployee"})
+public class UpdateProfileByEmployee extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -30,10 +33,29 @@ public class ViewAllEmployeeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String FirstName = request.getParameter("txtFirstName");
+        String LastName = request.getParameter("txtLastName");
+        String Phone = request.getParameter("txtPhone");
+        String Birth = request.getParameter("txtBirth");
+        String Email = request.getParameter("txtEmail");
+        String CCCD = request.getParameter("txtCCCD");
+        String Gender = request.getParameter("txtGender");
+        String Address = request.getParameter("txtAddress");
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> listE = dao.getEmployeeInfo();
-        request.setAttribute("List",  listE);
-        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
+        String check = "Update không thành công!!!";
+        try{
+        int gender = 0;
+        if(Gender.equals("Male"))
+            gender = 1;
+        boolean checkUpdate = dao.updateProfileByEmployee(Phone, gender, Email);
+        if(checkUpdate){
+            check = "Update thành công!!!";
+        }
+        }finally{
+            request.setAttribute("CHECK", check);
+            request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

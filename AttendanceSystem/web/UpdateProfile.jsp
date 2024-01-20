@@ -82,7 +82,7 @@
                             Account Details
                         </div>
                         <div class="card-body">
-                            <form action="controller">
+                            <form action="DispatchController">
                                 <div class="mb-2">
 
                                     <div class="row form-group avatar">
@@ -155,7 +155,7 @@
                                     Update thành công
                                 </div>
                                 <div class="">
-                                    <button class="btn btn-primary mt-3" name="choice" value="UpdateProfile" type="submit">Save changes</button>
+                                    <button class="btn btn-primary mt-3" name="btAction" value="UpdateProfile" type="submit">Save changes</button>
                                 </div>
 
                             </form>

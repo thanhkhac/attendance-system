@@ -127,7 +127,7 @@
             }
         %>
 
-        <form action="ChangePasswordServlet" method="post">
+        <form action="DispatchController" method="post">
             <div class="login-form">
                 <div class="form-title">
                     Forgot Password
@@ -140,12 +140,12 @@
 
                 <div class="form-input">
                     <label for="name">Password</label>
-                    <input type="text" name="txtPassword" value="">
+                    <input type="password" name="txtPassword" value="">
                 </div> 
 
                 <div class="form-input">
                     <label for="name">Re-Enter Password</label>
-                    <input type="text" name="txtRePassword" value="">
+                    <input type="password" name="txtRePassword" value="">
                 </div>
 
                 <%--
@@ -171,7 +171,7 @@
                 %>
 
                 <div class="form-input">
-                    <button id="login-btn" name="btAction" value="Submit">Save Change</button>
+                    <button id="login-btn" name="btAction" value="Save change">Save Change</button>
                 </div>
             </div>
         </form>

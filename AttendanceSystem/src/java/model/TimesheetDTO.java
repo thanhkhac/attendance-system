@@ -1,25 +1,24 @@
 package model;
 
-import java.sql.Date;
-import java.sql.Time;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class TimesheetDTO {
     private int timesheetID;
-    private Date date;
+    private LocalDate date;
     private int employeeID;
     private int shiftID;
-    private Time checkIn;
-    private Time checkOut;
+    private LocalTime checkin;
+    private LocalTime checkout;
     private String note;
 
-    public TimesheetDTO(int timesheetID, Date date, int employeeID, int shiftID, Time CheckIn, Time CheckOut, String note) {
+    public TimesheetDTO(int timesheetID, LocalDate date, int employeeID, int shiftID, LocalTime checkin, LocalTime checkout, String note) {
         this.timesheetID = timesheetID;
         this.date = date;
         this.employeeID = employeeID;
         this.shiftID = shiftID;
-        this.checkIn = CheckIn;
-        this.checkOut = CheckOut;
+        this.checkin = checkin;
+        this.checkout = checkout;
         this.note = note;
     }
 
@@ -27,7 +26,7 @@ public class TimesheetDTO {
         return timesheetID;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -39,12 +38,12 @@ public class TimesheetDTO {
         return shiftID;
     }
 
-    public Time getCheckIn() {
-        return checkIn;
+    public LocalTime getCheckin() {
+        return checkin;
     }
 
-    public Time getCheckOut() {
-        return checkOut;
+    public LocalTime getCheckout() {
+        return checkout;
     }
 
     public String getNote() {
@@ -53,7 +52,7 @@ public class TimesheetDTO {
 
     @Override
     public String toString() {
-        return "TimesheetDTO{" + "timesheetID=" + timesheetID + ", date=" + date + ", employeeID=" + employeeID + ", shiftID=" + shiftID + ", CheckIn=" + checkIn + ", CheckOut=" + checkOut + ", note=" + note + '}';
+        return "TimesheetDTO{" + "timesheetID=" + timesheetID + ", date=" + date + ", employeeID=" + employeeID + ", shiftID=" + shiftID + ", checkin=" + checkin + ", checkout=" + checkout + ", note=" + note + '}';
     }
     
 }

@@ -133,7 +133,7 @@
             }
         %>
 
-        <form action="MailServlet" method="post">
+        <form action="DispatchController" method="post">
             <div class="login-form">
                 <div class="form-title">
                     Password Recovery
@@ -172,7 +172,7 @@
                 %>
 
                 <div class="form-input">
-                    <button id="login-btn" name="btAction" value="Submit">login</button>
+                    <button id="login-btn" name="btAction" value="Submit">Submit</button>
                 </div>
             </div>
         </form>

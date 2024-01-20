@@ -3,25 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package Controller;
+package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.EmployeeDAO;
-import model.EmployeeDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="UpdateProfileByEmployee", urlPatterns={"/updateProfileByEmployee"})
-public class UpdateProfileByEmployee extends HttpServlet {
+@WebServlet(name="CookieLogin", urlPatterns={"/cookieLogin"})
+public class CookieLogin extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,28 +32,19 @@ public class UpdateProfileByEmployee extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String FirstName = request.getParameter("txtFirstName");
-        String LastName = request.getParameter("txtLastName");
-        String Phone = request.getParameter("txtPhone");
-        String Birth = request.getParameter("txtBirth");
-        String Email = request.getParameter("txtEmail");
-        String CCCD = request.getParameter("txtCCCD");
-        String Gender = request.getParameter("txtGender");
-        String Address = request.getParameter("txtAddress");
-        EmployeeDAO dao = new EmployeeDAO();
-        String check = "Update không thành công!!!";
-        try{
-        int gender = 0;
-        if(Gender.equals("Male"))
-            gender = 1;
-        boolean checkUpdate = dao.updateProfileByEmployee(Phone, gender, Email);
-        if(checkUpdate){
-            check = "Update thành công!!!";
+        if(request.getCookies()!=null){
+        Cookie arr[] = request.getCookies();
+
+            for(Cookie o: arr){
+                if(o.getName().equals("EmailCookie")){
+                request.setAttribute("Email", o.getValue());  
+                }
+                if(o.getName().equals("PassWordCookie"))
+                request.setAttribute("Password", o.getValue());
+            
         }
-        }finally{
-            request.setAttribute("CHECK", check);
-            request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
         }
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
