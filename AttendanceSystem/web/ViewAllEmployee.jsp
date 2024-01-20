@@ -51,7 +51,7 @@
                 background-color: #f27227;
                 color: white;
             }
-            
+
 
             tr.space-under > td {
                 padding-bottom: 1em;
@@ -121,61 +121,7 @@
                 height: 40px;
             }
 
-            @media screen and (orientation: portrait) {
 
-
-                #content {
-                    margin-left: 0;
-                }
-
-
-                .tableFixHead{
-                    margin-top: 20px;
-                    max-width: 100%;
-                }
-
-                .search-filter-bar{
-                    max-height: 500px;
-                    padding-top: 24px;
-                }
-                .search-bar{
-                    max-width: 350px;
-                }
-                .select-bar{
-                    max-width: 350px;
-                }
-                .input-group{
-                    flex-basis: 100%;
-                }
-                .popup-content{
-                    max-width: 90%;
-                }
-                .popup-content-left{
-                    display: none;
-                }
-                .popupBody-content{
-                    display: block;
-                    flex-direction: column;
-                    overflow-y: auto;
-                }
-                
-            }
-            @media (max-width:1450px) {
-                .tableFixHead{
-                    margin-top: 20px;
-                    max-width: 100%;
-                }
-                .search-filter-bar{
-                    max-height: 400px;
-                    justify-content: space-evenly;
-                    padding-top: 22px;
-                }
-                .input-group{
-                    flex-basis: 100%;
-                    max-width: 400px;
-                }
-
-            }
             #popup {
                 display: none;
                 position: fixed;
@@ -294,6 +240,69 @@
                 color: #0072bb;
             }
 
+            @media screen and (orientation: portrait) {
+
+
+                #content {
+                    margin-left: 0;
+                }
+
+
+                .tableFixHead{
+                    margin-top: 20px;
+                    max-width: 100%;
+                }
+
+                .search-filter-bar{
+                    max-height: 500px;
+                    padding-top: 24px;
+                }
+                .search-bar{
+                    max-width: 350px;
+                }
+                .select-bar{
+                    max-width: 350px;
+                }
+                .input-group{
+                    flex-basis: 100%;
+                }
+                .popup-content{
+                    max-width: 100%;
+                }
+                .popup-content-left{
+                    display: none;
+                }
+                .popupBody-content{
+                    display: block;
+                    flex-direction: column;
+                    overflow-y: auto;
+                    max-height: 600px;
+                }
+                .popupBody-content-right{
+                    border: none;
+                    padding: 0;
+                }
+                .update-button{
+                    margin-top: 10px;
+                    margin-left: 90px;
+                }
+            }
+            @media (max-width:1450px) {
+                .tableFixHead{
+                    margin-top: 20px;
+                    max-width: 100%;
+                }
+                .search-filter-bar{
+                    max-height: 400px;
+                    justify-content: space-evenly;
+                    padding-top: 22px;
+                }
+                .input-group{
+                    flex-basis: 100%;
+                    max-width: 400px;
+                }
+
+            }
         </style>
     </head>
     <body>
