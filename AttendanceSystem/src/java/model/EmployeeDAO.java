@@ -15,7 +15,7 @@ public class EmployeeDAO extends DBContext {
     public ArrayList<EmployeeDTO> getEmployeeInfo() {
         PreparedStatement stm = null;
         ResultSet rs = null;
-        ArrayList EmployeeList = new ArrayList();
+        ArrayList<EmployeeDTO> EmployeeList = new ArrayList<>();
         if (connection != null) {
             try {
                 String sql = " SELECT * FROM Employees ";

@@ -6,5 +6,14 @@
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/model/EmployeeDTO.java</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/web/ViewAllEmployee.jsp</file>
         </group>
+        <group name="java-modules">
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/Sidebar.jsp</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/view-calendar.jsp</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/UpdateProfile.jsp</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/model/WorkingDay.java</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/ViewAllEmployee.jsp</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/assets/schedule.css</file>
+        </group>
     </open-files>
 </project-private>

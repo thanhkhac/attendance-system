@@ -12,8 +12,10 @@
         <title>Document</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/schedule.css">
+        <style>
+        </style>
     </head>
-
+        
     <body>
         <div class="container">
             <table class="table mytable">
@@ -38,7 +40,7 @@
 
                                 <c:if test = "${wkday.date eq requestScope.today}">
                                     <div class="date text-danger" id="today">
-                                        ${wkday.date}
+                                        Hôm nay
                                     </div>
                                 </c:if>
                                 <c:if test = "${wkday.date  ne requestScope.today}">
@@ -55,6 +57,7 @@
                                             <div class="shift leave text-center">
                                                 <div class="shift__title">
                                                     ${wkday.shift.name}
+                                                    <p>(Nghỉ)</p>
                                                 </div>
                                                 <div>
                                                     ${wkday.shift.startTime} - ${wkday.shift.endTime}
@@ -65,6 +68,7 @@
                                             <div class="shift absent text-center">
                                                 <div class="shift__title">
                                                     ${wkday.shift.name}
+                                                    <p>(Vắng)</p>
                                                 </div>
                                                 <div>
                                                     ${wkday.shift.startTime} - ${wkday.shift.endTime}
