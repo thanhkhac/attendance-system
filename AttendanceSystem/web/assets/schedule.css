@@ -1,0 +1,86 @@
+.mytable td {
+    border-radius: 3px;
+    height: 15em;
+    background-color: white;
+}
+
+.mytable th {
+    border-radius: 5px;
+    background-color: #6B5B95;
+    color: white;
+}
+
+.mytable {
+    border-collapse: separate !important;
+    background-color: gainsboro;
+}
+
+.date-block {
+    border-bottom: 3px solid rgb(145, 145, 145);
+    margin-bottom: 5px;
+}
+
+.date {
+    color: rgb(73, 73, 73);
+    border-radius: 10px;
+    font-weight: bold;
+    width: auto;
+    padding: 5px 20px;
+    text-align: center;
+}
+
+.shift {
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+}
+
+.shift__title {
+    font-weight: bold;
+}
+
+.shift-block div:first-child{
+    margin-bottom: 5px;
+}
+
+.notyet {
+    background-color: #34568B;
+}
+
+.absent {
+    background-color: #FF6F61;
+}
+
+.attended {
+    background-color: #88B04B;
+}
+
+.leave{
+    background-color: #353535;
+}
+
+
+
+.overtime {
+    background-color: #92A8D1;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    /* Thiết lập các td thành 2 cột */
+    .mytable td {
+        display: block;
+        width: 100%;
+        /* Chia mỗi td thành 50% của độ rộng */
+        box-sizing: border-box;
+        /* Đảm bảo padding và border được tính vào kích thước tổng */
+    }
+
+    .mytable thead {
+        display: none;
+    }
+
+}
