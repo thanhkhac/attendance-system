@@ -79,15 +79,15 @@ CREATE TABLE Leaves(
 
 
 
-CREATE TABLE OverTime(
+CREATE TABLE Overtimes(
 	[Date] date,
 	[EmployeeID] int,
-	[StartTime] time,
-	[EndTime] time,
+	[StartTime] time not null,
+	[EndTime] time not null,
 	[CheckIn] time,
 	[CheckOut] time,
-	[OpenBefore] int,
-	[CloseAfter] int,
+	[OpenBefore] int not null,
+	[CloseAfter] int not null,
 	PRIMARY KEY([Date], [EmployeeID])
 );
 
@@ -152,14 +152,14 @@ ADD CONSTRAINT FK_Timesheet_Shifts FOREIGN KEY ([ShiftID]) REFERENCES Shifts(Shi
 
 --Leaves
 ALTER TABLE Leaves
-ADD CONSTRAINT FK_Timesheet_Leaves FOREIGN KEY (TimeSheetID) REFERENCES Timesheet(TimesheetID) 
+ADD CONSTRAINT FK_Timesheet_Leaves FOREIGN KEY (TimeSheetID) REFERENCES Timesheet(TimesheetID) ON DELETE CASCADE
 
 ALTER TABLE Leaves
 ADD CONSTRAINT FK_Timesheet_Employees_ResponedBy FOREIGN KEY ([ResponedBy]) REFERENCES Employees(EmployeeID) 
 
 
 --OverTimes
-ALTER TABLE OverTime
+ALTER TABLE Overtimes
 ADD CONSTRAINT FK_OverTime_Employees FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
 
 
@@ -230,7 +230,7 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email,
 (N'Cường', N'Đức', N'Nguyễn', 1, '2003-01-01', N'denVau@gmai.com', '123456', '001203002473', '1231235', @Full_Time,@PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
 (N'Linh', N'Thùy', N'Hoàng', 1, '2003-01-01', N'hgThuyLing@gmai.com', '123123', '002204002473', '1231236', @Intern, @PhongTiepThi, @NhanVien, '2023-01-01', '2025-01-01'),
 (N'Messi', N'Văn', N'Nguyễn', 1, '2003-01-01', N'messi@gmai.com', '123123', '001204102473', '1231237',@Part_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
-(N'Ronaldo', N'Văn', N'Nguyễn', 1, '2003-01-01', N'ronaldo@gmai.com', '123123', '001214002473', '1231238',@Full_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01')
+(N'6h50', N'Văn', N'Nguyễn', 1, '2003-01-01', N'ronaldo@gmai.com', '123123', '001214002473', '1231238',@Full_Time, @QuanLyNhanSu, @NhanVien, '2023-01-01', '2025-01-01')
 
 
 --EmployeeTypes
@@ -255,28 +255,37 @@ VALUES
     ('Ca làm chiều', '13:30:00', '17:30:00'),
     ('Ca cả ngày', '07:30:00', '17:30:00');
 
-
+GO
 --Timesheet 
 DECLARE @KhacThanh int = (SELECT EmployeeID FROM Employees WHERE Email = N'thanhcqb2048@gmail.com')
 DECLARE @EmployeeID INT = @KhacThanh;
 DECLARE @ShiftID INT = 1;
-
 DECLARE @DateList TABLE (SelectedDate DATE);
 
 DECLARE @CurrentDate DATE = '2024-01-01';
 WHILE @CurrentDate <= '2024-01-31'
 BEGIN
-    SET @CurrentDate = DATEADD(DAY, 1, @CurrentDate);
+   
     
     IF DATEPART(WEEKDAY, @CurrentDate) BETWEEN 2 AND 6
         INSERT INTO @DateList (SelectedDate) VALUES (@CurrentDate);
+	SET @CurrentDate = DATEADD(DAY, 1, @CurrentDate);
 END
 
 INSERT INTO Timesheet ([Date], EmployeeID, ShiftID)
 SELECT SelectedDate, @EmployeeID, @ShiftID
 FROM @DateList;
+GO
+INSERT INTO Leaves (TimeSheetID, Reason) VALUES (1, 'Ốm')
 
 
+INSERT INTO Overtimes([Date], EmployeeID, StartTime, EndTime, OpenBefore, CloseAfter) VALUES
+('2024-01-20', 1, '17:30', '20:30', 5, 15);
+
+SELECT * FROM Overtimes
+SELECT * FROM Timesheet
+WHERE
+	EmployeeID = 1 AND [Date] = '2024-01-20'
 
 --====================Modify Area
 

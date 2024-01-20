@@ -133,7 +133,7 @@
             }
         %>
 
-        <form action="controller" method="post">
+        <form action="DispatchController" method="post">
             <div class="login-form">
                 <div class="form-title">
                     Password Recovery
@@ -156,7 +156,7 @@
                     <!--<div class="preview"></div>-->
                     <div class="captcha-form">
                         <input type="text" name="txtOTP" id="captcha-form" placeholder="Enter OTP here">
-                        <button class="captcha-refresh" name="choice" value="Send">
+                        <button class="captcha-refresh" name="btAction" value="Send">
                             <i class="fa-solid fa-arrows-rotate"></i>
                         </button>
                     </div>
@@ -172,7 +172,7 @@
                 %>
 
                 <div class="form-input">
-                    <button id="login-btn" name="choice" value="Submit">Submit</button>
+                    <button id="login-btn" name="btAction" value="Submit">Submit</button>
                 </div>
             </div>
         </form>

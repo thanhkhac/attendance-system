@@ -6,13 +6,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
-
-        <!--link js drop down-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <!--link js drop down-->
+        <!--        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
+        
+                link js drop down
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                link js drop down-->
 
         <title>Attendance_Checking_System</title>
         <style>
@@ -45,40 +45,22 @@
             .tableFixHead thead th {
                 position: sticky;
                 top: 0;
-                z-index: 1;
+                z-index: 0;
                 background-color: #f27227;
                 color: white;
             }
+
+
             tr.space-under > td {
                 padding-bottom: 1em;
+                cursor: pointer;
             }
             table {
-                border-collapse: separate;
-                border-spacing: 0 10px;
+                /* thằng !important là BỐ */
+                border-collapse: separate !important;
+                border-spacing: 0 15px;
             }
 
-
-
-            #sidebar {
-                height: 100vh;
-                width: 250px;
-                background-color: #0072bb;
-                color: white;
-                position: fixed;
-                left: 0;
-                transition: left 0.3s ease;
-            }
-
-            #sidebar a {
-                display: block;
-                padding: 15px;
-                text-decoration: none;
-                color: white;
-            }
-
-            #sidebar a:hover {
-                background-color: #f27227;
-            }
 
             #content {
                 margin-left: 250px;
@@ -134,18 +116,14 @@
                 max-width: 250px;
                 height: 40px;
             }
+
             @media screen and (orientation: portrait) {
-                #sidebar {
-                    left: -250px;
-                }
+
 
                 #content {
                     margin-left: 0;
                 }
 
-                #navbar {
-                    display: block;
-                }
 
                 .tableFixHead{
                     margin-top: 20px;
@@ -182,39 +160,96 @@
                 }
 
             }
+            #popup {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+            }
+
+            .popup-content {
+                width: 1100px;
+                height: 700px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                display: flex;
+            }
+            .popup-content-left{
+                background-color: #f27227;
+                padding: 15px 15px;
+                border-radius: 5px;
+            }
+            .popup-content-left img{
+                max-width: 100%;
+/*                height: 80%;*/
+
+            }
+            .popup-content-right{
+                background-color: #E8E8E8;
+                margin-left: 10px;
+                border-radius: 5px;
+                padding: 15px 15px;
+            }
+            .popupBody-title{
+                text-decoration: underline;
+            }
+            .popupBody-content{
+                display: flex;
+            }
+            .popupBody-content h5{
+                border-bottom: 1px solid #f27227;
+                margin-bottom: 20px;
+            }
+            .popupBody-content-left{
+                min-width: 50%;
+                margin-top: 20px;
+                padding-right: 10px;
+            }
+            .popupBody-content-right{
+                min-width: 50%;
+                margin-top: 20px;
+                padding-left: 15px;
+                padding-top: 200px;
+                border-left: 1px solid #f27227;
+            }
+            .close {
+                width: 40px;
+                height: 30px;
+                position: absolute;
+                top: 30px;
+                right: 20px;
+                font-size: 50px;
+                cursor: pointer;
+                font-size: 18px;
+                background-color: red;
+                border-radius: 5px;
+            }
+            .update-button{
+                padding-bottom: 10px;
+                border-radius: 5px;
+                width: 150px;
+                height: 38px;
+                font-size: 20px;
+                margin-top: 100px;
+                margin-left: 70px;
+            }
+
         </style>
     </head>
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
-        <div id="sidebar">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Contact</a>
-        </div>
-        <div id="navbar">
-            <div class="dropdown">
-                <button
-                    class="btn btn-success dropdown-toggle"
-                    type="button"
-                    data-toggle="dropdown"
-                    >
-                    Menu
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <button class="dropdown-item" type="button">Home</button>
-                    <button class="dropdown-item" type="button">About</button>
-                    <button class="dropdown-item" type="button">Service</button>
-
-                    <div class="dropdown-divider"></div>
-                    <button class="dropdown-item" type="button">
-                        Logout
-                    </button>
-                </div>
-            </div>
-        </div>
-
+        <c:set var="ListDE" value="${requestScope.ListDE}" />
+        <%@include file="Sidebar.jsp" %>
         <div id="content">
             <div class="search-filter-bar">
                 <div class="input-group mb-3 search-bar">
@@ -266,19 +301,99 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${List}" var="a">
-                            <tr class="table-primary space-under">
+                            <tr class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
                                 <td>${a.getEmployeeID()}</td>
                                 <td>${a.getFirstName()}</td>
                                 <td>${a.getMiddleName()}</td>
                                 <td>${a.getLastName()}</td>
                                 <td>${a.getEmail()}</td>
+                                <td style="display: none">${a.getGender()}</td>
+                                <td style="display: none">${a.getBirthDate()}</td>
+                                <td style="display: none">${a.getCccd()}</td>
+                                <td style="display: none">${a.getPhoneNumber()}</td>
+                                <td style="display: none">${a.getEmployeeTypeID()}</td>
+                                <td style="display: none">${a.getDepartmentID()}</td>
+                                <td style="display: none">${a.getRoleID()}</td>
+                                <td style="display: none">${a.getStartDate()}</td>
+                                <td style="display: none">${a.getEndDate()}</td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
             </div>
+            <div id="popup" class="popup">
+                <div id="popupContent" class="popup-content">
+                    <button class="btn-danger close" onclick="closePopup()">X</button>
+                    <div id="popupPicture" class="popup-content-left col-lg-4">
+                        <img src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="DefautPicture"/>
+                    </div>
+                    <div id="popupBody"  class="popup-content-right col-lg-8"></div>
+                </div>
+            </div>
         </div>
 
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
+        <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const employeeRows = document.querySelectorAll(".employeeRow");
+                            employeeRows.forEach((row) => {
+                                row.addEventListener("click", function () {
+                                    const id = row.getAttribute("data-employee-id");
+                                    const firstName = row.cells[1].innerText;
+                                    const middleName = row.cells[2].innerText;
+                                    const lastName = row.cells[3].innerText;
+                                    const email = row.cells[4].innerText;
+                                    const gender = row.cells[5].innerText;
+                                    const birthDate = row.cells[6].innerText;
+                                    const cccd = row.cells[7].innerText;
+                                    const phoneNumber = row.cells[8].innerText;
+                                    const employeeType = row.cells[9].innerText;
+                                    const department = row.cells[10].innerText;
+                                    const role = row.cells[11].innerText;
+                                    const startDate = row.cells[12].innerText;
+                                    const endDate = row.cells[13].innerText;
+                                    console.log("Clicked row:", id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
+                                    displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
+                                });
+                            });
+
+
+                        });
+                        function displayPopup(id, firstName, middleName,
+                                lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate) {
+                            const fullName = lastName + " " + middleName + " " + firstName;
+                            const popup = document.getElementById("popup");
+                            const popupTitle = document.getElementById("popupTitle");
+                            const popupBody = document.getElementById("popupBody");
+//                            popupTitle.innerText = `EmployeeID : \${id}`;
+                            popupBody.innerHTML = `<div class="popupBody-container">
+                                                        <h4 class="popupBody-title">Employee Information</h4>
+                                                        <div class="popupBody-content">
+                                                            <div class="popupBody-content-left">
+                                                                <h5>FullName: \${fullName}</h5>
+                                                                <h5>Gender: \${gender}</h5>
+                                                                <h5>Email: \${email}</h5>
+                                                                <h5>CCCD: \${cccd}</h5>
+                                                                <h5>Birth Day: \${birthDate}</h5>
+                                                                <h5>Phone Number: \${phoneNumber}</h5>
+                                                                <button class="btn-success update-button">Update</button>
+                                                            </div>
+                                                            <div class="popupBody-content-right">
+                                                                <h5>EmployeeType: Part-Time</h5>
+                                                                <h5>Department: Phong Tiep Thi</h5>
+                                                                <h5>Role: Department Manager</h5>
+                                                                <h5>Start Date: \${startDate}</h5>
+                                                                <h5>End Date: \${endDate}</h5>
+                                                            </div>
+                                                        </div>
+                                                   </div> `;
+                            popup.style.display = "block";
+//                            console.log("Data: ", id,fullName, email, gender, birthDate, cccd, phoneNumber);
+                        }
+                        function closePopup() {
+                            const popup = document.getElementById("popup");
+                            popup.style.display = "none";
+                        }
+        </script>
     </body>
 </html>
