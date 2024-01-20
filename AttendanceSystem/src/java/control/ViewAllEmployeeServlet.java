@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import model.DepartmentDAO;
+import model.DepartmentDTO;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
 /**
