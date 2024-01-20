@@ -190,11 +190,11 @@
             }
             .popup-content-left img{
                 max-width: 100%;
-/*                height: 80%;*/
+                /*                height: 80%;*/
 
             }
             .popup-content-right{
-                background-color: #E8E8E8;
+                background-color: white;
                 margin-left: 10px;
                 border-radius: 5px;
                 padding: 15px 15px;
@@ -205,9 +205,27 @@
             .popupBody-content{
                 display: flex;
             }
-            .popupBody-content h5{
-                border-bottom: 1px solid #f27227;
-                margin-bottom: 20px;
+            .content-items{
+                margin-bottom: 15px;
+            }
+            .content-items label{
+                max-width: 140px;
+                color: #f27227;
+                font-size: larger;
+                font-weight: 600;
+            }
+            .content-items input{
+                width: 100%;
+                height: 40px;
+                padding: 3px 5px;
+                border: none;
+                border-radius: 5px;
+                background-color: #E8E8E8;
+                font-weight: 600;
+                font-size: large;
+            }
+            input[type="info"]:focus {
+                outline: 1px solid #0072bb;
             }
             .popupBody-content-left{
                 min-width: 50%;
@@ -218,7 +236,7 @@
                 min-width: 50%;
                 margin-top: 20px;
                 padding-left: 15px;
-                padding-top: 200px;
+                padding-top: 150px;
                 border-left: 1px solid #f27227;
             }
             .close {
@@ -239,7 +257,7 @@
                 width: 150px;
                 height: 38px;
                 font-size: 20px;
-                margin-top: 100px;
+                margin-top: 43px;
                 margin-left: 70px;
             }
 
@@ -288,6 +306,7 @@
                         <option value="1">A -> Z</option>
                         <option value="2">Z -> A</option>
                     </select>
+
                 </div>
             </div>
             <div class="container table-responsive tableFixHead">
@@ -367,23 +386,58 @@
                             const popupBody = document.getElementById("popupBody");
 //                            popupTitle.innerText = `EmployeeID : \${id}`;
                             popupBody.innerHTML = `<div class="popupBody-container">
-                                                        <h4 class="popupBody-title">Employee Information</h4>
+                                                        <h3 class="popupBody-title">Employee Information</h3>
                                                         <div class="popupBody-content">
                                                             <div class="popupBody-content-left">
-                                                                <h5>FullName: \${fullName}</h5>
-                                                                <h5>Gender: \${gender}</h5>
-                                                                <h5>Email: \${email}</h5>
-                                                                <h5>CCCD: \${cccd}</h5>
-                                                                <h5>Birth Day: \${birthDate}</h5>
-                                                                <h5>Phone Number: \${phoneNumber}</h5>
+                                                                <div class="content-items">
+                                                                    <label>Full Name:</label>
+                                                                    <input type="info" value="\${fullName}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Gender: </label>
+                                                                    <input type="info" value="\${gender}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Email: </label>
+                                                                    <input type="info" value="\${email}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>CCCD: </label>
+                                                                    <input type="info" value="\${cccd}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Phone: </label>
+                                                                    <input type="info" value="\${phoneNumber}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Birth Day: </label>
+                                                                    <input type="info" value="\${birthDate}" readonly>
+                                                                </div>
                                                                 <button class="btn-success update-button">Update</button>
                                                             </div>
+                                                            
+                                                            
                                                             <div class="popupBody-content-right">
-                                                                <h5>EmployeeType: Part-Time</h5>
-                                                                <h5>Department: Phong Tiep Thi</h5>
-                                                                <h5>Role: Department Manager</h5>
-                                                                <h5>Start Date: \${startDate}</h5>
-                                                                <h5>End Date: \${endDate}</h5>
+                                                                <div class="content-items">
+                                                                    <label>Type: </label>
+                                                                    <input type="info" value="\${employeeType}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Department: </label>
+                                                                    <input type="info" value="\${department}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Role: </label>
+                                                                    <input type="info" value="\${role}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Start Date: </label>
+                                                                    <input type="info" value="\${startDate}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>End Date: </label>
+                                                                    <input type="info" value="\${endDate}" readonly>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                    </div> `;
