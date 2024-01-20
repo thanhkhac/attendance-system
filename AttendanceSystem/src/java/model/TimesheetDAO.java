@@ -9,7 +9,7 @@ import ultility.datetimeutil.DateTimeUtil;
 
 public class TimesheetDAO extends DAOBase {
 
-    static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
+    private final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public TimesheetDTO getTimesheetDTO(int sTimesheetID) {
         query = "SELECT * FROM Timesheet \n" +
@@ -68,6 +68,35 @@ public class TimesheetDAO extends DAOBase {
         return list;
     }
 
+    public TimesheetDTO getTimesheetByDate(int xEmployeeID, LocalDate xDate) {
+        query = "SELECT * FROM\n" +
+                "	Timesheet\n" +
+                "WHERE\n" +
+                "	EmployeeID = ? \n" +
+                "	AND [Date]  = ?";
+        try {
+            ps = con.prepareStatement(query);
+            ps.setInt(1, xEmployeeID);
+            ps.setString(2, xDate.toString());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int timesheetID = rs.getInt("TimesheetID");
+                LocalDate date = DATE_UTIL.parseSqlDate(rs.getDate("Date"));
+                int employeeID = rs.getInt("EmployeeID");
+                int shiftID = rs.getInt("ShiftID");
+                LocalTime checkin = DATE_UTIL.parseSQLTime(rs.getTime("CheckIn"));
+                LocalTime checkout = DATE_UTIL.parseSQLTime(rs.getTime("CheckOut"));
+                String note = rs.getNString("note");
+                return new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, note);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResource();
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         TimesheetDAO timesheetDAO = new TimesheetDAO();
         System.out.println("getTimesheetDTO(1)");
@@ -79,6 +108,7 @@ public class TimesheetDAO extends DAOBase {
         for (TimesheetDTO timesheetDTO : list) {
             System.out.println(timesheetDTO);
         }
+        System.out.println("getTimesheetByDate: " + timesheetDAO.getTimesheetByDate(1, start));
     }
 
 }
