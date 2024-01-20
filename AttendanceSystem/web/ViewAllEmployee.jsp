@@ -171,8 +171,8 @@
             }
 
             .popup-content {
-                width: 1000px;
-                height: 600px;
+                width: 1100px;
+                height: 700px;
                 position: absolute;
                 top: 50%;
                 left: 50%;
@@ -181,14 +181,66 @@
                 padding: 20px;
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+                display: flex;
             }
+            .popup-content-left{
+                background-color: #f27227;
+                padding: 15px 15px;
+                border-radius: 5px;
+            }
+            .popup-content-left img{
+                max-width: 100%;
+/*                height: 80%;*/
 
+            }
+            .popup-content-right{
+                background-color: #E8E8E8;
+                margin-left: 10px;
+                border-radius: 5px;
+                padding: 15px 15px;
+            }
+            .popupBody-title{
+                text-decoration: underline;
+            }
+            .popupBody-content{
+                display: flex;
+            }
+            .popupBody-content h5{
+                border-bottom: 1px solid #f27227;
+                margin-bottom: 20px;
+            }
+            .popupBody-content-left{
+                min-width: 50%;
+                margin-top: 20px;
+                padding-right: 10px;
+            }
+            .popupBody-content-right{
+                min-width: 50%;
+                margin-top: 20px;
+                padding-left: 15px;
+                padding-top: 200px;
+                border-left: 1px solid #f27227;
+            }
             .close {
+                width: 40px;
+                height: 30px;
                 position: absolute;
-                top: 10px;
-                right: 10px;
+                top: 30px;
+                right: 20px;
                 font-size: 50px;
                 cursor: pointer;
+                font-size: 18px;
+                background-color: red;
+                border-radius: 5px;
+            }
+            .update-button{
+                padding-bottom: 10px;
+                border-radius: 5px;
+                width: 150px;
+                height: 38px;
+                font-size: 20px;
+                margin-top: 100px;
+                margin-left: 70px;
             }
 
         </style>
@@ -196,7 +248,7 @@
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
-
+        <c:set var="ListDE" value="${requestScope.ListDE}" />
         <%@include file="Sidebar.jsp" %>
         <div id="content">
             <div class="search-filter-bar">
@@ -271,9 +323,11 @@
             </div>
             <div id="popup" class="popup">
                 <div id="popupContent" class="popup-content">
-                    <span class="close" onclick="closePopup()">&times;</span>
-                    <h2 id="popupTitle">Employee Details</h2>
-                    <div id="popupBody"></div>
+                    <button class="btn-danger close" onclick="closePopup()">X</button>
+                    <div id="popupPicture" class="popup-content-left col-lg-4">
+                        <img src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="DefautPicture"/>
+                    </div>
+                    <div id="popupBody"  class="popup-content-right col-lg-8"></div>
                 </div>
             </div>
         </div>
@@ -293,23 +347,46 @@
                                     const birthDate = row.cells[6].innerText;
                                     const cccd = row.cells[7].innerText;
                                     const phoneNumber = row.cells[8].innerText;
-
-                                    console.log("Clicked row:", id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber);
-                                    displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber);
+                                    const employeeType = row.cells[9].innerText;
+                                    const department = row.cells[10].innerText;
+                                    const role = row.cells[11].innerText;
+                                    const startDate = row.cells[12].innerText;
+                                    const endDate = row.cells[13].innerText;
+                                    console.log("Clicked row:", id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
+                                    displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
                                 });
                             });
 
 
                         });
                         function displayPopup(id, firstName, middleName,
-                                lastName, email, gender, birthDate, cccd, phoneNumber) {
-                            const fullName = lastName+" "+ middleName+" "+ firstName;
+                                lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate) {
+                            const fullName = lastName + " " + middleName + " " + firstName;
                             const popup = document.getElementById("popup");
                             const popupTitle = document.getElementById("popupTitle");
                             const popupBody = document.getElementById("popupBody");
-                            popupTitle.innerText = `EmployeeID : \${id}`;
-                            popupBody.innerHTML = `<p>fullName: \${fullName}</p>
-                                                  <p>cccd: \${cccd}</p> <p>birthDate: \${birthDate}</p>  `;
+//                            popupTitle.innerText = `EmployeeID : \${id}`;
+                            popupBody.innerHTML = `<div class="popupBody-container">
+                                                        <h4 class="popupBody-title">Employee Information</h4>
+                                                        <div class="popupBody-content">
+                                                            <div class="popupBody-content-left">
+                                                                <h5>FullName: \${fullName}</h5>
+                                                                <h5>Gender: \${gender}</h5>
+                                                                <h5>Email: \${email}</h5>
+                                                                <h5>CCCD: \${cccd}</h5>
+                                                                <h5>Birth Day: \${birthDate}</h5>
+                                                                <h5>Phone Number: \${phoneNumber}</h5>
+                                                                <button class="btn-success update-button">Update</button>
+                                                            </div>
+                                                            <div class="popupBody-content-right">
+                                                                <h5>EmployeeType: Part-Time</h5>
+                                                                <h5>Department: Phong Tiep Thi</h5>
+                                                                <h5>Role: Department Manager</h5>
+                                                                <h5>Start Date: \${startDate}</h5>
+                                                                <h5>End Date: \${endDate}</h5>
+                                                            </div>
+                                                        </div>
+                                                   </div> `;
                             popup.style.display = "block";
 //                            console.log("Data: ", id,fullName, email, gender, birthDate, cccd, phoneNumber);
                         }
