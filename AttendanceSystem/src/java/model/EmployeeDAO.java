@@ -251,11 +251,82 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
+    public int getTotalEmployeeByDepartment(int phong,String search){
+         int count =0 ;
+         PreparedStatement stm = null;
+         ResultSet rs = null;
+         if(connection != null){
+             try{
+                 String sql = "select count(*) as dem from Employees where DepartmentID = ? and (LastName like ? or FirstName like ? or MiddleName like ?) ";
+                 stm = connection.prepareStatement(sql);
+                 stm.setInt(1, phong);
+                 stm.setString(2, "%"+search+"%");
+                 stm.setString(3, "%"+search+"%");
+                 stm.setString(4, "%"+search+"%");
+                 rs = stm.executeQuery();
+                 if(rs.next()){
+                     count = rs.getInt("dem");
+                 }
+             }catch(Exception e){
+                  e.printStackTrace();
+                System.out.println(e.getMessage());
+             }
+         }
+        return count;
+    }
 
+    
+    public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a,int phong,String name){
+        ArrayList<EmployeeDTO> list = new ArrayList();
+        PreparedStatement stm = null;
+         ResultSet rs = null;
+         if(connection != null){
+             try{
+                 String sql = "select * from Employees\n" +
+"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?)\n" +
+"Order by EmployeeID\n" +
+"Offset ? rows fetch next 2 rows only";
+                 stm = connection.prepareStatement(sql);
+                 stm.setInt(1, phong);
+                 stm.setString(2, "%"+name+"%");
+                 stm.setString(3, "%"+name+"%");
+                 stm.setString(4, "%"+name+"%");
+                 stm.setInt(5, (a-1)*2);
+                 rs = stm.executeQuery();
+                 while(rs.next()){
+                     int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, startDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                 }
+             }catch(Exception e){
+                 e.printStackTrace();
+                System.out.println(e.getMessage());
+             }
+         }
+        
+        return list;
+    }
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> list = dao.getEmployeeByDepartment(1);
-        System.out.println(list.size());
+//       ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(1, 2, "");
+//        for(EmployeeDTO employee : list){
+//            System.out.println(employee.getEmployeeID());
+//        }
+         System.out.println(dao.getTotalEmployeeByDepartment(1, ""));
     }
 
 }

@@ -36,15 +36,26 @@ public class listByDepartment extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String sttPhong = request.getParameter("department");
+        String listOfPage = request.getParameter("listOfPage");
+        int page = 1;
+        if(listOfPage!=null){
+            page = Integer.parseInt(listOfPage);
+        }
         request.setAttribute("PHONG", sttPhong);
         int phong = Integer.parseInt(sttPhong);
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> list = dao.getEmployeeByDepartment(phong);
+        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, "");
         String position = "Phòng nhân sự";
         if(phong==2) position = "Phòng tiếp thị";
         request.setAttribute("LIST", list);
-        request.setAttribute("POSITION", position);
-        
+        request.setAttribute("POSITION", position);       
+        int count = dao.getTotalEmployeeByDepartment(phong,"");
+        int endPage = 0;
+        if(count%2==0)
+            endPage = count/2;
+        else {endPage = count/2 +1;}
+
+        request.setAttribute("ENDPAGE", endPage);    
         request.getRequestDispatcher("viewEmployeesByManager.jsp").forward(request, response);
     } 
 

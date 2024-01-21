@@ -2,6 +2,12 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="java_web"/>
+        <group name="java_web">
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/src/java/department/searchEmployeeByAjax.java</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/web/index.html</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/src/java/department/listByDepartment.java</file>
+            <file>file:/C:/Users/Admin/Desktop/SWP_Truong/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
+        </group>
     </open-files>
 </project-private>

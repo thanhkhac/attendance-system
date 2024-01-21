@@ -35,7 +35,15 @@ public class searchEmployeeByAjax extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         EmployeeDAO dao = new EmployeeDAO();
+        String Page = request.getParameter("Page");        
+        int page = 1;
+        if(Page!=null){
+            page = Integer.parseInt(Page);
+        }       
+        
         String txtSearch = request.getParameter("txt");
+        if(txtSearch==null)
+            txtSearch = "";
         String phongBan = request.getParameter("phong");
         String tenPhong = null;         
         int phong = Integer.parseInt(phongBan);
@@ -43,7 +51,23 @@ public class searchEmployeeByAjax extends HttpServlet {
              tenPhong = "Phòng nhân sự";
          else
              tenPhong = "Phòng tiếp thị";
-        ArrayList<EmployeeDTO> list = dao.SearchEmployeeByName(txtSearch);       
+         int count = dao.getTotalEmployeeByDepartment(phong,txtSearch);
+         int endPage = 0;
+        if(count%2==0)
+            endPage = count/2;
+        else endPage = count/2 +1;
+        request.setAttribute("ENDPAGE", endPage);    
+        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, txtSearch);
+        out.print("<table class=\"table project-list-table table-nowrap align-middle table-borderless\">\n" +
+"                                        <thead>                               \n" +
+"                                        <th scope=\"col\">Name</th>\n" +
+"                                        <th scope=\"col\">Position</th>\n" +
+"                                        <th scope=\"col\">Email</th>\n" +
+"                                        <th scope=\"col\">Phone number</th>\n" +
+"                                        <th scope=\"col\" style=\"width: 200px;\">Active</th>\n" +
+"                                        </tr>\n" +
+"                                        </thead>\n" +
+"                                        <tbody id=\"listEmployee\">");
         for(EmployeeDTO employee: list){
            if(employee.getDepartmentID()==phong){
                String fullName = employee.getLastName()+" "+employee.getMiddleName()+" "+employee.getFirstName();
@@ -125,6 +149,17 @@ public class searchEmployeeByAjax extends HttpServlet {
             
            }
         }
+        out.print("       </tbody>\n" +
+"                                    </table>\n");
+        out.print("<div clas=\"row\">\n" +
+"                                            \n" +
+"                                            <div class=\"text-center\" >\n");
+        for(int i=1;i<=endPage;i++){
+            out.print("<a class=\"page\" data-index=\""+i+"\" onclick=\"searchByName(this)\" style=\"color: black\" href=\"#\">"+i+"</a>");
+        }
+        out.print("</div>\n" +
+"                                        </div>\n" +
+"                                </div>");
         
     } 
 

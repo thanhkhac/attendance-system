@@ -182,10 +182,10 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="">
-                                <div class="table-responsive">
+                                <div class="table-responsive" id="listEmployee">
 
 
-
+                                     
                                     <table class="table project-list-table table-nowrap align-middle table-borderless">
                                         <thead>                               
                                         <th scope="col">Name</th>
@@ -287,12 +287,25 @@
                                             <%}%>
                                         </tbody>
                                     </table>
+                                        <div clas="row">
+                                            
+                                            <div class="text-center" >
+                                                <%
+                                                   int endPage = (int) request.getAttribute("ENDPAGE");
+                                                   if(endPage>0){
+                                                   for(int i=1; i<=endPage;i++){
+                                                    
+                                                %>
+                                                <a class="page" data-index="<%=i%>" onclick="searchByName(this)" style="color: black" href="#"><%=i%></a>
+                                                <%}}%>
+                                            </div>
+                                        </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                                        
                 <script>
 
                     var showDivLinks = document.querySelectorAll(".show-div-link");
@@ -323,15 +336,18 @@
     });
 });
 
+
 function searchByName(param) {
-    var txtSearch = param.value;
+    var txtSearch = $("#txtSearch").val();
     var phongBan = $("#phongBan").val();
+     var Page = param.dataset.index;
     $.ajax({
         url: "/AttendanceSystem/searchEmployeeByAjax",
         type: "get",
         data: {
             txt: txtSearch,
-            phong: phongBan
+            phong: phongBan,
+            Page: Page
         },
         success: function (data) {
             var row = $("#listEmployee");
@@ -359,9 +375,35 @@ function initializeYourFunctions() {
                             });
                         });
                     });
+                    
+                    function searchByName(param) {
+    var phongBan = $("#phongBan").val();
+     var txtSearch = $("#txtSearch").val();
+    var Page = param.dataset.index;
+    $.ajax({
+        url: "/AttendanceSystem/searchEmployeeByAjax",
+        type: "get",
+        data: {
+            txt: txtSearch,
+            phong: phongBan,
+            Page: Page
+        },
+        success: function (data) {
+            var row = $("#listEmployee");
+            row.html(data);
+
+            // Gọi lại sự kiện hoặc hàm JS bạn muốn chạy vi khi dung ajax lay du lieu tu serverlet se mat ket noi
+            initializeYourFunctions();
+        },
+        error: function (xhr) {
+            console.log("Error:", xhr);
+        }
+    });
+}
+                    
 }
 
                 </script>                            
             </body>
 
-        </html>
+        </html> 
