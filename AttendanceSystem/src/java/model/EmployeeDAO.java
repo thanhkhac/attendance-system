@@ -211,6 +211,46 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
+    
+    public ArrayList<EmployeeDTO> SearchEmployeeByName(String Name) {
+        ArrayList<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "select * from Employees\n" +
+" where LastName like ? or FirstName like ? or MiddleName like ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, "%" + Name +"%");
+                stm.setString(2, "%" + Name +"%");
+                stm.setString(3, "%" + Name +"%");
+                rs = stm.executeQuery();
+                while(rs.next()){
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, startDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();

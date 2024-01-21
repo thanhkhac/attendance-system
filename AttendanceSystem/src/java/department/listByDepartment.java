@@ -36,6 +36,7 @@ public class listByDepartment extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String sttPhong = request.getParameter("department");
+        request.setAttribute("PHONG", sttPhong);
         int phong = Integer.parseInt(sttPhong);
         EmployeeDAO dao = new EmployeeDAO();
         ArrayList<EmployeeDTO> list = dao.getEmployeeByDepartment(phong);
@@ -43,6 +44,7 @@ public class listByDepartment extends HttpServlet {
         if(phong==2) position = "Phòng tiếp thị";
         request.setAttribute("LIST", list);
         request.setAttribute("POSITION", position);
+        
         request.getRequestDispatcher("viewEmployeesByManager.jsp").forward(request, response);
     } 
 
