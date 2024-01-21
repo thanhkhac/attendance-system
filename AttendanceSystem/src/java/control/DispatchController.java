@@ -46,6 +46,9 @@ public class DispatchController extends HttpServlet {
             } else if (button.equals("Save change")) {
                 URL = "ChangePasswordServlet";
             }
+            else if(button.equals("viewListByDepartment")){
+            URL = "listByDepartment";
+        }
         } finally {
 
             request.getRequestDispatcher(URL).forward(request, response);
