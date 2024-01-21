@@ -308,48 +308,50 @@
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
-        <c:set var="ListDE" value="${requestScope.ListDE}" />
+        <c:set var="ListE" value="${requestScope.ListE}" />
         <%@include file="Sidebar.jsp" %>
         <div id="content">
-            <div class="search-filter-bar">
-                <div class="input-group mb-3 search-bar">
-                    <span class="input-group-text" id="basic-addon1">Search...</span>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        placeholder="Name" 
-                        aria-label="Name" 
-                        aria-describedby="basic-addon1"
-                        >
-                </div>
-                <div class="input-group mb-3 select-bar">
-                    <label class="input-group-text" for="inputGroupSelect01">Department</label>
-                    <select class="form-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">HR</option>
-                        <option value="2">Marketing</option>
-                        <option value="3">IT</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3 select-bar">
-                    <label class="input-group-text" for="inputGroupSelect01">Type</label>
-                    <select class="form-select" id="inputGroupSelect02">
-                        <option selected>Choose...</option>
-                        <option value="1">Part-Time</option>
-                        <option value="2">Full-Time</option>
-                        <option value="3">Intern</option>
+            <div>
+                <form action="FilterAJAXServlet" class="search-filter-bar" >
+                    <div class="input-group mb-3 search-bar">
+                        <span class="input-group-text" id="basic-addon1">Search...</span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Name" 
+                            aria-label="Name" 
+                            aria-describedby="basic-addon1"
+                            name="txtSearchValue"
+                            >
+                    </div>
+                    <div class="input-group mb-3 select-bar">
+                        <label class="input-group-text" for="inputGroupSelect01">Department</label>
+                        <select class="form-select" id="inputGroupSelect01" name="txtDepartment">
+                            <option selected>Choose...</option>
+                            <option value="1">HR</option>
+                            <option value="2">Marketing</option>
+                            <option value="3">IT</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3 select-bar">
+                        <label class="input-group-text" for="inputGroupSelect01">Type</label>
+                        <select class="form-select" id="inputGroupSelect02" name="txtType">
+                            <option selected>Choose...</option>
+                            <option value="1">Part-Time</option>
+                            <option value="2">Full-Time</option>
+                            <option value="3">Intern</option>
 
-                    </select>
-                </div>
-                <div class="input-group mb-3 select-bar">
-                    <label class="input-group-text" for="inputGroupSelect01">Order</label>
-                    <select class="form-select" id="inputGroupSelect03">
-                        <option selected>Choose...</option>
-                        <option value="1">A -> Z</option>
-                        <option value="2">Z -> A</option>
-                    </select>
-
-                </div>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3 select-bar">
+                        <label class="input-group-text" for="inputGroupSelect01">Order</label>
+                        <select class="form-select" id="inputGroupSelect03" name="txtOrder">
+                            <option selected>Choose...</option>
+                            <option value="1">A -> Z</option>
+                            <option value="2">Z -> A</option>
+                        </select>
+                    </div>
+                </form>
             </div>
             <div class="container table-responsive tableFixHead">
                 <table class="table table-hover">
@@ -362,6 +364,7 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${List}" var="a">
+                        <div class="table-row-container">
                             <tr class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
                                 <td>${a.getEmployeeID()}</td>
                                 <td>${a.getLastName()}</td>
@@ -378,7 +381,9 @@
                                 <td style="display: none">${a.getStartDate()}</td>
                                 <td style="display: none">${a.getEndDate()}</td>
                             </tr>
-                        </c:forEach>
+                        </div>
+
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
