@@ -28,6 +28,7 @@
             }
             .tableFixHead::-webkit-scrollbar-track {
                 background-color: white; /* Change to background color */
+                border-radius: 5px;
             }
             /* Style the thumb (the draggable part of the scroll bar) */
             .tableFixHead::-webkit-scrollbar-thumb {
@@ -39,6 +40,7 @@
                 /*margin-top: 100px;*/
                 overflow: auto;
                 border: 1px solid #f27227;
+                border-radius: 5px;
                 height: 500px;
                 margin-top: 10px;
             }
@@ -60,7 +62,9 @@
                 border-collapse: separate !important;
                 border-spacing: 0 15px;
             }
-
+            table tr{
+                border: 1px solid black;
+            }
 
             #content {
                 margin-left: 250px;
@@ -117,49 +121,7 @@
                 height: 40px;
             }
 
-            @media screen and (orientation: portrait) {
 
-
-                #content {
-                    margin-left: 0;
-                }
-
-
-                .tableFixHead{
-                    margin-top: 20px;
-                    max-width: 100%;
-                }
-
-                .search-filter-bar{
-                    max-height: 500px;
-                    padding-top: 24px;
-                }
-                .search-bar{
-                    max-width: 350px;
-                }
-                .select-bar{
-                    max-width: 350px;
-                }
-                .input-group{
-                    flex-basis: 100%;
-                }
-            }
-            @media (max-width:1450px) {
-                .tableFixHead{
-                    margin-top: 20px;
-                    max-width: 100%;
-                }
-                .search-filter-bar{
-                    max-height: 400px;
-                    justify-content: space-evenly;
-                    padding-top: 22px;
-                }
-                .input-group{
-                    flex-basis: 100%;
-                    max-width: 400px;
-                }
-
-            }
             #popup {
                 display: none;
                 position: fixed;
@@ -190,11 +152,11 @@
             }
             .popup-content-left img{
                 max-width: 100%;
-/*                height: 80%;*/
+                /*                height: 80%;*/
 
             }
             .popup-content-right{
-                background-color: #E8E8E8;
+                background-color: white;
                 margin-left: 10px;
                 border-radius: 5px;
                 padding: 15px 15px;
@@ -205,9 +167,27 @@
             .popupBody-content{
                 display: flex;
             }
-            .popupBody-content h5{
-                border-bottom: 1px solid #f27227;
-                margin-bottom: 20px;
+            .content-items{
+                margin-bottom: 15px;
+            }
+            .content-items label{
+                max-width: 140px;
+                color: #f27227;
+                font-size: larger;
+                font-weight: 600;
+            }
+            .content-items input{
+                width: 100%;
+                height: 40px;
+                padding: 3px 5px;
+                border: none;
+                border-radius: 5px;
+                background-color: #E8E8E8;
+                font-weight: 600;
+                font-size: large;
+            }
+            input[type="info"]:focus {
+                outline: 1px solid #0072bb;
             }
             .popupBody-content-left{
                 min-width: 50%;
@@ -218,7 +198,7 @@
                 min-width: 50%;
                 margin-top: 20px;
                 padding-left: 15px;
-                padding-top: 200px;
+                padding-top: 150px;
                 border-left: 1px solid #f27227;
             }
             .close {
@@ -230,7 +210,6 @@
                 font-size: 50px;
                 cursor: pointer;
                 font-size: 18px;
-                background-color: red;
                 border-radius: 5px;
             }
             .update-button{
@@ -239,73 +218,158 @@
                 width: 150px;
                 height: 38px;
                 font-size: 20px;
-                margin-top: 100px;
+                margin-top: 43px;
                 margin-left: 70px;
             }
+            .add-button{
+                margin-top: 20px;
+            }
+            .add-button button{
+                width: 200px;
+                height: 40px;
+                border: none;
+                background-color: #0072bb;
+                color: white;
+                font-size: larger;
+                font-weight: 600;
+                border-radius: 5px;
+            }
+            .add-button button:hover{
+                background-color: white;
+                border: 3px solid #0072bb;
+                color: #0072bb;
+            }
 
+            @media screen and (orientation: portrait) {
+
+
+                #content {
+                    margin-left: 0;
+                }
+
+
+                .tableFixHead{
+                    margin-top: 20px;
+                    max-width: 100%;
+                }
+
+                .search-filter-bar{
+                    max-height: 500px;
+                    padding-top: 24px;
+                }
+                .search-bar{
+                    max-width: 350px;
+                }
+                .select-bar{
+                    max-width: 350px;
+                }
+                .input-group{
+                    flex-basis: 100%;
+                }
+                .popup-content{
+                    max-width: 100%;
+                }
+                .popup-content-left{
+                    display: none;
+                }
+                .popupBody-content{
+                    display: block;
+                    flex-direction: column;
+                    overflow-y: auto;
+                    max-height: 600px;
+                }
+                .popupBody-content-right{
+                    border: none;
+                    padding: 0;
+                }
+                .update-button{
+                    margin-top: 10px;
+                    margin-left: 90px;
+                }
+            }
+            @media (max-width:1450px) {
+                .tableFixHead{
+                    margin-top: 20px;
+                    max-width: 100%;
+                }
+                .search-filter-bar{
+                    max-height: 400px;
+                    justify-content: space-evenly;
+                    padding-top: 22px;
+                }
+                .input-group{
+                    flex-basis: 100%;
+                    max-width: 400px;
+                }
+
+            }
         </style>
     </head>
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
-        <c:set var="ListDE" value="${requestScope.ListDE}" />
+        <c:set var="ListE" value="${requestScope.ListE}" />
         <%@include file="Sidebar.jsp" %>
         <div id="content">
-            <div class="search-filter-bar">
-                <div class="input-group mb-3 search-bar">
-                    <span class="input-group-text" id="basic-addon1">Search...</span>
-                    <input 
-                        type="text" 
-                        class="form-control" 
-                        placeholder="Name" 
-                        aria-label="Name" 
-                        aria-describedby="basic-addon1"
-                        >
-                </div>
-                <div class="input-group mb-3 select-bar">
-                    <label class="input-group-text" for="inputGroupSelect01">Department</label>
-                    <select class="form-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">HR</option>
-                        <option value="2">Marketing</option>
-                        <option value="3">IT</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3 select-bar">
-                    <label class="input-group-text" for="inputGroupSelect01">Type</label>
-                    <select class="form-select" id="inputGroupSelect02">
-                        <option selected>Choose...</option>
-                        <option value="1">Part-Time</option>
-                        <option value="2">Full-Time</option>
-                        <option value="3">Intern</option>
+            <div>
+                <form action="FilterAJAXServlet" class="search-filter-bar" >
+                    <div class="input-group mb-3 search-bar">
+                        <span class="input-group-text" id="basic-addon1">Search...</span>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            placeholder="Name" 
+                            aria-label="Name" 
+                            aria-describedby="basic-addon1"
+                            name="txtSearchValue"
+                            >
+                    </div>
+                    <div class="input-group mb-3 select-bar">
+                        <label class="input-group-text" for="inputGroupSelect01">Department</label>
+                        <select class="form-select" id="inputGroupSelect01" name="txtDepartment">
+                            <option selected>Choose...</option>
+                            <option value="1">HR</option>
+                            <option value="2">Marketing</option>
+                            <option value="3">IT</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3 select-bar">
+                        <label class="input-group-text" for="inputGroupSelect01">Type</label>
+                        <select class="form-select" id="inputGroupSelect02" name="txtType">
+                            <option selected>Choose...</option>
+                            <option value="1">Part-Time</option>
+                            <option value="2">Full-Time</option>
+                            <option value="3">Intern</option>
 
-                    </select>
-                </div>
-                <div class="input-group mb-3 select-bar">
-                    <label class="input-group-text" for="inputGroupSelect01">Order</label>
-                    <select class="form-select" id="inputGroupSelect03">
-                        <option selected>Choose...</option>
-                        <option value="1">A -> Z</option>
-                        <option value="2">Z -> A</option>
-                    </select>
-                </div>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3 select-bar">
+                        <label class="input-group-text" for="inputGroupSelect01">Order</label>
+                        <select class="form-select" id="inputGroupSelect03" name="txtOrder">
+                            <option selected>Choose...</option>
+                            <option value="1">A -> Z</option>
+                            <option value="2">Z -> A</option>
+                        </select>
+                    </div>
+                </form>
             </div>
             <div class="container table-responsive tableFixHead">
                 <table class="table table-hover">
                     <thead>
                     <th>EmployeeID</th>
-                    <th>FirstName</th>
-                    <th>MiddleName</th>
                     <th>LastName</th>
+                    <th>MiddleName</th>
+                    <th>FirstName</th>
                     <th>Email</th>
                     </thead>
                     <tbody>
                         <c:forEach items="${List}" var="a">
+                        <div class="table-row-container">
                             <tr class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
                                 <td>${a.getEmployeeID()}</td>
-                                <td>${a.getFirstName()}</td>
-                                <td>${a.getMiddleName()}</td>
                                 <td>${a.getLastName()}</td>
+                                <td>${a.getMiddleName()}</td>
+                                <td>${a.getFirstName()}</td>
                                 <td>${a.getEmail()}</td>
                                 <td style="display: none">${a.getGender()}</td>
                                 <td style="display: none">${a.getBirthDate()}</td>
@@ -317,9 +381,14 @@
                                 <td style="display: none">${a.getStartDate()}</td>
                                 <td style="display: none">${a.getEndDate()}</td>
                             </tr>
-                        </c:forEach>
+                        </div>
+
+                    </c:forEach>
                     </tbody>
                 </table>
+            </div>
+            <div class="add-button">
+                <button>+ Add Employee ...</button>
             </div>
             <div id="popup" class="popup">
                 <div id="popupContent" class="popup-content">
@@ -339,9 +408,9 @@
                             employeeRows.forEach((row) => {
                                 row.addEventListener("click", function () {
                                     const id = row.getAttribute("data-employee-id");
-                                    const firstName = row.cells[1].innerText;
+                                    const firstName = row.cells[3].innerText;
                                     const middleName = row.cells[2].innerText;
-                                    const lastName = row.cells[3].innerText;
+                                    const lastName = row.cells[1].innerText;
                                     const email = row.cells[4].innerText;
                                     const gender = row.cells[5].innerText;
                                     const birthDate = row.cells[6].innerText;
@@ -367,23 +436,58 @@
                             const popupBody = document.getElementById("popupBody");
 //                            popupTitle.innerText = `EmployeeID : \${id}`;
                             popupBody.innerHTML = `<div class="popupBody-container">
-                                                        <h4 class="popupBody-title">Employee Information</h4>
+                                                        <h3 class="popupBody-title">Employee Information</h3>
                                                         <div class="popupBody-content">
                                                             <div class="popupBody-content-left">
-                                                                <h5>FullName: \${fullName}</h5>
-                                                                <h5>Gender: \${gender}</h5>
-                                                                <h5>Email: \${email}</h5>
-                                                                <h5>CCCD: \${cccd}</h5>
-                                                                <h5>Birth Day: \${birthDate}</h5>
-                                                                <h5>Phone Number: \${phoneNumber}</h5>
+                                                                <div class="content-items">
+                                                                    <label>Full Name:</label>
+                                                                    <input type="info" value="\${fullName}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Gender: </label>
+                                                                    <input type="info" value="\${gender}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Email: </label>
+                                                                    <input type="info" value="\${email}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>CCCD: </label>
+                                                                    <input type="info" value="\${cccd}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Phone: </label>
+                                                                    <input type="info" value="\${phoneNumber}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Birth Day: </label>
+                                                                    <input type="info" value="\${birthDate}" readonly>
+                                                                </div>
                                                                 <button class="btn-success update-button">Update</button>
                                                             </div>
+                                                            
+                                                            
                                                             <div class="popupBody-content-right">
-                                                                <h5>EmployeeType: Part-Time</h5>
-                                                                <h5>Department: Phong Tiep Thi</h5>
-                                                                <h5>Role: Department Manager</h5>
-                                                                <h5>Start Date: \${startDate}</h5>
-                                                                <h5>End Date: \${endDate}</h5>
+                                                                <div class="content-items">
+                                                                    <label>Type: </label>
+                                                                    <input type="info" value="\${employeeType}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Department: </label>
+                                                                    <input type="info" value="\${department}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Role: </label>
+                                                                    <input type="info" value="\${role}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>Start Date: </label>
+                                                                    <input type="info" value="\${startDate}" readonly>
+                                                                </div>
+                                                                <div class="content-items">
+                                                                    <label>End Date: </label>
+                                                                    <input type="info" value="\${endDate}" readonly>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                    </div> `;

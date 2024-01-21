@@ -49,6 +49,78 @@ public class EmployeeDAO extends DBContext {
         return EmployeeList;
     }
 
+    public ArrayList<EmployeeDTO> filterByAJAX(String searchvalue, int departmentID, int typeID, String order) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList<>();
+        if (connection != null) {
+            try {
+                String sql = "SELECT "
+                        + "   EmployeeID, "
+                        + "   FirstName, "
+                        + "   MiddleName, "
+                        + "   LastName, "
+                        + "   Password, "
+                        + "   Gender, "
+                        + "   Email, "
+                        + "   BirthDate, "
+                        + "   CCCD, "
+                        + "   StartDate, "
+                        + "   EndDate, "
+                        + "   isActive, "
+                        + "   PhoneNumber, "
+                        + "   Employees.DepartmentID AS EmployeeDepartmentID, "
+                        + "   RoleID, "
+                        + "   Employees.EmployeeTypeID AS TypeID, "
+                        + "   Departments.Name AS DepartmentName, "
+                        + "   EmployeeTypes.Name AS EmployeeTypeName "
+                        + "FROM Employees "
+                        + "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID "
+                        + "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID "
+                        + "WHERE "
+                        + "   (FirstName LIKE ? OR MiddleName LIKE ? OR LastName LIKE ? OR CCCD LIKE ? OR Email LIKE ?) "
+                        + "   AND Departments.DepartmentID = ? "
+                        + "   AND EmployeeTypes.EmployeeTypeID = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, "%" + searchvalue + "%");
+                stm.setString(2, "%" + searchvalue + "%");
+                stm.setString(3, "%" + searchvalue + "%");
+                stm.setString(4, "%" + searchvalue + "%");
+                stm.setString(5, "%" + searchvalue + "%");
+                stm.setInt(6, departmentID);
+                stm.setInt(7, typeID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    Date birthDate = rs.getDate("BirthDate");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("TypeID");
+                    int departID = rs.getInt("EmployeeDepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            } finally {
+            }
+
+        }
+        return list;
+    }
+
     public EmployeeDTO checkAccount(String Mail, String PassWord) {
         PreparedStatement stm = null;
         ResultSet rs = null;

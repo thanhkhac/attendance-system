@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class DepartmentDAO extends DBContext {
 
     public ArrayList<DepartmentDTO> getListDepartment() {
-        
+
         PreparedStatement stm = null;
         ResultSet rs = null;
         ArrayList<DepartmentDTO> list = new ArrayList<>();
