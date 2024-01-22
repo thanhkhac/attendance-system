@@ -140,7 +140,7 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 background: #fff;
-                padding: 20px;
+                /*padding: 20px;*/
                 border-radius: 5px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
                 display: flex;
@@ -349,8 +349,8 @@
                         <select class="form-select" 
                                 id="txtOrder">
                             <option value="0">Mặc Định</option>
-                            <option value="ASC">A -> Z</option>
-                            <option value="DESC">Z -> A</option>
+                            <option value="1">A -> Z</option>
+                            <option value="2">Z -> A</option>
                         </select>
                     </div>
                 </form>

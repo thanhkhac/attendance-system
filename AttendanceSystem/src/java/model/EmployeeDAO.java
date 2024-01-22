@@ -80,13 +80,41 @@ public class EmployeeDAO extends DBContext {
         return list;
     }
 
-    public ArrayList<EmployeeGeneral> filterByAJAX(String searchvalue, String departmentID, String typeID, String order) {
+    public ArrayList<EmployeeGeneral> filterByAJAX(String searchvalue, String departmentID_raw, String typeID_raw, String order_raw) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         ArrayList<EmployeeGeneral> list = new ArrayList<>();
+        String order = "";
+        String queryDepartmentID = " AND Departments.DepartmentID = ? ";
+        String queryTypeID = " AND EmployeeTypes.EmployeeTypeID = ? ";
+//        int departmentID = 0;
+        switch (order_raw) {
+            case "1": {
+                order = "ORDER BY FirstName ASC";
+                break;
+            }
+            case "2": {
+                order = "ORDER BY FirstName DESC";
+                break;
+            }
+            default: {
+                order = "";
+                break;
+            }
+        }
 
         if (connection != null) {
             try {
+                if (departmentID_raw.equals("0")) {
+                    queryDepartmentID = "";
+                } else {
+                    queryDepartmentID = " AND Departments.DepartmentID = " + departmentID_raw;
+                }
+                if (typeID_raw.equals("0")) {
+                    queryTypeID = "";
+                } else {
+                    queryTypeID = " AND EmployeeTypes.EmployeeTypeID = " + typeID_raw;
+                }
                 String sql = "SELECT "
                         + "   EmployeeID, "
                         + "   FirstName, "
@@ -113,15 +141,14 @@ public class EmployeeDAO extends DBContext {
                         + "JOIN Roles ON Employees.RoleID = Roles.RoleID "
                         + "WHERE "
                         + "   ( FirstName LIKE ? OR MiddleName LIKE ? OR LastName LIKE ? ) "
-                        + "   AND Departments.DepartmentID = ? "
-                        + "   AND EmployeeTypes.EmployeeTypeID = ? "
-                        + "ORDER BY FirstName " + order;
+                        + queryDepartmentID
+                        + queryTypeID
+                        + order;
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, "%" + searchvalue + "%");
                 stm.setString(2, "%" + searchvalue + "%");
                 stm.setString(3, "%" + searchvalue + "%");
-                stm.setInt(4, Integer.parseInt(departmentID));
-                stm.setInt(5, Integer.parseInt(typeID));
+
                 rs = stm.executeQuery();
                 while (rs.next()) {
                     int employeeID = rs.getInt("EmployeeID");
