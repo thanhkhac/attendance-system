@@ -149,11 +149,28 @@
                 background-color: #f27227;
                 padding: 15px 15px;
                 border-radius: 5px;
+                flex-direction: column;
+                display: flex;
+                /*justify-content: center;*/
+                align-items: center;
+
             }
             .popup-content-left img{
-                max-width: 100%;
-                /*                height: 80%;*/
+                max-width: 85%;
+                border-radius: 50%;
+                height: auto;
 
+            }
+            #popupInfo {
+                color: white;
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            #popupInfo h2{
+                margin-bottom: 40px;
+                border-bottom: 2px solid white;
             }
             .popup-content-right{
                 background-color: white;
@@ -267,16 +284,19 @@
                     flex-basis: 100%;
                 }
                 .popup-content{
-                    max-width: 100%;
+                    max-width: 90%;
+                    flex-direction: column;
+                    overflow-y: auto;
+                    max-height: 900px;
                 }
                 .popup-content-left{
-                    display: none;
+                    /*display: none;*/
                 }
                 .popupBody-content{
                     display: block;
                     flex-direction: column;
-                    overflow-y: auto;
-                    max-height: 600px;
+                    /*overflow-y: auto;*/
+/*                    max-height: 600px;*/
                 }
                 .popupBody-content-right{
                     border: none;
@@ -301,7 +321,6 @@
                     flex-basis: 100%;
                     max-width: 400px;
                 }
-
             }
         </style>
     </head>
@@ -399,6 +418,7 @@
                     <button class="btn-danger close" onclick="closePopup()">X</button>
                     <div id="popupPicture" class="popup-content-left col-lg-4">
                         <img src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="DefautPicture"/>
+                        <div id="popupInfo"></div>
                     </div>
                     <div id="popupBody"  class="popup-content-right col-lg-8"></div>
                 </div>
@@ -439,7 +459,11 @@
                             const popup = document.getElementById("popup");
                             const popupTitle = document.getElementById("popupTitle");
                             const popupBody = document.getElementById("popupBody");
-//                            popupTitle.innerText = `EmployeeID : \${id}`;
+                            const popupInfo = document.getElementById("popupInfo");
+                            popupInfo.innerHTML = `<h2>\${fullName}</h2>
+                                                   <h4>\${department}</h4>
+                                                   <h4>\${role}</h4>
+                                                   <h4>\${employeeType}</h4> `;
                             popupBody.innerHTML = `<div class="popupBody-container">
                                                         <h3 class="popupBody-title">Employee Information</h3>
                                                         <div class="popupBody-content">
@@ -551,11 +575,8 @@
                                     displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
                                 });
                             });
+                        }
 
-                        }
-                        function helli() {
-                            console.log("hi");
-                        }
         </script>
     </body>
 </html>

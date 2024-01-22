@@ -145,9 +145,9 @@ public class EmployeeDAO extends DBContext {
                         + queryTypeID
                         + order;
                 stm = connection.prepareStatement(sql);
-                stm.setString(1, "%" + searchvalue + "%");
-                stm.setString(2, "%" + searchvalue + "%");
-                stm.setString(3, "%" + searchvalue + "%");
+                stm.setNString(1, "%" + searchvalue + "%");
+                stm.setNString(2, "%" + searchvalue + "%");
+                stm.setNString(3, "%" + searchvalue + "%");
 
                 rs = stm.executeQuery();
                 while (rs.next()) {
