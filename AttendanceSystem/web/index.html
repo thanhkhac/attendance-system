@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html>
 
@@ -22,11 +23,15 @@
             <a href="Recovery_PW_Page.jsp">recovery page</a> <br />
 
             <a href="ViewAllEmployeeServlet">ViewAllEmplyeeServlet</a> <br>
-            <a href="ViewCalendarServlet">ViewCalendarServlet</a><br>
+            <a href="view-workschedule.jsp">view-workschedule.jsp</a><br>
+
             <a href="Recovery_PW_Page.jsp">recovery page</a> <br>
+            <form action="DispatchController">
+                <select name="department">
+                    <option value="1">Phòng nhân sự</option>
+                    <option value="2">Phòng tiếp thị</option>
+                </select>
+                <input type="submit" name="btAction" value="viewListByDepartment">
+            </form>
 
         </div>
-
-    </body>
-</html>
-

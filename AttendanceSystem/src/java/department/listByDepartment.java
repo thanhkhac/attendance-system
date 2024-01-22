@@ -2,7 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+
+package department;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,60 +12,56 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import model.*;
+import model.EmployeeDAO;
+import model.EmployeeDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name = "Controller", urlPatterns = {"/DispatchController"})
-public class DispatchController extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="listByDepartment", urlPatterns={"/listByDepartment"})
+public class listByDepartment extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String button = request.getParameter("btAction");
-        String URL = "";
+        String sttPhong = request.getParameter("department");
+        String listOfPage = request.getParameter("listOfPage");
+        int page = 1;
+        if(listOfPage!=null){
+            page = Integer.parseInt(listOfPage);
+        }
+        request.setAttribute("PHONG", sttPhong);
+        int phong = Integer.parseInt(sttPhong);
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-        try {
-            if (button.equals("Login")) {
-                URL = "checkLogin";
-            } else if (button.equals("UpdateProfile")) {
-                URL = "updateProfileByEmployee";
-            } else if (button.equals("Send")) {
-                URL = "MailServlet";
-            } else if (button.equals("Submit")) {
-                URL = "MailServlet";
-            } else if (button.equals("Save change")) {
-                URL = "ChangePasswordServlet";
-            } else if (button.equals("ViewEmployee")) {
-                URL = "ViewAllEmployee.jsp";
-            }
-            else if(button.equals("viewListByDepartment")){
-            URL = "listByDepartment";
-        }
-        } finally {
-            request.setAttribute("List", list);
-            request.getRequestDispatcher(URL).forward(request, response);
-        }
-    }
+        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, "");
+        String position = "Phòng nhân sự";
+        if(phong==2) position = "Phòng tiếp thị";
+        request.setAttribute("LIST", list);
+        request.setAttribute("POSITION", position);       
+        int count = dao.getTotalEmployeeByDepartment(phong,"");
+        int endPage = 0;
+        if(count%2==0)
+            endPage = count/2;
+        else {endPage = count/2 +1;}
+
+        request.setAttribute("ENDPAGE", endPage);    
+        request.getRequestDispatcher("viewEmployeesByManager.jsp").forward(request, response);
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -72,13 +69,12 @@ public class DispatchController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -86,13 +82,12 @@ public class DispatchController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override
