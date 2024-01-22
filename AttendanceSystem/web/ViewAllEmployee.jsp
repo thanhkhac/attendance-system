@@ -308,11 +308,12 @@
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
-        <c:set var="ListE" value="${requestScope.ListE}" />
         <%@include file="Sidebar.jsp" %>
         <div id="content">
             <div>
-                <form action="FilterAJAXServlet" class="search-filter-bar" >
+                <form class="search-filter-bar" 
+                      onchange="searchByChange(event)"
+                      oninput="searchByChange(event)">
                     <div class="input-group mb-3 search-bar">
                         <span class="input-group-text" id="basic-addon1">Search...</span>
                         <input 
@@ -321,40 +322,41 @@
                             placeholder="Name" 
                             aria-label="Name" 
                             aria-describedby="basic-addon1"
-                            name="txtSearchValue"
+                            id="txtSearchValue"
                             >
                     </div>
                     <div class="input-group mb-3 select-bar">
                         <label class="input-group-text" for="inputGroupSelect01">Department</label>
-                        <select class="form-select" id="inputGroupSelect01" name="txtDepartment">
-                            <option selected>Choose...</option>
+                        <select class="form-select" 
+                                id="txtDepartment">
+                            <option value="0">Mặc Định</option>
                             <option value="1">HR</option>
                             <option value="2">Marketing</option>
-                            <option value="3">IT</option>
                         </select>
                     </div>
                     <div class="input-group mb-3 select-bar">
                         <label class="input-group-text" for="inputGroupSelect01">Type</label>
-                        <select class="form-select" id="inputGroupSelect02" name="txtType">
-                            <option selected>Choose...</option>
+                        <select class="form-select" 
+                                id="txtType">
+                            <option value="0">Mặc Định</option>
                             <option value="1">Part-Time</option>
                             <option value="2">Full-Time</option>
                             <option value="3">Intern</option>
-
                         </select>
                     </div>
                     <div class="input-group mb-3 select-bar">
                         <label class="input-group-text" for="inputGroupSelect01">Order</label>
-                        <select class="form-select" id="inputGroupSelect03" name="txtOrder">
-                            <option selected>Choose...</option>
-                            <option value="1">A -> Z</option>
-                            <option value="2">Z -> A</option>
+                        <select class="form-select" 
+                                id="txtOrder">
+                            <option value="0">Mặc Định</option>
+                            <option value="ASC">A -> Z</option>
+                            <option value="DESC">Z -> A</option>
                         </select>
                     </div>
                 </form>
             </div>
-            <div class="container table-responsive tableFixHead">
-                <table class="table table-hover">
+            <div class="container table-responsive tableFixHead" >
+                <table class="table table-hover" id="table-container">
                     <thead>
                     <th>EmployeeID</th>
                     <th>LastName</th>
@@ -362,33 +364,35 @@
                     <th>FirstName</th>
                     <th>Email</th>
                     </thead>
-                    <tbody>
+                    <tbody >
+                    <div id="list-content" >
                         <c:forEach items="${List}" var="a">
-                        <div class="table-row-container">
-                            <tr class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
-                                <td>${a.getEmployeeID()}</td>
-                                <td>${a.getLastName()}</td>
-                                <td>${a.getMiddleName()}</td>
-                                <td>${a.getFirstName()}</td>
-                                <td>${a.getEmail()}</td>
-                                <td style="display: none">${a.getGender()}</td>
-                                <td style="display: none">${a.getBirthDate()}</td>
-                                <td style="display: none">${a.getCccd()}</td>
-                                <td style="display: none">${a.getPhoneNumber()}</td>
-                                <td style="display: none">${a.getEmployeeTypeID()}</td>
-                                <td style="display: none">${a.getDepartmentID()}</td>
-                                <td style="display: none">${a.getRoleID()}</td>
-                                <td style="display: none">${a.getStartDate()}</td>
-                                <td style="display: none">${a.getEndDate()}</td>
-                            </tr>
-                        </div>
-
-                    </c:forEach>
+                            <div class="table-row-container">
+                                <tr onclick="check()" class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
+                                    <td>${a.getEmployeeID()}</td>
+                                    <td>${a.getLastName()}</td>
+                                    <td>${a.getMiddleName()}</td>
+                                    <td>${a.getFirstName()}</td>
+                                    <td>${a.getEmail()}</td>
+                                    <td style="display: none">${a.getGender()}</td>
+                                    <td style="display: none">${a.getBirthDate()}</td>
+                                    <td style="display: none">${a.getCccd()}</td>
+                                    <td style="display: none">${a.getPhoneNumber()}</td>
+                                    <td style="display: none">${a.getEmployeeTypeName()}</td>
+                                    <td style="display: none">${a.getDepartmentName()}</td>
+                                    <td style="display: none">${a.getRoleName()}</td>
+                                    <td style="display: none">${a.getStartDate()}</td>
+                                    <td style="display: none">${a.getEndDate()}</td>
+                                </tr>
+                            </div>
+                        </c:forEach>
+                    </div>
                     </tbody>
                 </table>
             </div>
+
             <div class="add-button">
-                <button>+ Add Employee ...</button>
+                <button >+ Add Employee ...</button>
             </div>
             <div id="popup" class="popup">
                 <div id="popupContent" class="popup-content">
@@ -403,6 +407,9 @@
 
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script>
+                        function check() {
+                            console.log("hi");
+                        }
                         document.addEventListener("DOMContentLoaded", function () {
                             const employeeRows = document.querySelectorAll(".employeeRow");
                             employeeRows.forEach((row) => {
@@ -425,8 +432,6 @@
                                     displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
                                 });
                             });
-
-
                         });
                         function displayPopup(id, firstName, middleName,
                                 lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate) {
@@ -497,6 +502,59 @@
                         function closePopup() {
                             const popup = document.getElementById("popup");
                             popup.style.display = "none";
+                        }
+                        function searchByChange(event) {
+                            event.preventDefault();
+                            var txt_Search = document.getElementById("txtSearchValue").value;
+                            var txt_Department = document.getElementById("txtDepartment").value;
+                            var txt_Type = document.getElementById("txtType").value;
+                            var txt_Order = document.getElementById("txtOrder").value;
+                            console.log("Value: " + txt_Search + ", " + txt_Department + ", " + txt_Type + ", " + txt_Order);
+                            $.ajax({
+                                url: "/AttendanceSystem/ViewAllEmployeeServlet",
+                                type: "get", //send it through get method
+                                data: {
+                                    txtSearchValue: txt_Search,
+                                    txtDepartment: txt_Department,
+                                    txtType: txt_Type,
+                                    txtOrder: txt_Order
+                                },
+                                success: function (data) {
+                                    var tbody = document.getElementById("table-container");
+                                    tbody.innerHTML = data;
+                                    console.log("Success ! ");
+                                    initializePopup();
+                                },
+                                error: function (xhr, error) {
+                                    console.log("Error: ", error);
+                                }
+                            });
+                        }
+                        function initializePopup() {
+                            document.querySelectorAll('#table-container tr').forEach(function (row) {
+                                row.addEventListener('click', function () {
+                                    const id = row.getAttribute("data-employee-id");
+                                    const firstName = row.cells[3].innerText;
+                                    const middleName = row.cells[2].innerText;
+                                    const lastName = row.cells[1].innerText;
+                                    const email = row.cells[4].innerText;
+                                    const gender = row.cells[5].innerText;
+                                    const birthDate = row.cells[6].innerText;
+                                    const cccd = row.cells[7].innerText;
+                                    const phoneNumber = row.cells[8].innerText;
+                                    const employeeType = row.cells[9].innerText;
+                                    const department = row.cells[10].innerText;
+                                    const role = row.cells[11].innerText;
+                                    const startDate = row.cells[12].innerText;
+                                    const endDate = row.cells[13].innerText;
+
+                                    displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
+                                });
+                            });
+
+                        }
+                        function helli() {
+                            console.log("hi");
                         }
         </script>
     </body>
