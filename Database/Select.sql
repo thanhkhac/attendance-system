@@ -3,6 +3,7 @@ SELECT * FROM Employees
 SELECT * FROM Departments
 SELECT * FROM [Application]
 SELECT * FROM [Application]
+SELECT * FROM EmployeeTypes
 --VIEW Deparment Manager
 SELECT DE.DepartmentID, DE.ManagerID, EM.FirstName , EM.MiddleName, EM.LastName
 FROM 
@@ -45,15 +46,17 @@ SELECT  EmployeeID,
         StartDate, 
         EndDate, 
         isActive, 
-        PhoneNumber, 
+        PhoneNumber,
+		Roles.
         Employees.DepartmentID AS EmployeeDepartmentID, 
-        RoleID, 
+        Employees.RoleID, 
         Employees.EmployeeTypeID AS TypeID, 
         Departments.Name AS DepartmentName, 
         EmployeeTypes.Name AS EmployeeTypeName 
     FROM Employees
     JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID 
     JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID 
+	JOIN [Roles] ON Employees.RoleID = Roles.RoleID
     WHERE 
         (FirstName LIKE '%a%' 
 		OR MiddleName LIKE '%a%' 

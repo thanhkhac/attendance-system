@@ -11,6 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.*;
 
 /**
  *
@@ -34,6 +36,8 @@ public class DispatchController extends HttpServlet {
         PrintWriter out = response.getWriter();
         String button = request.getParameter("btAction");
         String URL = "";
+        EmployeeDAO dao = new EmployeeDAO();
+        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
         try {
             if (button.equals("Login")) {
                 URL = "checkLogin";
@@ -45,12 +49,14 @@ public class DispatchController extends HttpServlet {
                 URL = "MailServlet";
             } else if (button.equals("Save change")) {
                 URL = "ChangePasswordServlet";
+            } else if (button.equals("ViewEmployee")) {
+                URL = "ViewAllEmployee.jsp";
             }
             else if(button.equals("viewListByDepartment")){
             URL = "listByDepartment";
         }
         } finally {
-
+            request.setAttribute("List", list);
             request.getRequestDispatcher(URL).forward(request, response);
         }
     }
