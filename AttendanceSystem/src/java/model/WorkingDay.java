@@ -10,14 +10,20 @@ public class WorkingDay {
     public LeaveDTO leave;
     public OvertimeDTO overtime;
     public ShiftDTO shift;
+    public EmployeeDTO leaveResponed;
 
     public WorkingDay(LocalDate date, int employeeID) {
         this.date = date;
         this.employeeID = employeeID;
         timesheet = new TimesheetDAO().getTimesheetByDate(employeeID, date);
-        leave = (timesheet == null) ? null : new LeaveDAO().getLeaveDTO(timesheet.getTimesheetID());
+        leave = (timesheet == null) ? null : new LeaveDAO().getApprovedLeaveDTO(timesheet.getTimesheetID());
         overtime = new OvertimeDAO().getOverTimeDTO(date, employeeID);
         shift = (timesheet == null) ? null : new ShiftDAO().getShiftDTO(timesheet.getShiftID());
+        leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getResponedBy());
+    }
+
+    public EmployeeDTO getLeaveResponed() {
+        return leaveResponed;
     }
 
     public int getEmployeeID() {

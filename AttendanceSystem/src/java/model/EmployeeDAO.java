@@ -49,6 +49,44 @@ public class EmployeeDAO extends DBContext {
         return EmployeeList;
     }
 
+    public EmployeeDTO getEmployeeDTO(int xEmployeeID) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = " SELECT * FROM Employees " +
+                        " WHERE employeeID = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, xEmployeeID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    Date birthDate = rs.getDate("BirthDate");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    return e;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
     public ArrayList<EmployeeDTO> filterByAJAX(String searchvalue, int departmentID, int typeID, String order) {
         PreparedStatement stm = null;
         ResultSet rs = null;
