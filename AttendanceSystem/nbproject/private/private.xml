@@ -17,5 +17,11 @@
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/ViewAllEmployee.jsp</file>
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/assets/schedule.css</file>
         </group>
+        <group name="java_web">
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/department/searchEmployeeByAjax.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/index.html</file>
+        </group>
     </open-files>
 </project-private>
