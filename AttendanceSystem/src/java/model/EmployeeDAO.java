@@ -83,10 +83,9 @@ public class EmployeeDAO extends DBContext {
     public EmployeeDTO getEmployeeDTO(int xEmployeeID) {
         PreparedStatement stm = null;
         ResultSet rs = null;
-        ArrayList<EmployeeGeneral> list = new ArrayList();
         if (connection != null) {
             try {
-                String sql = "String sql = \"SELECT * FROM Employees where employeeID = ?";
+                String sql = "SELECT * FROM Employees where employeeID = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, xEmployeeID);
                 rs = stm.executeQuery();
@@ -529,8 +528,10 @@ public class EmployeeDAO extends DBContext {
 
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
-
-        System.out.println(dao.getEmail("duong@gmail.com"));
+        System.out.println("getEmployeeDTO");
+        System.out.println(dao.getEmployeeDTO(1));
+//        System.out.println(dao.getEmail("duong@gmail.com"));
+        
     }
 
 }
