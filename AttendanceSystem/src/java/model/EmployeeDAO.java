@@ -18,30 +18,30 @@ public class EmployeeDAO extends DBContext {
         ArrayList<EmployeeGeneral> list = new ArrayList();
         if (connection != null) {
             try {
-                String sql = "SELECT "
-                        + "   EmployeeID, "
-                        + "   FirstName, "
-                        + "   MiddleName, "
-                        + "   LastName, "
-                        + "   Password, "
-                        + "   Gender, "
-                        + "   Email, "
-                        + "   BirthDate, "
-                        + "   CCCD, "
-                        + "   StartDate, "
-                        + "   EndDate, "
-                        + "   isActive, "
-                        + "   PhoneNumber, "
-                        + "   Employees.DepartmentID AS EmployeeDepartmentID, "
-                        + "   Employees.RoleID, "
-                        + "   Roles.Name AS RoleName, "
-                        + "   Employees.EmployeeTypeID AS TypeID, "
-                        + "   Departments.Name AS DepartmentName, "
-                        + "   EmployeeTypes.Name AS EmployeeTypeName "
-                        + "FROM Employees "
-                        + "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID "
-                        + "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID "
-                        + "JOIN Roles ON Employees.RoleID = Roles.RoleID ";
+                String sql = "SELECT " +
+                        "   EmployeeID, " +
+                        "   FirstName, " +
+                        "   MiddleName, " +
+                        "   LastName, " +
+                        "   Password, " +
+                        "   Gender, " +
+                        "   Email, " +
+                        "   BirthDate, " +
+                        "   CCCD, " +
+                        "   StartDate, " +
+                        "   EndDate, " +
+                        "   isActive, " +
+                        "   PhoneNumber, " +
+                        "   Employees.DepartmentID AS EmployeeDepartmentID, " +
+                        "   Employees.RoleID, " +
+                        "   Roles.Name AS RoleName, " +
+                        "   Employees.EmployeeTypeID AS TypeID, " +
+                        "   Departments.Name AS DepartmentName, " +
+                        "   EmployeeTypes.Name AS EmployeeTypeName " +
+                        "FROM Employees " +
+                        "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID " +
+                        "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID " +
+                        "JOIN Roles ON Employees.RoleID = Roles.RoleID ";
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -80,6 +80,45 @@ public class EmployeeDAO extends DBContext {
         return list;
     }
 
+    public EmployeeDTO getEmployeeDTO(int xEmployeeID) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeGeneral> list = new ArrayList();
+        if (connection != null) {
+            try {
+                String sql = "String sql = \"SELECT * FROM Employees where employeeID = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, xEmployeeID);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
+                    String firstName = rs.getString("FirstName");
+                    String middleName = rs.getString("MiddleName");
+                    String lastName = rs.getString("LastName");
+                    boolean gender = rs.getBoolean("Gender");
+                    Date birthDate = rs.getDate("BirthDate");
+                    String email = rs.getString("Email");
+                    String password = rs.getString("Password");
+                    String cccd = rs.getString("CCCD");
+                    String phoneNumber = rs.getString("PhoneNumber");
+                    int employeeTypeID = rs.getInt("EmployeeTypeID");
+                    int departmentID = rs.getInt("DepartmentID");
+                    int roleID = rs.getInt("RoleID");
+                    Date startDate = rs.getDate("StartDate");
+                    Date endDate = rs.getDate("EndDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                   
+                    return e;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
     public ArrayList<EmployeeGeneral> filterByAJAX(String searchvalue, String departmentID_raw, String typeID_raw, String order_raw) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -115,35 +154,35 @@ public class EmployeeDAO extends DBContext {
                 } else {
                     queryTypeID = " AND EmployeeTypes.EmployeeTypeID = " + typeID_raw;
                 }
-                String sql = "SELECT "
-                        + "   EmployeeID, "
-                        + "   FirstName, "
-                        + "   MiddleName, "
-                        + "   LastName, "
-                        + "   Password, "
-                        + "   Gender, "
-                        + "   Email, "
-                        + "   BirthDate, "
-                        + "   CCCD, "
-                        + "   StartDate, "
-                        + "   EndDate, "
-                        + "   isActive, "
-                        + "   PhoneNumber, "
-                        + "   Employees.DepartmentID AS EmployeeDepartmentID, "
-                        + "   Employees.RoleID, "
-                        + "   Roles.Name AS RoleName, "
-                        + "   Employees.EmployeeTypeID AS TypeID, "
-                        + "   Departments.Name AS DepartmentName, "
-                        + "   EmployeeTypes.Name AS EmployeeTypeName "
-                        + "FROM Employees "
-                        + "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID "
-                        + "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID "
-                        + "JOIN Roles ON Employees.RoleID = Roles.RoleID "
-                        + "WHERE "
-                        + "   ( FirstName LIKE ? OR MiddleName LIKE ? OR LastName LIKE ? ) "
-                        + queryDepartmentID
-                        + queryTypeID
-                        + order;
+                String sql = "SELECT " +
+                        "   EmployeeID, " +
+                        "   FirstName, " +
+                        "   MiddleName, " +
+                        "   LastName, " +
+                        "   Password, " +
+                        "   Gender, " +
+                        "   Email, " +
+                        "   BirthDate, " +
+                        "   CCCD, " +
+                        "   StartDate, " +
+                        "   EndDate, " +
+                        "   isActive, " +
+                        "   PhoneNumber, " +
+                        "   Employees.DepartmentID AS EmployeeDepartmentID, " +
+                        "   Employees.RoleID, " +
+                        "   Roles.Name AS RoleName, " +
+                        "   Employees.EmployeeTypeID AS TypeID, " +
+                        "   Departments.Name AS DepartmentName, " +
+                        "   EmployeeTypes.Name AS EmployeeTypeName " +
+                        "FROM Employees " +
+                        "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID " +
+                        "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID " +
+                        "JOIN Roles ON Employees.RoleID = Roles.RoleID " +
+                        "WHERE " +
+                        "   ( FirstName LIKE ? OR MiddleName LIKE ? OR LastName LIKE ? ) " +
+                        queryDepartmentID +
+                        queryTypeID +
+                        order;
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, "%" + searchvalue + "%");
                 stm.setNString(2, "%" + searchvalue + "%");
@@ -275,9 +314,9 @@ public class EmployeeDAO extends DBContext {
         String set_email = "";
         if (connection != null) {
             try {
-                String sql = "SELECT Email \n"
-                        + "FROM Employees\n"
-                        + "WHERE Email = ?";
+                String sql = "SELECT Email \n" +
+                        "FROM Employees\n" +
+                        "WHERE Email = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();
@@ -299,9 +338,9 @@ public class EmployeeDAO extends DBContext {
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "UPDATE Employees\n"
-                        + "SET Password = ?\n"
-                        + "WHERE Email = ?";
+                String sql = "UPDATE Employees\n" +
+                        "SET Password = ?\n" +
+                        "WHERE Email = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, password);
                 stm.setString(2, email);
@@ -322,10 +361,10 @@ public class EmployeeDAO extends DBContext {
 
         if (connection != null) {
             try {
-                String sql = "update Employees\n"
-                        + "set PhoneNumber = ? , "
-                        + "Gender = ? "
-                        + "where Email = ?";
+                String sql = "update Employees\n" +
+                        "set PhoneNumber = ? , " +
+                        "Gender = ? " +
+                        "where Email = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, Phone);
                 stm.setInt(2, Gender);
@@ -340,19 +379,19 @@ public class EmployeeDAO extends DBContext {
         }
         return false;
     }
-    
+
     public ArrayList<EmployeeDTO> getEmployeeByDepartment(int phong) {
         ArrayList<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "select * from Employees \n"
-                        + " where DepartmentID = ?";
+                String sql = "select * from Employees \n" +
+                        " where DepartmentID = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, phong);
                 rs = stm.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     int employeeID = rs.getInt("EmployeeID");
                     String firstName = rs.getString("FirstName");
                     String middleName = rs.getString("MiddleName");
@@ -378,7 +417,7 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
-    
+
     public ArrayList<EmployeeDTO> SearchEmployeeByName(String Name) {
         ArrayList<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
         PreparedStatement stm = null;
@@ -386,13 +425,13 @@ public class EmployeeDAO extends DBContext {
         if (connection != null) {
             try {
                 String sql = "select * from Employees\n" +
-" where LastName like ? or FirstName like ? or MiddleName like ?";
+                        " where LastName like ? or FirstName like ? or MiddleName like ?";
                 stm = connection.prepareStatement(sql);
-                stm.setString(1, "%" + Name +"%");
-                stm.setString(2, "%" + Name +"%");
-                stm.setString(3, "%" + Name +"%");
+                stm.setString(1, "%" + Name + "%");
+                stm.setString(2, "%" + Name + "%");
+                stm.setString(3, "%" + Name + "%");
                 rs = stm.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     int employeeID = rs.getInt("EmployeeID");
                     String firstName = rs.getString("FirstName");
                     String middleName = rs.getString("MiddleName");
@@ -418,50 +457,50 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
-    public int getTotalEmployeeByDepartment(int phong,String search){
-         int count =0 ;
-         PreparedStatement stm = null;
-         ResultSet rs = null;
-         if(connection != null){
-             try{
-                 String sql = "select count(*) as dem from Employees where DepartmentID = ? and (LastName like ? or FirstName like ? or MiddleName like ?) ";
-                 stm = connection.prepareStatement(sql);
-                 stm.setInt(1, phong);
-                 stm.setString(2, "%"+search+"%");
-                 stm.setString(3, "%"+search+"%");
-                 stm.setString(4, "%"+search+"%");
-                 rs = stm.executeQuery();
-                 if(rs.next()){
-                     count = rs.getInt("dem");
-                 }
-             }catch(Exception e){
-                  e.printStackTrace();
+
+    public int getTotalEmployeeByDepartment(int phong, String search) {
+        int count = 0;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "select count(*) as dem from Employees where DepartmentID = ? and (LastName like ? or FirstName like ? or MiddleName like ?) ";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, phong);
+                stm.setString(2, "%" + search + "%");
+                stm.setString(3, "%" + search + "%");
+                stm.setString(4, "%" + search + "%");
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    count = rs.getInt("dem");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println(e.getMessage());
-             }
-         }
+            }
+        }
         return count;
     }
 
-    
-    public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a,int phong,String name){
+    public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a, int phong, String name) {
         ArrayList<EmployeeDTO> list = new ArrayList();
         PreparedStatement stm = null;
-         ResultSet rs = null;
-         if(connection != null){
-             try{
-                 String sql = "select * from Employees\n" +
-"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?)\n" +
-"Order by EmployeeID\n" +
-"Offset ? rows fetch next 2 rows only";
-                 stm = connection.prepareStatement(sql);
-                 stm.setInt(1, phong);
-                 stm.setString(2, "%"+name+"%");
-                 stm.setString(3, "%"+name+"%");
-                 stm.setString(4, "%"+name+"%");
-                 stm.setInt(5, (a-1)*2);
-                 rs = stm.executeQuery();
-                 while(rs.next()){
-                     int employeeID = rs.getInt("EmployeeID");
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "select * from Employees\n" +
+                        "where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?)\n" +
+                        "Order by EmployeeID\n" +
+                        "Offset ? rows fetch next 2 rows only";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, phong);
+                stm.setString(2, "%" + name + "%");
+                stm.setString(3, "%" + name + "%");
+                stm.setString(4, "%" + name + "%");
+                stm.setInt(5, (a - 1) * 2);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeID = rs.getInt("EmployeeID");
                     String firstName = rs.getString("FirstName");
                     String middleName = rs.getString("MiddleName");
                     String lastName = rs.getString("LastName");
@@ -478,13 +517,13 @@ public class EmployeeDAO extends DBContext {
                     boolean isActived = rs.getBoolean("isActive");
                     EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, startDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
                     list.add(e);
-                 }
-             }catch(Exception e){
-                 e.printStackTrace();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println(e.getMessage());
-             }
-         }
-        
+            }
+        }
+
         return list;
     }
 

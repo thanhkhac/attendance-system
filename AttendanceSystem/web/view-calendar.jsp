@@ -293,7 +293,7 @@
                                                     </div>
                                                 </div>
                                             </c:when>
-                                            <c:when test = "${wkday.date > today}">
+                                            <c:when test = "${wkday.date >= today}">
                                                 <div class="shift notyet text-center">
                                                     <div class="shift__title">
                                                         ${wkday.shift.name}
