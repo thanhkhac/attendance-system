@@ -3,6 +3,11 @@
 ## Introduction
 Attendance System is a comprehensive web application designed to streamline the management of employees, their working hours, leaves, and overtime.
 
+## User
+1. **Employee**
+2. **HR**
+3. **Department Manager**
+
 ## Features
 
 1. **Employee Management:**
