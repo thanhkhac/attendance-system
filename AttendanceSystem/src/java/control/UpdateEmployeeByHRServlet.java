@@ -11,15 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.*;
 
 /**
  *
- * @author Admin
+ * @author admin
  */
-@WebServlet(name = "Controller", urlPatterns = {"/DispatchController"})
-public class DispatchController extends HttpServlet {
+@WebServlet(name = "UpdateEmployeeByHRServlet", urlPatterns = {"/UpdateEmployeeByHRServlet"})
+public class UpdateEmployeeByHRServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,33 +31,21 @@ public class DispatchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String button = request.getParameter("btAction");
-        String URL = "";
-        EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-        try {
-            if (button.equals("Login")) {
-                URL = "checkLogin";
-            } else if (button.equals("UpdateProfile")) {
-                URL = "updateProfileByEmployee";
-            } else if (button.equals("Send")) {
-                URL = "MailServlet";
-            } else if (button.equals("Submit")) {
-                URL = "MailServlet";
-            } else if (button.equals("Save change")) {
-                URL = "ChangePasswordServlet";
-            } else if (button.equals("ViewEmployee")) {
-                URL = "ViewAllEmployee.jsp";
-            } else if (button.equals("Update")) {
-                URL = "GetEmployeeInfoByHRServlet";
-            } else if (button.equals("Lưu Thay Đổi")) {
-                URL = "UpdateEmployeeByHRServlet";
-            }
-        } finally {
-            request.setAttribute("List", list);
-            request.getRequestDispatcher(URL).forward(request, response);
-        }
+        String txt_firstName = request.getParameter("txt_firstName");
+        String txt_middleName = request.getParameter("txt_middleName");
+        String txt_lastName = request.getParameter("txt_lastName");
+        String txt_gender = request.getParameter("txt_gender");;
+        String txt_cccd = request.getParameter("txt_cccd");
+        String txt_email = request.getParameter("txt_email");
+        String txt_password = request.getParameter("txt_password");
+        String txt_phoneNumber = request.getParameter("txt_phoneNumber");
+        String txt_birthday = request.getParameter("txt_birthday");
+        String txt_departmentID = request.getParameter("txt_departmentID");
+        String txt_typeID = request.getParameter("txt_typeID");
+        String txt_roleID = request.getParameter("txt_roleID");
+        String txt_employeeID = request.getParameter("txt_employeeID");
+        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

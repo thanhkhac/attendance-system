@@ -6,7 +6,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-              <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
         <!--
                 link js drop down
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,7 +18,7 @@
         <style>
 
             body {
-                font-family: "Arial", sans-serif;
+                /*font-family: 'Arial', sans-serif !important;*/
                 margin: 0;
                 padding: 0;
             }
@@ -229,15 +229,13 @@
                 font-size: 18px;
                 border-radius: 5px;
             }
-            .update-button{
-                padding-bottom: 10px;
-                border-radius: 5px;
+            .update-buttton{
                 width: 150px;
                 height: 38px;
-                font-size: 20px;
                 margin-top: 43px;
                 margin-left: 70px;
             }
+            
             .add-button{
                 margin-top: 20px;
             }
@@ -492,7 +490,10 @@
                                                                     <label>Birth Day: </label>
                                                                     <input type="info" value="\${birthDate}" readonly>
                                                                 </div>
-                                                                <button class="btn-success update-button">Update</button>
+                                                                <form action="DispatchController" method = "Post">
+                                                                    <input type="hidden" name="EmployeeID" value="\${id}">
+                                                                    <input type="submit" name="btAction" value="Update" class ="btn btn-success update-buttton">
+                                                                <form>
                                                             </div>
                                                             
                                                             

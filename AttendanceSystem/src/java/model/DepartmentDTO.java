@@ -2,25 +2,25 @@ package model;
 
 public class DepartmentDTO {
 
-    private int department;
+    private int departmentID;
     private String name;
     private int managerID;
 
     public DepartmentDTO() {
     }
 
-    public DepartmentDTO(int department, String name, int managerID) {
-        this.department = department;
+    public DepartmentDTO(int departmentID, String name, int managerID) {
+        this.departmentID = departmentID;
         this.name = name;
         this.managerID = managerID;
     }
 
-    public int getDepartment() {
-        return department;
+    public int getDepartmentID() {
+        return departmentID;
     }
 
-    public void setDepartment(int department) {
-        this.department = department;
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
     }
 
     public String getName() {
@@ -39,4 +39,5 @@ public class DepartmentDTO {
         this.managerID = managerID;
     }
 
+    
 }

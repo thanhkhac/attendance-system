@@ -26,10 +26,10 @@ public class DepartmentDAO extends DBContext {
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    int department = rs.getInt("DepartmentID");
+                    int departmentID = rs.getInt("DepartmentID");
                     String name = rs.getString("Name");
                     int managerID = rs.getInt("ManagerID");
-                    DepartmentDTO de = new DepartmentDTO(department, name, managerID);
+                    DepartmentDTO de = new DepartmentDTO(departmentID, name, managerID);
                     list.add(de);
                 }
             } catch (Exception e) {

@@ -19,7 +19,7 @@ public class WorkingDay {
         leave = (timesheet == null) ? null : new LeaveDAO().getApprovedLeaveDTO(timesheet.getTimesheetID());
         overtime = new OvertimeDAO().getOverTimeDTO(date, employeeID);
         shift = (timesheet == null) ? null : new ShiftDAO().getShiftDTO(timesheet.getShiftID());
-        leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getResponedBy());
+        //leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getResponedBy());
     }
 
     public EmployeeDTO getLeaveResponed() {
