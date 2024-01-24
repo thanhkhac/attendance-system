@@ -156,7 +156,17 @@
                     String msg = (String) request.getAttribute("MSG");
                     if(msg != null){
                 %>
-                <p style="color: red"><%=msg%></p>
+                <div class="row">
+
+                    <div class="col-md-1">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div class="col-md-11">
+                        <p style="color: red"><%=msg%></p>
+                    </div>
+
+                </div>
                 <%
                     }
                 %>

@@ -146,12 +146,12 @@
                 <div>
                     <p class="text-muted" style="text-align: center; color: #adb5bd !important ">Enter your email address and we'll send you an OTP to reset your password</p>
                 </div>
-                
+
                 <div class="form-input">
                     <!--<label for="username">Email Address</label>-->
                     <input class="inp" type="text" name="txtMail" value="<%=mail%>" placeholder="Email address">
                 </div>
-                
+
                 <div class="captcha">
                     <!--<label for="captcha-input">OTP</label>-->
                     <div class="captcha-form">
@@ -166,11 +166,20 @@
                 String msg = (String) request.getAttribute("MSG");
                     if(msg != null){
                 %>
-                <p style="color: red"><%=msg%></p>
+                <div class="row">
+
+                    <div class="col-md-1">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div class="col-md-11">
+                        <p style="color: red"><%=msg%></p>
+                    </div>
+
+                </div>
                 <%
                     }
                 %>
-
                 <div class="form-input">
                     <button class="btn btn-lg btn-primary inp" id="login-btn" name="btAction" value="Reset">Reset Password</button>
                 </div>
