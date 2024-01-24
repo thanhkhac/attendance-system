@@ -32,12 +32,6 @@
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/model/LeaveDAO.java</file>
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/assets/view-calendar.css</file>
         </group>
-        <group name="java_web">
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/department/searchEmployeeByAjax.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/index.html</file>
-        </group>
         <group name="Group 20231030-03:40:41">
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/control/ViewAllEmployeeServlet.java</file>
@@ -46,6 +40,15 @@
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/model/DepartmentDTO.java</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/web/UpdateEmployeeByHR.jsp</file>
+        </group>
+        <group name="java_web">
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/department/listByDepartment.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/department/searchEmployeeByAjax.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/ShiftDTO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/index.html</file>
         </group>
     </open-files>
 </project-private>
