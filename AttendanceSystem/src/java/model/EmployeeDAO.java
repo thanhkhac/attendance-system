@@ -481,16 +481,32 @@ public class EmployeeDAO extends DBContext {
         return count;
     }
 
-    public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a, int phong, String name) {
+    public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a, int phong, String name,int ca) {
         ArrayList<EmployeeDTO> list = new ArrayList();
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "select * from Employees\n" +
-                        "where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?)\n" +
-                        "Order by EmployeeID\n" +
-                        "Offset ? rows fetch next 2 rows only";
+                if(ca>0){
+                String sql ="select * from Employees\n" +
+"join Timesheet on Timesheet.EmployeeID = Employees.EmployeeID\n" +
+"join Shifts on Timesheet.ShiftID = Shifts.ShiftID\n" +
+"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) and Shifts.ShiftID = ?\n" +
+"Order by Employees.EmployeeID\n" +
+"Offset ? rows fetch next 2 rows only";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, phong);
+                stm.setString(2, "%" + name + "%");
+                stm.setString(3, "%" + name + "%");
+                stm.setString(4, "%" + name + "%");
+                stm.setInt(5, ca);
+                stm.setInt(6, (a - 1) * 2);
+                rs = stm.executeQuery();
+                }else{
+                    String sql ="select * from Employees\n" +
+"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?)\n" +
+"Order by EmployeeID\n" +
+"Offset ? rows fetch next 2 rows only";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, phong);
                 stm.setString(2, "%" + name + "%");
@@ -498,6 +514,7 @@ public class EmployeeDAO extends DBContext {
                 stm.setString(4, "%" + name + "%");
                 stm.setInt(5, (a - 1) * 2);
                 rs = stm.executeQuery();
+                }
                 while (rs.next()) {
                     int employeeID = rs.getInt("EmployeeID");
                     String firstName = rs.getString("FirstName");

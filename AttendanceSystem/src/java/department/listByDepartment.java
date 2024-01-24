@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
+import model.ShiftDAO;
+import model.ShiftDTO;
 
 /**
  *
@@ -44,7 +46,7 @@ public class listByDepartment extends HttpServlet {
         request.setAttribute("PHONG", sttPhong);
         int phong = Integer.parseInt(sttPhong);
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, "");
+        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, "",0);
         String position = "Phòng nhân sự";
         if(phong==2) position = "Phòng tiếp thị";
         request.setAttribute("LIST", list);
@@ -54,7 +56,10 @@ public class listByDepartment extends HttpServlet {
         if(count%2==0)
             endPage = count/2;
         else {endPage = count/2 +1;}
-
+        ShiftDAO shiftdao = new ShiftDAO();
+ 
+        ArrayList<ShiftDTO> listhift = shiftdao.getAllShiftDTO();
+        request.setAttribute("LISTSHIFT", listhift);
         request.setAttribute("ENDPAGE", endPage);    
         request.getRequestDispatcher("viewEmployeesByManager.jsp").forward(request, response);
     } 

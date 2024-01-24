@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.EmployeeDTO"%>
+<%@page import="model.ShiftDTO"%>
 <!DOCTYPE html>
 <html>
 
@@ -171,11 +172,27 @@
         <input id="phongBan" type="hidden" value="<%=phong%>" name="name">
         <div class="container">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <h6 class="fs-16 mb-0">Showing 1 – 8 of 11 results</h6>
                 </div>
                 <div class="col-md-4 filler-job-form">
                     <i class="uil uil-briefcase-alt"></i><input  oninput="searchByName(this)" name="txtSearch" id="txtSearch" placeholder="Employee's name" type="text" class="form-control filler-job-input-box form-control" />
+                </div>
+                <div class="col-md-2" style="display:flex">
+                    <div class="col-md-4">
+                    <label style="padding-top: 7px;" for="form-select">Ca làm</label>
+                    </div>
+                    <div class="col-md-8">
+                    <select onchange="searchByName(this)" id="form-select" class="form-select" aria-label="Default select example">
+                        <option value="0" selected>Tất cả</option>
+  <%
+                     ArrayList<ShiftDTO> listhift =(ArrayList<ShiftDTO>) request.getAttribute("LISTSHIFT");
+                     for (ShiftDTO shift: listhift){
+                    %>
+                    <option value=<%=shift.getShiftID()%>><%=shift.getName()%></option>
+  <%}%>
+</select>
+</div>
                 </div>
             </div>
 
@@ -298,12 +315,14 @@
                                                int endPage = (int) request.getAttribute("ENDPAGE");
                                                if(endPage>0){
                                                for(int i=1; i<=endPage;i++){
-                                                    
+                                                   if(i==1){ 
                                             %>
-                                        <li class="page-item"><a class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
-
-                                            <%}}%>
-                                        <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+                                        
+                                        <li class="page-item"><a style="background-color: #cfd5da96;" class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
+                                           <%}else{%>
+                                            <li class="page-item"><a  class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
+                                            <%}}}%>
+                                        <li class="page-item"><a data-index="<%=2%>" onclick="searchByName(this)" class="page-link" href="#">Sau</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -349,13 +368,15 @@
                 var txtSearch = $("#txtSearch").val();
                 var phongBan = $("#phongBan").val();
                 var Page = param.dataset.index;
+                var Ca= $("#form-select").val();
                 $.ajax({
                     url: "/AttendanceSystem/searchEmployeeByAjax",
                     type: "get",
                     data: {
                         txt: txtSearch,
                         phong: phongBan,
-                        Page: Page
+                        Page: Page,
+                        CaLam:Ca
                     },
                     success: function (data) {
                         var row = $("#listEmployee");
@@ -388,13 +409,15 @@
                     var phongBan = $("#phongBan").val();
                     var txtSearch = $("#txtSearch").val();
                     var Page = param.dataset.index;
+                    var Ca= $("#form-select").val();
                     $.ajax({
                         url: "/AttendanceSystem/searchEmployeeByAjax",
                         type: "get",
                         data: {
                             txt: txtSearch,
                             phong: phongBan,
-                            Page: Page
+                            Page: Page,
+                            CaLam: Ca
                         },
                         success: function (data) {
                             var row = $("#listEmployee");

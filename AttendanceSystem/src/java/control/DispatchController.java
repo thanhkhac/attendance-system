@@ -55,6 +55,8 @@ public class DispatchController extends HttpServlet {
                 URL = "GetEmployeeInfoByHRServlet";
             } else if (button.equals("Lưu Thay Đổi")) {
                 URL = "UpdateEmployeeByHRServlet";
+            }else if(button.equals("viewListByDepartment")){
+                URL = "listByDepartment";
             }
         } finally {
             request.setAttribute("List", list);

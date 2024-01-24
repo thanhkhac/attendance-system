@@ -37,6 +37,8 @@ public class searchEmployeeByAjax extends HttpServlet {
         PrintWriter out = response.getWriter();
         EmployeeDAO dao = new EmployeeDAO();
         String Page = request.getParameter("Page");
+        String Ca = request.getParameter("CaLam");
+        int ca = Integer.parseInt(Ca);
         int page = 1;
         if (Page != null) {
             page = Integer.parseInt(Page);
@@ -62,7 +64,7 @@ public class searchEmployeeByAjax extends HttpServlet {
             endPage = count / 2 + 1;
         }
         request.setAttribute("ENDPAGE", endPage);
-        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, txtSearch);
+        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, txtSearch,ca);
         
         out.print("<table class=\"table project-list-table table-nowrap align-middle table-borderless\">\n"
                 + "                                        <thead>                               \n"
@@ -166,13 +168,29 @@ public class searchEmployeeByAjax extends HttpServlet {
                 + "                                    <ul class=\"pagination\" style=\"\n"
                 + "                                        justify-content: end;\n"
                 + "                                        \">\n"
-                + "                                        <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Trước</a></li>");
-        for (int i = 1; i <= endPage; i++) {
-            out.print("<li class=\"page-item\"><a class=\"page-link page\" data-index=\"" + i + "\" onclick=\"searchByName(this)\" href=\"#\">" + i + "</a><li>");
+                + "                                        ");
+        if(page-1<=0){
+            out.print("<li class=\"page-item\"><a class=\"page-link\" href=\"#\">Trước</a></li>");
+        }else{
+            out.print("<li class=\"page-item\"><a data-index=\""+(page-1)+"\" onclick=\"searchByName(this)\" class=\"page-link\" href=\"#\">Trước</a></li>");
         }
+        for (int i = 1; i <= endPage; i++) {
+            if(page == i){
+            out.print("<li class=\"page-item\"><a style=\"background-color: #cfd5da96;\" class=\"page-link page\" data-index=\"" + i + "\" onclick=\"searchByName(this)\" href=\"#\">" + i + "</a><li>");
+            }else{
+                out.print("<li class=\"page-item\"><a  class=\"page-link page\" data-index=\""+i+"\" onclick=\"searchByName(this)\" href=\"#\">"+i+"</a><li>");
+            }
+            }
+        if(page+1>endPage){
         out.print("<li class=\"page-item\"><a class=\"page-link\" href=\"#\">Sau</a></li>\n </ul>\n  </div>\n"
                 + "                                        </div>\n"
                 + "                                </div>");
+        }else{
+            out.print("<li class=\"page-item\"><a data-index=\""+(page+1)+"\" onclick=\"searchByName(this)\" class=\"page-link\" href=\"#\">Sau</a></li> </ul>\n  </div>\n"
+                + "                                        </div>\n"
+                + "                                </div>");
+        }
+            
         }
         else {
             
