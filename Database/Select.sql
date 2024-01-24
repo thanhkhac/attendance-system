@@ -62,3 +62,7 @@ SELECT  EmployeeID,
 		OR Email LIKE '%a%') 
         AND Departments.DepartmentID = 1
         AND EmployeeTypes.EmployeeTypeID = 1
+
+
+
+

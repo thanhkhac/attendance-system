@@ -9,8 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import dbhelper.DBContext;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import ultility.datetimeutil.DateTimeUtil;
 
 public class EmployeeDAO extends DBContext {
+
+    final public DateTimeUtil DATE_TIME_UTIL = new DateTimeUtil();
 
     public ArrayList<EmployeeDTO> getEmployeeInfo() {
         PreparedStatement stm = null;
@@ -214,8 +219,58 @@ public class EmployeeDAO extends DBContext {
                 stm.setString(1, email);
                 rs = stm.executeQuery();
                 if (rs.next()) {
-                    set_email = rs.getString("Email");
+                    set_email = rs.getNString("Email");
                     return set_email;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    // NguyenManhDuong - select cccd
+    public String getCCCD(String CCCD) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String set_cccd = "";
+        if (connection != null) {
+            try {
+                String sql = "SELECT CCCD\n"
+                        + "FROM Employees\n"
+                        + "WHERE CCCD = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, CCCD);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    set_cccd = rs.getString("CCCD");
+                    return set_cccd;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+    
+    // NguyenManhDuong - select phonenumber
+    public String getPhonenumber(String phonenumber) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        String set_phonenumbe = "";
+        if (connection != null) {
+            try {
+                String sql = "SELECT PhoneNumber\n"
+                        + "FROM Employees\n"
+                        + "WHERE PhoneNumber = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, phonenumber);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    set_phonenumbe = rs.getString("PhoneNumber");
+                    return set_phonenumbe;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -235,8 +290,8 @@ public class EmployeeDAO extends DBContext {
                         + "SET Password = ?\n"
                         + "WHERE Email = ?";
                 stm = connection.prepareStatement(sql);
-                stm.setString(1, password);
-                stm.setString(2, email);
+                stm.setNString(1, password);
+                stm.setNString(2, email);
                 int row = stm.executeUpdate();
                 if (row > 0) {
                     return true;
@@ -267,7 +322,47 @@ public class EmployeeDAO extends DBContext {
                     return true;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e);
+            }
+        }
+        return false;
+    }
 
+    // NguyenManhDuong - insert employee
+    public boolean insertEmployee(String firstName, String middleName, String lastName, boolean gender, LocalDate birthDate, String email, String password,
+            String CCCD, String phonenumber, int employeeTypeID, int departmentID, int roleID, LocalDate startDate, LocalDate endDate, boolean isActive) {
+        PreparedStatement stm = null;
+        if (connection != null) {
+            try {
+                String sql = "INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber, EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate , IsActive) "
+                        + "VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? , ? )";
+                stm = connection.prepareStatement(sql);
+
+                stm.setNString(1, firstName);
+                stm.setNString(2, middleName);
+                stm.setNString(3, lastName);
+                stm.setBoolean(4, gender);
+                stm.setString(5, birthDate.toString());
+                stm.setNString(6, email);
+                stm.setNString(7, password);
+                stm.setNString(8, CCCD);
+                stm.setNString(9, phonenumber);
+                stm.setInt(10, employeeTypeID);
+                stm.setInt(11, departmentID);
+                stm.setInt(12, roleID);
+                stm.setString(13, startDate.toString());
+                stm.setString(14, endDate.toString());
+                stm.setBoolean(15, isActive);
+
+                int row = stm.executeUpdate();
+                System.out.println(row);
+                if (row > 0) {
+                    return true;
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println(e);
             }
         }
         return false;
@@ -275,8 +370,11 @@ public class EmployeeDAO extends DBContext {
 
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
-
-        System.out.println(dao.getEmail("duong@gmail.com"));
+        
+        //test ham lay ttin
+        System.out.println(dao.getEmail("nguyennduongg039@gmail.com"));
+        System.out.println(dao.getCCCD("0000000"));
+        System.out.println(dao.getPhonenumber("454545454"));
     }
 
 }

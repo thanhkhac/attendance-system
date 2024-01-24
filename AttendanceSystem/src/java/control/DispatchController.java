@@ -41,10 +41,12 @@ public class DispatchController extends HttpServlet {
                 URL = "updateProfileByEmployee";
             } else if (button.equals("Send")) {
                 URL = "MailServlet";
-            } else if (button.equals("Submit")) {
+            } else if (button.equals("Reset")) {
                 URL = "MailServlet";
             } else if (button.equals("Save change")) {
                 URL = "ChangePasswordServlet";
+            } else if (button.equals("Insert")) {
+                URL = "InsertEmployeeServlet";
             }
         } finally {
 

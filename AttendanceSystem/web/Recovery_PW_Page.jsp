@@ -38,7 +38,8 @@
                 max-width: 450px;
                 background: #fff;
                 padding: 20px 30px;
-                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
             }
 
             .login-form .form-title {
@@ -120,6 +121,9 @@
                 color: #fff;
                 cursor: pointer;
             }
+            .inp{
+                border-radius: 10px;
+            }
         </style>
 
     </head>
@@ -139,24 +143,20 @@
                     Password Recovery
                 </div>
 
-                <div class="form-input">
-                    <label for="username">Email Address</label>
-                    <input type="text" name="txtMail" value="<%=mail%>">
+                <div>
+                    <p class="text-muted" style="text-align: center; color: #adb5bd !important ">Enter your email address and we'll send you an OTP to reset your password</p>
                 </div>
-
-                <%--
+                
                 <div class="form-input">
-                    <label for="name">Name</label>
-                    <input type="text" name="txtName" value="<%=name%>">
-                </div> 
-                --%>
+                    <!--<label for="username">Email Address</label>-->
+                    <input class="inp" type="text" name="txtMail" value="<%=mail%>" placeholder="Email address">
+                </div>
                 
                 <div class="captcha">
-                    <label for="captcha-input">OTP</label>
-                    <!--<div class="preview"></div>-->
+                    <!--<label for="captcha-input">OTP</label>-->
                     <div class="captcha-form">
-                        <input type="text" name="txtOTP" id="captcha-form" placeholder="Enter OTP here">
-                        <button class="captcha-refresh" name="btAction" value="Send">
+                        <input class="inp" type="text" name="txtOTP" id="captcha-form" placeholder="Enter OTP here">
+                        <button class="captcha-refresh inp" name="btAction" value="Send">
                             <i class="fa-solid fa-arrows-rotate"></i>
                         </button>
                     </div>
@@ -172,7 +172,7 @@
                 %>
 
                 <div class="form-input">
-                    <button id="login-btn" name="btAction" value="Submit">Submit</button>
+                    <button class="btn btn-lg btn-primary inp" id="login-btn" name="btAction" value="Reset">Reset Password</button>
                 </div>
             </div>
         </form>

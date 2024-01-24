@@ -82,7 +82,7 @@ public class MailServlet extends HttpServlet {
                 }
             }
         } // button Submit form
-        else if (button.equals("Submit")) {
+        else if (button.equals("Reset")) {
             if (receivemail.isEmpty() || otp.isEmpty()) {
                 msg = "Enter OTP please !";
             } else {
