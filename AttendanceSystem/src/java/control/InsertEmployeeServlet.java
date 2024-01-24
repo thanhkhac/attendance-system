@@ -51,18 +51,18 @@ public class InsertEmployeeServlet extends HttpServlet {
 
         // check
         PrintWriter out = response.getWriter();
+        
 //        out.println(isActive);
-
-        out.println("gen-" + gender);
-        System.out.println("gen-" + gender);
+//        out.println("gen-" + gender);
+//        System.out.println("gen-" + gender);
 
         EmployeeDAO dao = new EmployeeDAO();
 
         String msg = "";
         if (firstName.isEmpty() || middleName.isEmpty() || lastName.isEmpty() || birthDate.isEmpty() || email.isEmpty() || cccd.isEmpty() || phonenumber.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
-            msg = "No Empty please!";
+            msg = "Vui lòng điền đầy đủ thông tin";
         } else {
-            msg = "OK";
+            msg = "Dữ liệu đã được nhập đầy đủ";
             int employee_type_id_raw = 0, department_id_raw = 0, role_id_raw = 0;
             boolean gender_raw = false;
             // cast employeeTypeID before insert
@@ -107,24 +107,26 @@ public class InsertEmployeeServlet extends HttpServlet {
                     gender_raw = false;
                     break;
             }
-            out.println("g_r-" + gender_raw);
-            System.out.println("g_r-"+gender_raw);
+            
+//            out.println("g_r-" + gender_raw);
+//            System.out.println("g_r-"+gender_raw);
+
             // cast String to LocalDate
             LocalDate birth_date = LocalDate.parse(birthDate);
             LocalDate start_date = LocalDate.parse(startDate);
             LocalDate end_date = LocalDate.parse(endDate);
 
             if (dao.getCCCD(cccd) != null || dao.getEmail(email) != null || dao.getPhonenumber(phonenumber) != null) { // 1 trong 3 cai trung thi bao loi
-                msg = "Email - Phonenumber - CCCD existed (data duplicate is not accept here !)";
+                msg = "Email , số điện thoại hoặc CCCD đã tồn tại trong hệ thống";
             } else {
-                msg = "Email - phonenumber - cccd are accepted !";
+                msg = "Email , số điện thoại hoặc CCCD được chấp nhận";
                 // set mat khau mac dinh la '123456789' ; set trang thai dang nhap mac dinh la 'false'
                 if (dao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, "123456789", cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, false) == true) {
 //                    out.println("OK");
-                    msg = "add thanh cong";
+                    msg = "Thêm nhân viên thành công";
                 } else {
 //                    out.println("NO");
-                    msg = "add khong thanh cong";
+                    msg = "Thêm nhân viên không thành công";
                 }
             }
         }

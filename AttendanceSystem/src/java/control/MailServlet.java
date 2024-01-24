@@ -53,9 +53,9 @@ public class MailServlet extends HttpServlet {
 
         // check 
         PrintWriter out = response.getWriter();
-        out.println(button);
-        out.println(receivemail);
-        out.println(otp);
+//        out.println(button);
+//        out.println(receivemail);
+//        out.println(otp);
 
         HttpSession session = request.getSession();
         EmployeeDAO eDao = new EmployeeDAO();
@@ -67,12 +67,12 @@ public class MailServlet extends HttpServlet {
         // button Send mail
         if (button.equals("Send")) {
             if (receivemail.isEmpty()) {
-                msg = "Enter email address please !";
+                msg = "Vui lòng điền email";
             } else {
                 if (check_email == null || !receivemail.equals(check_email)) {
-                    msg = "Email Invalid!";
+                    msg = "Email không tồn tại";
                 } else {
-                    msg = "OTP code just send, check your email please !";
+                    msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
                     // Send otp to email
                     String otp_send = external.sendOTP(receivemail);
                     // store otp into session
@@ -84,15 +84,15 @@ public class MailServlet extends HttpServlet {
         } // button Submit form
         else if (button.equals("Reset")) {
             if (receivemail.isEmpty() || otp.isEmpty()) {
-                msg = "Enter OTP please !";
+                msg = "Mã OTP chưa được điền";
             } else {
                 String opt_temp = (String) request.getSession().getAttribute("OTP");
                 if (otp.equals(opt_temp)) {
-                    msg = "OTP Correct";
+                    msg = "Mã OTP đúng";
                     response.sendRedirect("Forgot_PW.jsp");
                     return;
                 } else {
-                    msg = "OTP Incorrect";
+                    msg = "Mã OTP sai";
                 }
             }
         }
