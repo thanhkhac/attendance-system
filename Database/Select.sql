@@ -67,5 +67,4 @@ SELECT  EmployeeID,
         AND EmployeeTypes.EmployeeTypeID = 1
 
 
-		select * from Employees 
-		where Email = 'thanhcqb2048@gmail.com'
+

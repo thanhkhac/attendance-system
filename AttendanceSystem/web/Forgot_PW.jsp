@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Forgot Pasword</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
 
         <style>
@@ -33,7 +33,8 @@
                 max-width: 450px;
                 background: #fff;
                 padding: 20px 30px;
-                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
             }
 
             .login-form .form-title {
@@ -115,6 +116,9 @@
                 color: #fff;
                 cursor: pointer;
             }
+            .inp{
+                border-radius: 10px;
+            }
         </style>
 
     </head>
@@ -135,43 +139,40 @@
 
                 <div class="form-input">
                     <label for="username">Email Address</label>
-                    <input type="text" name="txtMail" value="<%=mail%>">
+                    <input class="inp" type="text" name="txtMail" value="<%=mail%>">
                 </div>
 
                 <div class="form-input">
                     <label for="name">Password</label>
-                    <input type="password" name="txtPassword" value="">
+                    <input class="inp" type="password" name="txtPassword" value="">
                 </div> 
 
                 <div class="form-input">
                     <label for="name">Re-Enter Password</label>
-                    <input type="password" name="txtRePassword" value="">
+                    <input class="inp" type="password" name="txtRePassword" value="">
                 </div>
-
-                <%--
-                <div class="captcha">
-                    <label for="captcha-input">OTP</label>
-                    <!--<div class="preview"></div>-->
-                    <div class="captcha-form">
-                        <input type="text" name="txtOTP" id="captcha-form" placeholder="Enter OTP here">
-                        <button class="captcha-refresh" name="btAction" value="Send">
-                            <i class="fa-solid fa-arrows-rotate"></i>
-                        </button>
-                    </div>
-                </div>
-                --%>
 
                 <%
                     String msg = (String) request.getAttribute("MSG");
                     if(msg != null){
                 %>
-                <p style="color: red"><%=msg%></p>
+                <div class="row">
+
+                    <div class="col-md-1">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+
+                    <div class="col-md-11">
+                        <p style="color: red"><%=msg%></p>
+                    </div>
+
+                </div>
                 <%
                     }
                 %>
 
                 <div class="form-input">
-                    <button id="login-btn" name="btAction" value="Save change">Save Change</button>
+                    <button class="inp" id="login-btn" name="btAction" value="Save change">Save Change</button>
                 </div>
             </div>
         </form>
