@@ -21,7 +21,7 @@
         <style>
             #sidebar {
                 height: 100vh;
-                width: 250px;
+                width: 16%;
                 background-color: #0072bb;
                 color: white;
                 position: fixed;
@@ -78,6 +78,7 @@
                 #navbar {
                     display: block;
                 }
+                
 
             }
         </style>

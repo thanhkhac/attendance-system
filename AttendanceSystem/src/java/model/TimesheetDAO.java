@@ -29,7 +29,7 @@ public class TimesheetDAO extends DAOBase {
                 String note = rs.getNString("note");
                 return new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, note);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeResource();
