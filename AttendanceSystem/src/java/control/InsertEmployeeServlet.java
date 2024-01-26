@@ -51,18 +51,27 @@ public class InsertEmployeeServlet extends HttpServlet {
 
         // check
         PrintWriter out = response.getWriter();
-        
+
+//        if(isActive != null){
+//            out.println("adu");
+//        }else{
+//            out.println("adu deoo on");
+//        }
+//        
 //        out.println(isActive);
 //        out.println("gen-" + gender);
 //        System.out.println("gen-" + gender);
-
         EmployeeDAO dao = new EmployeeDAO();
-
         String msg = "";
         if (firstName.isEmpty() || middleName.isEmpty() || lastName.isEmpty() || birthDate.isEmpty() || email.isEmpty() || cccd.isEmpty() || phonenumber.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
             msg = "Vui lòng điền đầy đủ thông tin";
         } else {
             msg = "Dữ liệu đã được nhập đầy đủ";
+
+            request.setAttribute("LASTNAME", lastName);
+            request.setAttribute("MIDDLENAME", middleName);
+            request.setAttribute("FIRSTNAME", firstName);
+
             int employee_type_id_raw = 0, department_id_raw = 0, role_id_raw = 0;
             boolean gender_raw = false;
             // cast employeeTypeID before insert
@@ -107,27 +116,60 @@ public class InsertEmployeeServlet extends HttpServlet {
                     gender_raw = false;
                     break;
             }
-            
+
+            request.setAttribute("GENDER", gender);
+            request.setAttribute("ROLE", roleID);
+            request.setAttribute("DEPARTMENT", departmentID);
+            request.setAttribute("EMPLOYEETYPE", employeeTypeID);
+
 //            out.println("g_r-" + gender_raw);
 //            System.out.println("g_r-"+gender_raw);
-
             // cast String to LocalDate
             LocalDate birth_date = LocalDate.parse(birthDate);
             LocalDate start_date = LocalDate.parse(startDate);
             LocalDate end_date = LocalDate.parse(endDate);
 
-            if (dao.getCCCD(cccd) != null || dao.getEmail(email) != null || dao.getPhonenumber(phonenumber) != null) { // 1 trong 3 cai trung thi bao loi
+            //get month and year
+            int get_start_month = start_date.getMonthValue();
+            int get_end_month = end_date.getMonthValue();
+            int get_start_year = start_date.getYear();
+            int get_end_year = end_date.getYear();
+
+            if (dao.getCCCD(cccd) != null || dao.getEmail(email) != null || dao.getPhonenumber(phonenumber) != null) { // 1 trong 3 cái trùng báo lỗi (trùng: tồn tại trong DB)
                 msg = "Email , số điện thoại hoặc CCCD đã tồn tại trong hệ thống";
             } else {
                 msg = "Email , số điện thoại hoặc CCCD được chấp nhận";
-                // set mat khau mac dinh la '123456789' ; set trang thai dang nhap mac dinh la 'false'
-                if (dao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, "123456789", cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, false) == true) {
+
+                request.setAttribute("CCCD", cccd);
+                request.setAttribute("EMAIL", email);
+                request.setAttribute("PHONENUMBER", phonenumber);
+
+                if (get_end_year - get_start_year == 0) {
+                    // Thời hạn hợp đồng làm việc của 1 nhân viên ít nhất 6 tháng
+                    if (get_end_month - get_start_month < 6) {
+                        msg = "Thời gian làm việc ít nhất 6 tháng";
+//                    out.println("Thời gian làm việc ít nhất 6 tháng");
+                    } else {
+                        msg = "Thời hạn làm việc phù hợp";
+//                    out.println("Thời hạn làm việc phù hợp");
+                        // set trạng thái cho tài khoản mặc định là 'false' (chưa active tài khoản)
+                        boolean activeAcc = false;
+                        if (isActive != null) {
+                            activeAcc = true;
+                        }
+                        // Set mat khau mac dinh la '123456789' ; set trang thai dang nhap mac dinh la 'false'
+                        if (dao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, "123456789", cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
 //                    out.println("OK");
-                    msg = "Thêm nhân viên thành công";
-                } else {
+                            msg = "Thêm nhân viên thành công";
+                        } else {
 //                    out.println("NO");
-                    msg = "Thêm nhân viên không thành công";
+                            msg = "Thêm nhân viên không thành công";
+                        }
+                    }
+                }else if(get_end_year - get_start_year < 0){
+                    msg = "Thời hạn làm việc không hợp lệ";
                 }
+
             }
         }
         request.setAttribute("MSG", msg);

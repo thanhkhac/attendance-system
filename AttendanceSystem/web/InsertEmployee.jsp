@@ -38,112 +38,36 @@
         </style>
 
     </head>
+
+    <%
+        String lastname = (String) request.getAttribute("LASTNAME");
+        String middlename = (String) request.getAttribute("MIDDLENAME");
+        String firstname = (String) request.getAttribute("FIRSTNAME");
+        String cccd = (String) request.getAttribute("CCCD");
+        String email = (String) request.getAttribute("EMAIL");    
+        String phonenumber = (String) request.getAttribute("PHONENUMBER");  
+
+        if(lastname == null){
+            lastname = "";
+        }
+        if(middlename == null){
+            middlename = "";
+        }
+        if(firstname == null){
+            firstname = "";
+        }
+        if(cccd == null){
+            cccd = "";
+        }
+        if(email == null){
+            email = "";
+        }
+        if(phonenumber == null){
+            phonenumber = "";
+        }
+    %>
+
     <body>
-        <%--
-                <form action="DispatchController" method="get">
-                    <table>
-                        <tr>
-                            <td>First Name</td>
-                            <td><input type="text" name="txtFirstName"></td>//////////////
-                        </tr>
-                        <tr>
-                            <td>Middle Name</td>
-                            <td><input type="text" name="txtMiddleName"></td>//////////////
-                        </tr>
-                        <tr>
-                            <td>Last Name</td>
-                            <td><input type="text" name="txtLastName"></td>//////////////
-                        </tr>
-                        <tr>
-                            <td>Gender</td>
-                            <td>
-                                <select name="txtGender">////////////////////////////
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Birth Date</td>//////////////////////////////////////////
-                            <td><input type="date" name="txtBirthDate"></td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>////////////////////////////////////////////////////////
-                            <td><input type="text" name="txtEmail"></td>
-                        </tr>
-                        <tr>
-                            <td>CCCD</td>//////////////////////////////////////////////////////////////////////
-                            <td><input type="number" name="txtCCCD"></td>
-                        </tr>
-                        <tr>
-                            <td>Phonenumber</td>////////////////////////////////////////////////////////
-                            <td><input type="number" name="txtPhonenumber"></td>
-                        </tr>
-                        <tr>
-                            <td>Employee Type ID</td>////////////////////////////////////////////////////////
-                            <td>
-                                <select name="txtEmployeeTypeID">
-                                    <option value="fulltime">Full time</option>
-                                    <option value="parttime">Part time</option>
-                                    <option value="intern">Intern</option>
-                                </select> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>DepartmentID</td>//////////////////////////////////////////////////////////////////////
-                            <td>
-                                <select name="txtDepartmentID">
-                                    <option value="phongNhanSu">Phòng nhân sự</option>
-                                    <option value="phongTiepThi">Phòng tiếp thị</option>
-                                </select> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>RoleID</td>//////////////////////////////////////////////////////////////////////
-                            <td>
-                                <select name="txtRoleID">
-                                    <option value="nhanVien">Nhân viên</option>
-                                    <option value="quanLyNhanSu">Quản lý nhân viên</option>
-                                    <option value="admin">Admin</option>
-                                </select> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Start Date</td>////////////////////////////////////////////////////////
-                            <td><input type="date" name="txtStartDate"></td>
-                        </tr>
-                        <tr>
-                            <td>End Date</td>////////////////////////////////////////////////////////
-                            <td><input type="date" name="txtEndDate"></td>
-                        </tr>
-                        <tr>
-                            <td>Is Active</td>////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            <td><input type="checkbox" name="txtIsActive"></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button name="btAction" value="Insert">Insert</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <%
-                                String msg = (String) request.getAttribute("MSG");
-                                    if(msg != null){
-                                %>
-                                <p style="color: red"><%=msg%></p>
-                                <%
-                                    }
-                                %>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
-        --%>
-
-
         <form action="DispatchController">
             <section class="vh-100 gradient-custom">
                 <div class="container py-5 h-100">
@@ -159,7 +83,7 @@
                                             <div class="col-md-4 mb-4">
 
                                                 <div class="form-outline">
-                                                    <input type="text" id="lastName" class="form-control form-control-lg" name="txtLastName"/>
+                                                    <input type="text" id="lastName" class="form-control form-control-lg" name="txtLastName" value="<%=lastname%>"/>
                                                     <label class="form-label" for="lastName">Họ</label>
                                                 </div>
 
@@ -168,7 +92,7 @@
                                             <div class="col-md-4 mb-4">
 
                                                 <div class="form-outline">
-                                                    <input type="text" id="firstName" class="form-control form-control-lg" name="txtMiddleName"/>
+                                                    <input type="text" id="middleName" class="form-control form-control-lg" name="txtMiddleName" value="<%=middlename%>"/>
                                                     <label class="form-label" for="firstName">Tên Đệm</label>
                                                 </div>
 
@@ -177,7 +101,7 @@
                                             <div class="col-md-4 mb-4">
 
                                                 <div class="form-outline">
-                                                    <input type="text" id="firstName" class="form-control form-control-lg" name="txtFirstName"/>
+                                                    <input type="text" id="firstName" class="form-control form-control-lg" name="txtFirstName" value="<%=firstname%>"/>
                                                     <label class="form-label" for="firstName">Tên Riêng</label>
                                                 </div>
 
@@ -198,7 +122,7 @@
                                             <div class="col-md-4 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="txtCCCD"/>
+                                                    <input type="tel" id="cccd" class="form-control form-control-lg" name="txtCCCD" value="<%=cccd%>"/>
                                                     <label class="form-label" for="phoneNumber">Căn cước công dân</label>
                                                 </div>
 
@@ -227,7 +151,7 @@
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <input type="email" id="emailAddress" class="form-control form-control-lg" name="txtEmail"/>
+                                                    <input type="email" id="email" class="form-control form-control-lg" name="txtEmail" value="<%=email%>"/>
                                                     <label class="form-label" for="emailAddress">Email</label>
                                                 </div>
 
@@ -235,7 +159,7 @@
                                             <div class="col-md-6 mb-4 pb-2">
 
                                                 <div class="form-outline">
-                                                    <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="txtPhonenumber"/>
+                                                    <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="txtPhonenumber" value="<%=phonenumber%>"/>
                                                     <label class="form-label" for="phoneNumber">Số điện thoại</label>
                                                 </div>
 
@@ -292,7 +216,7 @@
                                             <div class="col-md-6 mb-4 d-flex align-items-center">
 
                                                 <div class="form-outline datepicker w-100">
-                                                    <input type="date" class="form-control form-control-lg display-color" id="enđate" name="txtEndDate" "/>
+                                                    <input type="date" class="form-control form-control-lg display-color" id="endate" name="txtEndDate" "/>
                                                     <label for="birthdayDate" class="form-label">Ngày kết thúc</label>
                                                 </div>
 
@@ -303,7 +227,7 @@
                                         <div class="row">
 
                                             <div class="col-md-6 form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" id="switchDefault" name="txtIsActive">
+                                                <input class="form-check-input" type="checkbox" id="isActive" name="txtIsActive">
                                                 <label class="form-check-label" for="switchDefault">Kích hoạt tài khoản</label>
                                             </div>
 

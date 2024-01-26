@@ -45,17 +45,17 @@ public class ChangePasswordServlet extends HttpServlet {
         String get_mail = eDao.getEmail(mail);
 
         if (mail.isEmpty() || password.isEmpty() || re_enter_pw.isEmpty()) {
-            msg = "No Empty please !";
+            msg = "Vui lòng điền đầy đủ thông tin";
         } else {
             if (get_mail == null || !mail.equals(get_mail)) {
-                msg = "Email invalid !";
+                msg = "Email không tồn tại";
             } else { 
                 if (!password.equals(re_enter_pw)) {
-                    msg = "Password and re-Password must be the same !";
+                    msg = "Password và re-Password phải đồng nhất";
                 } else {
-                    msg = "Password and re-Password are the same !";
+                    msg = "Password and re-Password đồng nhất";
                     if (eDao.updatePassword(mail, re_enter_pw)) {
-                        msg = "Successful";
+                        msg = "Đổi mật khẩu thành công";
                         response.sendRedirect("Login.jsp");
                         return;
                     }

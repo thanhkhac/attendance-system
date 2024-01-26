@@ -26,10 +26,11 @@
         </group>
         <group name="AssignmentPRJ301">
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/Recovery_PW_Page.jsp</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/control/ChangePasswordServlet.java</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/Forgot_PW.jsp</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/control/InsertEmployeeServlet.java</file>
         </group>
     </open-files>
 </project-private>
