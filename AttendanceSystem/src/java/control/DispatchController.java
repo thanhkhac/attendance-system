@@ -38,6 +38,7 @@ public class DispatchController extends HttpServlet {
         String URL = "";
         EmployeeDAO dao = new EmployeeDAO();
         ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
+        out.print(list.size());
         try {
             if (button.equals("Login")) {
                 URL = "checkLogin";

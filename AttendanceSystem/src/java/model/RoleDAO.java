@@ -5,6 +5,8 @@
 package model;
 
 import dbhelper.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +33,30 @@ public class RoleDAO extends DAOBase {
             }
         }
         return list ;
+    }
+    public RoleDTO getRoleById(int roleID) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "SELECT *\r\n" + //
+                        "  FROM [Attendance_DB].[dbo].[Roles]\r\n" + //
+                        "  where RoleID = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, roleID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    RoleDTO dto = new RoleDTO(
+                        rs.getInt("RoleID"),
+                        rs.getString("Name"));
+                    return dto;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            } 
+        }
+        return null;
     }
     
 }

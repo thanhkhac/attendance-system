@@ -416,7 +416,31 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
-
+ public EmployeeTypeDTO getEmployeeType(int employeeTypeID) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "Select * from EmployeeTypes\n"
+                        + "where EmployeeTypeID = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, employeeTypeID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    EmployeeTypeDTO dto = new EmployeeTypeDTO(
+                            rs.getInt("EmployeeTypeID"),
+                            rs.getString("Name"));
+                    return dto;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+    
+    
     public ArrayList<EmployeeDTO> SearchEmployeeByName(String Name) {
         ArrayList<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
         PreparedStatement stm = null;

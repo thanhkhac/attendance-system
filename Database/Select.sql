@@ -65,3 +65,7 @@ SELECT  EmployeeID,
 		OR Email LIKE '%a%') 
         AND Departments.DepartmentID = 1
         AND EmployeeTypes.EmployeeTypeID = 1
+
+
+		select * from Employees 
+		where Email = 'thanhcqb2048@gmail.com'
