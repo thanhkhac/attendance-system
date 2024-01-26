@@ -75,10 +75,11 @@ public class MailServlet extends HttpServlet {
                     msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
                     // Send otp to email
                     String otp_send = external.sendOTP(receivemail);
+                    session.setAttribute("EMAIL", receivemail);
                     // store otp into session
                     session.setAttribute("OTP", otp_send);
                     // set usetime for that session       
-                    session.setMaxInactiveInterval(60);
+//                    session.setMaxInactiveInterval(60);
                 }
             }
         } // button Submit form
