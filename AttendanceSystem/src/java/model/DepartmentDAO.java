@@ -41,5 +41,97 @@ public class DepartmentDAO extends DBContext {
         }
         return list;
     }
+    public DepartmentDTO getDepartmentById(int departmentID) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                String sql = "SELECT *\r\n"
+                        + //
+                        "  FROM [Attendance_DB].[dbo].[Departments]\r\n"
+                        + //
+                        "  where DepartmentID = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, departmentID);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    DepartmentDTO dto = new DepartmentDTO(
+                            rs.getInt("DepartmentID"),
+                            rs.getString("Name"),
+                            rs.getInt("ManagerID"));
+                    return dto;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteById(int departmentId) {
+        String sql = "DELETE FROM [dbo].[Departments]\n"
+                + "      WHERE DepartmentID = ? ";
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, departmentId);
+                stm.executeUpdate();
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+
+            }
+        }
+        return false;
+    }
+
+    public boolean edit(DepartmentDTO dto) {
+        String sql = "UPDATE [dbo].[Departments]\r\n"
+                + //
+                "   SET [Name] = ?\r\n"
+                + //
+                " WHERE DepartmentID = ?";
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, dto.getName());
+                stm.setInt(2, dto.getDepartmentID());
+                stm.executeUpdate();
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+
+            }
+        }
+        return false;
+    }
+
+    public boolean addDepartment(DepartmentDTO dto) {
+        String sql = "INSERT INTO [dbo].[Departments]\n"
+                + "           ([Name])           \n"
+                + "     VALUES\n"
+                + "           (?)";
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, dto.getName());
+                stm.executeUpdate();
+                return true;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
 
 }
