@@ -251,19 +251,20 @@ INSERT INTO RequestsType(TypeID, [Name]) VALUES
 --Shift
 INSERT INTO Shifts ([Name], [StartTime], [EndTime])
 VALUES
-    ('Ca làm sáng', '07:30:00', '11:30:00'),
-    ('Ca làm chiều', '13:30:00', '17:30:00'),
-    ('Ca cả ngày', '07:30:00', '17:30:00');
+    (N'Ca làm sáng', '07:30:00', '11:30:00'),
+    (N'Ca làm chiều', '13:30:00', '17:30:00'),
+    (N'Ca cả ngày', '07:30:00', '17:30:00');
+
 
 
 --Timesheet 
 DECLARE @KhacThanh int = (SELECT EmployeeID FROM Employees WHERE Email = N'thanhcqb2048@gmail.com')
 DECLARE @EmployeeID INT = @KhacThanh;
-DECLARE @ShiftID INT = 1;
+DECLARE @ShiftID INT = 2;
 DECLARE @DateList TABLE (SelectedDate DATE);
 
-DECLARE @CurrentDate DATE = '2024-01-01';
-WHILE @CurrentDate <= '2024-01-31'
+DECLARE @CurrentDate DATE = '2024-02-01';
+WHILE @CurrentDate <= '2024-02-28'
 BEGIN
    
     
@@ -276,7 +277,8 @@ INSERT INTO Timesheet ([Date], EmployeeID, ShiftID)
 SELECT SelectedDate, @EmployeeID, @ShiftID
 FROM @DateList;
 
-INSERT INTO Leaves (TimeSheetID, Reason) VALUES (1, 'Ốm')
+
+INSERT INTO Leaves (TimeSheetID, Reason, [Status], ResponedBy) VALUES (1, 'Ốm', 1, 2)
 
 
 INSERT INTO Overtimes([Date], EmployeeID, StartTime, EndTime, OpenBefore, CloseAfter) VALUES
@@ -298,7 +300,6 @@ SET ManagerID = (SELECT EmployeeID FROM Employees WHERE CCCD = '001204002773')
 WHERE DepartmentID = @PhongNhanSu
 
 --====================================================================================
-
 
 
 

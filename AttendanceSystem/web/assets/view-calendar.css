@@ -1,7 +1,7 @@
-.mytable td {
+.mytable-td {
     border-radius: 3px;
     height: 15em;
-    background-color: white;
+    background-color: white !important;
 }
 
 .mytable th {
@@ -33,6 +33,7 @@
     padding: 5px;
     border-radius: 10px;
     color: white;
+    cursor: pointer;
 }
 
 .shift__title {
@@ -71,7 +72,7 @@
 @media screen and (max-width: 768px) {
 
     /* Thiết lập các td thành 2 cột */
-    .mytable td {
+    .mytable-td {
         display: block;
         width: 100%;
         /* Chia mỗi td thành 50% của độ rộng */

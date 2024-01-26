@@ -11,16 +11,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.EmployeeDAO;
-import model.EmployeeDTO;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "FilterAJAXServlet", urlPatterns = {"/FilterAJAXServlet"})
-public class FilterAJAXServlet extends HttpServlet {
+@WebServlet(name = "UpdateEmployeeByHRServlet", urlPatterns = {"/UpdateEmployeeByHRServlet"})
+public class UpdateEmployeeByHRServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,27 +31,21 @@ public class FilterAJAXServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String searchValue = request.getParameter("txtSearchValue");
-        int departmentID = Integer.parseInt(request.getParameter("txtDepartment"));
-        int typeID = Integer.parseInt(request.getParameter("txtType"));
-        String order = request.getParameter("txtOrder");
-        EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> listE = dao.filterByAJAX(searchValue, departmentID, typeID, order);
+        String txt_firstName = request.getParameter("txt_firstName");
+        String txt_middleName = request.getParameter("txt_middleName");
+        String txt_lastName = request.getParameter("txt_lastName");
+        String txt_gender = request.getParameter("txt_gender");;
+        String txt_cccd = request.getParameter("txt_cccd");
+        String txt_email = request.getParameter("txt_email");
+        String txt_password = request.getParameter("txt_password");
+        String txt_phoneNumber = request.getParameter("txt_phoneNumber");
+        String txt_birthday = request.getParameter("txt_birthday");
+        String txt_departmentID = request.getParameter("txt_departmentID");
+        String txt_typeID = request.getParameter("txt_typeID");
+        String txt_roleID = request.getParameter("txt_roleID");
+        String txt_employeeID = request.getParameter("txt_employeeID");
+        
 
-//        try ( PrintWriter out = response.getWriter()) {
-//            /* TODO output your page here. You may use following sample code. */
-//            out.println("<!DOCTYPE html>");
-//            out.println("<html>");
-//            out.println("<head>");
-//            out.println("<title>Servlet FilterEmployeeByAJAX</title>");
-//            out.println("</head>");
-//            out.println("<body>");
-//            out.println("<h1>Servlet FilterEmployeeByAJAX at " + request.getContextPath() + "</h1>");
-//            out.println("</body>");
-//            out.println("</html>");
-//        }
-        request.setAttribute("ListE", listE);
-        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

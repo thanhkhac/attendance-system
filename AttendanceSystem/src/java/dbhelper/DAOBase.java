@@ -43,4 +43,34 @@ public class DAOBase extends DBContext {
             }
         }
     }
+
+    @Override
+    public void connect() {
+        super.connect();
+    }
+
+    public void closeAll() {
+        if (rs != null) {
+            try {
+                rs.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (con != null) {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
