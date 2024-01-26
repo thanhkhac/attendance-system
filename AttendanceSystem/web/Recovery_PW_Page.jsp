@@ -131,7 +131,7 @@
     <body>
 
         <%
-            String mail = (String) request.getAttribute("MAIL");
+            String mail = (String) request.getSession().getAttribute("EMAIL");
             if(mail == null){
                 mail = "";
             }

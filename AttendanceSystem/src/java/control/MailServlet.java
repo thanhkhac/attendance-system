@@ -53,14 +53,10 @@ public class MailServlet extends HttpServlet {
 
         // check 
         PrintWriter out = response.getWriter();
-//        out.println(button);
-//        out.println(receivemail);
-//        out.println(otp);
 
         HttpSession session = request.getSession();
         EmployeeDAO eDao = new EmployeeDAO();
         EmailModule external = new EmailModule();
-        
         
         String check_email = eDao.getEmail(receivemail);
 
@@ -97,7 +93,7 @@ public class MailServlet extends HttpServlet {
                 }
             }
         }
-        request.setAttribute("MAIL", receivemail);
+//        request.setAttribute("MAIL", receivemail);
         request.setAttribute("MSG", msg);
         request.getRequestDispatcher("Recovery_PW_Page.jsp").forward(request, response);
     }
