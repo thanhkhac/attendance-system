@@ -51,16 +51,6 @@ public class InsertEmployeeServlet extends HttpServlet {
 
         // check
         PrintWriter out = response.getWriter();
-
-//        if(isActive != null){
-//            out.println("adu");
-//        }else{
-//            out.println("adu deoo on");
-//        }
-//        
-//        out.println(isActive);
-//        out.println("gen-" + gender);
-//        System.out.println("gen-" + gender);
         EmployeeDAO dao = new EmployeeDAO();
         String msg = "";
         if (firstName.isEmpty() || middleName.isEmpty() || lastName.isEmpty() || birthDate.isEmpty() || email.isEmpty() || cccd.isEmpty() || phonenumber.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
@@ -116,60 +106,79 @@ public class InsertEmployeeServlet extends HttpServlet {
                     gender_raw = false;
                     break;
             }
-
             request.setAttribute("GENDER", gender);
             request.setAttribute("ROLE", roleID);
             request.setAttribute("DEPARTMENT", departmentID);
             request.setAttribute("EMPLOYEETYPE", employeeTypeID);
+            try {
+                if (dao.getCCCD(cccd) != null || dao.getEmail(email) != null || dao.getPhonenumber(phonenumber) != null) { // 1 trong 3 cái trùng báo lỗi (trùng: tồn tại trong DB)
+                    msg = "Email , số điện thoại hoặc CCCD đã tồn tại trong hệ thống";
+                } else {
+                    msg = "Email , số điện thoại hoặc CCCD được chấp nhận";
 
-//            out.println("g_r-" + gender_raw);
-//            System.out.println("g_r-"+gender_raw);
-            // cast String to LocalDate
-            LocalDate birth_date = LocalDate.parse(birthDate);
-            LocalDate start_date = LocalDate.parse(startDate);
-            LocalDate end_date = LocalDate.parse(endDate);
+                    request.setAttribute("CCCD", cccd);
+                    request.setAttribute("EMAIL", email);
+                    request.setAttribute("PHONENUMBER", phonenumber);
 
-            //get month and year
-            int get_start_month = start_date.getMonthValue();
-            int get_end_month = end_date.getMonthValue();
-            int get_start_year = start_date.getYear();
-            int get_end_year = end_date.getYear();
+                    // cast String to LocalDate
+                    LocalDate birth_date = LocalDate.parse(birthDate);
+                    LocalDate start_date = LocalDate.parse(startDate);
+                    LocalDate end_date = LocalDate.parse(endDate);
 
-            if (dao.getCCCD(cccd) != null || dao.getEmail(email) != null || dao.getPhonenumber(phonenumber) != null) { // 1 trong 3 cái trùng báo lỗi (trùng: tồn tại trong DB)
-                msg = "Email , số điện thoại hoặc CCCD đã tồn tại trong hệ thống";
-            } else {
-                msg = "Email , số điện thoại hoặc CCCD được chấp nhận";
+                    //get month and year
+                    int get_start_month = start_date.getMonthValue();
+                    int get_end_month = end_date.getMonthValue();
+                    int get_start_year = start_date.getYear();
+                    int get_end_year = end_date.getYear();
+                    int get_birth_year = birth_date.getYear();
 
-                request.setAttribute("CCCD", cccd);
-                request.setAttribute("EMAIL", email);
-                request.setAttribute("PHONENUMBER", phonenumber);
+                    out.println("start-month: " + get_start_month);
+                    out.println("end_month: " + get_end_month);
+                    out.println("start-year: " + get_start_year);
+                    out.println("end-year: " + get_end_year);
 
-                if (get_end_year - get_start_year == 0) {
-                    // Thời hạn hợp đồng làm việc của 1 nhân viên ít nhất 6 tháng
-                    if (get_end_month - get_start_month < 6) {
-                        msg = "Thời gian làm việc ít nhất 6 tháng";
-//                    out.println("Thời gian làm việc ít nhất 6 tháng");
+                    if (get_start_year - get_birth_year < 18) {
+                        msg = "Chưa đủ 18 tuổi";
                     } else {
-                        msg = "Thời hạn làm việc phù hợp";
-//                    out.println("Thời hạn làm việc phù hợp");
-                        // set trạng thái cho tài khoản mặc định là 'false' (chưa active tài khoản)
-                        boolean activeAcc = false;
-                        if (isActive != null) {
-                            activeAcc = true;
-                        }
-                        // Set mat khau mac dinh la '123456789' ; set trang thai dang nhap mac dinh la 'false'
-                        if (dao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, "123456789", cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
-//                    out.println("OK");
-                            msg = "Thêm nhân viên thành công";
+                        if (get_end_year - get_start_year == 0) {
+                            // Thời hạn hợp đồng làm việc của 1 nhân viên ít nhất 6 tháng
+                            if (get_end_month - get_start_month < 6) {
+                                msg = "Thời gian làm việc ít nhất 6 tháng";
+                            } else {
+                                msg = "Thời hạn làm việc phù hợp";
+                                // set trạng thái cho tài khoản mặc định là 'false' (chưa active tài khoản)
+                                boolean activeAcc = false;
+                                if (isActive != null) {
+                                    activeAcc = true;
+                                }
+                                // Set mat khau mac dinh la '123456789' ; set trang thai dang nhap mac dinh la 'false'
+                                if (dao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, "123456789", cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
+                                    msg = "Thêm nhân viên thành công";
+                                } else {
+                                    msg = "Thêm nhân viên không thành công";
+                                }
+                            }
+                        } else if (get_end_year - get_start_year < 0) {
+                            msg = "Thời hạn làm việc không hợp lệ";
                         } else {
-//                    out.println("NO");
-                            msg = "Thêm nhân viên không thành công";
+                            msg = "Thời hạn làm việc phù hợp";
+                            // set trạng thái cho tài khoản mặc định là 'false' (chưa active tài khoản)
+                            boolean activeAcc = false;
+                            if (isActive != null) {
+                                activeAcc = true;
+                            }
+                            // Set mat khau mac dinh la '123456789' ; set trang thai dang nhap mac dinh la 'false'
+                            if (dao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, "123456789", cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
+                                msg = "Thêm nhân viên thành công";
+                            } else {
+                                msg = "Thêm nhân viên không thành công";
+                            }
                         }
                     }
-                }else if(get_end_year - get_start_year < 0){
-                    msg = "Thời hạn làm việc không hợp lệ";
                 }
-
+            } catch (Exception e) {
+                out.print("Dcu nhap lai!!!");
+                msg = "Dcu nhap lai!!!";
             }
         }
         request.setAttribute("MSG", msg);
