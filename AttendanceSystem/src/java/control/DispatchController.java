@@ -46,10 +46,14 @@ public class DispatchController extends HttpServlet {
                 URL = "updateProfileByEmployee";
             } else if (button.equals("Send")) {
                 URL = "MailServlet";
-            } else if (button.equals("Submit")) {
+            } else if (button.equals("Reset")) {
                 URL = "MailServlet";
             } else if (button.equals("Save change")) {
                 URL = "ChangePasswordServlet";
+
+            } else if (button.equals("Insert")) {
+                URL = "InsertEmployeeServlet";
+
             } else if (button.equals("ViewEmployee")) {
                 URL = "ViewAllEmployee.jsp";
             } else if (button.equals("Update")) {
@@ -58,6 +62,7 @@ public class DispatchController extends HttpServlet {
                 URL = "UpdateEmployeeByHRServlet";
             }else if(button.equals("viewListByDepartment")){
                 URL = "listByDepartment";
+
             }
         } finally {
             request.setAttribute("List", list);

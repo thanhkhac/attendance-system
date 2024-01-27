@@ -53,50 +53,47 @@ public class MailServlet extends HttpServlet {
 
         // check 
         PrintWriter out = response.getWriter();
-        out.println(button);
-        out.println(receivemail);
-        out.println(otp);
 
         HttpSession session = request.getSession();
         EmployeeDAO eDao = new EmployeeDAO();
         EmailModule external = new EmailModule();
-        
         
         String check_email = eDao.getEmail(receivemail);
 
         // button Send mail
         if (button.equals("Send")) {
             if (receivemail.isEmpty()) {
-                msg = "Enter email address please !";
+                msg = "Vui lòng điền email";
             } else {
                 if (check_email == null || !receivemail.equals(check_email)) {
-                    msg = "Email Invalid!";
+                    msg = "Email không tồn tại";
                 } else {
-                    msg = "OTP code just send, check your email please !";
+                    msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
                     // Send otp to email
                     String otp_send = external.sendOTP(receivemail);
+                    session.setAttribute("EMAIL", receivemail);
                     // store otp into session
                     session.setAttribute("OTP", otp_send);
                     // set usetime for that session       
-                    session.setMaxInactiveInterval(60);
+//                    session.setMaxInactiveInterval(60);
                 }
             }
         } // button Submit form
-        else if (button.equals("Submit")) {
+        else if (button.equals("Reset")) {
             if (receivemail.isEmpty() || otp.isEmpty()) {
-                msg = "Enter OTP please !";
+                msg = "Mã OTP chưa được điền";
             } else {
                 String opt_temp = (String) request.getSession().getAttribute("OTP");
                 if (otp.equals(opt_temp)) {
-                    msg = "OTP Correct";
+                    msg = "Mã OTP đúng";
                     response.sendRedirect("Forgot_PW.jsp");
                     return;
                 } else {
-                    msg = "OTP Incorrect";
+                    msg = "Mã OTP sai";
                 }
             }
         }
-        request.setAttribute("MAIL", receivemail);
+//        request.setAttribute("MAIL", receivemail);
         request.setAttribute("MSG", msg);
         request.getRequestDispatcher("Recovery_PW_Page.jsp").forward(request, response);
     }

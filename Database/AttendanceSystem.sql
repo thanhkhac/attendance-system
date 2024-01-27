@@ -222,7 +222,7 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email,
 --Deparment Manager
 (N'Bách', N'Việt', N'Lê', 1, '2003-01-01', N'bachlv3@fpt.edu.vn', '1234564578', '026303003033', '234432445', @Part_Time, @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31'),
 --HR Manager
-(N'Dương', N'Mạnh', N'Nguyễn', 1, '2003-01-01', N'duong@gmail.com','1234564578', '001204002773', '25425345', @Intern, @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31')
+(N'Dương', N'Mạnh', N'Nguyễn', 1, '2003-01-01', N'nguyennduongg039@gmail.com','1234564578', '001204002773', '25425345', @Intern, @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31')
 
 --New Data
 INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber,EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) VALUES
@@ -256,6 +256,7 @@ VALUES
     (N'Ca cả ngày', '07:30:00', '17:30:00');
 
 
+
 --Timesheet 
 DECLARE @KhacThanh int = (SELECT EmployeeID FROM Employees WHERE Email = N'thanhcqb2048@gmail.com')
 DECLARE @EmployeeID INT = @KhacThanh;
@@ -275,6 +276,7 @@ END
 INSERT INTO Timesheet ([Date], EmployeeID, ShiftID)
 SELECT SelectedDate, @EmployeeID, @ShiftID
 FROM @DateList;
+
 
 INSERT INTO Leaves (TimeSheetID, Reason, [Status], ResponedBy) VALUES (1, 'Ốm', 1, 2)
 
