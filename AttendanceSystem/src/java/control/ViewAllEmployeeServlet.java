@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import model.*;
 
@@ -31,10 +32,8 @@ public class ViewAllEmployeeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        EmployeeDAO dao = new EmployeeDAO();
-//        ArrayList<EmployeeDTO> listE = dao.getEmployeeInfo();
-//        request.setAttribute("List", listE);
-//        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        String requestAssignManager = (String) session.getAttribute("RequestAssignManager");
         String searchValue = request.getParameter("txtSearchValue");
         String departmentID = request.getParameter("txtDepartment");
         String typeID = request.getParameter("txtType");
@@ -44,36 +43,79 @@ public class ViewAllEmployeeServlet extends HttpServlet {
         list = dao.filterByAJAX(searchValue, departmentID, typeID, order);
 
         PrintWriter out = response.getWriter();
-        out.print("<table class=\"table table-hover\">\n"
-                + "                    <thead>\n"
-                + "                    <th>EmployeeID</th>\n"
-                + "                    <th>LastName</th>\n"
-                + "                    <th>MiddleName</th>\n"
-                + "                    <th>FirstName</th>\n"
-                + "                    <th>Email</th>\n"
-                + "                    </thead>\n"
-                + "                    <tbody>"
-                + "<div id=\"list-content\" >");
+        if (requestAssignManager.length() > 0) {
+            out.print("<table class=\"table table-hover\">\n"
+                    + "                    <thead>\n"
+                    + "                    <th>EmployeeID</th>\n"
+                    + "                    <th>LastName</th>\n"
+                    + "                    <th>MiddleName</th>\n"
+                    + "                    <th>FirstName</th>\n"
+                    + "                    <th>Email</th>\n"
+                    + "                    <th>Apply</th>\n"
+                    + "                    </thead>\n"
+                    + "                    <tbody>"
+                    + "<div id=\"list-content\" >");
+        } else {
+            out.print("<table class=\"table table-hover\">\n"
+                    + "                    <thead>\n"
+                    + "                    <th>EmployeeID</th>\n"
+                    + "                    <th>LastName</th>\n"
+                    + "                    <th>MiddleName</th>\n"
+                    + "                    <th>FirstName</th>\n"
+                    + "                    <th>Email</th>\n"
+                    + "                    </thead>\n"
+                    + "                    <tbody>"
+                    + "<div id=\"list-content\" >");
+        }
 
-        for (EmployeeGeneral e : list) {
-            out.print(" <div class=\"table-row-container\">\n"
-                    + "                            <tr class=\"table-primary space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
-                    + "                                <td>" + e.getEmployeeID() + "</td>\n"
-                    + "                                <td>" + e.getLastName() + "</td>\n"
-                    + "                                <td>" + e.getMiddleName() + "</td>\n"
-                    + "                                <td>" + e.getFirstName() + "</td>\n"
-                    + "                                <td>" + e.getEmail() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getGender() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getBirthDate() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getCccd() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getPhoneNumber() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getEmployeeTypeName() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getDepartmentName() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getRoleName() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getStartDate() + "</td>\n"
-                    + "                                <td style=\"display: none\">" + e.getEndDate() + "</td>\n"
-                    + "                            </tr>\n"
-                    + "</div>");
+        if (requestAssignManager.length() > 0) {
+            for (EmployeeGeneral e : list) {
+                out.print(" <div class=\"table-row-container\">\n"
+                        + "                            <tr class=\"table-primary space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
+                        + "                                <td>" + e.getEmployeeID() + "</td>\n"
+                        + "                                <td>" + e.getLastName() + "</td>\n"
+                        + "                                <td>" + e.getMiddleName() + "</td>\n"
+                        + "                                <td>" + e.getFirstName() + "</td>\n"
+                        + "                                <td>" + e.getEmail() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getGender() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getBirthDate() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getCccd() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getPhoneNumber() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getEmployeeTypeName() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getDepartmentName() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getRoleName() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getStartDate() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getEndDate() + "</td>\n"
+                        + "                                <td>"
+                        + "                                   <form>"
+                        + "                                       <input type=\"hidden\" name=\"ManagerIDAssigned\" value=\"" + e.getEmployeeID() + "\">\n"
+                        + "                                       <input class=\"btn btn-success\" type=\"submit\" name=\"btAction\" value=\"Assign\">"
+                        + "                                   </form>"
+                        + "                               </td>"
+                        + "                            </tr>\n"
+                        + "</div>");
+            }
+        } else {
+            for (EmployeeGeneral e : list) {
+                out.print(" <div class=\"table-row-container\">\n"
+                        + "                            <tr class=\"table-primary space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
+                        + "                                <td>" + e.getEmployeeID() + "</td>\n"
+                        + "                                <td>" + e.getLastName() + "</td>\n"
+                        + "                                <td>" + e.getMiddleName() + "</td>\n"
+                        + "                                <td>" + e.getFirstName() + "</td>\n"
+                        + "                                <td>" + e.getEmail() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getGender() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getBirthDate() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getCccd() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getPhoneNumber() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getEmployeeTypeName() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getDepartmentName() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getRoleName() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getStartDate() + "</td>\n"
+                        + "                                <td style=\"display: none\">" + e.getEndDate() + "</td>\n"
+                        + "                            </tr>\n"
+                        + "</div>");
+            }
         }
         out.print(" </div>\n"
                 + "                    </tbody>\n"

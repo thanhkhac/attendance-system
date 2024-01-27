@@ -52,7 +52,7 @@
                             <td>${d.getName()}</td>
                             <td>${d.getManagerID()}</td>
                             <td>
-                                <form action="DispathController" method="POST">
+                                <form action="DispatchController" method="POST">
                                     <input type="hidden" value="${d.getDepartmentID()}" name="departmentID"/>
                                     <input type="submit" value="Assign Manager" name="btAction" class="btn btn-danger" />
                                 </form>
