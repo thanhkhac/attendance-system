@@ -6,9 +6,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
-        
-                <!--link js drop down-->
+        <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
+
+        <!--link js drop down-->
 
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
         <!--
@@ -17,7 +17,7 @@
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-                <!--link js drop down-->
+        <!--link js drop down-->
 
         <title>Attendance_Checking_System</title>
         <style>
@@ -240,7 +240,7 @@
                 margin-top: 43px;
                 margin-left: 70px;
             }
-            
+
             .add-button{
                 margin-top: 20px;
             }
@@ -299,7 +299,7 @@
                     display: block;
                     flex-direction: column;
                     /*overflow-y: auto;*/
-/*                    max-height: 600px;*/
+                    /*                    max-height: 600px;*/
                 }
                 .popupBody-content-right{
                     border: none;
@@ -330,6 +330,8 @@
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
+        <!--RequestAssignManager = departmentID-->
+        <c:set var="RequestAssignManager" value="${sessionScope.RequestAssignManager}" />
         <%@include file="Sidebar.jsp" %>
         <div id="content">
             <div>
@@ -385,6 +387,9 @@
                     <th>MiddleName</th>
                     <th>FirstName</th>
                     <th>Email</th>
+                        <c:if test="${RequestAssignManager!=null}" >
+                        <th>Apply</th>
+                        </c:if>
                     </thead>
                     <tbody >
                     <div id="list-content" >
@@ -405,6 +410,14 @@
                                     <td style="display: none">${a.getRoleName()}</td>
                                     <td style="display: none">${a.getStartDate()}</td>
                                     <td style="display: none">${a.getEndDate()}</td>
+                                    <c:if test="${RequestAssignManager!=null}" >
+                                        <td>
+                                            <form action="DispatchController">
+                                                <input type="hidden" name="ManagerIDAssigned" value="${a.getEmployeeID()}">
+                                                <input class="btn btn-success" type="submit" name="btAction" value="Assign">
+                                            </form>
+                                        </td>
+                                    </c:if>
                                 </tr>
                             </div>
                         </c:forEach>
