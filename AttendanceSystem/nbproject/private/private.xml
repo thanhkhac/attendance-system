@@ -51,20 +51,9 @@
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/index.html</file>
         </group>
         <group>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ViewAllEmployee.jsp</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/ViewProfileServlet.java</file>
             <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/DepartmentServlet.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/index.html</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ViewDepartment.jsp</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/Sidebar.jsp</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
             <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/DepartmentDAO.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/EmployeeTypeDAO.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/viewprofile.jsp</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/DepartmentDTO.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/EmployeeDTO.java</file>
+            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ViewDepartment.jsp</file>
         </group>
     </open-files>
 </project-private>

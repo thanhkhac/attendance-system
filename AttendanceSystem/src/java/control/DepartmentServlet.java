@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package control;
 
 import java.io.IOException;
@@ -12,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import model.DepartmentDAO;
@@ -24,46 +24,56 @@ import model.EmployeeGeneral;
  *
  * @author acer
  */
-@WebServlet(name="DepartmentServlet", urlPatterns={"/DepartmentServlet"})
+@WebServlet(name = "DepartmentServlet", urlPatterns = {"/DepartmentServlet"})
 public class DepartmentServlet extends HttpServlet {
-   
-     @Override
+    
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        DepartmentDAO departmentDAO = new DepartmentDAO();
+        HttpSession session = request.getSession();
+        List<DepartmentDTO> list = (List<DepartmentDTO>) session.getAttribute("listDepartment");
+        if (list == null) {
+            DepartmentDAO departmentDAO = new DepartmentDAO();
+            list = departmentDAO.getListDepartment();
+        }
         EmployeeDAO employeeDAO = new EmployeeDAO();
-        List<DepartmentDTO> listDepartment = departmentDAO.getListDepartment();
         ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
-
-        request.setAttribute("listDepartment", listDepartment);
+        request.setAttribute("listDepartment", list);
         request.setAttribute("listEmployee", listEmployee);
         request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
+        List<DepartmentDTO> list = null;
         switch (action) {
             case "delete":
-                delete(request, response);
+                list = delete(request, response);
                 break;
             case "edit":
-                edit(request, response);
+                list = edit(request, response);
                 break;
             case "add":
-                add(request, response);
+                list = add(request, response);
+                break;
+            case "search":
+                list = search(request, response);
                 break;
             default:
-
+                list = new DepartmentDAO().getListDepartment();
+                break;
         }
-        response.sendRedirect("department");
+        //set to session
+        request.getSession().setAttribute("listDepartment", list);
+        response.sendRedirect("DepartmentServlet");
     }
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -76,28 +86,42 @@ public class DepartmentServlet extends HttpServlet {
             out.println("</html>");
         }
     }
-
-    private void delete(HttpServletRequest request, HttpServletResponse response) {
+    
+    private List<DepartmentDTO> delete(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         int departmentId = Integer.parseInt(request.getParameter("id"));
         boolean isDelete = departmentDAO.deleteById(departmentId);
+        return departmentDAO.getListDepartment();
     }
-
-    private void edit(HttpServletRequest request, HttpServletResponse response) {
+    
+    private List<DepartmentDTO> edit(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         String name = request.getParameter("departmentName");
-         DepartmentDTO dto = new DepartmentDTO();
-//        dto.setDepartmentID(departmentId);
-//        dto.setName(name);
+        DepartmentDTO dto = new DepartmentDTO();
+        dto.setDepartmentID(departmentId);
+        dto.setName(name);
         boolean isEditSuccess = departmentDAO.edit(dto);
+        return departmentDAO.getListDepartment();
+        
     }
-
-    private void add(HttpServletRequest request, HttpServletResponse response) {
+    
+    private List<DepartmentDTO> add(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         String name = request.getParameter("departmentName");
         DepartmentDTO dto = new DepartmentDTO();
-//        dTO.setName(name);
+        dto.setName(name);
         boolean isAddSuccess = departmentDAO.addDepartment(dto);
+        return departmentDAO.getListDepartment();
+    }
+    
+    private List<DepartmentDTO> search(HttpServletRequest request, HttpServletResponse response) {
+        String keyword = request.getParameter("keyword");
+        DepartmentDAO departmentDAO = new DepartmentDAO();
+        DepartmentDTO dto = new DepartmentDTO();
+        dto.setName(keyword);
+        List<DepartmentDTO> list = departmentDAO.searchByName(dto);
+        System.out.println(list.toString());
+        return list;
     }
 }

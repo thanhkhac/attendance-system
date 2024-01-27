@@ -8,6 +8,7 @@ import dbhelper.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -132,6 +133,34 @@ public class DepartmentDAO extends DBContext {
             }
         }
         return false;
+    }
+
+    public List<DepartmentDTO> searchByName(DepartmentDTO dto) {
+        
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<DepartmentDTO> list = new ArrayList<>();
+        if (connection != null) {
+            try {
+                String sql = "SELECT * FROM Departments where Name like ?";
+                stm = connection.prepareStatement(sql);
+                stm.setObject(1, "%" + dto.getName() + "%");
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int departmentID = rs.getInt("DepartmentID");
+                    String name = rs.getString("Name");
+                    int managerID = rs.getInt("ManagerID");
+                    DepartmentDTO de = new DepartmentDTO(departmentID, name, managerID);
+                    list.add(de);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            } finally {
+                //close
+            }
+        }
+        return list;
     }
 
 }
