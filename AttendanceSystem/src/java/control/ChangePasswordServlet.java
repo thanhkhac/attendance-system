@@ -29,12 +29,13 @@ public class ChangePasswordServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
         String mail = request.getParameter("txtMail");
         String password = request.getParameter("txtPassword");
         String re_enter_pw = request.getParameter("txtRePassword");
-
+        String mail_session = (String) request.getSession().getAttribute("EMAIL");
+        
         String msg = "";
-
         PrintWriter out = response.getWriter();
 
         out.println(mail);
@@ -45,17 +46,17 @@ public class ChangePasswordServlet extends HttpServlet {
         String get_mail = eDao.getEmail(mail);
 
         if (mail.isEmpty() || password.isEmpty() || re_enter_pw.isEmpty()) {
-            msg = "No Empty please !";
+            msg = "Vui lòng điền đầy đủ thông tin";
         } else {
-            if (get_mail == null || !mail.equals(get_mail)) {
-                msg = "Email invalid !";
+            if (get_mail == null || !mail.equals(get_mail) || !mail.equals(mail_session)) {
+                msg = "Sai email";
             } else { 
                 if (!password.equals(re_enter_pw)) {
-                    msg = "Password and re-Password must be the same !";
+                    msg = "Password và re-Password phải đồng nhất";
                 } else {
-                    msg = "Password and re-Password are the same !";
+                    msg = "Password and re-Password đồng nhất";
                     if (eDao.updatePassword(mail, re_enter_pw)) {
-                        msg = "Successful";
+                        msg = "Đổi mật khẩu thành công";
                         response.sendRedirect("Login.jsp");
                         return;
                     }
