@@ -119,6 +119,12 @@ public class RouterFilter implements Filter {
         allowedPaths.add("/checkLogin".toLowerCase());
         allowedPaths.add("/cookieLogin".toLowerCase());
         allowedPaths.add("/Login.html".toLowerCase());
+        allowedPaths.add("/Login.jsp".toLowerCase());
+        allowedPaths.add("/RecoveryPassword.jsp".toLowerCase());
+        allowedPaths.add("/ChangePassword.jsp".toLowerCase());
+        allowedPaths.add("/ChangePasswordServlet".toLowerCase());
+        allowedPaths.add("/RecoveryPasswordServlet".toLowerCase());
+        allowedPaths.add("/loginGoogle".toLowerCase());
         
         if (employee == null) {
             if (!allowedPaths.contains(url) && !url.contains("/DispatchController".toLowerCase())) {
