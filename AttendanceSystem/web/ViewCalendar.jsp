@@ -4,7 +4,8 @@
 <%@page import="java.util.*" %>
 <%@page import="java.time.*"%>
 <%@page import="model.TimesheetDAO"%>
-<%@page import="model.WorkDayDetails"%>
+<%@page import="model.EmployeeDTO"%>
+<%@page import="control.workday.*"%>
 <%@page import="ultility.datetimeutil.DateTimeUtil"%>
 <html lang="en">
 
@@ -38,15 +39,17 @@
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }        
-        int employeeID = 1;
+        }
+        
         
         TimesheetDAO tsDAO = new TimesheetDAO();
         ArrayList<LocalDate> calendar = dateTimeUtil.getCalendar(year, month);
         
+        EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
+
         ArrayList<WorkDayDetails> workingdays = new ArrayList<>();
         for (LocalDate localDate : calendar) {
-            workingdays.add(new WorkDayDetails(localDate, employeeID));
+            workingdays.add(new WorkDayDetails(localDate, employeeDTO.getEmployeeID()));
         }
         LocalDate today = dateTimeUtil.getVNLocalDateNow();
         request.setAttribute("workingdays", workingdays);
@@ -67,7 +70,7 @@
                     </tr>
                 </thead>
                 <c:set var="index" value="${0}"/>
-                <c:forEach var="wkday" items="${workingdays}" varStatus="counter">
+                <c:forEach var="wkday" items="${requestScope.workingdays}" varStatus="counter">
                     <c:if test="${counter.index % 7 == 0}">
                         <tr>
                         </c:if>
@@ -144,7 +147,7 @@
                                                                             <tr>
                                                                                 <td>Chấp thuận bởi:
                                                                                 </td>
-                                                                               
+
                                                                                 <td>${wkday.leaveResponed.lastName} ${wkday.leaveResponed.middleName} ${wkday.leaveResponed.firstName}</td>
                                                                             </tr>
                                                                             <tr>
