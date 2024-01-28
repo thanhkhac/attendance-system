@@ -5,8 +5,8 @@
         <servlet-class>Servlet.Test</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewAllEmployeeServlet</servlet-name>
-        <servlet-class>control.ViewAllEmployeeAjax</servlet-class>
+        <servlet-name>ViewAllEmployeeAjax</servlet-name>
+        <servlet-class>control.employee.ViewAllEmployeeAjax</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewScheduleServlet</servlet-name>
@@ -17,8 +17,8 @@
         <url-pattern>/Test</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewAllEmployeeServlet</servlet-name>
-        <url-pattern>/ViewAllEmployeeServlet</url-pattern>
+        <servlet-name>ViewAllEmployeeAjax</servlet-name>
+        <url-pattern>/ViewAllEmployeeAjax</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewScheduleServlet</servlet-name>
