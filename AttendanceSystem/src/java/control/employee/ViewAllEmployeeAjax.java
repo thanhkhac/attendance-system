@@ -33,7 +33,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        String requestAssignManager = (String) session.getAttribute("RequestAssignManager");
+        DepartmentDTO requestAssignManager = (DepartmentDTO) session.getAttribute("RequestAssignManager");
         String searchValue = request.getParameter("txtSearchValue");
         String departmentID = request.getParameter("txtDepartment");
         String typeID = request.getParameter("txtType");
@@ -43,7 +43,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
         list = dao.filterByAJAX(searchValue, departmentID, typeID, order);
 
         PrintWriter out = response.getWriter();
-        if (requestAssignManager!=null) {
+        if (requestAssignManager != null) {
             out.print("<table class=\"table table-hover\">\n"
                     + "                    <thead>\n"
                     + "                    <th>EmployeeID</th>\n"
@@ -68,7 +68,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
                     + "<div id=\"list-content\" >");
         }
 
-        if (requestAssignManager!=null) {
+        if (requestAssignManager != null) {
             for (EmployeeGeneral e : list) {
                 out.print(" <div class=\"table-row-container\">\n"
                         + "                            <tr class=\"table-primary space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
@@ -88,11 +88,13 @@ public class ViewAllEmployeeAjax extends HttpServlet {
                         + "                                <td style=\"display: none\">" + e.getEndDate() + "</td>\n"
                         + "                                <td>"
                         + "                                   <form action=\"DispatchController\">\n"
-                        + "                                                <input type=\"hidden\" name=\"departmentID\" id=\"requestDepartmentID\" value=\""+requestAssignManager+"\">\n"
+                        + "                                                <input type=\"hidden\" name=\"employeeName\" id=\"employeeFullName\" value=\"" + e.getLastName() + " " + e.getMiddleName() + " " + e.getLastName() + "\">\n"
+                        + "                                                <input type=\"hidden\" name=\"departmentID\" id=\"requestDepartmentID\" value=\"" + requestAssignManager.getDepartmentID() + "\">\n"
+                        + "                                                <input type=\"hidden\" name=\"departmentName\" id=\"requestDepartmentName\" value=\"" + requestAssignManager.getName() + "\">\n"
                         + "                                                <button onclick=\"confirmation(this)\"\n"
                         + "                                                        class=\"btn btn-success\"\n"
                         + "                                                        type=\"button\" \n"
-                        + "                                                        value=\""+e.getEmployeeID()+"\" \n"
+                        + "                                                        value=\"" + e.getEmployeeID() + "-" + e.getLastName() + " " + e.getMiddleName() + " " + e.getLastName() + "\" \n"
                         + "                                                        >Assign</button>\n"
                         + "                                            </form>"
                         + "                               </td>"
