@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import model.DepartmentDAO;
+import model.DepartmentDTO;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
 
@@ -51,11 +53,9 @@ public class SearchEmployeeAjax extends HttpServlet {
         String phongBan = request.getParameter("phong");
         String tenPhong = null;
         int phong = Integer.parseInt(phongBan);
-        if (phong == 1) {
-            tenPhong = "Phòng nhân sự";
-        } else {
-            tenPhong = "Phòng tiếp thị";
-        }
+        DepartmentDAO depatDAO = new DepartmentDAO();
+        DepartmentDTO department = depatDAO.getDepartmentById(phong);
+        tenPhong = department.getName();
         int count = dao.getTotalEmployeeByDepartment(phong, txtSearch,ca);
         int endPage = 0;
         if (count % 2 == 0) {
