@@ -54,7 +54,7 @@ public class InsertEmployeeServlet extends HttpServlet {
         String isActive = request.getParameter("txtIsActive");
 
         PrintWriter out = response.getWriter();
-        // check
+
         EmployeeDAO emDao = new EmployeeDAO();
         DepartmentDAO deDao = new DepartmentDAO();
         EmployeeTypeDAO emTypeDao = new EmployeeTypeDAO();

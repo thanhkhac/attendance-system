@@ -9,14 +9,6 @@
         <servlet-class>control.ViewAllEmployeeAjax</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>MailServlet</servlet-name>
-        <servlet-class>control.RecoveryPasswordServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ChangePasswordServlet</servlet-name>
-        <servlet-class>control.ChangePasswordServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ViewScheduleServlet</servlet-name>
         <servlet-class>controllers.ViewCalendarServlet</servlet-class>
     </servlet>
@@ -27,14 +19,6 @@
     <servlet-mapping>
         <servlet-name>ViewAllEmployeeServlet</servlet-name>
         <url-pattern>/ViewAllEmployeeServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>MailServlet</servlet-name>
-        <url-pattern>/MailServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePasswordServlet</servlet-name>
-        <url-pattern>/ChangePasswordServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ViewScheduleServlet</servlet-name>
