@@ -5,6 +5,8 @@
 package model;
 
 import dbhelper.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 /**
@@ -35,4 +37,29 @@ public class EmployeeTypeDAO extends DAOBase {
         }
         return list;
     }
+    
+    public int getEmployeeTypeIDByName(String employeeTypeName) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int id = 0;
+        if (connection != null) {
+            try {
+                String sql = "SELECT EmployeeTypeID \n"
+                + "FROM EmployeeTypes \n"
+                + "WHERE [Name] = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setNString(1, employeeTypeName);
+                rs = stm.executeQuery();
+                
+                if (rs.next()) {
+                    id = rs.getInt("EmployeeTypeID");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return id;
+    }
+    
 }

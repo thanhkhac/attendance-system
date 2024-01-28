@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.*" %>
+<%@page import="model.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -65,8 +67,15 @@
         if(phonenumber == null){
             phonenumber = "";
         }
+        
+        EmployeeTypeDAO emTypeDao = new EmployeeTypeDAO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        RoleDAO roDAO = new RoleDAO();
+        List<EmployeeTypeDTO> listEmployeeType = emTypeDao.getEmployeeTypeList();
+        List<DepartmentDTO> listDepartment = deDao.getListDepartment();
+        List<RoleDTO> listRole = roDAO.getRoleList();
+        
     %>
-
     <body>
         <form action="DispatchController">
             <section class="vh-100 gradient-custom">
@@ -171,9 +180,13 @@
 
                                                 <select class="select form-control-lg display-color" name="txtEmployeeTypeID" " >
                                                     <option value="" disabled>Choose option</option>
-                                                    <option value="fulltime">Toàn thời gian</option>
-                                                    <option value="parttime">Bán thời gian</option>
-                                                    <option value="intern">Thực tập</option>
+                                                    <%
+                                                    for (EmployeeTypeDTO employeeTypeDTO : listEmployeeType) {
+                                                    %>
+                                                    <option value="<%=employeeTypeDTO.getName()%>"><%=employeeTypeDTO.getName()%></option>
+                                                    <%
+                                                    }
+                                                    %>
                                                 </select> 
                                                 <label class="form-label select-label">Loại nhân viên</label>
 
@@ -183,8 +196,13 @@
 
                                                 <select class="select form-control-lg display-color" name="txtDepartmentID" ">
                                                     <option value="" disabled>Choose option</option>
-                                                    <option value="phongNhanSu">Phòng nhân sự</option>
-                                                    <option value="phongTiepThi">Phòng tiếp thị</option>
+                                                    <%
+                                                    for (DepartmentDTO departmentDTO : listDepartment) {
+                                                    %>
+                                                    <option value="<%=departmentDTO.getName()%>"><%=departmentDTO.getName()%></option>
+                                                    <%    
+                                                    }
+                                                    %>
                                                 </select> 
                                                 <label class="form-label select-label">Phòng ban</label>
 
@@ -194,9 +212,13 @@
 
                                                 <select class="select form-control-lg display-color" name="txtRoleID" ">
                                                     <option value="1" disabled>Choose option</option>
-                                                    <option value="nhanVien">Nhân viên</option>
-                                                    <option value="quanLyNhanSu">Quản lý nhân viên</option>
-                                                    <option value="admin">Admin</option>
+                                                    <%
+                                                    for (RoleDTO roleDTO : listRole) {
+                                                    %>
+                                                    <option value="<%=roleDTO.getName()%>"><%=roleDTO.getName()%></option>
+                                                    <%
+                                                    }
+                                                    %>
                                                 </select> 
                                                 <label class="form-label select-label">Chức vụ</label>
 

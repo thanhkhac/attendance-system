@@ -124,24 +124,24 @@
     </head>
     <body>
 
-        <%
+        <%--
             String mail = (String) request.getAttribute("MAIL");
             if(mail == null){
                 mail = "";
             }
-        %>
+        --%>
 
         <form action="DispatchController" method="post">
             <div class="login-form">
                 <div class="form-title">
                     Forgot Password
                 </div>
-
+<%--
                 <div class="form-input">
                     <label for="username">Email Address</label>
                     <input class="inp" type="text" name="txtMail" value="<%=mail%>">
                 </div>
-
+--%>
                 <div class="form-input">
                     <label for="name">Password</label>
                     <input class="inp" type="password" name="txtPassword" value="">

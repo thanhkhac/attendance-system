@@ -22,7 +22,7 @@ import javax.mail.internet.MimeMessage;
 public class EmailModule {
     
     // NguyenManhDuong - Send otp to email
-    public String sendOTP(String receiveEmail) {
+    public String sendOTP(String mess ,String receiveEmail) {
         final String title = "Demo Send Mail";    // Title mail
         final String from = "demojavamail268@gmail.com"; // Email gửi tbao
         final String password = "vfvh zchc ptsj fkgr";  // Password của email gửi tbao
@@ -30,7 +30,7 @@ public class EmailModule {
 
 //         Nội dung gửi mail
         String content = "\n** This is an automated message -- please do not reply as you will not receive a response. ** "
-                + "\nYour password is: " + capcha
+                + "\nYour " + mess +" is: " + capcha
                 + "\nThank you.";
 
         // Đối tượng trong java để lưu trữ cặp key-value được sử dụng để cấu hình 
