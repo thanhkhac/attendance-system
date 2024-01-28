@@ -132,12 +132,8 @@
 
         <%
             String mail = (String) request.getSession().getAttribute("EMAIL");
-            String err_mail = (String) request.getAttribute("MAIL");
             if(mail == null){
                 mail = "";
-            }
-            if(err_mail == null){
-                err_mail = "";
             }
         %>
 
@@ -153,7 +149,7 @@
 
                 <div class="form-input">
                     <!--<label for="username">Email Address</label>-->
-                    <input class="inp" type="text" name="txtMail" value="<%=mail%><%=err_mail%>" placeholder="Email address">
+                    <input class="inp" type="text" name="txtMail" value="<%=mail%>" placeholder="Email address">
                 </div>
 
                 <div class="captcha">
