@@ -62,7 +62,8 @@
         </group>
         <group name="java-modules">
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/filter/RouterFilter.java</file>
-            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/control/authentication/CheckLoginServlet.java</file>
+            <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/control/authentication/CookieLoginServlet.java</file>
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/ViewCalendar.jsp</file>
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
         </group>
