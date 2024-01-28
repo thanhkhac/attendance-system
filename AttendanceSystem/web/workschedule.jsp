@@ -32,45 +32,42 @@
                     <h2>Lịch làm việc</h2>
                 </div>
                 <div class="d-flex justify-content-around px-3 py-3 align-middle">
-                    <select id="shift-select" class="form-select">
-                        <option value="">Tất cả</option>
-                        <option value="shif-1">Ca sáng</option>
-                        <option value="shift-2">Ca chiều</option>
-                        <option value="overtime">Tăng ca</option>
-                        <option value="leave">Ngày nghỉ</option>
-                    </select>
                     <select id="month" class="form-select">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="1">Tháng 1</option>
+                        <option value="2">Tháng 2</option>
+                        <option value="3">Tháng 3</option>
+                        <option value="4">Tháng 4</option>
+                        <option value="5">Tháng 5</option>
+                        <option value="6">Tháng 6</option>
+                        <option value="7">Tháng 7</option>
+                        <option value="8">Tháng 8</option>
+                        <option value="9">Tháng 9</option>
+                        <option value="10">Tháng 10</option>
+                        <option value="11">Tháng 11</option>
+                        <option value="12">Tháng 12</option>
                     </select>
 
                     <select id="year" class="form-select">
                         <option value="2022">2022</option>
                         <option value="2023">2023</option>
-                        <option value="2024">2024</option>
+                        <option value="2024" selected>2024</option>
                         <option value="2024">2025</option>
                         <option value="2024">2026</option>
+                        <option value="2024">2027</option>
+                        <option value="2024">2028</option>
+                        <option value="2024">2029</option>
                     </select>
-                    <button class="form-control">Trước</button>
-                    <button class="form-control">Sau</button>
+                    <button class="form-control" id="previous">Trước</button>
+                    <button class="form-control" id="next">Sau</button>
                 </div>
-                <div>
-                    <%@include file="view-calendar.jsp" %>
+                <div id="result">
+                    <%@include file="ViewCalendar.jsp" %>
                 </div>
             </div>
 
         </div>
 
-        <script src="assets/calendar/view-workschedule.js"></script>
+        <script src="assets/js/workschedule.js"></script>
+        <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
