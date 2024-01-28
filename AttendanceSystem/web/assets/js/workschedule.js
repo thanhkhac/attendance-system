@@ -5,7 +5,7 @@ $(document).ready(function () {
         var selectedYear = $("#year").val();
         $.ajax({
             type: "POST",
-            url: "view-calendar.jsp",
+            url: "ViewCalendar.jsp",
             data: {
                 month: selectedMonth,
                 year: selectedYear
@@ -52,7 +52,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "view-calendar.jsp",
+            url: "ViewCalendar.jsp",
             data: {
                 month: selectedMonth,
                 year: selectedYear
