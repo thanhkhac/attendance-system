@@ -94,7 +94,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
                         + "                                                <button onclick=\"confirmation(this)\"\n"
                         + "                                                        class=\"btn btn-success\"\n"
                         + "                                                        type=\"button\" \n"
-                        + "                                                        value=\"" + e.getEmployeeID() + "-" + e.getLastName() + " " + e.getMiddleName() + " " + e.getLastName() + "\" \n"
+                        + "                                                        value=\"" + e.getEmployeeID() + "-" + e.getLastName() + " " + e.getMiddleName() + " " + e.getFirstName() + "\" \n"
                         + "                                                        >Assign</button>\n"
                         + "                                            </form>"
                         + "                               </td>"
