@@ -6,15 +6,15 @@
     </servlet>
     <servlet>
         <servlet-name>ViewAllEmployeeServlet</servlet-name>
-        <servlet-class>controllers.employee.ViewAllEmployeeAjax</servlet-class>
+        <servlet-class>control.ViewAllEmployeeAjax</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MailServlet</servlet-name>
-        <servlet-class>controllers.authentication.RecoveryPasswordServlet</servlet-class>
+        <servlet-class>control.RecoveryPasswordServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePasswordServlet</servlet-name>
-        <servlet-class>controllers.authentication.ChangePasswordServlet</servlet-class>
+        <servlet-class>control.ChangePasswordServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewScheduleServlet</servlet-name>

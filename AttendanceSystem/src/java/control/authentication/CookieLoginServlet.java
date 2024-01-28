@@ -3,23 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controllers.authentication;
+package control.authentication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="Logout", urlPatterns={"/logout"})
-public class LogoutServlet extends HttpServlet {
+@WebServlet(name="CookieLogin", urlPatterns={"/cookieLogin"})
+public class CookieLoginServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -31,9 +31,20 @@ public class LogoutServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
-        session.invalidate();
-        response.sendRedirect("index.html");
+        PrintWriter out = response.getWriter();
+        if(request.getCookies()!=null){
+        Cookie arr[] = request.getCookies();
+
+            for(Cookie o: arr){
+                if(o.getName().equals("EmailCookie")){
+                request.setAttribute("Email", o.getValue());  
+                }
+                if(o.getName().equals("PassWordCookie"))
+                request.setAttribute("Password", o.getValue());
+            
+        }
+        }
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controllers.employee;
+package control.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,18 +13,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
-import model.ShiftDAO;
-import model.ShiftDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="listByDepartment", urlPatterns={"/listByDepartment"})
-public class GetEmployeeByDepartmentServlet extends HttpServlet {
+@WebServlet(name="UpdateProfileByEmployee", urlPatterns={"/updateProfileByEmployee"})
+public class UpdateProfileByEmployeeServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -35,33 +32,46 @@ public class GetEmployeeByDepartmentServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+       response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String sttPhong = request.getParameter("department");
-        String listOfPage = request.getParameter("listOfPage");
-        int page = 1;
-        if(listOfPage!=null){
-            page = Integer.parseInt(listOfPage);
-        }
-        request.setAttribute("PHONG", sttPhong);
-        int phong = Integer.parseInt(sttPhong);
+        String FirstName = request.getParameter("txtFirstName");
+        String LastName = request.getParameter("txtLastName");
+        String Phone = request.getParameter("txtPhone");
+        String Birth = request.getParameter("txtBirth");
+        String Email = request.getParameter("txtEmail");
+        String CCCD = request.getParameter("txtCCCD");
+        String Gender = request.getParameter("txtGender");
+        String Address = request.getParameter("txtAddress");
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, "",0);
-        String position = "Phòng nhân sự";
-        if(phong==2) position = "Phòng tiếp thị";
-        request.setAttribute("LIST", list);
-        request.setAttribute("POSITION", position);       
-        int count = dao.getTotalEmployeeByDepartment(phong,"",0);
-        int endPage = 0;
-        if(count%2==0)
-            endPage = count/2;
-        else {endPage = count/2 +1;}
-        ShiftDAO shiftdao = new ShiftDAO();
- 
-        ArrayList<ShiftDTO> listhift = shiftdao.getAllShiftDTO();
-        request.setAttribute("LISTSHIFT", listhift);
-        request.setAttribute("ENDPAGE", endPage);    
-        request.getRequestDispatcher("viewEmployeesByManager.jsp").forward(request, response);
+        int count =0;
+        String check = null;
+        String checkPhone = null;
+        for(int i=0;i<Phone.length();i++){
+            if(Phone.charAt(i)<48||Phone.charAt(i)>57)
+                count++;
+        }
+        try{
+        if(count==0&&Phone.length()==10){
+        int gender = 1;
+        if(Gender.equals("Male"))
+            gender = 0;
+        boolean checkUpdate = dao.updateProfileByEmployee(Phone, gender, Email);
+        if(checkUpdate){
+             HttpSession session = request.getSession();
+             EmployeeDTO Account = dao.checkEmail(Email);
+             session.setAttribute("ACCOUNT", Account);
+            check = "Update thành công!!!";
+        }
+        }
+        else {
+           checkPhone = "Số điện thoại phải bao gồm 10 chữ số"; 
+           
+        }
+        }finally{
+            request.setAttribute("CHECK", check);
+            request.setAttribute("CHECKPHONE", checkPhone);
+            request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
+        }
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

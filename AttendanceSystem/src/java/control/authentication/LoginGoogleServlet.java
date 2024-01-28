@@ -1,4 +1,4 @@
-package controllers.authentication;
+package control.authentication;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -7,7 +7,7 @@ package controllers.authentication;
 
 
 
-import controllers.authentication.UserGoogleDto;
+import control.authentication.UserGoogleDto;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;

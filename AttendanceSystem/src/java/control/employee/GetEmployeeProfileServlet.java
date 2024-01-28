@@ -1,4 +1,4 @@
-package controllers.employee;
+package control.employee;
 
 import java.io.IOException;
 import java.sql.Date;

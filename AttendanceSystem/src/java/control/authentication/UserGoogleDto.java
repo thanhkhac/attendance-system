@@ -1,4 +1,4 @@
-package controllers.authentication;
+package control.authentication;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

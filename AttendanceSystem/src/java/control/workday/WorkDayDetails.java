@@ -1,4 +1,4 @@
-package controllers.workday;
+package control.workday;
 
 import java.time.LocalDate;
 import model.EmployeeDAO;

@@ -3,16 +3,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controllers.employee;
+package control.authentication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.Set;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
 
@@ -20,8 +23,8 @@ import model.EmployeeDTO;
  *
  * @author Admin
  */
-@WebServlet(name="UpdateProfileByEmployee", urlPatterns={"/updateProfileByEmployee"})
-public class UpdateProfileByEmployeeServlet extends HttpServlet {
+@WebServlet(name="CheckLogin", urlPatterns={"/checkLogin"})
+public class CheckLoginServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,45 +35,39 @@ public class UpdateProfileByEmployeeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");        
         PrintWriter out = response.getWriter();
-        String FirstName = request.getParameter("txtFirstName");
-        String LastName = request.getParameter("txtLastName");
-        String Phone = request.getParameter("txtPhone");
-        String Birth = request.getParameter("txtBirth");
         String Email = request.getParameter("txtEmail");
-        String CCCD = request.getParameter("txtCCCD");
-        String Gender = request.getParameter("txtGender");
-        String Address = request.getParameter("txtAddress");
-        EmployeeDAO dao = new EmployeeDAO();
-        int count =0;
-        String check = null;
-        String checkPhone = null;
-        for(int i=0;i<Phone.length();i++){
-            if(Phone.charAt(i)<48||Phone.charAt(i)>57)
-                count++;
-        }
+        String PassWord = request.getParameter("txtPassword");
+        String Remember = request.getParameter("Remember");        
         try{
-        if(count==0&&Phone.length()==10){
-        int gender = 1;
-        if(Gender.equals("Male"))
-            gender = 0;
-        boolean checkUpdate = dao.updateProfileByEmployee(Phone, gender, Email);
-        if(checkUpdate){
-             HttpSession session = request.getSession();
-             EmployeeDTO Account = dao.checkEmail(Email);
-             session.setAttribute("ACCOUNT", Account);
-            check = "Update thành công!!!";
+        EmployeeDAO dao = new EmployeeDAO();
+        EmployeeDTO Account = dao.checkAccount(Email, PassWord);
+        //Account dung luu vao session
+        if(Account!=null){
+            HttpSession session = request.getSession();
+            session.setAttribute("ACCOUNT", Account);
+            //Check nut remember neu tich luu vao Cookie
+            if(Remember!=null){
+            Cookie mail = new Cookie("EmailCookie",Email);
+            Cookie pass = new Cookie("PassWordCookie",PassWord);
+            mail.setMaxAge(60*60*24);
+            pass.setMaxAge(60*60*24);
+       
+            response.addCookie(mail);
+            response.addCookie(pass);
+            }
+            response.sendRedirect("ThanhCong.html");
         }
+        else{           
+            
+            String Error = "Email or password is incorrect, please try again";
+            request.setAttribute("Error", Error);
+            request.getRequestDispatcher("cookieLogin").forward(request, response);
         }
-        else {
-           checkPhone = "Số điện thoại phải bao gồm 10 chữ số"; 
-           
-        }
-        }finally{
-            request.setAttribute("CHECK", check);
-            request.setAttribute("CHECKPHONE", checkPhone);
-            request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
+        
+        }catch(Exception e){
+            
         }
     } 
 
@@ -86,6 +83,7 @@ public class UpdateProfileByEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         processRequest(request, response);
+        
     } 
 
     /** 

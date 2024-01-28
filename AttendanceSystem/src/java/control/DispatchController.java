@@ -2,21 +2,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controllers.authentication;
+package control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.EmployeeDAO;
+import java.util.ArrayList;
+import model.*;
 
 /**
  *
- * @author nguye
+ * @author Admin
  */
-public class ChangePasswordServlet extends HttpServlet {
+@WebServlet(name = "Controller", urlPatterns = {"/DispatchController"})
+public class DispatchController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,48 +33,41 @@ public class ChangePasswordServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-//        String mail = request.getParameter("txtMail");
-        String password = request.getParameter("txtPassword");
-        String re_enter_pw = request.getParameter("txtRePassword");
-        String mail_session = (String) request.getSession().getAttribute("EMAIL");
-
-        String msg = "";
         PrintWriter out = response.getWriter();
-
-//        out.println(mail);
-//        out.println(password);
-//        out.println(re_enter_pw);
-        EmployeeDAO eDao = new EmployeeDAO();
-//        String get_mail = eDao.getEmail(mail);
-
-        if (password.isEmpty() || re_enter_pw.isEmpty()) {
-            msg = "Vui lòng điền đầy đủ thông tin";
-        } else {
-//            if (get_mail == null || !mail.equals(get_mail) || !mail.equals(mail_session)) {
-//                msg = "Sai email";
-//            } else { 
-            if (!password.equals(re_enter_pw)) {
-                msg = "Password và re-Password phải đồng nhất";
-            } else {
-                msg = "Password and re-Password đồng nhất";
-                if (!password.matches("^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>])(.{6,16})$")) {
-                    msg = "Mật khẩu [6-16] kí tự , chứa 1 chữ cái in hoa, 1 số và 1 kí tự đặc biệt";
-                } else {
-                    if (eDao.updatePassword(mail_session, re_enter_pw)) {
-                        msg = "Đổi mật khẩu thành công";
-                        response.sendRedirect("Login.jsp");
-                        return;
-                    }
-                }
-
+        String button = request.getParameter("btAction");
+        String URL = "";
+//        EmployeeDAO dao = new EmployeeDAO();
+//        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
+//        String departmentID = request.getParameter("departmentID");
+        try {
+            if (button.equals("Login")) {
+                URL = "checkLogin";
+            } else if (button.equals("UpdateProfile")) {
+                URL = "updateProfileByEmployee";
+            } else if (button.equals("Send")) {
+                URL = "MailServlet";
+            } else if (button.equals("Reset")) {
+                URL = "MailServlet";
+            } else if (button.equals("Save change")) {
+                URL = "ChangePasswordServlet";
+            } else if (button.equals("Insert")) {
+                URL = "InsertEmployeeServlet";
+            } else if (button.equals("ViewEmployee")) {
+                URL = "GetAllEmployeeByHRServlet";
+            } else if (button.equals("Update")) {
+                URL = "GetEmployeeInfoByHRServlet";
+            } else if (button.equals("Lưu Thay Đổi")) {
+                URL = "UpdateEmployeeByHRServlet";
+            } else if (button.equals("viewListByDepartment")) {
+                URL = "listByDepartment";
+            }else if(button.equals("Assign Manager")){
+                URL = "SendRequestAssignServlet";
             }
-//            }
+        } finally {
+//            request.setAttribute("departmentID",  departmentID);
+//            request.setAttribute("List", list);
+            request.getRequestDispatcher(URL).forward(request, response);
         }
-//        request.setAttribute("MAIL", mail);
-        request.setAttribute("MSG", msg);
-        request.getRequestDispatcher("Forgot_PW.jsp").forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
