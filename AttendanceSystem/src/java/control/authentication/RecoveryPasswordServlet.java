@@ -4,30 +4,22 @@
  */
 package control.authentication;
 
-import utils.email.EmailModule;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import model.EmployeeDAO;
+import utils.email.EmailModule;
 
 /**
  *
  * @author nguye
  */
+@WebServlet(name = "RecoveryPasswordServlet", urlPatterns = {"/RecoveryPasswordServlet"})
 public class RecoveryPasswordServlet extends HttpServlet {
 
     /**
@@ -57,7 +49,7 @@ public class RecoveryPasswordServlet extends HttpServlet {
         HttpSession session = request.getSession();
         EmployeeDAO eDao = new EmployeeDAO();
         EmailModule external = new EmailModule();
-        
+
         String check_email = eDao.getEmail(receivemail);
 
         // button Send mail
@@ -65,17 +57,23 @@ public class RecoveryPasswordServlet extends HttpServlet {
             if (receivemail.isEmpty()) {
                 msg = "Vui lòng điền email";
             } else {
-                if (check_email == null || !receivemail.equals(check_email)) {
-                    msg = "Email không tồn tại";
-                } else {
-                    msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
-                    // Send otp to email
-                    String otp_send = external.sendOTP("OTP",receivemail);
-                    session.setAttribute("EMAIL", receivemail);
-                    // store otp into session
-                    session.setAttribute("OTP", otp_send);
-                    // set usetime for that session       
+                if (receivemail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+                    if (check_email == null || !receivemail.equals(check_email)) {
+                        msg = "Email không tồn tại";
+                        request.setAttribute("MAIL", receivemail);
+                    } else {
+
+                        msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
+                        // Send otp to email
+                        String otp_send = external.sendOTP("OTP", check_email);
+                        session.setAttribute("EMAIL", check_email);
+                        // store otp into session
+                        session.setAttribute("OTP", otp_send);
+                        // set usetime for that session       
 //                    session.setMaxInactiveInterval(60);
+                    }
+                } else {
+                    msg = "Định dạng email không hợp lệ";
                 }
             }
         } // button Submit form
@@ -86,16 +84,15 @@ public class RecoveryPasswordServlet extends HttpServlet {
                 String opt_temp = (String) request.getSession().getAttribute("OTP");
                 if (otp.equals(opt_temp)) {
                     msg = "Mã OTP đúng";
-                    response.sendRedirect("Forgot_PW.jsp");
+                    response.sendRedirect("ForgotPassword.jsp");
                     return;
                 } else {
                     msg = "Mã OTP sai";
                 }
             }
         }
-//        request.setAttribute("MAIL", receivemail);
         request.setAttribute("MSG", msg);
-        request.getRequestDispatcher("Recovery_PW_Page.jsp").forward(request, response);
+        request.getRequestDispatcher("RecoveryPassword.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
