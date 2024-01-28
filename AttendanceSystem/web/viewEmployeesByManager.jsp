@@ -225,7 +225,7 @@
                                     %>                               
                                     <tr>
                                 <input id="phongBan" type="hidden" value="<%=employee.getDepartmentID()%>" name="name">
-                                <td><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
+                                <td><img src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt=""
                                          class="avatar-sm rounded-circle me-2" /><a href="#" class="text-body show-div-link"> 
                                         <%=employee.getLastName()+" "+employee.getMiddleName()+" "+employee.getFirstName()%></a>
                                     <!--div class "overlay"-> box an khii an vao ten trong list se hien thong tin -->                       
