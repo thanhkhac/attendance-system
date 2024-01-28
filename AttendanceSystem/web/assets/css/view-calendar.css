@@ -5,7 +5,7 @@
 }
 
 .mytable th {
-    border-radius: 5px;
+    border-radius: 5px ;
     background-color: #6B5B95;
     color: white;
 }
@@ -45,22 +45,24 @@
 }
 
 .notyet {
-    background-color: #34568B;
+    background-color: #34568B !important;
 }
 
 .absent {
-    background-color: #FF6F61;
+    background-color: #FF6F61 !important;
 }
 
 .attended {
-    background-color: #88B04B;
+    background-color: #88B04B !important;
 }
 
 .leave{
-    background-color: #353535;
+    background-color: #353535 !important;
 }
 
-
+.onlycheckin{
+    background-color: #E18148 !important;
+}
 
 .overtime {
     background-color: #92A8D1;

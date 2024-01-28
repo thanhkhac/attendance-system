@@ -54,7 +54,7 @@
             .dropdown-menu {
                 display: none;
                 position: absolute;
-                background-color: #0072bb;
+                background-color: #0072bb !important;
                 min-width: 160px;
                 box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
                 z-index: 2;

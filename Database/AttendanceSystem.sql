@@ -263,8 +263,8 @@ DECLARE @EmployeeID INT = @KhacThanh;
 DECLARE @ShiftID INT = 2;
 DECLARE @DateList TABLE (SelectedDate DATE);
 
-DECLARE @CurrentDate DATE = '2024-02-01';
-WHILE @CurrentDate <= '2024-02-28'
+DECLARE @CurrentDate DATE = '2023-03-01';
+WHILE @CurrentDate <= '2023-04-28'
 BEGIN
    
     
@@ -273,8 +273,8 @@ BEGIN
 	SET @CurrentDate = DATEADD(DAY, 1, @CurrentDate);
 END
 
-INSERT INTO Timesheet ([Date], EmployeeID, ShiftID)
-SELECT SelectedDate, @EmployeeID, @ShiftID
+INSERT INTO Timesheet ([Date], EmployeeID, ShiftID, CheckIn)
+SELECT SelectedDate, @EmployeeID, @ShiftID, '9:00'
 FROM @DateList;
 
 
@@ -283,6 +283,12 @@ INSERT INTO Leaves (TimeSheetID, Reason, [Status], ResponedBy) VALUES (1, 'Ốm'
 
 INSERT INTO Overtimes([Date], EmployeeID, StartTime, EndTime, OpenBefore, CloseAfter) VALUES
 ('2024-01-20', 1, '17:30', '20:30', 5, 15);
+
+INSERT INTO Overtimes([Date], EmployeeID, StartTime, EndTime, OpenBefore, CloseAfter, CheckIn) VALUES
+('2024-01-21', 1, '17:30', '20:30', 5, 15, '20:00');
+
+INSERT INTO Overtimes([Date], EmployeeID, StartTime, EndTime, OpenBefore, CloseAfter, CheckIn, CheckOut) VALUES
+('2024-01-22', 1, '17:30', '20:30', 5, 15, '20:00', '20:30');
 
 SELECT * FROM Overtimes
 SELECT * FROM Timesheet

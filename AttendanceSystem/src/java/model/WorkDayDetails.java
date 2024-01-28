@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
-public class WorkingDay {
+public class WorkDayDetails {
 
     public int employeeID;
     public LocalDate date;
@@ -12,14 +12,14 @@ public class WorkingDay {
     public ShiftDTO shift;
     public EmployeeDTO leaveResponed;
 
-    public WorkingDay(LocalDate date, int employeeID) {
+    public WorkDayDetails(LocalDate date, int employeeID) {
         this.date = date;
         this.employeeID = employeeID;
         timesheet = new TimesheetDAO().getTimesheetByDate(employeeID, date);
         leave = (timesheet == null) ? null : new LeaveDAO().getApprovedLeaveDTO(timesheet.getTimesheetID());
         overtime = new OvertimeDAO().getOverTimeDTO(date, employeeID);
         shift = (timesheet == null) ? null : new ShiftDAO().getShiftDTO(timesheet.getShiftID());
-        //leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getResponedBy());
+        leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getResponedBy());
     }
 
     public EmployeeDTO getLeaveResponed() {
