@@ -70,7 +70,7 @@ public class MailServlet extends HttpServlet {
                 } else {
                     msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
                     // Send otp to email
-                    String otp_send = external.sendOTP(receivemail);
+                    String otp_send = external.sendOTP("OTP",receivemail);
                     session.setAttribute("EMAIL", receivemail);
                     // store otp into session
                     session.setAttribute("OTP", otp_send);

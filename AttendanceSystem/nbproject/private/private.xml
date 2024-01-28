@@ -57,18 +57,21 @@
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
         </group>
-        <group name="AssignmentPRJ301">
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/control/ChangePasswordServlet.java</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/Recovery_PW_Page.jsp</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/Forgot_PW.jsp</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/index.html</file>
-        </group>
         <group name="Group 20231030-03:40:41">
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/control/ViewAllEmployeeServlet.java</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/control/UpdateEmployeeByHRServlet.java</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/web/ViewAllEmployee.jsp</file>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/web/UpdateEmployeeByHR.jsp</file>
+        </group>
+        <group name="AssignmentPRJ301">
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/src/java/model/EmployeeTypeDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/src/java/model/DepartmentDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/src/java/model/RoleDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/web/Recovery_PW_Page.jsp</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/src/java/control/InsertEmployeeServlet.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
         </group>
     </open-files>
 </project-private>
