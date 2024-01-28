@@ -29,7 +29,7 @@
 
 
             }
-            
+
             .search-bar{
                 margin-left: 900px;
             }
@@ -45,7 +45,10 @@
         <%@include file="Sidebar.jsp" %>
         <c:set  var="listDepartment" value="${requestScope.listDepartment}"/>   
         <c:set  var="listEmployee"   value="${requestScope.listEmployee}"/>
-
+        <c:set var="msg" value="${msg}" />
+        <c:if test="${not empty msg}" >
+            <p id="msg">${msg}</p>
+        </c:if>
         <div class="table-container">
             <h1 class="h3 mb-2 text-gray-800">Department</h1>
 
@@ -59,7 +62,7 @@
             <!-- Search Department -->
             <form class="row g-3" action="DepartmentServlet?action=search" method="POST">
                 <!--<div class="input-group">-->
-                
+
                 <div class="col-auto search-bar" >
                     <input type="search" id="form1" name="keyword"
                            class="form-control" placeholder="Search" />
@@ -97,7 +100,7 @@
                                 </c:forEach>
                             </td>
                             <!-- Đếm số nhân viên trong mỗi department -->
-                            <td>e
+                            <td>
                                 <c:set var="employeeCount" value="0" />
                                 <c:forEach items="${listEmployee}" var="employee">
                                     <c:if  test="${employee.departmentID == d.departmentID}">
@@ -228,6 +231,12 @@
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script>
+                                                const msg = document.getElementById("msg").innerText;
+                                                if (msg !== null && msg !== '') {
+                                                    console.log(msg);
+                                                    alert(msg);
+                                                }
+
                                                 function deleteDepartment(id) {
                                                     $('#idDeleteInput').val(id);
                                                 }
@@ -237,7 +246,7 @@
                                                     // Lấy thông tin từ các ô trong table
                                                     let departmentId = tr.querySelector('td[name="id"]').innerText;
                                                     let departmentName = tr.querySelector('td[name="name"]').innerText;
-                                                    console.log(departmentId)
+                                                    console.log(departmentId);
                                                     // Gán thông tin vào form
                                                     $('#departmentIdEditInput').val(departmentId);
                                                     $('#departmentNameEditInput').val(departmentName);

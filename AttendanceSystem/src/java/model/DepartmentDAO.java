@@ -43,6 +43,30 @@ public class DepartmentDAO extends DBContext {
         return list;
     }
 
+    public boolean updateManager(String managerID, String departmentID) {
+        PreparedStatement stm = null;
+
+        if (connection != null) {
+            try {
+                String sql = "UPDATE Departments "
+                        + "SET ManagerID = ? "
+                        + "WHERE DepartmentID = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, Integer.parseInt(managerID));
+                stm.setInt(2, Integer.parseInt(departmentID));
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            } finally {
+            }
+        }
+        return false;
+    }
+
     public DepartmentDTO getDepartmentById(int departmentID) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -136,9 +160,8 @@ public class DepartmentDAO extends DBContext {
         return false;
     }
 
-
     public List<DepartmentDTO> searchByName(DepartmentDTO dto) {
-        
+
         PreparedStatement stm = null;
         ResultSet rs = null;
         ArrayList<DepartmentDTO> list = new ArrayList<>();
@@ -165,7 +188,6 @@ public class DepartmentDAO extends DBContext {
         return list;
     }
 
-
     public int getDepartmentIDByName(String departmentName) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -173,12 +195,12 @@ public class DepartmentDAO extends DBContext {
         if (connection != null) {
             try {
                 String sql = "SELECT DepartmentID \n"
-                + "FROM Departments \n"
-                + "WHERE [Name] = ? ";
+                        + "FROM Departments \n"
+                        + "WHERE [Name] = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, departmentName);
                 rs = stm.executeQuery();
-                
+
                 if (rs.next()) {
                     id = rs.getInt("DepartmentID");
                 }

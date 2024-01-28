@@ -26,11 +26,12 @@ import model.EmployeeGeneral;
  */
 @WebServlet(name = "DepartmentServlet", urlPatterns = {"/DepartmentServlet"})
 public class DepartmentController extends HttpServlet {
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        String msg = request.getParameter("msg"); //updateDepartmentManager - msg
         List<DepartmentDTO> list = (List<DepartmentDTO>) session.getAttribute("listDepartment");
         if (list == null) {
             DepartmentDAO departmentDAO = new DepartmentDAO();
@@ -38,11 +39,14 @@ public class DepartmentController extends HttpServlet {
         }
         EmployeeDAO employeeDAO = new EmployeeDAO();
         ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
+        if (msg != null && msg.length() > 0) {
+            request.setAttribute("msg", msg);
+        }
         request.setAttribute("listDepartment", list);
         request.setAttribute("listEmployee", listEmployee);
         request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,10 +70,12 @@ public class DepartmentController extends HttpServlet {
                 break;
         }
         //set to session
-        request.getSession().setAttribute("listDepartment", list);
-        response.sendRedirect("DepartmentServlet");
+        //request.getSession().setAttribute("listDepartment", list);
+        request.setAttribute("listDepartment", list);
+        request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
+        //response.sendRedirect("DepartmentServlet");
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -86,14 +92,14 @@ public class DepartmentController extends HttpServlet {
             out.println("</html>");
         }
     }
-    
+
     private List<DepartmentDTO> delete(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         int departmentId = Integer.parseInt(request.getParameter("id"));
         boolean isDelete = departmentDAO.deleteById(departmentId);
         return departmentDAO.getListDepartment();
     }
-    
+
     private List<DepartmentDTO> edit(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
@@ -103,9 +109,9 @@ public class DepartmentController extends HttpServlet {
         dto.setName(name);
         boolean isEditSuccess = departmentDAO.edit(dto);
         return departmentDAO.getListDepartment();
-        
+
     }
-    
+
     private List<DepartmentDTO> add(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         String name = request.getParameter("departmentName");
@@ -114,7 +120,7 @@ public class DepartmentController extends HttpServlet {
         boolean isAddSuccess = departmentDAO.addDepartment(dto);
         return departmentDAO.getListDepartment();
     }
-    
+
     private List<DepartmentDTO> search(HttpServletRequest request, HttpServletResponse response) {
         String keyword = request.getParameter("keyword");
         DepartmentDAO departmentDAO = new DepartmentDAO();
