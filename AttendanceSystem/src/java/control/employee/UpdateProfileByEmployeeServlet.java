@@ -70,7 +70,7 @@ public class UpdateProfileByEmployeeServlet extends HttpServlet {
         }finally{
             request.setAttribute("CHECK", check);
             request.setAttribute("CHECKPHONE", checkPhone);
-            request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
+            request.getRequestDispatcher("UpdateEmployeeProfile.jsp").forward(request, response);
         }
     } 
 
