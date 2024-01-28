@@ -95,7 +95,7 @@
                                     <div class="d-grid">
                                         <button class="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" type="submit" name="btAction" value="Login">Sign in</button>
                                         <div class="text-center">
-                                            <a class="small" href="Recovery_PW_Page.jsp">Forgot password?</a><br> 
+                                            <a class="small" href="RecoveryPassword.jsp">Forgot password?</a><br> 
                                         </div>
                                         <div class="text-center">
                                             <p class="LoginGoole">Login with Google</p>
