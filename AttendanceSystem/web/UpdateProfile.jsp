@@ -47,8 +47,11 @@
         </style>
     </head>
     <body>
+        <div class="row">
+            <div class="col-md-2">
         <%@include file="Sidebar.jsp" %>
-        <div class="container-xl px-4 mt-4">
+        </div>
+        <div class="container-xl px-4 mt-4 col-md-10">
             <%
                EmployeeDTO employee =(EmployeeDTO) session.getAttribute("ACCOUNT");
                if(employee!=null){
@@ -112,7 +115,14 @@
                                 <div class="row mb-2">
                                     <div class="col-md-6">
                                         <label class="small mb-1" for="txtPhone">Phone number</label>
-                                        <input class="form-control" type="text" name="txtPhone" id="txtPhone" value="<%=employee.getPhoneNumber()%>" pattern="[0-9]{10}" maxlength="10" required >
+                                        <input class="form-control" type="text" name="txtPhone" id="txtPhone" value="<%=employee.getPhoneNumber()%>" required >
+                                    <%
+                                              String checkPhone = (String) request.getAttribute("CHECKPHONE");
+                                              if(checkPhone!=null){
+                                            %>
+                                            <p style="margin-left: 3px;
+                                               color: red;"><%=checkPhone%></p>
+                                            <%}%>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="small mb-1" for="txtBirth">Birthday</label>
@@ -151,9 +161,16 @@
                                         <input class="form-control" type="text" name="txtAddress" id="txtAddress" value=""  >
                                     </div>
                                 </div>
-                                <div class="">
-                                    Update thành công
-                                </div>
+                                <%
+                                     String check = (String) request.getAttribute("CHECK");
+                                     if(check!=null){
+                                    %>
+                                    <div style ="color: #35cf13;
+                                         font-weight: 600;
+                                         font-family: system-ui;" class="">
+                                        Update thành công!!!
+                                    </div>
+                                    <%}%>
                                 <div class="">
                                     <button class="btn btn-primary mt-3" name="btAction" value="UpdateProfile" type="submit">Save changes</button>
                                 </div>
@@ -166,6 +183,7 @@
 
             </div>
             <%}%>
+        </div>
         </div>
     </body>
 </html>

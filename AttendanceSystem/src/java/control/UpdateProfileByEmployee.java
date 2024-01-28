@@ -32,7 +32,7 @@ public class UpdateProfileByEmployee extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+       response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String FirstName = request.getParameter("txtFirstName");
         String LastName = request.getParameter("txtLastName");
@@ -43,17 +43,33 @@ public class UpdateProfileByEmployee extends HttpServlet {
         String Gender = request.getParameter("txtGender");
         String Address = request.getParameter("txtAddress");
         EmployeeDAO dao = new EmployeeDAO();
-        String check = "Update không thành công!!!";
+        int count =0;
+        String check = null;
+        String checkPhone = null;
+        for(int i=0;i<Phone.length();i++){
+            if(Phone.charAt(i)<48||Phone.charAt(i)>57)
+                count++;
+        }
         try{
-        int gender = 0;
+        if(count==0&&Phone.length()==10){
+        int gender = 1;
         if(Gender.equals("Male"))
-            gender = 1;
+            gender = 0;
         boolean checkUpdate = dao.updateProfileByEmployee(Phone, gender, Email);
         if(checkUpdate){
+             HttpSession session = request.getSession();
+             EmployeeDTO Account = dao.checkEmail(Email);
+             session.setAttribute("ACCOUNT", Account);
             check = "Update thành công!!!";
+        }
+        }
+        else {
+           checkPhone = "Số điện thoại phải bao gồm 10 chữ số"; 
+           
         }
         }finally{
             request.setAttribute("CHECK", check);
+            request.setAttribute("CHECKPHONE", checkPhone);
             request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
         }
     } 

@@ -626,18 +626,31 @@ public class EmployeeDAO extends DBContext {
         return list;
     }
 
-    public int getTotalEmployeeByDepartment(int phong, String search) {
+    public int getTotalEmployeeByDepartment(int phong, String search,int Ca) {
         int count = 0;
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "select count(*) as dem from Employees where DepartmentID = ? and (LastName like ? or FirstName like ? or MiddleName like ?) ";
+                if(Ca>0){
+                String sql = "select count(distinct Employees.EmployeeID) as dem from Employees\n" +
+"join Timesheet on Timesheet.EmployeeID = Employees.EmployeeID\n" +
+"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) and Timesheet.ShiftID = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, phong);
                 stm.setString(2, "%" + search + "%");
                 stm.setString(3, "%" + search + "%");
                 stm.setString(4, "%" + search + "%");
+                stm.setInt(5, Ca);
+                } else{
+                    String sql = "select count(distinct Employees.EmployeeID) as dem from Employees\n" +
+"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) ";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, phong);
+                stm.setString(2, "%" + search + "%");
+                stm.setString(3, "%" + search + "%");
+                stm.setString(4, "%" + search + "%");
+                }
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     count = rs.getInt("dem");
@@ -650,6 +663,8 @@ public class EmployeeDAO extends DBContext {
         return count;
     }
 
+   
+    
     public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a, int phong, String name,int ca) {
         ArrayList<EmployeeDTO> list = new ArrayList();
         PreparedStatement stm = null;
@@ -657,12 +672,14 @@ public class EmployeeDAO extends DBContext {
         if (connection != null) {
             try {
                 if(ca>0){
-                String sql ="select * from Employees\n" +
+                String sql ="select distinct Employees.EmployeeID,Email,Employees.BirthDate,Employees.FirstName,Employees.LastName\n" +
+",Employees.MiddleName,Employees.Gender,Employees.DepartmentID,Employees.StartDate,Employees.EndDate,Employees.EmployeeTypeID,\n" +
+"Employees.Password,Employees.IsActive,Employees.CCCD,Employees.PhoneNumber,Employees.RoleID from Employees\n" +
 "join Timesheet on Timesheet.EmployeeID = Employees.EmployeeID\n" +
 "join Shifts on Timesheet.ShiftID = Shifts.ShiftID\n" +
 "where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) and Shifts.ShiftID = ?\n" +
 "Order by Employees.EmployeeID\n" +
-"Offset ? rows fetch next 2 rows only";
+    "Offset ? rows fetch next 2 rows only";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, phong);
                 stm.setString(2, "%" + name + "%");
