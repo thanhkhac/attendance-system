@@ -44,6 +44,7 @@ public class LoginGoogle extends HttpServlet {
     throws ServletException, IOException, ClassNotFoundException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        try{
         String code = request.getParameter("code");
         //Lay Email
         String accessToken = getToken(code);
@@ -58,6 +59,10 @@ public class LoginGoogle extends HttpServlet {
         } else {
             String Error = "Email is not in the system, please try again";
             request.setAttribute("Error", Error);
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
+        }
+        }catch(Exception e){
+            
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
           

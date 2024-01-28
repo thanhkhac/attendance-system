@@ -51,7 +51,7 @@ public class listByDepartment extends HttpServlet {
         if(phong==2) position = "Phòng tiếp thị";
         request.setAttribute("LIST", list);
         request.setAttribute("POSITION", position);       
-        int count = dao.getTotalEmployeeByDepartment(phong,"");
+        int count = dao.getTotalEmployeeByDepartment(phong,"",0);
         int endPage = 0;
         if(count%2==0)
             endPage = count/2;

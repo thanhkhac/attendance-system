@@ -56,7 +56,7 @@ public class searchEmployeeByAjax extends HttpServlet {
         } else {
             tenPhong = "Phòng tiếp thị";
         }
-        int count = dao.getTotalEmployeeByDepartment(phong, txtSearch);
+        int count = dao.getTotalEmployeeByDepartment(phong, txtSearch,ca);
         int endPage = 0;
         if (count % 2 == 0) {
             endPage = count / 2;
