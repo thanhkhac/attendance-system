@@ -38,7 +38,7 @@
                 color: #999;
             }
         </style>
-
+        <%@include file="Sidebar.jsp" %>
     </head>
 
     <%

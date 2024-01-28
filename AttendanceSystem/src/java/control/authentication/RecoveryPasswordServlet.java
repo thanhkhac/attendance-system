@@ -57,10 +57,11 @@ public class RecoveryPasswordServlet extends HttpServlet {
             if (receivemail.isEmpty()) {
                 msg = "Vui lòng điền email";
             } else {
+                
                 if (receivemail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
                     if (check_email == null || !receivemail.equals(check_email)) {
                         msg = "Email không tồn tại";
-                        request.setAttribute("MAIL", receivemail);
+                        
                     } else {
 
                         msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
@@ -84,7 +85,7 @@ public class RecoveryPasswordServlet extends HttpServlet {
                 String opt_temp = (String) request.getSession().getAttribute("OTP");
                 if (otp.equals(opt_temp)) {
                     msg = "Mã OTP đúng";
-                    response.sendRedirect("ForgotPassword.jsp");
+                    response.sendRedirect("ChangePassword.jsp");
                     return;
                 } else {
                     msg = "Mã OTP sai";

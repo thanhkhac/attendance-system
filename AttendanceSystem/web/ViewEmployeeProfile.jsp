@@ -67,7 +67,7 @@
                 <div class="col-md-4 left-part  text-white">
                     <div class="p-4">
                         <div class="avatar__wrapper">
-                            <img src="le-viet-bach.png" class="w-100" alt="">
+                            <img src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" class="w-100" alt="">
                         </div>
                     </div>
                     <div class="text-center fw-bold fs-3">

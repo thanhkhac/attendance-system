@@ -199,7 +199,7 @@
                                                         Nữ
                                                     </label>
                                                 </div>
-                                                <div class="form-check-items">
+<!--                                                <div class="form-check-items">
                                                     <input
                                                         class="form-check-input"
                                                         type="radio"
@@ -211,7 +211,7 @@
                                                     <label class="form-check-label" for="inputGender-other">
                                                         Khác
                                                     </label>
-                                                </div>
+                                                </div>-->
                                             </div>
                                         </div>
 

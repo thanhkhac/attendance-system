@@ -401,7 +401,7 @@
                                     <td>${a.getMiddleName()}</td>
                                     <td>${a.getFirstName()}</td>
                                     <td>${a.getEmail()}</td>
-                                    <td style="display: none">${a.getGender()}</td>
+                                    <td style="display: none">${a.getGender()?'Male':'Female'}</td>
                                     <td style="display: none">${a.getBirthDate()}</td>
                                     <td style="display: none">${a.getCccd()}</td>
                                     <td style="display: none">${a.getPhoneNumber()}</td>
@@ -413,8 +413,14 @@
                                     <c:if test="${RequestAssignManager!=null}" >
                                         <td>
                                             <form action="DispatchController">
-                                                <input type="hidden" name="ManagerIDAssigned" value="${a.getEmployeeID()}">
-                                                <input class="btn btn-success" type="submit" name="btAction" value="Assign">
+                                                <input type="hidden" name="employeeName" id="employeeFullName" value="${a.getLastName()} ${a.getMiddleName()} ${a.getFirstName()}">
+                                                <input type="hidden" name="departmentID" id="requestDepartmentID" value="${RequestAssignManager.getDepartmentID()}">
+                                                <input type="hidden" name="departmentName" id="requestDepartmentName" value="${RequestAssignManager.getName()}">
+                                                <button onclick="confirmation(this)"
+                                                        class="btn btn-success"
+                                                        type="button" 
+                                                        value="${a.getEmployeeID()}-${a.getLastName()} ${a.getMiddleName()} ${a.getFirstName()}" 
+                                                        >Assign</button>
                                             </form>
                                         </td>
                                     </c:if>
@@ -426,9 +432,11 @@
                 </table>
             </div>
 
-            <div class="add-button">
-                <button >+ Add Employee ...</button>
-            </div>
+            <form action="DispatchController" method="Post">
+                <div class="add-button">
+                    <button name="btAction" value="InsertEmployee" type="submit">+ Add Employee ...</button>
+                </div>
+            </form>
             <div id="popup" class="popup">
                 <div id="popupContent" class="popup-content">
                     <button class="btn-danger close" onclick="closePopup()">X</button>
@@ -443,6 +451,28 @@
 
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script>
+                        function confirmation(employee) {
+                            event.stopPropagation();
+                            const departmentID = document.getElementById("requestDepartmentID").value;
+                            const departmentName = document.getElementById("requestDepartmentName").value;
+                            const employeeData = employee.value;
+                            let arrEmployeeData = employeeData.split("-");
+                            const assignedManagerID = arrEmployeeData[0];
+                            const employeeName = arrEmployeeData[1];
+
+//                            console.log("Value: deID: " + departmentID + ", assign: " + assignedManagerID);
+                            if ((departmentID !== null && departmentID !== '') && (assignedManagerID !== null && assignedManagerID !== '')) {
+                                var confirmation = confirm("Assign Employee: " + employeeName + " as Quản lý : " + departmentName);
+                                if (confirmation) {
+//                                    console.log(departmentID + " - " + assignedManagerID);
+
+                                    window.location.href = "/AttendanceSystem/DispatchController?btAction=Assign&departmentID=" + departmentID + "&managerIDAssigned=" + assignedManagerID;
+                                } else {
+                                    alert("Cancelled!");
+                                }
+                            }
+                        }
+
                         function check() {
                             console.log("hi");
                         }
@@ -554,7 +584,7 @@
                             var txt_Order = document.getElementById("txtOrder").value;
                             console.log("Value: " + txt_Search + ", " + txt_Department + ", " + txt_Type + ", " + txt_Order);
                             $.ajax({
-                                url: "/AttendanceSystem/ViewAllEmployeeServlet",
+                                url: "/AttendanceSystem/ViewAllEmployeeAjax",
                                 type: "get", //send it through get method
                                 data: {
                                     txtSearchValue: txt_Search,

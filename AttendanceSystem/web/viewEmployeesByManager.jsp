@@ -173,26 +173,28 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h6 class="fs-16 mb-0">Showing 1 – 8 of 11 results</h6>
+                    <h6 style ="    font-size: larger;
+                        <%String tenPhong = (String) request.getAttribute("TENPHONG");%>
+                        font-family: system-ui;" class="fs-16 mb-0"><%=tenPhong%></h6>
                 </div>
                 <div class="col-md-4 filler-job-form">
                     <i class="uil uil-briefcase-alt"></i><input  oninput="searchByName(this)" name="txtSearch" id="txtSearch" placeholder="Employee's name" type="text" class="form-control filler-job-input-box form-control" />
                 </div>
                 <div class="col-md-2" style="display:flex">
                     <div class="col-md-4">
-                    <label style="padding-top: 7px;" for="form-select">Ca làm</label>
+                        <label style="padding-top: 7px;" for="form-select">Ca làm</label>
                     </div>
                     <div class="col-md-8">
-                    <select onchange="searchByName(this)" id="form-select" class="form-select" aria-label="Default select example">
-                        <option value="0" selected>Tất cả</option>
-  <%
-                     ArrayList<ShiftDTO> listhift =(ArrayList<ShiftDTO>) request.getAttribute("LISTSHIFT");
-                     for (ShiftDTO shift: listhift){
-                    %>
-                    <option value=<%=shift.getShiftID()%>><%=shift.getName()%></option>
-  <%}%>
-</select>
-</div>
+                        <select onchange="searchByName(this)" id="form-select" class="form-select" aria-label="Default select example">
+                            <option value="0" selected>Tất cả</option>
+                            <%
+                                               ArrayList<ShiftDTO> listhift =(ArrayList<ShiftDTO>) request.getAttribute("LISTSHIFT");
+                                               for (ShiftDTO shift: listhift){
+                            %>
+                            <option value=<%=shift.getShiftID()%>><%=shift.getName()%></option>
+                            <%}%>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -223,7 +225,7 @@
                                     %>                               
                                     <tr>
                                 <input id="phongBan" type="hidden" value="<%=employee.getDepartmentID()%>" name="name">
-                                <td><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt=""
+                                <td><img src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt=""
                                          class="avatar-sm rounded-circle me-2" /><a href="#" class="text-body show-div-link"> 
                                         <%=employee.getLastName()+" "+employee.getMiddleName()+" "+employee.getFirstName()%></a>
                                     <!--div class "overlay"-> box an khii an vao ten trong list se hien thong tin -->                       
@@ -317,10 +319,10 @@
                                                for(int i=1; i<=endPage;i++){
                                                    if(i==1){ 
                                             %>
-                                        
+
                                         <li class="page-item"><a style="background-color: #cfd5da96;" class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
-                                           <%}else{%>
-                                            <li class="page-item"><a  class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
+                                            <%}else{%>
+                                        <li class="page-item"><a  class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
                                             <%}}}%>
                                         <li class="page-item"><a data-index="<%=2%>" onclick="searchByName(this)" class="page-link" href="#">Sau</a></li>
                                     </ul>
@@ -368,7 +370,7 @@
                 var txtSearch = $("#txtSearch").val();
                 var phongBan = $("#phongBan").val();
                 var Page = param.dataset.index;
-                var Ca= $("#form-select").val();
+                var Ca = $("#form-select").val();
                 $.ajax({
                     url: "/AttendanceSystem/searchEmployeeByAjax",
                     type: "get",
@@ -376,7 +378,7 @@
                         txt: txtSearch,
                         phong: phongBan,
                         Page: Page,
-                        CaLam:Ca
+                        CaLam: Ca
                     },
                     success: function (data) {
                         var row = $("#listEmployee");
@@ -409,7 +411,7 @@
                     var phongBan = $("#phongBan").val();
                     var txtSearch = $("#txtSearch").val();
                     var Page = param.dataset.index;
-                    var Ca= $("#form-select").val();
+                    var Ca = $("#form-select").val();
                     $.ajax({
                         url: "/AttendanceSystem/searchEmployeeByAjax",
                         type: "get",

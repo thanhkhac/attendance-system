@@ -42,6 +42,8 @@ public class DispatchController extends HttpServlet {
         try {
             if (button.equals("Login")) {
                 URL = "checkLogin";
+            } else if (button.equals("Logout")) {
+                URL = "logout";
             } else if (button.equals("UpdateProfile")) {
                 URL = "updateProfileByEmployee";
             } else if (button.equals("Send")) {
@@ -50,6 +52,8 @@ public class DispatchController extends HttpServlet {
                 URL = "RecoveryPasswordServlet";
             } else if (button.equals("Save change")) {
                 URL = "ChangePasswordServlet";
+            } else if (button.equals("InsertEmployee")) {
+                URL = "InsertEmployee.jsp";
             } else if (button.equals("Insert")) {
                 URL = "InsertEmployeeServlet";
             } else if (button.equals("ViewEmployee")) {
@@ -60,8 +64,10 @@ public class DispatchController extends HttpServlet {
                 URL = "UpdateEmployeeByHRServlet";
             } else if (button.equals("viewListByDepartment")) {
                 URL = "listByDepartment";
-            }else if(button.equals("Assign Manager")){
+            } else if (button.equals("Assign Manager")) {
                 URL = "SendRequestAssignServlet";
+            } else if (button.equals("Assign")) {
+                URL = "UpdateDepartmentManagerServlet";
             }
         } finally {
 //            request.setAttribute("departmentID",  departmentID);
