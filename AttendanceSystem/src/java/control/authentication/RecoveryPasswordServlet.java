@@ -52,7 +52,6 @@ public class RecoveryPasswordServlet extends HttpServlet {
 
         String check_email = eDao.getEmail(receivemail);
 
-        request.setAttribute("MAIL", receivemail);
         // button Send mail
         if (button.equals("Send")) {
             if (receivemail.isEmpty()) {
