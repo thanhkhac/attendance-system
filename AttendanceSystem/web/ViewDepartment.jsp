@@ -76,7 +76,7 @@
                     <tr class="table-dark">
                         <th scope="col">ID</th>
                         <th scope="col">Department Name</th>
-                        <th scope="col">Manager ID</th>
+                        <th scope="col">Manager's name</th>
                         <th>Total Employees</th>
                             <c:if test="${sessionScope.ACCOUNT != null and sessionScope.ACCOUNT.roleID == 3}">
                             <th>Action</th>
@@ -87,7 +87,7 @@
                     <c:forEach items="${listDepartment}" var="d">
                         <tr class="table-hover">
                             <td name="id">${d.getDepartmentID()}</td>
-                            <td name="name">${d.getName()}</td>
+                            <td name="name"><a style="color: black;" href="DispatchController?department=${d.getDepartmentID()}&&btAction=viewListByDepartment" target="target">${d.getName()}</a></td>
                             <td>
                                 <c:forEach items="${listEmployee}" var="employee">
                                     <c:if test="${employee.getEmployeeID() == d.managerID}">
