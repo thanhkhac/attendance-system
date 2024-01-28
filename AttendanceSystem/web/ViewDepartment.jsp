@@ -57,6 +57,11 @@
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDepartment">
                     Add Department
                 </button>
+                <c:if test="${requestScope.duplicateName}">
+                    <div class="alert alert-danger" role="alert">
+                        Duplicate department name. Please choose a different name.
+                    </div>
+                </c:if>
             </c:if>
 
             <!-- Search Department -->

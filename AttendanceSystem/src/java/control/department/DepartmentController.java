@@ -30,6 +30,16 @@ public class DepartmentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//<<<<<<< fixbugCRUDDepartment
+        processRequest(request, response);
+//        DepartmentDAO departmentDAO = new DepartmentDAO();
+//        List<DepartmentDTO> list = departmentDAO.getListDepartment();        
+//        EmployeeDAO employeeDAO = new EmployeeDAO();
+//        ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
+//        request.setAttribute("listDepartment", list);
+//        request.setAttribute("listEmployee", listEmployee);
+//        request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
+//=======
         HttpSession session = request.getSession();
         String msg = request.getParameter("msg"); //updateDepartmentManager - msg
         List<DepartmentDTO> list = (List<DepartmentDTO>) session.getAttribute("listDepartment");
@@ -45,13 +55,24 @@ public class DepartmentController extends HttpServlet {
         request.setAttribute("listDepartment", list);
         request.setAttribute("listEmployee", listEmployee);
         request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
+//>>>>>>> master
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
+
+        //response.sendRedirect("DepartmentServlet");
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
         List<DepartmentDTO> list = null;
+        DepartmentDAO departmentDAO = new DepartmentDAO();
+        list = departmentDAO.getListDepartment();
         switch (action) {
             case "delete":
                 list = delete(request, response);
@@ -69,10 +90,16 @@ public class DepartmentController extends HttpServlet {
                 list = new DepartmentDAO().getListDepartment();
                 break;
         }
+        
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
+        request.setAttribute("listEmployee", listEmployee);
         //set to session
         //request.getSession().setAttribute("listDepartment", list);
         request.setAttribute("listDepartment", list);
         request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
+//<<<<<<< fixbugCRUDDepartment
+//=======
         //response.sendRedirect("DepartmentServlet");
     }
 
@@ -91,6 +118,7 @@ public class DepartmentController extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
+//>>>>>>> master
     }
 
     private List<DepartmentDTO> delete(HttpServletRequest request, HttpServletResponse response) {
@@ -117,7 +145,18 @@ public class DepartmentController extends HttpServlet {
         String name = request.getParameter("departmentName");
         DepartmentDTO dto = new DepartmentDTO();
         dto.setName(name);
-        boolean isAddSuccess = departmentDAO.addDepartment(dto);
+
+        List<DepartmentDTO> list = departmentDAO.getListDepartment();
+        boolean isDuplicateName = list.stream().anyMatch(depart -> depart.getName().equals(name));
+
+        if (isDuplicateName) {
+
+            request.setAttribute("duplicateName", true);
+        } else {
+
+            boolean isAddSuccess = departmentDAO.addDepartment(dto);
+        }
+
         return departmentDAO.getListDepartment();
     }
 

@@ -51,9 +51,15 @@ public class SendRequestAssignServlet extends HttpServlet {
         ArrayList<EmployeeGeneral> list = Emdao.getEmployeeInfo();
         request.setAttribute("List", list);
         //RequestAssignManager = departmentID
+//<<<<<<< fixbugCRUDDepartment
+        session.setAttribute("RequestAssignManager",  departmentID);
+        request.getRequestDispatcher("DepartmentServlet").forward(request, response);
+    } 
+//=======
         session.setAttribute("RequestAssignManager", department);
         request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
     }
+//>>>>>>> master
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
