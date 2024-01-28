@@ -41,9 +41,9 @@ public class GetEmployeeProfileServlet extends HttpServlet {
             request.setAttribute("employeeTypeDTO", employeeTypeDTO);
             request.setAttribute("roleDTO", roleDTO);
             request.setAttribute("employee", employee);
-             request.getRequestDispatcher("viewprofile.jsp").forward(request, response);
+             request.getRequestDispatcher("ViewEmployeeProfile.jsp").forward(request, response);
         } else {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("Login.jsp");
         }
     }
 
