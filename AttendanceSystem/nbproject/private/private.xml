@@ -50,11 +50,6 @@
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/ShiftDTO.java</file>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/index.html</file>
         </group>
-        <group>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/DepartmentServlet.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/DepartmentDAO.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ViewDepartment.jsp</file>
-        </group>
         <group name="SWP391">
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/src/java/control/InsertEmployeeServlet.java</file>
@@ -68,6 +63,9 @@
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/Forgot_PW.jsp</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/index.html</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ViewDepartment.jsp</file>
         </group>
     </open-files>
 </project-private>
