@@ -61,7 +61,7 @@ public class ChangePasswordServlet extends HttpServlet {
             }
         }
         request.setAttribute("MSG", msg);
-        request.getRequestDispatcher("ForgotPassword.jsp").forward(request, response);
+        request.getRequestDispatcher("ChangePassword.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
