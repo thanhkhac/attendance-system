@@ -78,14 +78,14 @@
                 #navbar {
                     display: block;
                 }
-                
+
 
             }
         </style>
     </head>
     <body>
         <div id="sidebar">
-            <a href="index.html">Home</a>
+            <a href="ThanhCong.html">Home</a>
             <a href="#">About</a>
             <a href="#">Services</a>
             <a href="#">Contact</a>
@@ -105,9 +105,11 @@
                     <button class="dropdown-item" type="button">Service</button>
 
                     <div class="dropdown-divider"></div>
-                    <button class="dropdown-item" type="button">
-                        Logout
-                    </button>
+                    <form action="DispatchController" method="Post">
+                        <button name="btAction" class="dropdown-item " type="submit" value="Logout">
+                            Logout
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
