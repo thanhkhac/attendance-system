@@ -11,15 +11,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.*;
+import model.DepartmentDAO;
 
 /**
  *
- * @author Admin
+ * @author admin
  */
-@WebServlet(name = "Controller", urlPatterns = {"/DispatchController"})
-public class DispatchController extends HttpServlet {
+@WebServlet(name = "UpdateDepartmentManagerServlet", urlPatterns = {"/UpdateDepartmentManagerServlet"})
+public class UpdateDepartmentManagerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,43 +32,20 @@ public class DispatchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String button = request.getParameter("btAction");
-        String URL = "";
-//        EmployeeDAO dao = new EmployeeDAO();
-//        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-//        String departmentID = request.getParameter("departmentID");
-        try {
-            if (button.equals("Login")) {
-                URL = "checkLogin";
-            } else if (button.equals("UpdateProfile")) {
-                URL = "updateProfileByEmployee";
-            } else if (button.equals("Send")) {
-                URL = "RecoveryPasswordServlet";
-            } else if (button.equals("Reset")) {
-                URL = "RecoveryPasswordServlet";
-            } else if (button.equals("Save change")) {
-                URL = "ChangePasswordServlet";
-            } else if (button.equals("Insert")) {
-                URL = "InsertEmployeeServlet";
-            } else if (button.equals("ViewEmployee")) {
-                URL = "GetAllEmployeeByHRServlet";
-            } else if (button.equals("Update")) {
-                URL = "GetEmployeeInfoByHRServlet";
-            } else if (button.equals("Lưu Thay Đổi")) {
-                URL = "UpdateEmployeeByHRServlet";
-            } else if (button.equals("viewListByDepartment")) {
-                URL = "listByDepartment";
-            } else if (button.equals("Assign Manager")) {
-                URL = "SendRequestAssignServlet";
-            } else if (button.equals("Assign")) {
-                URL = "UpdateDepartmentManagerServlet";
-            }
-        } finally {
-//            request.setAttribute("departmentID",  departmentID);
-//            request.setAttribute("List", list);
-            request.getRequestDispatcher(URL).forward(request, response);
+
+        String msg = "";
+        String departmentID = request.getParameter("departmentID");
+        String managerID = request.getParameter("managerIDAssigned");
+        DepartmentDAO dao = new DepartmentDAO();
+        boolean rs = dao.updateManager(managerID, departmentID);
+        if (rs) {
+            msg = "Update Successfully !";
+        } else {
+            msg = "Error During Process !";
         }
+        request.setAttribute("msg", msg);
+        request.getRequestDispatcher("DepartmentServlet").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

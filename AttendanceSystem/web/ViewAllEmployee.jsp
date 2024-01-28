@@ -413,8 +413,12 @@
                                     <c:if test="${RequestAssignManager!=null}" >
                                         <td>
                                             <form action="DispatchController">
-                                                <input type="hidden" name="ManagerIDAssigned" value="${a.getEmployeeID()}">
-                                                <input class="btn btn-success" type="submit" name="btAction" value="Assign">
+                                                <input type="hidden" name="departmentID" id="requestDepartmentID" value="${RequestAssignManager}">
+                                                <button onclick="confirmation(this)"
+                                                        class="btn btn-success"
+                                                        type="button" 
+                                                        value="${a.getEmployeeID()}" 
+                                                        >Assign</button>
                                             </form>
                                         </td>
                                     </c:if>
@@ -443,6 +447,24 @@
 
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script>
+                        function confirmation(employeeID) {
+                            event.stopPropagation();
+                            const departmentID = document.getElementById("requestDepartmentID").value;
+                            const assignedManagerID = employeeID.value;
+                            
+//                            console.log("Value: deID: " + departmentID + ", assign: " + assignedManagerID);
+                            if ((departmentID !== null && departmentID !== '') && (assignedManagerID !== null && assignedManagerID !== '')) {
+                                var confirmation = confirm("Assign " + assignedManagerID + " become " + departmentID + " Manager ? ");
+                                if (confirmation) {
+//                                    console.log(departmentID + " - " + assignedManagerID);
+                                
+                                    window.location.href = "/AttendanceSystem/DispatchController?btAction=Assign&departmentID=" + departmentID + "&managerIDAssigned=" + assignedManagerID;
+                                } else {
+                                    alert("Cancelled!");
+                                }
+                            }
+                        }
+
                         function check() {
                             console.log("hi");
                         }
@@ -554,7 +576,7 @@
                             var txt_Order = document.getElementById("txtOrder").value;
                             console.log("Value: " + txt_Search + ", " + txt_Department + ", " + txt_Type + ", " + txt_Order);
                             $.ajax({
-                                url: "/AttendanceSystem/ViewAllEmployeeServlet",
+                                url: "/AttendanceSystem/ViewAllEmployeeAjax",
                                 type: "get", //send it through get method
                                 data: {
                                     txtSearchValue: txt_Search,

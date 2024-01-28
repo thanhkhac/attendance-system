@@ -43,7 +43,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
         list = dao.filterByAJAX(searchValue, departmentID, typeID, order);
 
         PrintWriter out = response.getWriter();
-        if (requestAssignManager.length() > 0) {
+        if (requestAssignManager!=null) {
             out.print("<table class=\"table table-hover\">\n"
                     + "                    <thead>\n"
                     + "                    <th>EmployeeID</th>\n"
@@ -68,7 +68,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
                     + "<div id=\"list-content\" >");
         }
 
-        if (requestAssignManager.length() > 0) {
+        if (requestAssignManager!=null) {
             for (EmployeeGeneral e : list) {
                 out.print(" <div class=\"table-row-container\">\n"
                         + "                            <tr class=\"table-primary space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
@@ -87,10 +87,14 @@ public class ViewAllEmployeeAjax extends HttpServlet {
                         + "                                <td style=\"display: none\">" + e.getStartDate() + "</td>\n"
                         + "                                <td style=\"display: none\">" + e.getEndDate() + "</td>\n"
                         + "                                <td>"
-                        + "                                   <form>"
-                        + "                                       <input type=\"hidden\" name=\"ManagerIDAssigned\" value=\"" + e.getEmployeeID() + "\">\n"
-                        + "                                       <input class=\"btn btn-success\" type=\"submit\" name=\"btAction\" value=\"Assign\">"
-                        + "                                   </form>"
+                        + "                                   <form action=\"DispatchController\">\n"
+                        + "                                                <input type=\"hidden\" name=\"departmentID\" id=\"requestDepartmentID\" value=\""+requestAssignManager+"\">\n"
+                        + "                                                <button onclick=\"confirmation(this)\"\n"
+                        + "                                                        class=\"btn btn-success\"\n"
+                        + "                                                        type=\"button\" \n"
+                        + "                                                        value=\""+e.getEmployeeID()+"\" \n"
+                        + "                                                        >Assign</button>\n"
+                        + "                                            </form>"
                         + "                               </td>"
                         + "                            </tr>\n"
                         + "</div>");
