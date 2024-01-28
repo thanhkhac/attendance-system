@@ -70,8 +70,10 @@ public class DepartmentController extends HttpServlet {
                 break;
         }
         //set to session
-        request.getSession().setAttribute("listDepartment", list);
-        response.sendRedirect("DepartmentServlet");
+        //request.getSession().setAttribute("listDepartment", list);
+        request.setAttribute("listDepartment", list);
+        request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
+        //response.sendRedirect("DepartmentServlet");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
