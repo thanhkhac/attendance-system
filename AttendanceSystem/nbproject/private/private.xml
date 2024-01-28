@@ -49,14 +49,16 @@
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/Proj_SWP/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
         </group>
         <group name="java_web">
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/department/listByDepartment.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/UpdateProfileByEmployee.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/LoginGoogle.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/department/searchEmployeeByAjax.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/UpdateProfile.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/UpdateEmployeeProfile.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/department/DepartmentController.java</file>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/Login.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/authentication/CheckLoginServlet.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/department/SendRequestAssignServlet.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/employee/UpdateProfileByEmployeeServlet.java</file>
         </group>
         <group name="java-modules">
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/filter/RouterFilter.java</file>

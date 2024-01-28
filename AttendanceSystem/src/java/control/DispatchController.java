@@ -45,9 +45,9 @@ public class DispatchController extends HttpServlet {
             } else if (button.equals("UpdateProfile")) {
                 URL = "updateProfileByEmployee";
             } else if (button.equals("Send")) {
-                URL = "MailServlet";
+                URL = "RecoveryPasswordServlet";
             } else if (button.equals("Reset")) {
-                URL = "MailServlet";
+                URL = "RecoveryPasswordServlet";
             } else if (button.equals("Save change")) {
                 URL = "ChangePasswordServlet";
             } else if (button.equals("Insert")) {
