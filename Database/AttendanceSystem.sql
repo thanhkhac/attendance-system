@@ -215,7 +215,7 @@ DECLARE @Intern int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N
 --Employee
 INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber, EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) VALUES
 (N'Thành', N'Khắc', N'Nguyễn', 1, '2003-01-01', N'thanhcqb2048@gmail.com', '12345678', '035203004448', '0382293846', @Full_Time, @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31'),
-(N'Trường', N'Xuân', N'Phạm', 1, '2003-01-01', N'truongnt@gmail.com', '12345678', '001304013023', '453434545454', @Full_Time, @PhongTiepThi, @NhanVien, '2022-02-15', '2024-12-31'),
+(N'Trường', N'Xuân', N'Phạm', 1, '2003-01-01', N'truongnt@gmail.com', '12345678', '001304013023', '453434545454', @Full_Time, @PhongTiepThi, @Admin, '2022-02-15', '2024-12-31'),
 (N'Dương', N'Ngọc Khánh', N'Khánh', 1,'2003-01-01', N'Duongmnk@gmail.com', '123456789', '014205002145', '0987654312', @Part_Time, @PhongNhanSu, @NhanVien, '2023-01-01', '2025-01-01'),
 --HR
 (N'Đức', N'Tân', N'Nguyễn', 1, '2003-01-01', N'ducnt@gmail.com', '12345678', '001203020541', '454545454', @Intern, @PhongNhanSu, @QuanLyNhanSu, '2022-02-15', '2024-12-31'),
