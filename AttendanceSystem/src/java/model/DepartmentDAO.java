@@ -42,6 +42,7 @@ public class DepartmentDAO extends DBContext {
         }
         return list;
     }
+
     public DepartmentDTO getDepartmentById(int departmentID) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -135,6 +136,7 @@ public class DepartmentDAO extends DBContext {
         return false;
     }
 
+
     public List<DepartmentDTO> searchByName(DepartmentDTO dto) {
         
         PreparedStatement stm = null;
@@ -161,6 +163,37 @@ public class DepartmentDAO extends DBContext {
             }
         }
         return list;
+    }
+
+
+    public int getDepartmentIDByName(String departmentName) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int id = 0;
+        if (connection != null) {
+            try {
+                String sql = "SELECT DepartmentID \n"
+                + "FROM Departments \n"
+                + "WHERE [Name] = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setNString(1, departmentName);
+                rs = stm.executeQuery();
+                
+                if (rs.next()) {
+                    id = rs.getInt("DepartmentID");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return id;
+    }
+
+    public static void main(String[] args) {
+        DepartmentDAO deDao = new DepartmentDAO();
+        int a = deDao.getDepartmentIDByName("Phòng nhân sự");
+        System.out.println(a);
     }
 
 }

@@ -9,14 +9,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">-->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <title>JSP Page</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
+        <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
         <style>
             body {
-                margin-top: 20px;
+                /*margin-top: 20px;*/
                 background-color: #f2f6fc;
                 font-family: sans-serif;
             }
@@ -66,21 +67,54 @@
             .input-name input{
                 margin-bottom: 10px;
             }
+            .form-output{
+                display:flex;
+            }
+            .form-output-error{
+                margin-left: 150px;
+            }
+            .form-output-error p{
+                color: red;
+            }
+            .form-output-error i{
+                margin-right: 10px;
+            }
+            .whole-content{
+                padding-left: 150px;
+            }
+            @media screen and (orientation: portrait) {
+                .whole-content{
+                    padding: 0;
+                }
+                .form-output-error{
+                    margin-left: 50px;
+                }
+            }
+            @media (min-width:1000px) {
+                .whole-content{
+                    padding-left: 200px;;
+                }
+                
+            }
         </style>
+        <%@include file="Sidebar.jsp" %>
     </head>
     <body>
         <c:set var="ListDepartment" value="${requestScope.ListDepartment}" />
         <c:set var="ListType" value="${requestScope.ListType}" />
         <c:set var="ListRole" value="${requestScope.ListRole}" />
         <c:set var="Employee" value="${requestScope.Employee}" />
-        <div class="container-xxl px-4 mt-4">
+        <c:set var="Err" value="${requestScope.Err}" />
+        <c:set var="msg" value="${requestScope.msg}" />
+
+        <div class="container-xxl px-4">
             <!-- Account page navigation-->
             <!-- <nav class="nav nav-borders"></nav> -->
             <!-- <hr class="mt-0 mb-4" /> -->
-            <div class="row">
+            <div class="row whole-content">
                 <div class="col-xl-12">
                     <!-- Account details card-->
-                    <div class="card mb-4">
+                    <div class="card mb-4 mt-4">
                         <div class="card-header">Employee Information</div>
                         <div class="card-body">
                             <form action="DispatchController" method="Post">
@@ -142,7 +176,7 @@
                                                     type="radio"
                                                     id="inputGender-Male"
                                                     name="txt_gender"
-                                                    value="1"
+                                                    value="true"
                                                     <c:if test="${Employee.getGender()==true}" >checked</c:if>
                                                         />
                                                     <label class="form-check-label" for="inputGender-Male">
@@ -155,7 +189,7 @@
                                                         type="radio"
                                                         id="inputGender-Female"
                                                         name="txt_gender"
-                                                        value="0"
+                                                        value="false"
                                                     <c:if test="${Employee.getGender()==false}" >checked</c:if>
                                                         />
                                                     <label
@@ -310,14 +344,46 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-output">
+                                    <div class="form-output-button">
+                                        <input type="hidden" name="txt_employeeID" value="${Employee.getEmployeeID()}">
+                                        <input
+                                            class="btn btn-primary"
+                                            type="submit"
+                                            name="btAction"
+                                            value="Lưu Thay Đổi"
+                                            />
+                                    </div>
+                                    <div class="form-output-error">
+                                        <c:if test="${msg!=null}" >
+                                            <p>${msg}</p>
+                                        </c:if>
+                                        <c:if test="${Err.getNull_error() !=null}" >
+                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getNull_error()}</p>
+                                            </c:if>
+                                            <c:if test="${Err.getName_format_error() !=null}" >
+                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getName_format_error()}</p>
+                                            </c:if>
+                                            <c:if test="${Err.getCccd_format_error() !=null}" >
+                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getCccd_format_error()}</p>
+                                            </c:if>
+                                            <c:if test="${Err.getPhone_format_error() !=null}" >
+                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getPhone_format_error()}</p>
+                                            </c:if>
+                                            <c:if test="${Err.getPassword_format_error() !=null}" >
+                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getPassword_format_error()}</p>
+                                            </c:if>
+                                            <c:if test="${Err.getEmail_format_error() !=null}" >
+                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getEmail_format_error()}</p>
+                                            </c:if>
+                                            <c:if test="${Err.getDate_invalid() !=null}" >
+                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getDate_invalid()}</p>
+                                            </c:if>
+
+                                    </div>
+                                </div>
                                 <!-- Save changes button-->
-                                <input type="hidden" name="txt_employeeID" value="${Employee.getEmployeeID()}">
-                                <input
-                                    class="btn btn-primary"
-                                    type="submit"
-                                    name="btAction"
-                                    value="Lưu Thay Đổi"
-                                    />
+
                             </form>
                         </div>
                     </div>

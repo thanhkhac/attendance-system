@@ -59,4 +59,28 @@ public class RoleDAO extends DAOBase {
         return null;
     }
     
+    public int getRoleIDByName(String roleName) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int id = 0;
+        if (connection != null) {
+            try {
+                String sql = "SELECT RoleID \n"
+                + "FROM Roles \n"
+                + "WHERE [Name] = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setNString(1, roleName);
+                rs = stm.executeQuery();
+                
+                if (rs.next()) {
+                    id = rs.getInt("RoleID");
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+        return id;
+    }
+    
 }

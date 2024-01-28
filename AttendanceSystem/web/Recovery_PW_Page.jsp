@@ -157,7 +157,7 @@
                     <div class="captcha-form">
                         <input class="inp" type="text" name="txtOTP" id="captcha-form" placeholder="Enter OTP here">
                         <button class="captcha-refresh inp" name="btAction" value="Send">
-                            <i class="fa-solid fa-arrows-rotate"></i>
+                            <i class="fa-regular fa-paper-plane"></i>
                         </button>
                     </div>
                 </div>

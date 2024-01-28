@@ -97,7 +97,7 @@
                                 </c:forEach>
                             </td>
                             <!-- Đếm số nhân viên trong mỗi department -->
-                            <td>
+                            <td>e
                                 <c:set var="employeeCount" value="0" />
                                 <c:forEach items="${listEmployee}" var="employee">
                                     <c:if  test="${employee.departmentID == d.departmentID}">
@@ -106,6 +106,7 @@
                                     </c:if>
                                 </c:forEach>
                                 ${employeeCount}
+
                             </td>
                             <c:if test="${sessionScope.ACCOUNT != null and sessionScope.ACCOUNT.roleID == 3}">
                                 <td>

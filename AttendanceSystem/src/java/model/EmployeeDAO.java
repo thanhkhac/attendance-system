@@ -436,6 +436,54 @@ public class EmployeeDAO extends DBContext {
         }
         return false;
     }
+    public boolean UpdateEmployeeByHR(String firstName, String middleName, String lastName,
+            Boolean gender, String cccd, String phoneNumber, String email,
+            String password, String birthDate, int departmentID, int typeID, int roleID, int employeeID) {
+        PreparedStatement stm = null;
+        
+        if (connection != null) {
+            try {
+                String sql = "UPDATE Employees "
+                        + "SET FirstName = ? , "
+                        + "MiddleName = ? , "
+                        + "LastName = ? , "
+                        + "Gender = ? , "
+                        + "Email = ? , "
+                        + "PhoneNumber = ? , "
+                        + "CCCD = ? , "
+                        + "BirthDate = ? , "
+                        + "Password = ? , "
+                        + "DepartmentID = ? , "
+                        + "EmployeeTypeID = ? , "
+                        + "RoleID = ? "
+                        + "WHERE EmployeeID = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, firstName);
+                stm.setString(2, middleName);
+                stm.setString(3, lastName);
+                stm.setBoolean(4, gender);
+                stm.setString(5, email);
+                stm.setString(6, phoneNumber);
+                stm.setString(7, cccd);
+                stm.setString(8, birthDate);
+                stm.setString(9, password);
+                stm.setInt(10, departmentID);
+                stm.setInt(11, typeID);
+                stm.setInt(12, roleID);
+                stm.setInt(13, employeeID);
+                int row = stm.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            } finally {
+            }
+        }
+        return false;
+    }
+    
 
     // NguyenManhDuong - insert employee
     public boolean insertEmployee(String firstName, String middleName, String lastName, boolean gender, LocalDate birthDate, String email, String password,
