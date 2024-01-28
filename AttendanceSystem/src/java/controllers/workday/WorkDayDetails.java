@@ -1,6 +1,16 @@
-package model;
+package controllers.workday;
 
 import java.time.LocalDate;
+import model.EmployeeDAO;
+import model.EmployeeDTO;
+import model.LeaveDAO;
+import model.LeaveDTO;
+import model.OvertimeDAO;
+import model.OvertimeDTO;
+import model.ShiftDAO;
+import model.ShiftDTO;
+import model.TimesheetDAO;
+import model.TimesheetDTO;
 
 public class WorkDayDetails {
 

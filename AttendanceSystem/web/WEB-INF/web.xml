@@ -6,19 +6,19 @@
     </servlet>
     <servlet>
         <servlet-name>ViewAllEmployeeServlet</servlet-name>
-        <servlet-class>control.ViewAllEmployeeServlet</servlet-class>
+        <servlet-class>controllers.employee.ViewAllEmployeeAjax</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MailServlet</servlet-name>
-        <servlet-class>control.MailServlet</servlet-class>
+        <servlet-class>controllers.authentication.RecoveryPasswordServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ChangePasswordServlet</servlet-name>
-        <servlet-class>control.ChangePasswordServlet</servlet-class>
+        <servlet-class>controllers.authentication.ChangePasswordServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ViewScheduleServlet</servlet-name>
-        <servlet-class>control.ViewCalendarServlet</servlet-class>
+        <servlet-class>controllers.ViewCalendarServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>

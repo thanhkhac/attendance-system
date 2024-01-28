@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package control;
+package controllers.authentication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,15 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.EmployeeDAO;
-import model.EmployeeDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="UpdateProfileByEmployee", urlPatterns={"/updateProfileByEmployee"})
-public class UpdateProfileByEmployee extends HttpServlet {
+@WebServlet(name="Logout", urlPatterns={"/logout"})
+public class LogoutServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -32,46 +30,10 @@ public class UpdateProfileByEmployee extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-       response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String FirstName = request.getParameter("txtFirstName");
-        String LastName = request.getParameter("txtLastName");
-        String Phone = request.getParameter("txtPhone");
-        String Birth = request.getParameter("txtBirth");
-        String Email = request.getParameter("txtEmail");
-        String CCCD = request.getParameter("txtCCCD");
-        String Gender = request.getParameter("txtGender");
-        String Address = request.getParameter("txtAddress");
-        EmployeeDAO dao = new EmployeeDAO();
-        int count =0;
-        String check = null;
-        String checkPhone = null;
-        for(int i=0;i<Phone.length();i++){
-            if(Phone.charAt(i)<48||Phone.charAt(i)>57)
-                count++;
-        }
-        try{
-        if(count==0&&Phone.length()==10){
-        int gender = 1;
-        if(Gender.equals("Male"))
-            gender = 0;
-        boolean checkUpdate = dao.updateProfileByEmployee(Phone, gender, Email);
-        if(checkUpdate){
-             HttpSession session = request.getSession();
-             EmployeeDTO Account = dao.checkEmail(Email);
-             session.setAttribute("ACCOUNT", Account);
-            check = "Update thành công!!!";
-        }
-        }
-        else {
-           checkPhone = "Số điện thoại phải bao gồm 10 chữ số"; 
-           
-        }
-        }finally{
-            request.setAttribute("CHECK", check);
-            request.setAttribute("CHECKPHONE", checkPhone);
-            request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.sendRedirect("index.html");
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

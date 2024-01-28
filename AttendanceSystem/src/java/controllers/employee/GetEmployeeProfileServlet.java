@@ -1,4 +1,4 @@
-package control;
+package controllers.employee;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -18,7 +18,7 @@ import model.RoleDAO;
 import model.RoleDTO;
 
 @WebServlet(name = "ViewProfileServlet", urlPatterns = {"/viewProfile"})
-public class ViewProfileServlet extends HttpServlet {
+public class GetEmployeeProfileServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

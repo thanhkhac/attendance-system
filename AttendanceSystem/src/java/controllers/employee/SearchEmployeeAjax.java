@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package department;
+package controllers.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,7 +20,7 @@ import model.EmployeeDTO;
  * @author Admin
  */
 @WebServlet(name = "searchEmployeeByAjax", urlPatterns = {"/searchEmployeeByAjax"})
-public class searchEmployeeByAjax extends HttpServlet {
+public class SearchEmployeeAjax extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

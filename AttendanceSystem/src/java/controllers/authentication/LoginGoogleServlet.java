@@ -1,4 +1,4 @@
-package control;
+package controllers.authentication;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -7,6 +7,7 @@ package control;
 
 
 
+import controllers.authentication.UserGoogleDto;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
@@ -31,7 +32,7 @@ import org.apache.http.client.fluent.Request;
  * @author Admin
  */
 @WebServlet(urlPatterns={"/loginGoogle"})
-public class LoginGoogle extends HttpServlet {
+public class LoginGoogleServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -104,9 +105,9 @@ public class LoginGoogle extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginGoogle.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginGoogleServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(LoginGoogle.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginGoogleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
 
@@ -123,9 +124,9 @@ public class LoginGoogle extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(LoginGoogle.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginGoogleServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(LoginGoogle.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginGoogleServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

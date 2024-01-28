@@ -2,47 +2,51 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+
+package controllers.department;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.*;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import model.EmployeeDAO;
+import model.EmployeeGeneral;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "GetAllEmployeeByHRServlet", urlPatterns = {"/GetAllEmployeeByHRServlet"})
-public class GetAllEmployeeByHRServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="SendRequestAssignServlet", urlPatterns={"/SendRequestAssignServlet"})
+public class SendRequestAssignServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String departmentID = request.getParameter("departmentID");
+        HttpSession session = request.getSession();
         EmployeeDAO dao = new EmployeeDAO();
         ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
         request.setAttribute("List",  list);
+        //RequestAssignManager = departmentID
+        session.setAttribute("RequestAssignManager",  departmentID);
         request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
-
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -50,13 +54,12 @@ public class GetAllEmployeeByHRServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -64,13 +67,12 @@ public class GetAllEmployeeByHRServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

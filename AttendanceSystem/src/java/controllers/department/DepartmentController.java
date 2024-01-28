@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+package controllers.department;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,7 +25,7 @@ import model.EmployeeGeneral;
  * @author acer
  */
 @WebServlet(name = "DepartmentServlet", urlPatterns = {"/DepartmentServlet"})
-public class DepartmentServlet extends HttpServlet {
+public class DepartmentController extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

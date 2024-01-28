@@ -3,28 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package department;
+package controllers.authentication;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
-import model.EmployeeDAO;
-import model.EmployeeDTO;
-import model.ShiftDAO;
-import model.ShiftDTO;
 
 /**
  *
  * @author Admin
  */
-@WebServlet(name="listByDepartment", urlPatterns={"/listByDepartment"})
-public class listByDepartment extends HttpServlet {
+@WebServlet(name="CookieLogin", urlPatterns={"/cookieLogin"})
+public class CookieLoginServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -37,31 +32,19 @@ public class listByDepartment extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String sttPhong = request.getParameter("department");
-        String listOfPage = request.getParameter("listOfPage");
-        int page = 1;
-        if(listOfPage!=null){
-            page = Integer.parseInt(listOfPage);
+        if(request.getCookies()!=null){
+        Cookie arr[] = request.getCookies();
+
+            for(Cookie o: arr){
+                if(o.getName().equals("EmailCookie")){
+                request.setAttribute("Email", o.getValue());  
+                }
+                if(o.getName().equals("PassWordCookie"))
+                request.setAttribute("Password", o.getValue());
+            
         }
-        request.setAttribute("PHONG", sttPhong);
-        int phong = Integer.parseInt(sttPhong);
-        EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, "",0);
-        String position = "Phòng nhân sự";
-        if(phong==2) position = "Phòng tiếp thị";
-        request.setAttribute("LIST", list);
-        request.setAttribute("POSITION", position);       
-        int count = dao.getTotalEmployeeByDepartment(phong,"",0);
-        int endPage = 0;
-        if(count%2==0)
-            endPage = count/2;
-        else {endPage = count/2 +1;}
-        ShiftDAO shiftdao = new ShiftDAO();
- 
-        ArrayList<ShiftDTO> listhift = shiftdao.getAllShiftDTO();
-        request.setAttribute("LISTSHIFT", listhift);
-        request.setAttribute("ENDPAGE", endPage);    
-        request.getRequestDispatcher("viewEmployeesByManager.jsp").forward(request, response);
+        }
+            request.getRequestDispatcher("Login.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

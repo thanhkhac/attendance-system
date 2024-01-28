@@ -2,24 +2,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+package controllers.employee;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import model.*;
+import java.util.ArrayList;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "GetEmployeeInfoByHRServlet", urlPatterns = {"/GetEmployeeInfoByHRServlet"})
-public class GetEmployeeInfoByHRServlet extends HttpServlet {
+@WebServlet(name = "GetAllEmployeeByHRServlet", urlPatterns = {"/GetAllEmployeeByHRServlet"})
+public class GetAllEmployeeByHRServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,30 +32,11 @@ public class GetEmployeeInfoByHRServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String txt_ID = request.getParameter("EmployeeID");
-        EmployeeDAO EmDao = new EmployeeDAO();
-        DepartmentDAO DeDao = new DepartmentDAO();
-        EmployeeTypeDAO EmTDAO = new EmployeeTypeDAO();
-        RoleDAO roleDAO = new RoleDAO();
-        ArrayList<DepartmentDTO> listDepartment = new ArrayList<>();
-        ArrayList<RoleDTO> listRole = new ArrayList<>();
-        ArrayList<EmployeeTypeDTO> listType = new ArrayList<>();
-        EmployeeDTO employee = new EmployeeDTO();
-        try {
-            int id = Integer.parseInt(txt_ID);
-            employee = EmDao.getEmployeeDTO(id);
-            listDepartment = DeDao.getListDepartment();
-            listRole = roleDAO.getRoleList();
-            listType = EmTDAO.getEmployeeTypeList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-        request.setAttribute("Employee", employee);
-        request.setAttribute("ListDepartment", listDepartment);
-        request.setAttribute("ListType", listType);
-        request.setAttribute("ListRole", listRole);
-        request.getRequestDispatcher("UpdateEmployeeByHR.jsp").forward(request, response);
+        EmployeeDAO dao = new EmployeeDAO();
+        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
+        request.setAttribute("List",  list);
+        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

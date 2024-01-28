@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package control;
+package controllers.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,14 +15,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import model.EmployeeDAO;
-import model.EmployeeGeneral;
+import model.EmployeeDTO;
+import model.ShiftDAO;
+import model.ShiftDTO;
 
 /**
  *
- * @author admin
+ * @author Admin
  */
-@WebServlet(name="SendRequestAssignServlet", urlPatterns={"/SendRequestAssignServlet"})
-public class SendRequestAssignServlet extends HttpServlet {
+@WebServlet(name="listByDepartment", urlPatterns={"/listByDepartment"})
+public class GetEmployeeByDepartmentServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,14 +36,32 @@ public class SendRequestAssignServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String departmentID = request.getParameter("departmentID");
-        HttpSession session = request.getSession();
+        PrintWriter out = response.getWriter();
+        String sttPhong = request.getParameter("department");
+        String listOfPage = request.getParameter("listOfPage");
+        int page = 1;
+        if(listOfPage!=null){
+            page = Integer.parseInt(listOfPage);
+        }
+        request.setAttribute("PHONG", sttPhong);
+        int phong = Integer.parseInt(sttPhong);
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-        request.setAttribute("List",  list);
-        //RequestAssignManager = departmentID
-        session.setAttribute("RequestAssignManager",  departmentID);
-        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
+        ArrayList<EmployeeDTO> list = dao.searchAjaxEmployeeByDepartment(page, phong, "",0);
+        String position = "Phòng nhân sự";
+        if(phong==2) position = "Phòng tiếp thị";
+        request.setAttribute("LIST", list);
+        request.setAttribute("POSITION", position);       
+        int count = dao.getTotalEmployeeByDepartment(phong,"",0);
+        int endPage = 0;
+        if(count%2==0)
+            endPage = count/2;
+        else {endPage = count/2 +1;}
+        ShiftDAO shiftdao = new ShiftDAO();
+ 
+        ArrayList<ShiftDTO> listhift = shiftdao.getAllShiftDTO();
+        request.setAttribute("LISTSHIFT", listhift);
+        request.setAttribute("ENDPAGE", endPage);    
+        request.getRequestDispatcher("viewEmployeesByManager.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

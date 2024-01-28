@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+package controllers.employee;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,10 +16,10 @@ import model.*;
 
 /**
  *
- * @author Admin
+ * @author admin
  */
-@WebServlet(name = "Controller", urlPatterns = {"/DispatchController"})
-public class DispatchController extends HttpServlet {
+@WebServlet(name = "GetEmployeeInfoByHRServlet", urlPatterns = {"/GetEmployeeInfoByHRServlet"})
+public class GetEmployeeInfoByHRServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,41 +33,30 @@ public class DispatchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String button = request.getParameter("btAction");
-        String URL = "";
-//        EmployeeDAO dao = new EmployeeDAO();
-//        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-//        String departmentID = request.getParameter("departmentID");
+        String txt_ID = request.getParameter("EmployeeID");
+        EmployeeDAO EmDao = new EmployeeDAO();
+        DepartmentDAO DeDao = new DepartmentDAO();
+        EmployeeTypeDAO EmTDAO = new EmployeeTypeDAO();
+        RoleDAO roleDAO = new RoleDAO();
+        ArrayList<DepartmentDTO> listDepartment = new ArrayList<>();
+        ArrayList<RoleDTO> listRole = new ArrayList<>();
+        ArrayList<EmployeeTypeDTO> listType = new ArrayList<>();
+        EmployeeDTO employee = new EmployeeDTO();
         try {
-            if (button.equals("Login")) {
-                URL = "checkLogin";
-            } else if (button.equals("UpdateProfile")) {
-                URL = "updateProfileByEmployee";
-            } else if (button.equals("Send")) {
-                URL = "MailServlet";
-            } else if (button.equals("Reset")) {
-                URL = "MailServlet";
-            } else if (button.equals("Save change")) {
-                URL = "ChangePasswordServlet";
-            } else if (button.equals("Insert")) {
-                URL = "InsertEmployeeServlet";
-            } else if (button.equals("ViewEmployee")) {
-                URL = "GetAllEmployeeByHRServlet";
-            } else if (button.equals("Update")) {
-                URL = "GetEmployeeInfoByHRServlet";
-            } else if (button.equals("Lưu Thay Đổi")) {
-                URL = "UpdateEmployeeByHRServlet";
-            } else if (button.equals("viewListByDepartment")) {
-                URL = "listByDepartment";
-            }else if(button.equals("Assign Manager")){
-                URL = "SendRequestAssignServlet";
-            }
-        } finally {
-//            request.setAttribute("departmentID",  departmentID);
-//            request.setAttribute("List", list);
-            request.getRequestDispatcher(URL).forward(request, response);
+            int id = Integer.parseInt(txt_ID);
+            employee = EmDao.getEmployeeDTO(id);
+            listDepartment = DeDao.getListDepartment();
+            listRole = roleDAO.getRoleList();
+            listType = EmTDAO.getEmployeeTypeList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
+        request.setAttribute("Employee", employee);
+        request.setAttribute("ListDepartment", listDepartment);
+        request.setAttribute("ListType", listType);
+        request.setAttribute("ListRole", listRole);
+        request.getRequestDispatcher("UpdateEmployeeByHR.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
