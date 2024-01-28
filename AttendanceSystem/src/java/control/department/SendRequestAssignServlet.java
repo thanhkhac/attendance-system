@@ -41,7 +41,7 @@ public class SendRequestAssignServlet extends HttpServlet {
         request.setAttribute("List",  list);
         //RequestAssignManager = departmentID
         session.setAttribute("RequestAssignManager",  departmentID);
-        request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
+        request.getRequestDispatcher("DepartmentServlet").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

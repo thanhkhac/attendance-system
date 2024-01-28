@@ -29,7 +29,7 @@
 
 
             }
-            
+
             .search-bar{
                 margin-left: 900px;
             }
@@ -54,12 +54,17 @@
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDepartment">
                     Add Department
                 </button>
+                <c:if test="${requestScope.duplicateName}">
+                    <div class="alert alert-danger" role="alert">
+                        Duplicate department name. Please choose a different name.
+                    </div>
+                </c:if>
             </c:if>
 
             <!-- Search Department -->
             <form class="row g-3" action="DepartmentServlet?action=search" method="POST">
                 <!--<div class="input-group">-->
-                
+
                 <div class="col-auto search-bar" >
                     <input type="search" id="form1" name="keyword"
                            class="form-control" placeholder="Search" />
