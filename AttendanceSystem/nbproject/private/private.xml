@@ -41,14 +41,9 @@
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/index.html</file>
         </group>
         <group>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ViewAllEmployee.jsp</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/ViewAllEmployeeServlet.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/GetEmployeeInfoByHRServlet.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/dbhelper/DBContext.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/index.html</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/Login.html</file>
-            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/DispatchController.java</file>
+            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/control/DepartmentServlet.java</file>
+            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/src/java/model/DepartmentDAO.java</file>
+            <file>file:/C:/Users/acer/Desktop/clone/attendance-system/AttendanceSystem/web/ViewDepartment.jsp</file>
         </group>
         <group name="SWP391">
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_Proj/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
