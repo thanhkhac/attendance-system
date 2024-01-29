@@ -45,6 +45,7 @@ public class CheckLoginServlet extends HttpServlet {
         EmployeeDTO Account = dao.checkAccount(Email, PassWord);
         //Account dung luu vao session
         if(Account!=null){
+            if(Account.isIsActived()){
             HttpSession session = request.getSession();
             session.setAttribute("ACCOUNT", Account);
             //Check nut remember neu tich luu vao Cookie
@@ -58,6 +59,11 @@ public class CheckLoginServlet extends HttpServlet {
             response.addCookie(pass);
             }
             response.sendRedirect("ThanhCong.html");
+            }else{
+                String Error = "Account is currently locked";
+                request.setAttribute("Error", Error);
+                request.getRequestDispatcher("cookieLogin").forward(request, response);
+            }
         }
         else{           
             
