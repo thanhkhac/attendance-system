@@ -53,10 +53,16 @@ public class LoginGoogleServlet extends HttpServlet {
         EmployeeDAO dao = new EmployeeDAO();
         EmployeeDTO Account = dao.checkEmail(user.getEmail());
         if(Account!=null){
+            if(Account.isIsActived()){
             HttpSession session = request.getSession();
             session.setAttribute("ACCOUNT", Account);
             //Neu co Email trong db thi chuyen huong
             response.sendRedirect("ThanhCong.html");
+            }else{
+                String Error = "Account is currently locked";
+                request.setAttribute("Error", Error);
+                request.getRequestDispatcher("Login.jsp").forward(request, response);
+            }
         } else {
             String Error = "Email is not in the system, please try again";
             request.setAttribute("Error", Error);
