@@ -432,9 +432,11 @@
                 </table>
             </div>
 
-            <div class="add-button">
-                <button >+ Add Employee ...</button>
-            </div>
+            <form action="DispatchController" method="Post">
+                <div class="add-button">
+                    <button name="btAction" value="InsertEmployee" type="submit">+ Add Employee ...</button>
+                </div>
+            </form>
             <div id="popup" class="popup">
                 <div id="popupContent" class="popup-content">
                     <button class="btn-danger close" onclick="closePopup()">X</button>
