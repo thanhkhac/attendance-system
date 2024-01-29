@@ -22,6 +22,12 @@
             body {
                 font-family: "roboto", sans-serif;
                 background-color: #f5f5f5;
+                height: 100vh;
+                margin: 0;
+                background-image: url("assets/img/fpt-background.JPG");
+                background-size: cover;
+                background-position: center bottom;
+                background-repeat: no-repeat;
             }
 
             .login-form {
@@ -136,12 +142,12 @@
                 <div class="form-title">
                     Forgot Password
                 </div>
-<%--
-                <div class="form-input">
-                    <label for="username">Email Address</label>
-                    <input class="inp" type="text" name="txtMail" value="<%=mail%>">
-                </div>
---%>
+                <%--
+                                <div class="form-input">
+                                    <label for="username">Email Address</label>
+                                    <input class="inp" type="text" name="txtMail" value="<%=mail%>">
+                                </div>
+                --%>
                 <div class="form-input">
                     <label for="name">Password</label>
                     <input class="inp" type="password" name="txtPassword" value="">

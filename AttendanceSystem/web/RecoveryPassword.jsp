@@ -27,6 +27,12 @@
             body {
                 font-family: "roboto", sans-serif;
                 background-color: #f5f5f5;
+                height: 100vh;
+                margin: 0;
+                background-image: url("assets/img/fpt-background.JPG");
+                background-size: cover;
+                background-position: center bottom;
+                background-repeat: no-repeat;
             }
 
             .login-form {
