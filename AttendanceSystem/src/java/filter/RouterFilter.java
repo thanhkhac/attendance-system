@@ -125,12 +125,18 @@ public class RouterFilter implements Filter {
         allowedPaths.add("/ChangePasswordServlet".toLowerCase());
         allowedPaths.add("/RecoveryPasswordServlet".toLowerCase());
         allowedPaths.add("/loginGoogle".toLowerCase());
-        
+        allowedPaths.add("/".toLowerCase());
+
         if (employee == null) {
+            if (url.startsWith("/assets")) {
+                chain.doFilter(request, response);
+                return;
+            }
             if (!allowedPaths.contains(url) && !url.contains("/DispatchController".toLowerCase())) {
                 httpResponse.sendRedirect("cookieLogin");
                 System.out.println("Nguoi dung chua dang nhap, chuyen tiep");
             }
+
         } else {
             if (allowedPaths.contains(url)) {
                 System.out.println("Nguoi dung da dang nhap, chuyen tiep");
@@ -138,9 +144,6 @@ public class RouterFilter implements Filter {
             }
         }
 
-        
-        
-        
         Throwable problem = null;
         try {
             chain.doFilter(request, response);
