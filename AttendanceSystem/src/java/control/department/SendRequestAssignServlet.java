@@ -43,6 +43,7 @@ public class SendRequestAssignServlet extends HttpServlet {
         DepartmentDAO Dedao = new DepartmentDAO();
         DepartmentDTO department = new DepartmentDTO();
         try {
+            //dddd
             int departmentID = Integer.parseInt(txt_departmentID);
             department =  Dedao.getDepartmentById(departmentID);
         } catch (Exception e) {
