@@ -30,28 +30,40 @@ public class DepartmentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String msg = request.getParameter("msg"); //updateDepartmentManager - msg
-        List<DepartmentDTO> list = (List<DepartmentDTO>) session.getAttribute("listDepartment");
-        if (list == null) {
-            DepartmentDAO departmentDAO = new DepartmentDAO();
-            list = departmentDAO.getListDepartment();
-        }
-        EmployeeDAO employeeDAO = new EmployeeDAO();
-        ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
-        if (msg != null && msg.length() > 0) {
-            request.setAttribute("msg", msg);
-        }
-        request.setAttribute("listDepartment", list);
-        request.setAttribute("listEmployee", listEmployee);
-        request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
+        processRequest(request, response);
+//        HttpSession session = request.getSession();
+//        String msg = request.getParameter("msg"); //updateDepartmentManager - msg
+//        List<DepartmentDTO> list = (List<DepartmentDTO>) session.getAttribute("listDepartment");
+//        if (list == null) {
+//            DepartmentDAO departmentDAO = new DepartmentDAO();
+//            list = departmentDAO.getListDepartment();
+//        }
+//        EmployeeDAO employeeDAO = new EmployeeDAO();
+//        ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
+//        if (msg != null && msg.length() > 0) {
+//            request.setAttribute("msg", msg);
+//        }
+//        request.setAttribute("listDepartment", list);
+//        request.setAttribute("listEmployee", listEmployee);
+//        request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        processRequest(request, response);
+        
+    }
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         String action = request.getParameter("action") == null ? "" : request.getParameter("action");
         List<DepartmentDTO> list = null;
+        DepartmentDAO departmentDAO = new DepartmentDAO();
+        list = departmentDAO.getListDepartment();
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
         switch (action) {
             case "delete":
                 list = delete(request, response);
@@ -71,26 +83,10 @@ public class DepartmentController extends HttpServlet {
         }
         //set to session
         //request.getSession().setAttribute("listDepartment", list);
+        request.setAttribute("listEmployee", listEmployee);
         request.setAttribute("listDepartment", list);
         request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
         //response.sendRedirect("DepartmentServlet");
-    }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet DepartmentController</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet DepartmentController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
     }
 
     private List<DepartmentDTO> delete(HttpServletRequest request, HttpServletResponse response) {
