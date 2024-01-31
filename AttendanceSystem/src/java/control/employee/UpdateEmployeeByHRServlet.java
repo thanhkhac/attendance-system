@@ -72,36 +72,75 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             System.out.println(e.getMessage());
         }
 
-        if (txt_firstName.length() <= 0 || txt_middleName.length() <= 0 || txt_lastName.length() <= 0) {
+        if (txt_firstName.length() <= 0) {
             err.setNull_error("Điền đầy đủ các thành phần của Tên !");
             isErr = true;
-        } else if (!txt_firstName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$") || !txt_middleName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$") || !txt_lastName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
+            txt_firstName = "Null";
+            request.setAttribute("txt_firstName", txt_firstName);
+
+        } else if (!txt_firstName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
             err.setName_format_error("Thành phần của Tên ko được chứa số hay kí tự đặc biệt !");
             isErr = true;
+            request.setAttribute("txt_firstName", txt_firstName);
+        } else { //isTrue
+            request.setAttribute("txt_firstName", txt_firstName);
         }
+
+        if (txt_middleName.length() <= 0) {
+            err.setNull_error("Điền đầy đủ các thành phần của Tên !");
+            isErr = true;
+            txt_middleName = "Null";
+            request.setAttribute("txt_middleName", txt_middleName);
+        } else if (!txt_middleName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
+            err.setName_format_error("Thành phần của Tên ko được chứa số hay kí tự đặc biệt !");
+            isErr = true;
+            request.setAttribute("txt_middleName", txt_middleName);
+        } else { //isTrue
+            request.setAttribute("txt_middleName", txt_middleName);
+        }
+
+        if (txt_lastName.length() <= 0) {
+            err.setNull_error("Điền đầy đủ các thành phần của Tên !");
+            isErr = true;
+            txt_lastName = "Null";
+            request.setAttribute("txt_lastName", txt_lastName);
+
+        } else if (!txt_lastName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
+            err.setName_format_error("Thành phần của Tên ko được chứa số hay kí tự đặc biệt !");
+            isErr = true;
+            request.setAttribute("txt_lastName", txt_lastName);
+        } else { //isTrue
+            request.setAttribute("txt_lastName", txt_lastName);
+        }
+
         if (!txt_cccd.matches("^0\\d{11}$")) {
             err.setCccd_format_error("Định dạng căn cước công dân không hợp lệ !");
             isErr = true;
-
+            request.setAttribute("txt_cccd", txt_cccd);
         }
         if (!txt_phoneNumber.matches("^0\\d{9}$")) {
             err.setPhone_format_error("Định dạng SĐT không hợp lệ !");
             isErr = true;
+            request.setAttribute("txt_phoneNumber", txt_phoneNumber);
 
         }
         if (!txt_email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             err.setEmail_format_error("Định dạng Email không hợp lệ !");
             isErr = true;
+            request.setAttribute("txt_email", txt_email);
 
         }
         if (!txt_password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d\\s])[A-Za-z\\d@$!%*?&.,]{6,16}$")) {
             err.setPassword_format_error("Mật khẩu [6-16] kí tự , chứa 1 chữ cái in hoa và 1 kí tự ('@', '$', '%', '.', ',', '?', '&')");
             isErr = true;
+            request.setAttribute("txt_password", txt_password);
 
         }
         if ((LocalDate.now().getYear() - birthDay.getYear() < 18) || LocalDate.now().getYear() - birthDay.getYear() < 0) {
             isErr = true;
             err.setDate_invalid("Ngày sinh không hợp lệ [ " + LocalDate.now().getYear() + " - năm sinh ] >= 18 !");
+            request.setAttribute("txt_birthDate", txt_birthday);
+
         }
         if (txt_typeID.equals("3")) {
             if (!txt_roleID.equals("1")) {
@@ -119,7 +158,6 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
                 msg = "Error occur during transaction !";
             }
         }
-
         request.setAttribute("Err", err);
         request.setAttribute("msg", msg);
         request.getRequestDispatcher("DispatchController?btAction=Update&EmployeeID=" + txt_employeeID).forward(request, response);
