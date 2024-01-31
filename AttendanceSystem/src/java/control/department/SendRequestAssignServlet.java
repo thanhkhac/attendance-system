@@ -36,9 +36,20 @@ public class SendRequestAssignServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String departmentID = request.getParameter("departmentID");
         HttpSession session = request.getSession();
-        EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-        request.setAttribute("List",  list);
+
+        EmployeeDAO Emdao = new EmployeeDAO();
+        DepartmentDAO Dedao = new DepartmentDAO();
+        DepartmentDTO department = new DepartmentDTO();
+        try {
+            //dddd
+            int departmentID = Integer.parseInt(txt_departmentID);
+            department =  Dedao.getDepartmentById(departmentID);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        ArrayList<EmployeeGeneral> list = Emdao.getEmployeeInfo();
+        request.setAttribute("List", list);
+
         //RequestAssignManager = departmentID
         session.setAttribute("RequestAssignManager",  departmentID);
         request.getRequestDispatcher("DepartmentServlet").forward(request, response);

@@ -31,10 +31,20 @@ public class DepartmentController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-//        DepartmentDAO departmentDAO = new DepartmentDAO();
-//        List<DepartmentDTO> list = departmentDAO.getListDepartment();        
+
+//        HttpSession session = request.getSession();
+//        String msg = request.getParameter("msg"); //updateDepartmentManager - msg
+//        List<DepartmentDTO> list = (List<DepartmentDTO>) session.getAttribute("listDepartment");
+//        if (list == null) {
+//            DepartmentDAO departmentDAO = new DepartmentDAO();
+//            list = departmentDAO.getListDepartment();
+//        }
 //        EmployeeDAO employeeDAO = new EmployeeDAO();
 //        ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
+//        if (msg != null && msg.length() > 0) {
+//            request.setAttribute("msg", msg);
+//        }
+
 //        request.setAttribute("listDepartment", list);
 //        request.setAttribute("listEmployee", listEmployee);
 //        request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
@@ -44,8 +54,6 @@ public class DepartmentController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
-        //response.sendRedirect("DepartmentServlet");
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -55,6 +63,10 @@ public class DepartmentController extends HttpServlet {
         List<DepartmentDTO> list = null;
         DepartmentDAO departmentDAO = new DepartmentDAO();
         list = departmentDAO.getListDepartment();
+
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        ArrayList<EmployeeGeneral> listEmployee = employeeDAO.getEmployeeInfo();
+
         switch (action) {
             case "delete":
                 list = delete(request, response);
@@ -78,8 +90,12 @@ public class DepartmentController extends HttpServlet {
         request.setAttribute("listEmployee", listEmployee);
         //set to session
         //request.getSession().setAttribute("listDepartment", list);
+        request.setAttribute("listEmployee", listEmployee);
         request.setAttribute("listDepartment", list);
         request.getRequestDispatcher("ViewDepartment.jsp").forward(request, response);
+
+        //response.sendRedirect("DepartmentServlet");
+
     }
 
     private List<DepartmentDTO> delete(HttpServletRequest request, HttpServletResponse response) {
