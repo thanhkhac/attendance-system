@@ -66,7 +66,7 @@ public class RecoveryPasswordServlet extends HttpServlet {
 
                         msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
                         // Send otp to email
-                        String otp_send = external.sendOTP("OTP", check_email);
+                        String otp_send = external.sendOTP("Recovery Password", "OTP", check_email);
                         session.setAttribute("EMAIL", check_email);
                         // store otp into session
                         session.setAttribute("OTP", otp_send);
