@@ -22,8 +22,8 @@ import javax.mail.internet.MimeMessage;
 public class EmailModule {
     
     // NguyenManhDuong - Send otp to email
-    public String sendOTP(String mess ,String receiveEmail) {
-        final String title = "Demo Send Mail";    // Title mail
+    public String sendOTP(String title, String mess ,String receiveEmail) {
+//        final String title = "Demo Send Mail";    // Title mail
         final String from = "demojavamail268@gmail.com"; // Email gửi tbao
         final String password = "vfvh zchc ptsj fkgr";  // Password của email gửi tbao
         String capcha = generateRandomString();

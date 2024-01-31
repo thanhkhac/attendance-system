@@ -5,24 +5,20 @@
 package control.employee;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
-import model.DepartmentDAO;
-import model.EmployeeDAO;
-import model.EmployeeTypeDAO;
-import model.RoleDAO;
+import model.*;
 import utils.email.EmailModule;
 
 /**
  *
  * @author nguye
  */
-@WebServlet(name = "InsertEmployeeServlet", urlPatterns = {"/InsertEmployeeServlet"})
+@WebServlet(name = "InsertEmpServlet", urlPatterns = {"/InsertEmployeeServlet"})
 public class InsertEmployeeServlet extends HttpServlet {
 
     /**
@@ -34,6 +30,15 @@ public class InsertEmployeeServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    final String INSERT_PAGE = "InsertEmployee.jsp";
+
+    final String NO_EMPTY = "Không bỏ trống";
+    final String ERR_FORMAT_NAME = "Sai định dạng tên";
+    final String ERR_FORMAT_EMAIL = "Sai định dạng email";
+    final String ERR_FORMAT_CCCD = "Sai định dạng CCCD";
+    final String ERR_FORMAT_SDT = "Sai định dạng SĐT";
+    final String ERR_FORMAT_DATE = "Sai định dạng ngày tháng năm";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -53,7 +58,8 @@ public class InsertEmployeeServlet extends HttpServlet {
         String endDate = request.getParameter("txtEndDate");
         String isActive = request.getParameter("txtIsActive");
 
-        PrintWriter out = response.getWriter();
+        UpdateInfoError err = new UpdateInfoError();
+        EmailModule em = new EmailModule();
 
         EmployeeDAO emDao = new EmployeeDAO();
         DepartmentDAO deDao = new DepartmentDAO();
@@ -61,119 +67,200 @@ public class InsertEmployeeServlet extends HttpServlet {
         RoleDAO roDao = new RoleDAO();
 
         String msg = "";
-        String password = "";
-        if (firstName.isEmpty() || middleName.isEmpty() || lastName.isEmpty() || birthDate.isEmpty() || email.isEmpty() || cccd.isEmpty() || phonenumber.isEmpty() || startDate.isEmpty() || endDate.isEmpty()) {
-            msg = "Vui lòng điền đầy đủ thông tin";
-        } else {
-            msg = "Dữ liệu đã được nhập đầy đủ";
+        String defaultPW = "";
 
-            request.setAttribute("LASTNAME", lastName);
-            request.setAttribute("MIDDLENAME", middleName);
-            request.setAttribute("FIRSTNAME", firstName);
+        LocalDate birth_date = null;
+        LocalDate start_date = null;
+        LocalDate end_date = null;
 
-            int employee_type_id_raw = emTypeDao.getEmployeeTypeIDByName(employeeTypeID);
-            int department_id_raw = deDao.getDepartmentIDByName(departmentID);
-            int role_id_raw = roDao.getRoleIDByName(roleID);
+        boolean isErr = false;
+        ////////////////////////////////////////////////////////////////////////////////////
+//        String no_empty = "Không bỏ trống";
+//        String err_format_name = "Sai định dạng tên";
+//        String err_format_email = "Sai định dạng email";
+//        String err_format_CCCD = "Sai định dạng CCCD";
+//        String err_format_SDT = "Sai định dạng SĐT";
+//        String err_format_Date = "Sai định dạng ngày tháng năm";
 
-            boolean gender_raw = false;
-            // cast gender before insert
-            switch (gender) {
-                case "male":
-                    gender_raw = true;
-                    break;
-                case "female":
-                    gender_raw = false;
-                    break;
-            }
-            request.setAttribute("GENDER", gender);
-            request.setAttribute("ROLE", roleID);
-            request.setAttribute("DEPARTMENT", departmentID);
-            request.setAttribute("EMPLOYEETYPE", employeeTypeID);
-            try {
-                if (emDao.getCCCD(cccd) != null || emDao.getEmail(email) != null || emDao.getPhonenumber(phonenumber) != null) { // 1 trong 3 cái trùng báo lỗi (trùng: tồn tại trong DB)
-                    msg = "Email , số điện thoại hoặc CCCD đã tồn tại trong hệ thống";
-                } else {
-                    if (cccd.matches("^0\\d{11}$")) {
-                        msg = "CCCD hợp lệ";
-                        request.setAttribute("CCCD", cccd);
-                        if (email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
-                            msg = "Email hợp lệ";
-                            request.setAttribute("EMAIL", email);
-                            
-                            // send password 
-                            EmailModule em = new EmailModule();
-                            password = em.sendOTP("default password", email);
-                            
-                            if (phonenumber.matches("^0[0-9]{9}$")) {
-                                msg = "Email , số điện thoại hoặc CCCD được chấp nhận";
-                                request.setAttribute("PHONENUMBER", phonenumber);
+        ////////////////////////////////////////////////////////////////////////////////////     
+        if (firstName.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_FNAME", NO_EMPTY);
+            isErr = true;
+        } else if (!firstName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
+//            err.setName_format_error(ERR_FORMAT_NAME);
+            request.setAttribute("ERR_FNAME", ERR_FORMAT_NAME);
+            isErr = true;
+        }
 
-                                // cast String to LocalDate
-                                LocalDate birth_date = LocalDate.parse(birthDate);
-                                LocalDate start_date = LocalDate.parse(startDate);
-                                LocalDate end_date = LocalDate.parse(endDate);
+        if (middleName.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_MNAME", NO_EMPTY);
+            isErr = true;
+        } else if (!middleName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
+//            err.setName_format_error(ERR_FORMAT_NAME);
+            request.setAttribute("ERR_MNAME", ERR_FORMAT_NAME);
+            isErr = true;
+        }
 
-                                //get month and year
-                                int get_start_month = start_date.getMonthValue();
-                                int get_end_month = end_date.getMonthValue();
-                                int get_start_year = start_date.getYear();
-                                int get_end_year = end_date.getYear();
-                                int get_birth_year = birth_date.getYear();
+        if (lastName.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_LNAME", NO_EMPTY);
+            isErr = true;
+        } else if (!lastName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
+//            err.setName_format_error(ERR_FORMAT_NAME);
+            request.setAttribute("ERR_LNAME", ERR_FORMAT_NAME);
+            isErr = true;
+        }
 
-                                if (get_start_year - get_birth_year < 18) {
-                                    msg = "Chưa đủ 18 tuổi";
-                                } else {
-                                    if (get_end_year - get_start_year == 0) {
-                                        // Thời hạn hợp đồng làm việc của 1 nhân viên ít nhất 6 tháng
-                                        if (get_end_month - get_start_month < 6) {
-                                            msg = "Thời gian làm việc ít nhất 6 tháng";
-                                        } else {
-                                            msg = "Thời hạn làm việc phù hợp";
-                                            // set trạng thái cho tài khoản mặc định là 'false' (chưa active tài khoản)
-                                            boolean activeAcc = false;
-                                            if (isActive != null) {
-                                                activeAcc = true;
-                                            }
-                                            // Set trang thai dang nhap mac dinh la 'false'
-                                            if (emDao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, password, cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
-                                                msg = "Thêm nhân viên thành công";
-                                            } else {
-                                                msg = "Thêm nhân viên không thành công";
-                                            }
-                                        }
-                                    } else if (get_end_year - get_start_year < 0) {
-                                        msg = "Thời hạn làm việc không hợp lệ";
-                                    } else {
-                                        msg = "Thời hạn làm việc phù hợp";
-                                        // set trạng thái cho tài khoản mặc định là 'false' (chưa active tài khoản)
-                                        boolean activeAcc = false;
-                                        if (isActive != null) {
-                                            activeAcc = true;
-                                        }
-                                        // Set trang thai dang nhap mac dinh la 'false'
-                                        if (emDao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, password, cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
-                                            msg = "Thêm nhân viên thành công";
-                                        } else {
-                                            msg = "Thêm nhân viên không thành công";
-                                        }
-                                    }
-                                }
-                            } else {
-                                msg = "Định dạng SĐT không hợp lệ";
-                            }
+        if (birthDate.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_B_DATE", NO_EMPTY);
+            isErr = true;
+        }
+
+        if (email.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_EMAIL", NO_EMPTY);
+            isErr = true;
+        } else if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+//            err.setEmail_format_error(ERR_FORMAT_EMAIL);
+            request.setAttribute("ERR_EMAIL", ERR_FORMAT_EMAIL);
+            isErr = true;
+        }
+
+        if (cccd.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_CCCD", NO_EMPTY);
+            isErr = true;
+        } else if (!cccd.matches("^0\\d{11}$")) {
+//            err.setCccd_format_error(ERR_FORMAT_CCCD);
+            request.setAttribute("ERR_CCCD", ERR_FORMAT_CCCD);
+            isErr = true;
+        }
+
+        if (phonenumber.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_PHONE", NO_EMPTY);
+            isErr = true;
+        } else if (!phonenumber.matches("^0\\d{9}$")) {
+//            err.setPhone_format_error(ERR_FORMAT_SDT);
+            request.setAttribute("ERR_PHONE", ERR_FORMAT_SDT);
+            isErr = true;
+        }
+
+        if (startDate.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_S_DATE", NO_EMPTY);
+            isErr = true;
+        }
+
+        if (endDate.isEmpty()) {
+//            err.setNull_error(NO_EMPTY);
+            request.setAttribute("ERR_E_DATE", NO_EMPTY);
+            isErr = true;
+        }
+
+        try {
+            birth_date = LocalDate.parse(birthDate);
+        } catch (Exception e) {
+//            err.setDate_invalid(ERR_FORMAT_DATE);
+            request.setAttribute("ERR_B_DATE", ERR_FORMAT_DATE);
+            isErr = true;
+        }
+        try {
+            start_date = LocalDate.parse(startDate);
+        } catch (Exception e) {
+//            err.setDate_invalid(ERR_FORMAT_DATE);
+            request.setAttribute("ERR_S_DATE", ERR_FORMAT_DATE);
+            isErr = true;
+        }
+
+        try {
+            end_date = LocalDate.parse(endDate);
+        } catch (Exception e) {
+//            err.setDate_invalid(ERR_FORMAT_DATE);
+            request.setAttribute("ERR_E_DATE", ERR_FORMAT_DATE);
+            isErr = true;
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////     
+        Boolean gender_raw = null;
+        // cast gender before insert
+        switch (gender) {
+            case "male":
+                gender_raw = true;
+                break;
+            case "female":
+                gender_raw = false;
+                break;
+        }
+
+        boolean activeAcc = false;
+        if (isActive != null) {
+            activeAcc = true;
+        }
+
+        int employee_type_id_raw = emTypeDao.getEmployeeTypeIDByName(employeeTypeID);
+        int department_id_raw = deDao.getDepartmentIDByName(departmentID);
+        int role_id_raw = roDao.getRoleIDByName(roleID);
+
+        ////////////////////////////////////////////////////////////////////////////////////     
+        if (!isErr) {
+            int get_start_month = start_date.getMonthValue();
+            int get_end_month = end_date.getMonthValue();
+            int get_start_year = start_date.getYear();
+            int get_end_year = end_date.getYear();
+            int get_birth_year = birth_date.getYear();
+
+            if (get_start_year - get_birth_year < 18) { // chưa đủ 18 tuổi
+                msg = "Chưa đủ tuổi làm việc";
+            } else {  // đủ 18 tuổi
+                if (get_end_year - get_start_year < 0) {  // năm kết thúc bé hơn năm bắt đầu
+                    msg = "Thời gian làm việc không hợp lệ";
+                } else if (get_end_year - get_start_year == 0) {   // năm kết thúc cùng năm bắt đầu
+                    if (get_end_month - get_start_month < 6) {    // thời hạn làm việc ít nhất là 6 tháng
+                        msg = "Thời gian làm việc ít nhất 6 tháng";
+                    } else {  // thời hạn làm việc >= 6 tháng
+                        defaultPW = em.sendOTP("Default Password" , "default password", email);
+                        if (emDao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, defaultPW, cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
+                            msg = "Thêm nhân viên thành công";
                         } else {
-                            msg = "Lỗi format email";
+                            msg = "Thêm nhân viên không thành công";
                         }
+                    }
+                } else {  // năm kêt thúc lớn hơn năm bắt đầu
+                    defaultPW = em.sendOTP("Default Password" , "default password", email);
+                    if (emDao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, defaultPW, cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
+                        msg = "Thêm nhân viên thành công";
                     } else {
-                        msg = "CCCD không hợp lệ";
+                        msg = "Thêm nhân viên không thành công";
                     }
                 }
-            } catch (Exception e) {
-                msg = "Dữ liệu ngày tháng năm không phù hợp!";
             }
         }
+
+        ////////////////////////////////////////////////////////////////////////////////////   
+        //////////// REFILL DATA
+        request.setAttribute("LASTNAME", lastName);
+        request.setAttribute("MIDDLENAME", middleName);
+        request.setAttribute("FIRSTNAME", firstName);
+        request.setAttribute("CCCD", cccd);
+        request.setAttribute("EMAIL", email);
+        request.setAttribute("PHONENUMBER", phonenumber);
+        request.setAttribute("BIRTHDATE", birth_date);
+        request.setAttribute("STARTDATE", start_date);
+        request.setAttribute("ENDDATE", end_date);
+
+        request.setAttribute("EMPLTYPEID", employeeTypeID);
+        request.setAttribute("DEPARTMENTID", departmentID);
+        request.setAttribute("ROLEID", roleID);
+        
+        request.setAttribute("ERR", err);
         request.setAttribute("MSG", msg);
-        request.getRequestDispatcher("InsertEmployee.jsp").forward(request, response);
+        String a = (String) request.getAttribute("MSG");
+        request.getRequestDispatcher(INSERT_PAGE).forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
