@@ -70,13 +70,16 @@
             .form-output{
                 display:flex;
             }
-            .form-output-error{
+            .form-output{
                 margin-left: 150px;
             }
-            .form-output-error p{
+            .form-output p{
+                color: blue;
+            }
+            .err{
                 color: red;
             }
-            .form-output-error i{
+            .err i{
                 margin-right: 10px;
             }
             .whole-content{
@@ -92,9 +95,10 @@
             }
             @media (min-width:1000px) {
                 .whole-content{
-                    padding-left: 200px;;
+                    padding-left: 200px;
+                    ;
                 }
-                
+
             }
         </style>
         <%@include file="Sidebar.jsp" %>
@@ -106,6 +110,18 @@
         <c:set var="Employee" value="${requestScope.Employee}" />
         <c:set var="Err" value="${requestScope.Err}" />
         <c:set var="msg" value="${requestScope.msg}" />
+
+
+        <c:set var="txt_firstName" value="${requestScope.txt_firstName}" />
+        <c:set var="txt_middleName" value="${requestScope.txt_middleName}" />
+        <c:set var="txt_lastName" value="${requestScope.txt_lastName}" />
+        <c:set var="txt_email" value="${requestScope.txt_email}" />
+        <c:set var="txt_phoneNumber" value="${requestScope.txt_phoneNumber}" />
+        <c:set var="txt_password" value="${requestScope.txt_password}" />
+        <c:set var="txt_cccd" value="${txt_cccd}" />
+        <c:set var="txt_birthDate" value="${txt_birthDate}" />
+
+
 
         <div class="container-xxl px-4">
             <!-- Account page navigation-->
@@ -130,11 +146,25 @@
                                             class="form-control"
                                             id="inputFirstName"
                                             type="text"
-                                            placeholder="Enter your first name"
                                             name="txt_firstName"
-                                            value="${Employee.getFirstName()}"
+                                            <c:if test="${empty txt_firstName}" >
+                                                value="${Employee.getFirstName()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_firstName && txt_firstName ne 'Null' }" >
+                                                value="${txt_firstName}"
+                                            </c:if>
+                                            <c:if test="${txt_firstName eq 'Null'}" >
+                                                value=""
+                                            </c:if>
                                             />
+                                        <c:if test="${Err.getNull_error() !=null}" >
+                                            <p class="err"><i class="fa-solid fa-triangle-exclamation"></i>${Err.getNull_error()}</p>
+                                            </c:if>
+                                            <c:if test="${Err.getName_format_error() !=null}" >
+                                            <p class="err"><i class="fa-solid fa-triangle-exclamation"></i>${Err.getName_format_error()}</p>
+                                            </c:if>
                                     </div>
+
                                     <!-- Form Group (middle name)-->
                                     <div class="col-md-4 input-name">
                                         <label class="small mb-1" for="inputLastName"
@@ -144,9 +174,16 @@
                                             class="form-control"
                                             id="inputLastName"
                                             type="text"
-                                            placeholder="Enter your middle name"
                                             name="txt_middleName"
-                                            value="${Employee.getMiddleName()}"
+                                            <c:if test="${empty txt_middleName}" >
+                                                value="${Employee.getMiddleName()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_middleName && txt_middleName ne 'Null' }" >
+                                                value="${txt_middleName}"
+                                            </c:if>
+                                            <c:if test="${txt_middleName eq 'Null'}" >
+                                                value=""
+                                            </c:if>
                                             />
                                     </div>
                                     <!-- Form Group (last name)-->
@@ -158,9 +195,16 @@
                                             class="form-control"
                                             id="inputLastName"
                                             type="text"
-                                            placeholder="Enter your last name"
                                             name="txt_lastName"
-                                            value="${Employee.getLastName()}"
+                                            <c:if test="${empty txt_lastName}" >
+                                                value="${Employee.getLastName()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_lastName && txt_lastName ne 'Null' }" >
+                                                value="${txt_lastName}"
+                                            </c:if>
+                                            <c:if test="${txt_lastName eq 'Null'}" >
+                                                value=""
+                                            </c:if>
                                             />
                                     </div>
                                 </div>
@@ -199,19 +243,19 @@
                                                         Nữ
                                                     </label>
                                                 </div>
-<!--                                                <div class="form-check-items">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="radio"
-                                                        id="inputGender-other"
-                                                        name="txt_gender"
-                                                        value="null"
-                                                    <c:if test="${Employee.getGender() == null}" >checked</c:if>
-                                                        />
-                                                    <label class="form-check-label" for="inputGender-other">
-                                                        Khác
-                                                    </label>
-                                                </div>-->
+                                                <!--                                                <div class="form-check-items">
+                                                                                                    <input
+                                                                                                        class="form-check-input"
+                                                                                                        type="radio"
+                                                                                                        id="inputGender-other"
+                                                                                                        name="txt_gender"
+                                                                                                        value="null"
+                                            <c:if test="${Employee.getGender() == null}" >checked</c:if>
+                                                />
+                                            <label class="form-check-label" for="inputGender-other">
+                                                Khác
+                                            </label>
+                                        </div>-->
                                             </div>
                                         </div>
 
@@ -226,8 +270,16 @@
                                                 type="text"
                                                 placeholder="CCCD"
                                                 name="txt_cccd"
+                                            <c:if test="${empty txt_cccd}" >
                                                 value="${Employee.getCccd()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_cccd}" >
+                                                value="${txt_cccd}"
+                                            </c:if>
                                             />
+                                        <c:if test="${Err.getCccd_format_error() !=null}" >
+                                            <p class="err"><i class="fa-solid fa-triangle-exclamation"></i>${Err.getCccd_format_error()}</p>
+                                            </c:if>
                                     </div>
                                 </div>
                                 <!-- Form Group (email address)-->
@@ -242,8 +294,16 @@
                                             type="email"
                                             placeholder="Enter your email address"
                                             name="txt_email"
-                                            value="${Employee.getEmail()}"
+                                            <c:if test="${empty txt_email}" >
+                                                value="${Employee.getEmail()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_email}" >
+                                                value="${txt_email}"
+                                            </c:if>
                                             />
+                                        <c:if test="${Err.getEmail_format_error() !=null}" >
+                                            <p class="err"><i class="fa-solid fa-triangle-exclamation"></i>${Err.getEmail_format_error()}</p>
+                                            </c:if>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="small mb-1" for="inputPassword"
@@ -255,8 +315,16 @@
                                             type="text"
                                             placeholder="Password"
                                             name="txt_password"
-                                            value="${Employee.getPassword()}"
+                                            <c:if test="${empty txt_password}" >
+                                                value="${Employee.getPassword()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_password}" >
+                                                value="${txt_password}"
+                                            </c:if>
                                             />
+                                        <c:if test="${Err.getPassword_format_error() !=null}" >
+                                            <p class="err"><i class="fa-solid fa-triangle-exclamation"></i>${Err.getPassword_format_error()}</p>
+                                            </c:if>
                                     </div>
                                 </div>
                                 <!-- Form Row-->
@@ -272,8 +340,16 @@
                                             type="tel"
                                             placeholder="Enter your phone number"
                                             name="txt_phoneNumber"
-                                            value="${Employee.getPhoneNumber()}"
+                                            <c:if test="${empty txt_phoneNumber}" >
+                                                value="${Employee.getPhoneNumber()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_phoneNumber}" >
+                                                value="${txt_phoneNumber}"
+                                            </c:if>
                                             />
+                                        <c:if test="${Err.getPhone_format_error() !=null}" >
+                                            <p class="err"><i class="fa-solid fa-triangle-exclamation"></i>${Err.getPhone_format_error()}</p>
+                                            </c:if>
                                     </div>
                                     <!-- Form Group (birthday)-->
                                     <div class="col-md-6">
@@ -286,8 +362,16 @@
                                             type="date"
                                             name="txt_birthday"
                                             placeholder="Enter your birthday"
-                                            value="${Employee.getBirthDate()}"
+                                            <c:if test="${empty txt_birthDate}" >
+                                                value="${Employee.getBirthDate()}"
+                                            </c:if>
+                                            <c:if test="${not empty txt_birthDate}" >
+                                                value="${txt_birthDate}"
+                                            </c:if>
                                             />
+                                        <c:if test="${Err.getDate_invalid() !=null}" >
+                                            <p class="err"><i class="fa-solid fa-triangle-exclamation"></i>${Err.getDate_invalid()}</p>
+                                            </c:if>
                                     </div>
                                 </div>
                                 <div class="row gx-3 mb-3">
@@ -354,32 +438,10 @@
                                             value="Lưu Thay Đổi"
                                             />
                                     </div>
-                                    <div class="form-output-error">
+                                    <div class="form-output">
                                         <c:if test="${msg!=null}" >
-                                            <p>${msg}</p>
+                                            <p class="sucess">${msg}</p>
                                         </c:if>
-                                        <c:if test="${Err.getNull_error() !=null}" >
-                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getNull_error()}</p>
-                                            </c:if>
-                                            <c:if test="${Err.getName_format_error() !=null}" >
-                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getName_format_error()}</p>
-                                            </c:if>
-                                            <c:if test="${Err.getCccd_format_error() !=null}" >
-                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getCccd_format_error()}</p>
-                                            </c:if>
-                                            <c:if test="${Err.getPhone_format_error() !=null}" >
-                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getPhone_format_error()}</p>
-                                            </c:if>
-                                            <c:if test="${Err.getPassword_format_error() !=null}" >
-                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getPassword_format_error()}</p>
-                                            </c:if>
-                                            <c:if test="${Err.getEmail_format_error() !=null}" >
-                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getEmail_format_error()}</p>
-                                            </c:if>
-                                            <c:if test="${Err.getDate_invalid() !=null}" >
-                                            <p><i class="fa-solid fa-triangle-exclamation"></i>${Err.getDate_invalid()}</p>
-                                            </c:if>
-
                                     </div>
                                 </div>
                                 <!-- Save changes button-->

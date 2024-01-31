@@ -67,4 +67,6 @@ SELECT  EmployeeID,
         AND EmployeeTypes.EmployeeTypeID = 1
 
 
-
+		UPDATE Employees
+		SET Email ='DucNTHE173064@fpt.edu.vn'
+		WHERE EmployeeID = 4
