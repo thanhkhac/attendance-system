@@ -18,6 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import model.EmployeeDTO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -106,7 +108,8 @@ public class RouterFilter implements Filter {
         }
 
         doBeforeProcessing(request, response);
-        doBeforeProcessing(request, response);
+        
+        //--Bắt đầu phân quyền
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         String url = httpRequest.getServletPath().toLowerCase();
@@ -114,36 +117,41 @@ public class RouterFilter implements Filter {
 
         EmployeeDTO employee = (EmployeeDTO) httpRequest.getSession().getAttribute("ACCOUNT");
 
+//      Danh sách cáng đường dẫn mà tất cả mọi người đều có thể truy cập
+        ArrayList<String> generalPaths = new ArrayList<>();
+        generalPaths.add("/assets".toLowerCase());
+        generalPaths.add("/DispatchController".toLowerCase());
+
 //        Danh sách các đường dẫn mà người dùng được phép truy cập khi chưa đăng nhập
-        ArrayList<String> allowedPaths = new ArrayList<>();
-        allowedPaths.add("/checkLogin".toLowerCase());
-        allowedPaths.add("/cookieLogin".toLowerCase());
-        allowedPaths.add("/Login.html".toLowerCase());
-        allowedPaths.add("/Login.jsp".toLowerCase());
-        allowedPaths.add("/RecoveryPassword.jsp".toLowerCase());
-        allowedPaths.add("/ChangePassword.jsp".toLowerCase());
-        allowedPaths.add("/ChangePasswordServlet".toLowerCase());
-        allowedPaths.add("/RecoveryPasswordServlet".toLowerCase());
-        allowedPaths.add("/loginGoogle".toLowerCase());
-        allowedPaths.add("/".toLowerCase());
+        final ArrayList<String> loginPaths = new ArrayList<>();
+        loginPaths.add("/checkLogin".toLowerCase());
+        loginPaths.add("/cookieLogin".toLowerCase());
+        loginPaths.add("/Login.html".toLowerCase());
+        loginPaths.add("/Login.jsp".toLowerCase());
+        loginPaths.add("/RecoveryPassword.jsp".toLowerCase());
+        loginPaths.add("/ChangePassword.jsp".toLowerCase());
+        loginPaths.add("/ChangePasswordServlet".toLowerCase());
+        loginPaths.add("/RecoveryPasswordServlet".toLowerCase());
+        loginPaths.add("/loginGoogle".toLowerCase());
+
+        boolean isGeneralPath = generalPaths.stream().anyMatch(url::startsWith);
+        boolean isLoginPath = loginPaths.contains(url);
 
         if (employee == null) {
-            if (url.startsWith("/assets")) {
-                chain.doFilter(request, response);
-                return;
-            }
-            if (!allowedPaths.contains(url) && !url.contains("/DispatchController".toLowerCase())) {
+            if (!isLoginPath && !isGeneralPath) {
+                System.out.println("Người dùng chưa đăng nhập");
                 httpResponse.sendRedirect("cookieLogin");
-                System.out.println("Nguoi dung chua dang nhap, chuyen tiep");
             }
-
         } else {
-            if (allowedPaths.contains(url)) {
-                System.out.println("Nguoi dung da dang nhap, chuyen tiep");
+            if (isLoginPath) {
+                System.out.println("Người dùng đã đăng nhập");
                 httpResponse.sendRedirect("ThanhCong.html");
             }
         }
 
+        //--Kết thúc phân quyền
+        
+        
         Throwable problem = null;
         try {
             chain.doFilter(request, response);
