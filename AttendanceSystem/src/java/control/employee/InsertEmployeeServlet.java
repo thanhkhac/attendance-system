@@ -16,7 +16,6 @@ import model.DepartmentDAO;
 import model.EmployeeDAO;
 import model.EmployeeTypeDAO;
 import model.RoleDAO;
-import model.UpdateInfoError;
 import utils.email.EmailModule;
 
 /**

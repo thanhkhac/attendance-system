@@ -393,7 +393,6 @@
                                             </div>
                                         </div>
 
-
                                         <div class="row">
 
                                             <div class="col-md-6 mb-4 form-check form-switch">
@@ -403,7 +402,7 @@
 
                                             <div class="col-md-6 mb-4 form-check form-switch">
                                                 <%
-                                                if(msg != null){
+                                                if(msg != null && msg.length() > 0){
                                                 %>
                                                 <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=msg%></p>
                                                 <%
@@ -411,7 +410,6 @@
                                                 %>
                                             </div>
                                         </div>
-
                                         <div class="mt-4 pt-2">
                                             <button class="btn btn-primary btn-lg" name="btAction" value="Insert">Thêm</button>
                                         </div>
