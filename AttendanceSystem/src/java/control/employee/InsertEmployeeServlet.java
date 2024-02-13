@@ -16,7 +16,6 @@ import model.DepartmentDAO;
 import model.EmployeeDAO;
 import model.EmployeeTypeDAO;
 import model.RoleDAO;
-import model.UpdateInfoError;
 import utils.email.EmailModule;
 
 /**
@@ -63,9 +62,7 @@ public class InsertEmployeeServlet extends HttpServlet {
         String endDate = request.getParameter("txtEndDate");
         String isActive = request.getParameter("txtIsActive");
 
-        UpdateInfoError err = new UpdateInfoError();
         EmailModule em = new EmailModule();
-
         EmployeeDAO emDao = new EmployeeDAO();
         DepartmentDAO deDao = new DepartmentDAO();
         EmployeeTypeDAO emTypeDao = new EmployeeTypeDAO();
@@ -73,95 +70,85 @@ public class InsertEmployeeServlet extends HttpServlet {
 
         String msg = "";
         String defaultPW = "";
-
+        String email_check = emDao.getEmail(email);
+        String cccd_check = emDao.getCCCD(cccd);
+        String phonenumber_check = emDao.getPhonenumber(phonenumber);
+        
         LocalDate birth_date = null;
         LocalDate start_date = null;
         LocalDate end_date = null;
 
         boolean isErr = false;
-        ////////////////////////////////////////////////////////////////////////////////////
-//        String no_empty = "Không bỏ trống";
-//        String err_format_name = "Sai định dạng tên";
-//        String err_format_email = "Sai định dạng email";
-//        String err_format_CCCD = "Sai định dạng CCCD";
-//        String err_format_SDT = "Sai định dạng SĐT";
-//        String err_format_Date = "Sai định dạng ngày tháng năm";
 
         ////////////////////////////////////////////////////////////////////////////////////     
         if (firstName.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_FNAME", NO_EMPTY);
             isErr = true;
         } else if (!firstName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
-//            err.setName_format_error(ERR_FORMAT_NAME);
             request.setAttribute("ERR_FNAME", ERR_FORMAT_NAME);
             isErr = true;
         }
 
         if (middleName.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_MNAME", NO_EMPTY);
             isErr = true;
         } else if (!middleName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
-//            err.setName_format_error(ERR_FORMAT_NAME);
             request.setAttribute("ERR_MNAME", ERR_FORMAT_NAME);
             isErr = true;
         }
 
         if (lastName.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_LNAME", NO_EMPTY);
             isErr = true;
         } else if (!lastName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
-//            err.setName_format_error(ERR_FORMAT_NAME);
             request.setAttribute("ERR_LNAME", ERR_FORMAT_NAME);
             isErr = true;
         }
 
         if (birthDate.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_B_DATE", NO_EMPTY);
             isErr = true;
         }
 
         if (email.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_EMAIL", NO_EMPTY);
             isErr = true;
         } else if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
-//            err.setEmail_format_error(ERR_FORMAT_EMAIL);
             request.setAttribute("ERR_EMAIL", ERR_FORMAT_EMAIL);
+            isErr = true;
+        } else if(email.equals(email_check)){
+            request.setAttribute("ERR_EMAIL", "Email đã tồn tại trong hệ thống");
             isErr = true;
         }
 
         if (cccd.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_CCCD", NO_EMPTY);
             isErr = true;
         } else if (!cccd.matches("^0\\d{11}$")) {
-//            err.setCccd_format_error(ERR_FORMAT_CCCD);
             request.setAttribute("ERR_CCCD", ERR_FORMAT_CCCD);
+            isErr = true;
+        } else if(cccd.equals(cccd_check)){
+            request.setAttribute("ERR_CCCD", "Căn cước công dân đã tồn tại trong hệ thống");
             isErr = true;
         }
 
         if (phonenumber.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_PHONE", NO_EMPTY);
             isErr = true;
         } else if (!phonenumber.matches("^0\\d{9}$")) {
-//            err.setPhone_format_error(ERR_FORMAT_SDT);
             request.setAttribute("ERR_PHONE", ERR_FORMAT_SDT);
+            isErr = true;
+        } else if(phonenumber.equals(phonenumber_check)){
+            request.setAttribute("ERR_PHONE", "Số điện thoại đã tồn tại trong hệ thống");
             isErr = true;
         }
 
         if (startDate.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_S_DATE", NO_EMPTY);
             isErr = true;
         }
 
         if (endDate.isEmpty()) {
-//            err.setNull_error(NO_EMPTY);
             request.setAttribute("ERR_E_DATE", NO_EMPTY);
             isErr = true;
         }
@@ -169,14 +156,12 @@ public class InsertEmployeeServlet extends HttpServlet {
         try {
             birth_date = LocalDate.parse(birthDate);
         } catch (Exception e) {
-//            err.setDate_invalid(ERR_FORMAT_DATE);
             request.setAttribute("ERR_B_DATE", ERR_FORMAT_DATE);
             isErr = true;
         }
         try {
             start_date = LocalDate.parse(startDate);
         } catch (Exception e) {
-//            err.setDate_invalid(ERR_FORMAT_DATE);
             request.setAttribute("ERR_S_DATE", ERR_FORMAT_DATE);
             isErr = true;
         }
@@ -184,7 +169,6 @@ public class InsertEmployeeServlet extends HttpServlet {
         try {
             end_date = LocalDate.parse(endDate);
         } catch (Exception e) {
-//            err.setDate_invalid(ERR_FORMAT_DATE);
             request.setAttribute("ERR_E_DATE", ERR_FORMAT_DATE);
             isErr = true;
         }
@@ -261,9 +245,7 @@ public class InsertEmployeeServlet extends HttpServlet {
         request.setAttribute("DEPARTMENTID", departmentID);
         request.setAttribute("ROLEID", roleID);
         
-        request.setAttribute("ERR", err);
         request.setAttribute("MSG", msg);
-        String a = (String) request.getAttribute("MSG");
         request.getRequestDispatcher(INSERT_PAGE).forward(request, response);
         
         

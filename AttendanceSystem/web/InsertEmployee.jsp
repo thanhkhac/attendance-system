@@ -116,7 +116,6 @@
         
     %>
     <body>
-        <form action="DispatchController">
             <section class="vh-100 gradient-custom">
                 <div class="container py-5 h-100">
                     <div class="row justify-content-center align-items-center h-100">
@@ -124,7 +123,7 @@
                             <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                                 <div class="card-body p-4 p-md-5">
                                     <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Insert Employee</h3>
-                                    <form>
+                                    <form action="DispatchController">
 
                                         <div class="row">
 
@@ -200,9 +199,9 @@
                                                     if(err_birthdate.length() > 0){
                                                     %>
                                                     <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation""></i><%=err_birthdate%></p>
-                                                        <%
-                                                        }
-                                                        %>
+                                                    <%
+                                                    }
+                                                    %>
                                                 </div>
 
                                             </div>
@@ -394,7 +393,6 @@
                                             </div>
                                         </div>
 
-
                                         <div class="row">
 
                                             <div class="col-md-6 mb-4 form-check form-switch">
@@ -404,7 +402,7 @@
 
                                             <div class="col-md-6 mb-4 form-check form-switch">
                                                 <%
-                                                if(msg != null){
+                                                if(msg != null && msg.length() > 0){
                                                 %>
                                                 <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=msg%></p>
                                                 <%
@@ -412,7 +410,6 @@
                                                 %>
                                             </div>
                                         </div>
-
                                         <div class="mt-4 pt-2">
                                             <button class="btn btn-primary btn-lg" name="btAction" value="Insert">Thêm</button>
                                         </div>
@@ -424,7 +421,6 @@
                     </div>
                 </div>
             </section>
-        </form>
 
 
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
