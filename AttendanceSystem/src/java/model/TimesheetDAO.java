@@ -26,8 +26,8 @@ public class TimesheetDAO extends DAOBase {
                 int shiftID = rs.getInt("ShiftID");
                 LocalTime checkin = DATE_UTIL.parseSQLTime(rs.getTime("CheckIn"));
                 LocalTime checkout = DATE_UTIL.parseSQLTime(rs.getTime("CheckOut"));
-                String note = rs.getNString("note");
-                return new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, note);
+                int createdBy = rs.getInt("createdBy");
+                return new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, createdBy);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -57,8 +57,8 @@ public class TimesheetDAO extends DAOBase {
                 int shiftID = rs.getInt("ShiftID");
                 LocalTime checkin = DATE_UTIL.parseSQLTime(rs.getTime("CheckIn"));
                 LocalTime checkout = DATE_UTIL.parseSQLTime(rs.getTime("CheckOut"));
-                String note = rs.getNString("note");
-                list.add(new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, note));
+                int createdBy = rs.getInt("createdBy");
+                list.add(new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, createdBy));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,8 +86,8 @@ public class TimesheetDAO extends DAOBase {
                 int shiftID = rs.getInt("ShiftID");
                 LocalTime checkin = DATE_UTIL.parseSQLTime(rs.getTime("CheckIn"));
                 LocalTime checkout = DATE_UTIL.parseSQLTime(rs.getTime("CheckOut"));
-                String note = rs.getNString("note");
-                return new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, note);
+                int createdBy = rs.getInt("createdBy");
+                return new TimesheetDTO(timesheetID, date, employeeID, shiftID, checkin, checkout, createdBy);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,8 +102,8 @@ public class TimesheetDAO extends DAOBase {
         System.out.println("getTimesheetDTO(1)");
         System.out.println(timesheetDAO.getTimesheetDTO(1));
         System.out.println("getTimesheetInRange()");
-        LocalDate start = LocalDate.parse("2024-01-05");
-        LocalDate end = LocalDate.parse("2024-01-30");
+        LocalDate start = LocalDate.parse("2024-02-05");
+        LocalDate end = LocalDate.parse("2024-02-27");
         ArrayList<TimesheetDTO> list = timesheetDAO.getTimesheetInRange(1, start, end);
         for (TimesheetDTO timesheetDTO : list) {
             System.out.println(timesheetDTO);

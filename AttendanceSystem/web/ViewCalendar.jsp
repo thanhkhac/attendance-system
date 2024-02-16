@@ -145,14 +145,10 @@
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td>Chấp thuận bởi:
+                                                                                <td>Người tạo:
                                                                                 </td>
 
                                                                                 <td>${wkday.leaveResponed.lastName} ${wkday.leaveResponed.middleName} ${wkday.leaveResponed.firstName}</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td>Lý do nghỉ </td>
-                                                                                <td>Ốm</td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
@@ -491,19 +487,19 @@
                                                                             <tr>
                                                                                 <td>Cổng chấm công mở trước: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.openBefore}">
+                                                                                    <c:if test = "${empty wkday.overtime.openAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.openBefore}
+                                                                                    ${wkday.overtime.openAt}
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Cổng chấm công đóng sau: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.closeAfter}">
+                                                                                    <c:if test = "${empty wkday.overtime.closeAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.closeAfter}
+                                                                                    ${wkday.overtime.closeAt}
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
@@ -577,19 +573,19 @@
                                                                             <tr>
                                                                                 <td>Cổng chấm công mở trước: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.openBefore}">
+                                                                                    <c:if test = "${empty wkday.overtime.openAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.openBefore}
+                                                                                    ${wkday.overtime.openAt}
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Cổng chấm công đóng sau: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.closeAfter}">
+                                                                                    <c:if test = "${empty wkday.overtime.closeAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.closeAfter}
+                                                                                    ${wkday.overtime.closeAt}
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
@@ -663,19 +659,19 @@
                                                                             <tr>
                                                                                 <td>Cổng chấm công mở trước: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.openBefore}">
+                                                                                    <c:if test = "${empty wkday.overtime.openAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.openBefore}
+                                                                                    ${wkday.overtime.openAt}
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Cổng chấm công đóng sau: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.closeAfter}">
+                                                                                    <c:if test = "${empty wkday.overtime.closeAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.closeAfter}
+                                                                                    ${wkday.overtime.closeAt}
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
@@ -749,19 +745,19 @@
                                                                             <tr>
                                                                                 <td>Cổng chấm công mở trước: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.openBefore}">
+                                                                                    <c:if test = "${empty wkday.overtime.openAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.openBefore}
+                                                                                    ${wkday.overtime.openAt}
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td>Cổng chấm công đóng sau: </td>
                                                                                 <td>
-                                                                                    <c:if test = "${empty wkday.overtime.closeAfter}">
+                                                                                    <c:if test = "${empty wkday.overtime.closeAt}">
                                                                                         Chưa có thông tin
                                                                                     </c:if>
-                                                                                    ${wkday.overtime.closeAfter}
+                                                                                    ${wkday.overtime.closeAt}
                                                                                 </td>
                                                                             </tr>
                                                                         </tbody>
