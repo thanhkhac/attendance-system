@@ -3,46 +3,30 @@ package model;
 import dbhelper.DAOBase;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import ultility.datetimeutil.DateTimeUtil;
 
 public class LeaveDAO extends DAOBase {
 
-    public LeaveDTO getLeaveDTO(int sTimesheetID) {
-        query = "SELECT * FROM Leaves \n" +
-                "WHERE \n" +
-                "	TimesheetID = ?";
-        try {
-            ps = con.prepareStatement(query);
-            ps.setInt(1, sTimesheetID);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                int timesheetID = rs.getInt("TimesheetID");
-                String reason = rs.getNString("reason");
-                Boolean status = (rs.getString("status") == null) ? null : rs.getBoolean("status");
-                Integer responedBy = (rs.getString("ResponedBy") == null) ? null : rs.getInt("ResponedBy");
-                return new LeaveDTO(timesheetID, reason, status, responedBy);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            closeResource();
-        }
-        return null;
-    }
+    static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
-    public LeaveDTO getApprovedLeaveDTO(int sTimesheetID) {
-        query = "SELECT * FROM Leaves \n" +
+    public LeaveDTO getLeaveDTO(int xEmployeeID, String xDate) {
+        query = "SELECT * FROM Leaves\n" +
                 "WHERE \n" +
-                "	TimesheetID = ? AND Status = 1";
+                "	EmployeeID = ? \n" +
+                "	AND ? Between [StartDate] AND [EndDate] ";
         try {
             ps = con.prepareStatement(query);
-            ps.setInt(1, sTimesheetID);
+            ps.setInt(1, xEmployeeID);
+            ps.setString(2, xDate);
             rs = ps.executeQuery();
             while (rs.next()) {
-                int timesheetID = rs.getInt("TimesheetID");
-                String reason = rs.getNString("reason");
-                Boolean status = (rs.getString("status") == null) ? null : rs.getBoolean("status");
-                Integer responedBy = (rs.getString("ResponedBy") == null) ? null : rs.getInt("ResponedBy");
-                return new LeaveDTO(timesheetID, reason, status, responedBy);
+                int leaveID = rs.getInt("leaveID");
+                int employeeID = rs.getInt("employeeID");
+                LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("startDate"));
+                LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("endDate"));
+                String filePath = rs.getNString("filePath");
+                int createdBy = rs.getInt("createdBy");
+                return new LeaveDTO(leaveID, employeeID, startDate, endDate, filePath, createdBy);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,8 +38,6 @@ public class LeaveDAO extends DAOBase {
 
     public static void main(String[] args) {
         LeaveDAO leaveDAO = new LeaveDAO();
-        System.out.println(leaveDAO.getLeaveDTO(1));
-        System.out.println(leaveDAO.getApprovedLeaveDTO(1));
-        LocalDate date = LocalDate.parse("2024-01-02");
+
     }
 }

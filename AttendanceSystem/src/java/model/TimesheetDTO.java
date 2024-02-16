@@ -11,16 +11,16 @@ public class TimesheetDTO {
     private int shiftID;
     private LocalTime checkin;
     private LocalTime checkout;
-    private String note;
+    private int createdBy;
 
-    public TimesheetDTO(int timesheetID, LocalDate date, int employeeID, int shiftID, LocalTime checkin, LocalTime checkout, String note) {
+    public TimesheetDTO(int timesheetID, LocalDate date, int employeeID, int shiftID, LocalTime checkin, LocalTime checkout, int createdBy) {
         this.timesheetID = timesheetID;
         this.date = date;
         this.employeeID = employeeID;
         this.shiftID = shiftID;
         this.checkin = checkin;
         this.checkout = checkout;
-        this.note = note;
+        this.createdBy = createdBy;
     }
 
     public int getTimesheetID() {
@@ -47,13 +47,14 @@ public class TimesheetDTO {
         return checkout;
     }
 
-    public String getNote() {
-        return note;
+    public int getCreatedBy() {
+        return createdBy;
     }
 
     @Override
     public String toString() {
-        return "TimesheetDTO{" + "timesheetID=" + timesheetID + ", date=" + date + ", employeeID=" + employeeID + ", shiftID=" + shiftID + ", checkin=" + checkin + ", checkout=" + checkout + ", note=" + note + '}';
+        return "TimesheetDTO{" + "timesheetID=" + timesheetID + ", date=" + date + ", employeeID=" + employeeID + ", shiftID=" + shiftID + ", checkin=" + checkin + ", checkout=" + checkout + ", createdBy=" + createdBy + '}';
     }
+
 
 }

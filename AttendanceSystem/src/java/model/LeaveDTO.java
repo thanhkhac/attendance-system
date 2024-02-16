@@ -1,38 +1,54 @@
 package model;
 
+import java.time.LocalDate;
+
 
 public class LeaveDTO {
-    int timesheetDTO;
-    String reason;
-    Boolean status;
-    Integer responedBy;
+    private int leaveID;
+    private int employeeID;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private String filePath;
+    private int createdBy;
 
-    public LeaveDTO(int timesheetDTO, String reason, Boolean status, Integer responedBy) {
-        this.timesheetDTO = timesheetDTO;
-        this.reason = reason;
-        this.status = status;
-        this.responedBy = responedBy;
+    public LeaveDTO(int leaveID, int employeeID, LocalDate startDate, LocalDate endDate, String filePath, int createdBy) {
+        this.leaveID = leaveID;
+        this.employeeID = employeeID;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.filePath = filePath;
+        this.createdBy = createdBy;
     }
 
-    public int getTimesheetDTO() {
-        return timesheetDTO;
+    public int getLeaveID() {
+        return leaveID;
     }
 
-    public String getReason() {
-        return reason;
+    public int getEmployeeID() {
+        return employeeID;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public Integer getResponedBy() {
-        return responedBy;
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
     }
 
     @Override
     public String toString() {
-        return "LeaveDTO{" + "timesheetDTO=" + timesheetDTO + ", reason=" + reason + ", status=" + status + ", responedBy=" + responedBy + '}';
+        return "LeaveDTO{" + "leaveID=" + leaveID + ", employeeID=" + employeeID + ", startDate=" + startDate + ", endDate=" + endDate + ", filePath=" + filePath + ", createdBy=" + createdBy + '}';
     }
+    
+    
     
 }

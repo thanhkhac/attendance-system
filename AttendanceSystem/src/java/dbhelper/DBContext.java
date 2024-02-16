@@ -11,7 +11,7 @@ public class DBContext {
     protected Connection connection;
     private static final String user = "sa";
     private static final String pass = "123456";
-    private static final String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Attendance_DB";
+    private static final String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Attendance_DB_Final";
 
     public DBContext() {
         try {

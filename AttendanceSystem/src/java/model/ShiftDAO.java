@@ -22,7 +22,11 @@ public class ShiftDAO extends DAOBase {
                 String name = rs.getNString("Name");
                 LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
                 LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("EndTime"));
-                return new ShiftDTO(shiftID, name, startTime, endTime);
+                LocalTime breakStartTime = DATE_UTIL.parseSQLTime(rs.getTime("breakStartTime"));
+                LocalTime breakEndTime = DATE_UTIL.parseSQLTime(rs.getTime("breakEndTime"));
+                LocalTime openAt = DATE_UTIL.parseSQLTime(rs.getTime("openAt"));
+                LocalTime closeAt = DATE_UTIL.parseSQLTime(rs.getTime("closeAt"));
+                return new ShiftDTO(shiftID, name, startTime, endTime, breakStartTime, breakEndTime, openAt, closeAt);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,9 +35,9 @@ public class ShiftDAO extends DAOBase {
         }
         return null;
     }
-    
+
     public ArrayList<ShiftDTO> getAllShiftDTO() {
-        ArrayList <ShiftDTO> list = new ArrayList<ShiftDTO>();
+        ArrayList<ShiftDTO> list = new ArrayList<ShiftDTO>();
         query = "SELECT * FROM Shifts\n";
         try {
             ps = con.prepareStatement(query);
@@ -43,7 +47,11 @@ public class ShiftDAO extends DAOBase {
                 String name = rs.getNString("Name");
                 LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
                 LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("EndTime"));
-                list.add(new ShiftDTO(shiftID, name, startTime, endTime));
+                LocalTime breakStartTime = DATE_UTIL.parseSQLTime(rs.getTime("breakStartTime"));
+                LocalTime breakEndTime = DATE_UTIL.parseSQLTime(rs.getTime("breakEndTime"));
+                LocalTime openAt = DATE_UTIL.parseSQLTime(rs.getTime("openAt"));
+                LocalTime closeAt = DATE_UTIL.parseSQLTime(rs.getTime("closeAt"));
+                list.add(new ShiftDTO(shiftID, name, startTime, endTime, breakStartTime, breakEndTime, openAt, closeAt));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,7 +60,6 @@ public class ShiftDAO extends DAOBase {
         }
         return list;
     }
-   
 
     public static void main(String[] args) {
         ShiftDAO shiftDAO = new ShiftDAO();

@@ -6,7 +6,9 @@ import java.time.LocalTime;
 import ultility.datetimeutil.DateTimeUtil;
 
 public class OvertimeDAO extends DAOBase {
+
     final DateTimeUtil dateTimeUtil = new DateTimeUtil();
+
     public OvertimeDTO getOverTimeDTO(LocalDate xDate, int xEmployeeID) {
         query = "SELECT * FROM Overtimes\n" +
                 "WHERE\n" +
@@ -23,9 +25,10 @@ public class OvertimeDAO extends DAOBase {
                 LocalTime endTimeD = dateTimeUtil.parseSQLTime(rs.getTime("EndTime"));
                 LocalTime checkIn = dateTimeUtil.parseSQLTime(rs.getTime("CheckIn"));
                 LocalTime checkOut = dateTimeUtil.parseSQLTime(rs.getTime("CheckOut"));
-                int openBefore = rs.getInt("openBefore");
-                int closeAfter = rs.getInt("closeAfter");
-                return new OvertimeDTO(date, employeeID, startTime, endTimeD, checkIn, checkOut, openBefore, closeAfter);
+                LocalTime openAt = dateTimeUtil.parseSQLTime(rs.getTime("OpenAt"));
+                LocalTime closeAt = dateTimeUtil.parseSQLTime(rs.getTime("CloseAt"));;
+                int createdBy = rs.getInt("createdBy");
+                return new OvertimeDTO(date, employeeID, startTime, endTimeD, openAt, closeAt, checkIn, checkOut, createdBy);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,10 +37,10 @@ public class OvertimeDAO extends DAOBase {
         }
         return null;
     }
-    
+
     public static void main(String[] args) {
         OvertimeDAO overtimeDAO = new OvertimeDAO();
-        LocalDate date = LocalDate.parse("2024-01-20");
+        LocalDate date = LocalDate.parse("2024-02-16");
         System.out.println(overtimeDAO.getOverTimeDTO(date, 1));
     }
 }
