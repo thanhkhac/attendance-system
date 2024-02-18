@@ -10,6 +10,11 @@ public class EmployeeTypeDTO {
         this.name = name;
     }
 
+    public int getEmployeeTypeId() {
+        return employeeTypeId;
+    }
+
+    
     public int getEmployeeTypeID() {
         return employeeTypeId;
     }
