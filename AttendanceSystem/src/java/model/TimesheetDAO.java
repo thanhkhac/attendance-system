@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import dbhelper.DAOBase;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ultility.datetimeutil.DateTimeUtil;
 
 public class TimesheetDAO extends DAOBase {
@@ -95,6 +97,49 @@ public class TimesheetDAO extends DAOBase {
             closeResource();
         }
         return null;
+    }
+
+    public boolean insertTimesheet(String[] rawShifts, String[] rawEmployeeIDs, int createdBy) {
+        String query = "INSERT INTO Timesheet ([Date], EmployeeID, ShiftID, CreatedBy) VALUES (?, ?, ?, ?)";
+        try {
+            super.connect();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(query);
+
+            for (int i = 0; i < rawShifts.length; i++) {
+                String[] shiftInfo = rawShifts[i].split("#");
+                int shiftID = Integer.parseInt(shiftInfo[1]);
+                String date = shiftInfo[0];
+
+                for (int j = 0; j < rawEmployeeIDs.length; j++) {
+                    int employeeID = Integer.parseInt(rawEmployeeIDs[j]);
+                    ps.setString(1, date);
+                    ps.setInt(2, employeeID);
+                    ps.setInt(3, shiftID);
+                    ps.setInt(4, createdBy);
+                    ps.addBatch();
+                }
+            }
+            try {
+                ps.executeBatch();
+                con.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                con.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(TimesheetDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            super.closeAll();
+        }
+        return true;
     }
 
     public static void main(String[] args) {
