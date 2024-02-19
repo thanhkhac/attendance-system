@@ -76,7 +76,7 @@
 
                 </div>
                 <div>
-                    <form action="GetConflicts" method="POST">
+                    <form action="DispatchController" method="POST">
                         <table class="table">
                             <tr>
                                 <th>
@@ -124,6 +124,7 @@
                         </table>
                         <div class="text-center mt-3">
                             <button type="submit" class="btn btn-primary" id="form-submit-button">Tiếp theo</button>
+                            <input type="hidden" name="btAction" value="GetConflicts">
                         </div>
                         <div>
                             <c:forEach var="dto" items="${paramValues.shift}" varStatus="counter">
