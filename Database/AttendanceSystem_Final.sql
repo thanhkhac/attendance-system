@@ -292,11 +292,11 @@ VALUES
 
 
 INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
-('Ca hành chính', '7:30', '17:30', '11:00', '13:30', '7:15', '17:45', 1)
+(N'Ca hành chính', '7:30', '17:30', '11:00', '13:30', '7:15', '17:45', 1)
 INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
-('Ca sáng', '7:30', '11:30', NULL, NULL, '7:15', '11:45', 1)
+(N'Ca sáng', '7:30', '11:30', NULL, NULL, '7:15', '11:45', 1)
 INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
-('Ca chiều', '13:30', '17:30', NULL, NULL, '13:15', '17:45', 1)
+(N'Ca chiều', '13:30', '17:30', NULL, NULL, '13:15', '17:45', 1)
 
 
 DECLARE @EmployeeID INT = 1;
@@ -322,6 +322,8 @@ VALUES
   (1, '2024-02-10', '2024-02-12', 'path3', 1),
   (1, '2024-02-15', '2024-02-18', 'path4', 1),
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
+
+
 
 
 

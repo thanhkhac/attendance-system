@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -61,7 +61,8 @@
                     <button class="form-control" id="next">Sau</button>
                 </div>
                 <div id="result">
-                    <%@include file="ViewCalendar.jsp" %>
+                    <c:import url="ViewCalendar.jsp">
+                    </c:import>
                 </div>
             </div>
 

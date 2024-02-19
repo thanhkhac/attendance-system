@@ -56,12 +56,12 @@ public class DateTimeUtil {
         }
         return list;
     }
-
+    
     public static void main(String[] args) {
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
         int year = dateTimeUtil.getVNLocalDateNow().getYear();
         int month = dateTimeUtil.getVNLocalDateNow().getMonthValue();
-        
+
         System.out.println("year: " + year);
         System.out.println("month: " + month);
     }
