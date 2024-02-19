@@ -32,18 +32,6 @@
                 </div>
                 <div class="d-flex justify-content-around px-3 py-3 align-middle">
                     <select id="month" class="form-select">
-                        <option value="1">Tháng 1</option>
-                        <option value="2">Tháng 2</option>
-                        <option value="3">Tháng 3</option>
-                        <option value="4">Tháng 4</option>
-                        <option value="5">Tháng 5</option>
-                        <option value="6">Tháng 6</option>
-                        <option value="7">Tháng 7</option>
-                        <option value="8">Tháng 8</option>
-                        <option value="9">Tháng 9</option>
-                        <option value="10">Tháng 10</option>
-                        <option value="11">Tháng 11</option>
-                        <option value="12">Tháng 12</option>
                     </select>
 
                     <select id="year" class="form-select"></select>
@@ -58,6 +46,7 @@
 
         </div>
         <script>
+//            Hiển thị ra dropdown của năm, nếu là năm hiện tại => Selected
             var yearDropdown = document.getElementById("year");
             var currentYear = new Date().getFullYear();
             for (var i = currentYear - 5; i <= currentYear + 5; i++) {
@@ -68,6 +57,21 @@
                     option.selected = true;
                 }
                 yearDropdown.appendChild(option);
+            }
+
+            //            Hiển thị ra dropdown của tháng, nếu là tháng hiện tại => Selected         
+            var monthDropdown = document.getElementById("month");
+            var currentMonth = new Date().getMonth();
+            console.log(currentYear);
+
+            for (var i = 0; i < 12; i++) {
+                var option = document.createElement("option");
+                option.value = i + 1;
+                option.text = "Tháng " + (i + 1);
+                if (i === currentMonth) {
+                    option.selected = true;
+                }
+                monthDropdown.appendChild(option);
             }
 
 
