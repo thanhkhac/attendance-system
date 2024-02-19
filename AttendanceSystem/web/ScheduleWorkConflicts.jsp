@@ -132,8 +132,8 @@
                         type: "POST",
                         url: "InsertTimesheetServlet",
                         data: formData,
-                        success: function (data) {
-                            if (data === "success") {
+                        success: function (result) {
+                            if (result === "success") {
                                 $("#successModal").modal('show');
                             } else {
                                 alert("Có lỗi xảy ra. Vui lòng thử lại.");
