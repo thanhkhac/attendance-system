@@ -98,6 +98,7 @@ CREATE TABLE Leaves(
 	[StartDate] date,
 	[EndDate] date,
 	FilePath nvarchar(100),
+	[CreatedDate] date DEFAULT GETDATE(),
 	CreatedBy int,
 
 	FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID),
