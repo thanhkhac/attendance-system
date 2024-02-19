@@ -70,7 +70,7 @@
             }
             .content-request-body{
                 margin-top: 50px;
-                display: flex;
+                /*display: flex;*/
             }
             .content-request-body textArea{
                 border: none;
@@ -126,7 +126,13 @@
                 color: white;
             }
             #leave-request{
-                /*display: none;*/
+                display: none;
+            }
+            #resignation-request{
+                display: none;
+            }
+            #iternShipConfirmation-request{
+                display: none;
             }
         </style>
     </head>
@@ -152,59 +158,148 @@
                 <p  class="content-note-items">Trân Trọng !</p>
 
             </div>
-            <div class="content-request">
-                <form action="http://localhost:8080/AttendanceSystem/DispatchController" method="Post">
+            <form action="DispatchController" method="Post">
+                <div class="content-request">
+
                     <div class="content-request-type">
                         <label for="request-type">Request Type: </label>
-                        <select id="request-type">
+                        <select name="requestID" id="request-type" onchange="Tranformation()">
                             <option value="0">Choose Type Of Request (Chọn Loại Yêu Cầu)</option>
                             <c:forEach items="${listType}" var="t">
-                                <option value="${t.getRequestTypeID()}">${t.getRequestTypeName()}</option>
+                                <option id="requestTypeID" value="${t.getRequestTypeID()}">${t.getRequestTypeName()}</option>
                             </c:forEach>
                         </select>
                     </div>
-                    <div class="content-request-body" id="requset-body">
-                        <!--                        <span class="body-span">Lý Do: </span> 
-                                                <textarea id="reason" name="reason" rows="5" cols="20" required="" style="width: 800px; height: 140px">                           
-                                                </textarea>-->
+                    <div class="content-request-body" id="request-body">
                         <div id="leave-request">
-                            <div class="request-input-box">
-                                <span >Full Name (Họ Và Tên): </span>
-                                <input type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Email: </span>
-                                <input type="text" name="email" id="email" value="${account.getEmail()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Phone(Số Điện Thoại): </span>
-                                <input type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span >StartDate (Ngày Bắt Đầu): </span>
-                                <input type="date" name="startDate" id="startDate">
-                            </div>
-                            <div class="request-input-box">
-                                <span >EndDate (Ngày Kết Thúc): </span>
-                                <input type="date" name="endDate" id="endDate">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Reason (Lý do): </span>
-                                <textarea id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"></textarea>
-                            </div>
 
+                            <form action="DispatchController" method ="Post">
+                                <div class="request-input-box">
+                                    <span >Full Name (Họ Và Tên): </span>
+                                    <input type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Email: </span>
+                                    <input type="text" name="email" id="email" value="${account.getEmail()}">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Phone(Số Điện Thoại): </span>
+                                    <input type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >StartDate (Ngày Bắt Đầu): </span>
+                                    <input type="date" name="startDate" id="startDate">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >EndDate (Ngày Kết Thúc): </span>
+                                    <input type="date" name="endDate" id="endDate">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Reason (Lý do): </span>
+                                    <textarea id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"></textarea>
+                                </div>
+                                <div class="content-request-file">
+                                    <span class="body-span">File đính kèm (nếu có):</span>
+                                    <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
+                                    <input type="file" name="file" id="file">
+                                </div>
+                                <input class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                            </form>
+                        </div>
+                        <div id="resignation-request">
+                            <form action="DispatchController" method="Post">
+                                <div class="request-input-box">
+                                    <span >Full Name (Họ Và Tên): </span>
+                                    <input type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Email: </span>
+                                    <input type="text" name="email" id="email" value="${account.getEmail()}">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Phone(Số Điện Thoại): </span>
+                                    <input type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >StartDate (Ngày Bắt Đầu): </span>
+                                    <input type="date" name="startDate" id="startDate">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >EndDate (Ngày Kết Thúc): </span>
+                                    <input type="date" name="endDate" id="endDate">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Reason (Lý do): </span>
+                                    <textarea id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"></textarea>
+                                </div>
+                                <div class="content-request-file">
+                                    <span class="body-span">File đính kèm (nếu có):</span>
+                                    <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
+                                    <input type="file" name="file" id="file">
+                                </div>
+                                <input class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                            </form>
+                        </div>
+                        <div id="iternShipConfirmation-request">
+                            <form action="DispatchController" method="Post">
+                                <div class="request-input-box">
+                                    <span >Full Name (Họ Và Tên): </span>
+                                    <input type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Email: </span>
+                                    <input type="text" name="email" id="email" value="${account.getEmail()}">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Phone(Số Điện Thoại): </span>
+                                    <input type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                </div>
+                                <div class="request-input-box">
+                                    <span >Number (Số Lượng): </span>
+                                    <input type="number" name="number" id="number" min="1" max="20" value="1">
+                                </div>
+
+                                <div class="request-input-box">
+                                    <span >Reason (Lý do): </span>
+                                    <textarea id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"></textarea>
+                                </div>
+                                <div class="content-request-file">
+                                    <span class="body-span">File đính kèm (nếu có):</span>
+                                    <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
+                                    <input type="file" name="file" id="file">
+                                </div>
+                                <input class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                            </form>
                         </div>
 
                     </div>
-                    <div class="content-request-file">
-                        <span class="body-span">File đính kèm (nếu có):</span>
-                        <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                        <input type="file" name="file" id="file">
-                    </div>
-                    <input class="btn btn-success" type="submit" name="sendRequest" value="Gửi">
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
     </body>
+    <script>
+
+        function Tranformation() {
+            var requestTypeID = document.getElementById("request-type").value;
+
+            var requestBody = document.getElementById("request-body");
+            var leave_requestHTML = document.getElementById("leave-request");
+            var resignation_requestHTML = document.getElementById("resignation-request");
+            var intern_requestHTML = document.getElementById("iternShipConfirmation-request");
+
+
+            resignation_requestHTML.style.display = 'none';
+            leave_requestHTML.style.display = 'none';
+            intern_requestHTML.style.display = 'none';
+            console.log(requestTypeID);
+            if (requestTypeID === "1") {
+                leave_requestHTML.style.display = 'block';
+            } else if (requestTypeID === "2") {
+                resignation_requestHTML.style.display = 'block';
+            } else if (requestTypeID === "4") {
+                intern_requestHTML.style.display = 'block';
+            }
+        }
+
+    </script>
 </html>
