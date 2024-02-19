@@ -176,27 +176,27 @@
                             <form action="DispatchController" method ="Post">
                                 <div class="request-input-box">
                                     <span >Full Name (Họ Và Tên): </span>
-                                    <input type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                    <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Email: </span>
-                                    <input type="text" name="email" id="email" value="${account.getEmail()}">
+                                    <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Phone(Số Điện Thoại): </span>
-                                    <input type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                    <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
                                 </div>
                                 <div class="request-input-box">
                                     <span >StartDate (Ngày Bắt Đầu): </span>
-                                    <input type="date" name="startDate" id="startDate">
+                                    <input type="date" name="startDate" id="startDate" required="">
                                 </div>
                                 <div class="request-input-box">
                                     <span >EndDate (Ngày Kết Thúc): </span>
-                                    <input type="date" name="endDate" id="endDate">
+                                    <input type="date" name="endDate" id="endDate" required="">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Reason (Lý do): </span>
-                                    <textarea id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"></textarea>
+                                    <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
                                 </div>
                                 <div class="content-request-file">
                                     <span class="body-span">File đính kèm (nếu có):</span>
@@ -210,27 +210,27 @@
                             <form action="DispatchController" method="Post">
                                 <div class="request-input-box">
                                     <span >Full Name (Họ Và Tên): </span>
-                                    <input type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                    <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Email: </span>
-                                    <input type="text" name="email" id="email" value="${account.getEmail()}">
+                                    <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Phone(Số Điện Thoại): </span>
-                                    <input type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                    <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
                                 </div>
                                 <div class="request-input-box">
                                     <span >StartDate (Ngày Bắt Đầu): </span>
-                                    <input type="date" name="startDate" id="startDate">
+                                    <input type="date" name="startDate" id="startDate" required="">
                                 </div>
                                 <div class="request-input-box">
                                     <span >EndDate (Ngày Kết Thúc): </span>
-                                    <input type="date" name="endDate" id="endDate">
+                                    <input type="date" name="endDate" id="endDate" required="">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Reason (Lý do): </span>
-                                    <textarea id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"></textarea>
+                                    <textarea  name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
                                 </div>
                                 <div class="content-request-file">
                                     <span class="body-span">File đính kèm (nếu có):</span>
@@ -244,15 +244,15 @@
                             <form action="DispatchController" method="Post">
                                 <div class="request-input-box">
                                     <span >Full Name (Họ Và Tên): </span>
-                                    <input type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                    <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Email: </span>
-                                    <input type="text" name="email" id="email" value="${account.getEmail()}">
+                                    <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Phone(Số Điện Thoại): </span>
-                                    <input type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                    <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
                                 </div>
                                 <div class="request-input-box">
                                     <span >Number (Số Lượng): </span>
@@ -261,7 +261,7 @@
 
                                 <div class="request-input-box">
                                     <span >Reason (Lý do): </span>
-                                    <textarea id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"></textarea>
+                                    <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"  required=""></textarea>
                                 </div>
                                 <div class="content-request-file">
                                     <span class="body-span">File đính kèm (nếu có):</span>
@@ -287,10 +287,10 @@
             var resignation_requestHTML = document.getElementById("resignation-request");
             var intern_requestHTML = document.getElementById("iternShipConfirmation-request");
 
-
             resignation_requestHTML.style.display = 'none';
             leave_requestHTML.style.display = 'none';
             intern_requestHTML.style.display = 'none';
+            
             console.log(requestTypeID);
             if (requestTypeID === "1") {
                 leave_requestHTML.style.display = 'block';
