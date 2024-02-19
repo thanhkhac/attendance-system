@@ -59,6 +59,16 @@
             <file>file:/C:/Users/acer/Desktop/TEMP/attendance-system/AttendanceSystem/src/java/control/department/DepartmentController.java</file>
             <file>file:/C:/Users/acer/Desktop/TEMP/attendance-system/AttendanceSystem/web/ViewDepartment.jsp</file>
         </group>
-        <group name="SWP391"/>
+        <group name="SWP391">
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/LeaveDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/LeaveRequestDTO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/RoleDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/LeaveRequestDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/ScheduleWorkEmployees.jsp</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/ProcessLeaveRequestForManager.jsp</file>
+        </group>
     </open-files>
 </project-private>
