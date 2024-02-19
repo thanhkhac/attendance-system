@@ -15,48 +15,47 @@ import ultility.datetimeutil.DateTimeUtil;
  *
  * @author nguye
  */
-public class LeaveRequestDAO extends DBContext{
+public class LeaveRequestDAO extends DBContext {
+
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
-    
-    public ArrayList<LeaveRequestDTO> getLeaveRequest(){
+
+    public ArrayList<LeaveRequestDTO> getLeaveRequest() {
         ArrayList<LeaveRequestDTO> list = new ArrayList();
         PreparedStatement stm = null;
         ResultSet rs = null;
-        if(connection != null){
-            try{
+        if (connection != null) {
+            try {
                 String sql = "SELECT * FROM LeaveRequest";
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
-                while(rs.next()){
-                    int leaveRequestID =  rs.getInt("LeaveRequestID");
+                while (rs.next()) {
+                    int leaveRequestID = rs.getInt("LeaveRequestID");
                     int employeeID = rs.getInt("EmployeeID");
                     LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
                     LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
                     LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
                     String reason = rs.getNString("Reason");
-                    boolean managerApprove = rs.getBoolean("ManagerApprove");
-                    boolean hrApprove = rs.getBoolean("HrApprove");
+                    Boolean managerApprove = rs.getString("ManagerApprove") != null ? Boolean.valueOf(rs.getString("ManagerApprove")) : null;
+                    Boolean hrApprove = rs.getString("HrApprove") != null ? Boolean.valueOf(rs.getString("HrApprove")) : null;
                     int managerID = rs.getInt("ManagerID");
                     int hrID = rs.getInt("HrID");
-                    
+
                     LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, reason, managerApprove, hrApprove, managerID, hrID);
                     list.add(lr);
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);
             }
         }
         return list;
     }
-    
-    
-    
+
     public static void main(String[] args) {
         LeaveRequestDAO dao = new LeaveRequestDAO();
         ArrayList<LeaveRequestDTO> list = dao.getLeaveRequest();
-//        System.out.println(list.size());
-        
+        System.out.println("List size: " + list.size() + "\n");
+
         for (LeaveRequestDTO lr : list) {
             System.out.println(lr.getLeaveRequestID());
             System.out.println(lr.getEmployeeID());
@@ -70,6 +69,5 @@ public class LeaveRequestDAO extends DBContext{
             System.out.println(lr.getHrID());
             System.out.println("\n");
         }
-        System.out.println("\n");
     }
 }

@@ -25,6 +25,8 @@
     </head>
     <%
         LeaveRequestDAO lrDao = new LeaveRequestDAO();
+        EmployeeDAO dao = new EmployeeDAO();
+        EmployeeDTO emDTO = new EmployeeDTO();
         ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequest();
     %>
     <body>
@@ -99,13 +101,14 @@
                             </tr>
                             <%
                                 for (LeaveRequestDTO lr : list) {
+                                emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
                             %>
                                 <tr class="employee-row">
                                     <td>
                                         <input type="checkbox" class="rowCheckbox" name="chkEmployeeID" value="${employee.employeeId}">
                                     </td>
                                     <td class="text-center"><%=lr.getLeaveRequestID()%></td>
-                                    <td class="text-center"><%=lr.getEmployeeID()%></td>
+                                    <td class="text-center"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName()%></td>
                                     <td class="text-center"><%=lr.getSentDate()%></td>
                                     <td class="text-center"><%=lr.getStartDate()%></td>
                                     <td class="text-center"><%=lr.getEndDate()%></td>

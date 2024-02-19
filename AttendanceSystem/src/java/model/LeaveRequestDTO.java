@@ -25,7 +25,7 @@ public class LeaveRequestDTO {
     public LeaveRequestDTO() {
     }
 
-    public LeaveRequestDTO(int leaveRequestID, int employeeID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason, boolean managerApprove, boolean hrApprove, int managerID, int hrID) {
+    public LeaveRequestDTO(int leaveRequestID, int employeeID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID) {
         this.leaveRequestID = leaveRequestID;
         this.employeeID = employeeID;
         this.sentDate = sentDate;
@@ -77,6 +77,7 @@ public class LeaveRequestDTO {
     public int getHrID() {
         return hrID;
     }
+
     
     @Override
     public String toString() {
