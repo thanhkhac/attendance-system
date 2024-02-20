@@ -736,14 +736,65 @@ public class EmployeeDAO extends DBContext {
                         "SELECT * \n" +
                         "FROM Employees\n" +
                         "WHERE EmployeeID NOT IN\n" +
-                        "(SELECT EM.EmployeeID\n" +
+                        "(\n" +
+                        "SELECT EM.EmployeeID\n" +
                         "FROM Employees EM\n" +
-                        "LEFT JOIN Timesheet TS ON EM.EmployeeID = TS.EmployeeID\n" +
+                        "JOIN Timesheet TS ON EM.EmployeeID = TS.EmployeeID\n" +
                         "WHERE \n" +
-                        "	MONTH(TS.[Date]) = ? \n" +
-                        "	AND YEAR (TS.[Date]) = ? \n" +
-                        "GROUP BY EM.EmployeeID)\n" +
+                        "	MONTH(TS.[Date]) = ?\n" +
+                        "	AND YEAR (TS.[Date]) = ?\n" +
+                        "	AND TS.[Date] > GETDATE()\n" +
+                        ")\n" +
                         "AND IsActive = 1;";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, month);
+                stm.setInt(2, year);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    int employeeId = rs.getInt("employeeId");
+                    String firstName = rs.getNString("firstName");
+                    String middleName = rs.getNString("middleName");
+                    String lastName = rs.getNString("lastName");
+                    Date birthDate = rs.getDate("birthDate");
+                    Boolean gender = rs.getBoolean("gender");
+                    String email = rs.getNString("email");
+                    String password = rs.getNString("password");
+                    String cccd = rs.getString("cccd");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    int employeeTypeID = rs.getInt("employeeTypeID");
+                    int departmentID = rs.getInt("departmentID");
+                    int roleID = rs.getInt("roleID");
+                    Date startDate = rs.getDate("startDate");
+                    Date endDate = rs.getDate("endDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return list;
+    }
+
+    public ArrayList<EmployeeDTO> getScheduledEmployees(int month, int year) {
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList<>();
+        if (connection != null) {
+            try {
+                String sql = "SELECT * FROM Employees\n" +
+                        "WHERE EmployeeID IN\n" +
+                        "(\n" +
+                        "SELECT EM.EmployeeID\n" +
+                        "FROM \n" +
+                        "	Employees EM\n" +
+                        "	JOIN Timesheet TS ON EM.EmployeeID = TS.EmployeeID\n" +
+                        "WHERE \n" +
+                        "	MONTH(TS.Date) = ?\n" +
+                        "	AND YEAR(TS.Date) = ?\n" +
+                        "       AND TS.Date >= GETDATE()" +
+                        ")";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, month);
                 stm.setInt(2, year);
@@ -790,7 +841,12 @@ public class EmployeeDAO extends DBContext {
         for (EmployeeDTO e : GetUnscheduleEmployees) {
             System.out.println(e);
         }
-    
+        System.out.println("====");
+        ArrayList<EmployeeDTO> scheduleEmployees = dao.getScheduledEmployees(2, 2024);
+        for (EmployeeDTO e : scheduleEmployees) {
+            System.out.println(e);
+        }
+
     }
 
 }

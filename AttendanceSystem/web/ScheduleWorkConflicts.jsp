@@ -106,25 +106,20 @@
 
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                document.getElementById("form-submit-button").addEventListener("click", function (event) {
-                    var conflictRows = document.querySelectorAll(".conflict-row");
-
-                    if (conflictRows.length > 0) {
-
-                        alert("Có lịch làm việc trùng lặp. Vui lòng kiểm tra lại.");
-                        event.preventDefault(); 
-                    }
-
-                });
-            });
         </script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script>
             $(document).ready(function () {
                 $("#form-submit-button").click(function (event) {
                     event.preventDefault();
+                    var conflictRows = document.querySelectorAll(".conflict-row");
 
+                    if (conflictRows.length > 0) {
+
+                        alert("Có lịch làm việc trùng lặp. Vui lòng kiểm tra lại.");
+                        event.preventDefault();
+                        return;
+                    }
 
                     var formData = $("form").serialize();
 
