@@ -1,7 +1,7 @@
-<%-- 
-    Document   : SendRequest
-    Created on : Feb 19, 2024, 8:12:02 AM
-    Author     : admin
+/<%-- 
+  Document   : SendRequest
+  Created on : Feb 19, 2024, 8:12:02 AM
+  Author     : admin
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,6 +13,8 @@
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
+        <script src="https://momentjs.com/downloads/moment.min.js"></script>
+
         <title>JSP Page</title>
         <style>
             body{
@@ -125,6 +127,16 @@
                 background-color: #0072bb;
                 color: white;
             }
+            .request-policy{
+                margin: 20px 0;
+                font-style: italic;
+            }
+            .request-policy p{
+                margin: 0;
+            }
+            .request-policy p:first-child{
+                color: red;
+            }
             #leave-request{
                 display: none;
             }
@@ -172,7 +184,12 @@
                     </div>
                     <div class="content-request-body" id="request-body">
                         <div id="leave-request">
-
+                            <div class="request-policy">
+                                <p>Quy định ngày nghỉ : </p>
+                                <p>Năm: xử lý tối đa trong 2 năm.</p>
+                                <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
+                                <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
+                            </div>
                             <form action="DispatchController" method ="Post">
                                 <div class="request-input-box">
                                     <span >Full Name (Họ Và Tên): </span>
@@ -205,6 +222,7 @@
                                 </div>
                                 <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                             </form>
+
                         </div>
                         <div id="resignation-request">
                             <form action="DispatchController" method="Post">
@@ -285,11 +303,9 @@
             var leave_requestHTML = document.getElementById("leave-request");
             var resignation_requestHTML = document.getElementById("resignation-request");
             var intern_requestHTML = document.getElementById("iternShipConfirmation-request");
-
             resignation_requestHTML.style.display = 'none';
             leave_requestHTML.style.display = 'none';
             intern_requestHTML.style.display = 'none';
-
             console.log(requestTypeID);
             if (requestTypeID === "1") {
                 leave_requestHTML.style.display = 'block';
@@ -299,36 +315,53 @@
                 intern_requestHTML.style.display = 'block';
             }
         }
-//        function isAcceptableDate(startDate_txt, endDate_txt) {
-//            var startDate = new Date(startDate_txt);
-//            var endDate = new Date(endDate_txt);
-//            var current = new Date();
-//
-//            if (startDate >= current && endDate >= current) {
-//                if ((startDate.getFullYear() >= current.getFullYear() + 1) &&
-//                        (endDate.getFullYear() <= current.getFullYear() + 1)) {
-//                    if () {
-//                        return true;
-//                    }
-//                }
-//            }
-//            return false;
-////            
-//        }
+        function isAcceptableDate(startDate_txt, endDate_txt) {
+            var startDate = moment(startDate_txt).format("MM/DD/YYYY");
+            var endDate = moment(endDate_txt).format("MM/DD/YYYY");
+            var current = moment(new Date()).format("MM/DD/YYYY");
+            let startMonth = moment(startDate_txt).month() + 1; //khi dung nho tru 1
+            let startYear = moment(startDate_txt).year();
+//            let startDay = moment(startDate_txt).date();
+
+            let endMonth = moment(endDate_txt).month() + 1; //month() in js start with 0
+            let endYear = moment(endDate_txt).year();
+//            let endDay = moment(endDate_txt).date();
+
+
+            let currentMonth = moment(current).month() + 1;
+            let currentYear = moment(current).year();
+
+            let afterSixMonth = new Date(startDate_txt);
+            afterSixMonth.setMonth((startMonth - 1) + 6);
+
+            let afterOneMonth = new Date(current);
+            afterOneMonth.setMonth(currentMonth + 1);
+
+            console.log("StartMonth: " + startMonth);
+            console.log("StartDate: " + startDate_txt);
+            console.log("EndDate: " + endDate);
+            console.log("Start Date after Six Months: " + moment(afterSixMonth).format("MM/DD/YYYY"));
+
+            if ((startYear <= currentYear + 2) && ((endYear <= currentYear + 2))) {
+                if (endDate >= startDate) {
+                    if (startDate >= current && endDate >= current) {
+                        if ((startDate <= moment(afterOneMonth).format("MM/DD/YYYY")) && (endDate <= moment(afterSixMonth).format("MM/DD/YYYY"))) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+
+
         function checkInfor() {
             var startDate_raw = document.getElementById("startDate").value;
             var endDate_raw = document.getElementById("endDate").value;
-
-//            var startDate = new Date(startDate_raw);
-//            var endDate = new Date(endDate_raw);
-            var current = new Date();
-            alert(isAcceptableDate(startDate_raw, endDate_raw));
-//            alert(startDate_raw);
-//            alert(startDate_raw);
-//            alert(current);
-
-
-
+            if (!isAcceptableDate(startDate_raw, endDate_raw)) {
+                alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");
+            }
         }
 
     </script>
