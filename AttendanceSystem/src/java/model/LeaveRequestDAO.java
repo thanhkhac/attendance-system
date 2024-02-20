@@ -19,13 +19,31 @@ public class LeaveRequestDAO extends DBContext {
 
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
+    public Boolean parseBoolean(String str) {
+        Boolean boo = null;
+        try {
+            if (str == null || str.equalsIgnoreCase("null")) {
+                boo = null;
+            } else if (str.equalsIgnoreCase("1")) {
+                boo = true;
+            } else if (str.equalsIgnoreCase("0")) {
+                boo = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return boo;
+    }
+
     public ArrayList<LeaveRequestDTO> getLeaveRequest() {
         ArrayList<LeaveRequestDTO> list = new ArrayList();
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "SELECT * FROM LeaveRequest";
+                String sql = "SELECT * FROM LeaveRequest\n"
+                        + "  ORDER BY HrApprove ASC, ManagerApprove DESC";
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -35,8 +53,8 @@ public class LeaveRequestDAO extends DBContext {
                     LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
                     LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
                     String reason = rs.getNString("Reason");
-                    Boolean managerApprove = rs.getString("ManagerApprove") != null ? Boolean.valueOf(rs.getString("ManagerApprove")) : null;
-                    Boolean hrApprove = rs.getString("HrApprove") != null ? Boolean.valueOf(rs.getString("HrApprove")) : null;
+                    Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
+                    Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
                     int managerID = rs.getInt("ManagerID");
                     int hrID = rs.getInt("HrID");
 
@@ -53,21 +71,19 @@ public class LeaveRequestDAO extends DBContext {
 
     public static void main(String[] args) {
         LeaveRequestDAO dao = new LeaveRequestDAO();
+        EmployeeDAO emDao = new EmployeeDAO();
+        EmployeeDTO emDTO = new EmployeeDTO();
+        EmployeeDTO managerDTO = new EmployeeDTO();
         ArrayList<LeaveRequestDTO> list = dao.getLeaveRequest();
         System.out.println("List size: " + list.size() + "\n");
 
         for (LeaveRequestDTO lr : list) {
-            System.out.println(lr.getLeaveRequestID());
-            System.out.println(lr.getEmployeeID());
-            System.out.println(lr.getSentDate());
-            System.out.println(lr.getStartDate());
-            System.out.println(lr.getEndDate());
-            System.out.println(lr.getReason());
-            System.out.println(lr.getManagerApprove());
-            System.out.println(lr.getHrApprove());
-            System.out.println(lr.getManagerID());
-            System.out.println(lr.getHrID());
-            System.out.println("\n");
+            emDTO = emDao.getEmployeeDTO(lr.getEmployeeID());
+            managerDTO = emDao.getEmployeeDTO(lr.getManagerID());
+            System.out.println(emDTO);
+            if (managerDTO != null) {
+                System.out.println(managerDTO);
+            }
         }
     }
 }
