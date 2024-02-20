@@ -203,7 +203,7 @@
                                     <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
                                     <input type="file" name="file" id="file">
                                 </div>
-                                <input class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                                <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                             </form>
                         </div>
                         <div id="resignation-request">
@@ -237,7 +237,7 @@
                                     <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
                                     <input type="file" name="file" id="file">
                                 </div>
-                                <input class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                                <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                             </form>
                         </div>
                         <div id="iternShipConfirmation-request">
@@ -268,7 +268,7 @@
                                     <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
                                     <input type="file" name="file" id="file">
                                 </div>
-                                <input class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                                <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                             </form>
                         </div>
 
@@ -281,7 +281,6 @@
 
         function Tranformation() {
             var requestTypeID = document.getElementById("request-type").value;
-
             var requestBody = document.getElementById("request-body");
             var leave_requestHTML = document.getElementById("leave-request");
             var resignation_requestHTML = document.getElementById("resignation-request");
@@ -290,7 +289,7 @@
             resignation_requestHTML.style.display = 'none';
             leave_requestHTML.style.display = 'none';
             intern_requestHTML.style.display = 'none';
-            
+
             console.log(requestTypeID);
             if (requestTypeID === "1") {
                 leave_requestHTML.style.display = 'block';
@@ -299,6 +298,37 @@
             } else if (requestTypeID === "4") {
                 intern_requestHTML.style.display = 'block';
             }
+        }
+//        function isAcceptableDate(startDate_txt, endDate_txt) {
+//            var startDate = new Date(startDate_txt);
+//            var endDate = new Date(endDate_txt);
+//            var current = new Date();
+//
+//            if (startDate >= current && endDate >= current) {
+//                if ((startDate.getFullYear() >= current.getFullYear() + 1) &&
+//                        (endDate.getFullYear() <= current.getFullYear() + 1)) {
+//                    if () {
+//                        return true;
+//                    }
+//                }
+//            }
+//            return false;
+////            
+//        }
+        function checkInfor() {
+            var startDate_raw = document.getElementById("startDate").value;
+            var endDate_raw = document.getElementById("endDate").value;
+
+//            var startDate = new Date(startDate_raw);
+//            var endDate = new Date(endDate_raw);
+            var current = new Date();
+            alert(isAcceptableDate(startDate_raw, endDate_raw));
+//            alert(startDate_raw);
+//            alert(startDate_raw);
+//            alert(current);
+
+
+
         }
 
     </script>

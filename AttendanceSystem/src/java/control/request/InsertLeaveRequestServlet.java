@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control;
+package control.request;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,15 +11,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import model.*;
+import jakarta.servlet.http.HttpSession;
+import java.time.LocalDate;
+import model.EmployeeDTO;
 
 /**
  *
- * @author Admin
+ * @author admin
  */
-@WebServlet(name = "Controller", urlPatterns = {"/DispatchController"})
-public class DispatchController extends HttpServlet {
+@WebServlet(name = "InsertLeaveRequestServlet", urlPatterns = {"/InsertLeaveRequestServlet"})
+public class InsertLeaveRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,49 +34,16 @@ public class DispatchController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        String button = request.getParameter("btAction");
-        String URL = "";
-//        EmployeeDAO dao = new EmployeeDAO();
-//        ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-//        String departmentID = request.getParameter("departmentID");
-        try {
-            if (button.equals("Login")) {
-                URL = "checkLogin";
-            } else if (button.equals("Logout")) {
-                URL = "logout";
-            } else if (button.equals("UpdateProfile")) {
-                URL = "updateProfileByEmployee";
-            } else if (button.equals("Send")) {
-                URL = "RecoveryPasswordServlet";
-            } else if (button.equals("Reset")) {
-                URL = "RecoveryPasswordServlet";
-            } else if (button.equals("Save change")) {
-                URL = "ChangePasswordServlet";
-            } else if (button.equals("InsertEmployee")) {
-                URL = "InsertEmployee.jsp";
-            } else if (button.equals("Insert")) {
-                URL = "InsertEmployeeServlet";
-            } else if (button.equals("ViewEmployee")) {
-                URL = "GetAllEmployeeByHRServlet";
-            } else if (button.equals("Update")) {
-                URL = "GetEmployeeInfoByHRServlet";
-            } else if (button.equals("Lưu Thay Đổi")) {
-                URL = "UpdateEmployeeByHRServlet";
-            } else if (button.equals("viewListByDepartment")) {
-                URL = "listByDepartment";
-            } else if (button.equals("Assign Manager")) {
-                URL = "SendRequestAssignServlet";
-            } else if (button.equals("Assign")) {
-                URL = "UpdateDepartmentManagerServlet";
-            } else if(button.equals("Gửi")){
-                URL = "InsertLeaveRequestServlet";
-            }
-        } finally {
-//            request.setAttribute("departmentID",  departmentID);
-//            request.setAttribute("List", list);
-            request.getRequestDispatcher(URL).forward(request, response);
-        }
+        HttpSession session = request.getSession();
+        EmployeeDTO account = (EmployeeDTO) session.getAttribute("ACCOUNT");
+        int requestTypeID = Integer.parseInt(request.getParameter("requestID"));
+        LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
+        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
+//        System.out.println(startDate);
+//        System.out.println(endDate);
+        String reason = request.getParameter("reason");
+        String filePath = request.getParameter("filePath");
+        request.getRequestDispatcher("Success.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
