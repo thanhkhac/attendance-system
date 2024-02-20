@@ -53,7 +53,7 @@
     %>
     <body>
         <div class="container">
-            <form action="GetUnscheduleEmployees" id="myForm" method="POST">
+            <form action="DispatchController" id="myForm" method="POST">
                 <input type="hidden" name="month" value="${month}">
                 <input type="hidden" name="year" value="${year}">
                 <table class="table mytable">
@@ -74,7 +74,7 @@
                             <tr>
                             </c:if>
                             <td class="mytable-td" style="height: 5rem">
-                                <div class="date-block">
+                                <div class="date-block" style="border-bottom: 0px">
                                     <c:if test = "${wkday eq requestScope.today}">
                                         <div class="date text-danger" id="today">
                                             Hôm nay
@@ -103,7 +103,8 @@
                     </c:forEach>
                 </table>
                 <div class="text-center">
-                    <button type="button" class="btn btn-primary" onclick="validateForm()">Tiếp tục</button>
+                    <button  type="button" class="btn btn-primary" onclick="validateForm()">Tiếp tục</button>
+                    <input type="hidden" name="btAction" value="GetUnscheduleEmployees">
                 </div>
             </form>
         </div>
@@ -111,19 +112,18 @@
         <!--<script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>-->
         <script>
             function validateForm() {
-                // Get all select elements
+
                 var selects = document.querySelectorAll('.shift--select');
 
-                // Check if at least one select is not empty
+
                 var atLeastOneSelected = Array.from(selects).some(function (select) {
                     return select.value !== 'no';
                 });
                 console.log(atLeastOneSelected);
-                // Display alert if no select is selected
+
                 if (!atLeastOneSelected) {
-                    alert('Bạn phải chọn ít nhất 1 ô select.');
+                    alert('Vui lòng chọn ít nhất một ngày');
                 } else {
-                    // If at least one select is selected, submit the form
                     document.getElementById('myForm').submit();
                 }
             }

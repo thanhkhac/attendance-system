@@ -1,5 +1,13 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%-- 
+    Document   : ProcessLeaveRequestForManager
+    Created on : Feb 19, 2024, 8:14:44 AM
+    Author     : nguye
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.*" %>
+<%@page import="java.time.*" %>
+<%@page import="model.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,24 +20,21 @@
                 width: 83%;
                 right: 0px;
             }
-
-            @media screen and (max-width: 768px) {
-
-                .calendar{
-                    position: absolute;
-                    width: 100%;
-                    right: auto;
-                }
-            }
         </style>
 
     </head>
+    <%
+        LeaveRequestDAO lrDao = new LeaveRequestDAO();
+        EmployeeDAO dao = new EmployeeDAO();
+        EmployeeDTO emDTO = new EmployeeDTO();
+        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequest();
+    %>
     <body>
         <div>
             <%@include file="Sidebar.jsp" %>
             <div class="right">
                 <div class="text-center pt-3" style="font-family: sans-serif; font-weight: 900">
-                    <h2>Danh sách nhân viên</h2>
+                    <h2>Danh sách đơn</h2>
                     <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
                         <i class="bi bi-arrow-left"></i> Trở lại
                     </a>
@@ -76,55 +81,49 @@
 
                 </div>
                 <div>
-                    <form action="DispatchController" method="POST">
+                    <form action="GetConflicts" method="POST">
                         <table class="table">
                             <tr>
                                 <th>
                                     <button type="button" class="btn btn-sm btn-primary" onclick="selectAllRows(true)">Select</button>
                                     <button type="button" class="btn btn-sm btn-danger" onclick="selectAllRows(false)">Deselect</button>
                                 </th>
-                                <th>Mã nhân viên</th>
-                                <th>Họ và tên</th>
-                                <th>CCCD</th>
-                                <th>Phòng ban</th>
-                                <th>Loại nhân viên</th>
-                                <th>Role</th>
+                                <th class="text-center">Mã đơn</th>
+                                <th class="text-center">Mã nhân viên</th>
+                                <th class="text-center">Ngày gửi</th>
+                                <th class="text-center">Ngày bắt đầu</th>
+                                <th class="text-center">Ngày kết thúc</th>
+                                <th class="text-center">Lí do</th>
+                                <th class="text-center">Trạng thái <br> (Manager)</th>  
+                                <th class="text-center">Trạng thái <br> (HR)</th>
+                                <th class="text-center">Người phê duyệt <br> (Manager)</th>
+                                <th class="text-center">Người phê duyệt <br> (HR)</th>
                             </tr>
-                            <c:forEach var="employee" items="${requestScope.UnscheduleEmployees}" varStatus="counter">
+                            <%
+                                for (LeaveRequestDTO lr : list) {
+                                emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
+                            %>
                                 <tr class="employee-row">
                                     <td>
                                         <input type="checkbox" class="rowCheckbox" name="chkEmployeeID" value="${employee.employeeId}">
                                     </td>
-                                    <td>${employee.employeeId}</td>
-                                    <td class="employee-name">${employee.lastName} ${employee.middleName} ${employee.firstName}</td>
-                                    <td>${employee.cccd}</td>
-                                    <td>
-                                        <c:forEach var="dto" items="${listDepartment}" varStatus="counter">
-                                            <c:if test="${dto.departmentID eq employee.departmentID}">
-                                                ${dto.name}
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach var="dto" items="${employeeTypeList}" varStatus="counter">
-                                            <c:if test="${dto.employeeTypeId eq employee.employeeTypeID}">
-                                                ${dto.name}
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach var="dto" items="${roleList}" varStatus="counter">
-                                            <c:if test="${dto.roleID eq employee.roleID}">
-                                                ${dto.name}
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
+                                    <td class="text-center"><%=lr.getLeaveRequestID()%></td>
+                                    <td class="text-center"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName()%></td>
+                                    <td class="text-center"><%=lr.getSentDate()%></td>
+                                    <td class="text-center"><%=lr.getStartDate()%></td>
+                                    <td class="text-center"><%=lr.getEndDate()%></td>
+                                    <td class="text-center"><%=lr.getReason()%></td>
+                                    <td class="text-center"><%=lr.getManagerApprove()%></td>
+                                    <td class="text-center"><%=lr.getHrApprove()%></td>
+                                    <td class="text-center"><%=lr.getManagerID()%></td>
+                                    <td class="text-center"><%=lr.getHrID()%></td>
                                 </tr>
-                            </c:forEach>
+                            <%
+                                }
+                            %>
                         </table>
                         <div class="text-center mt-3">
                             <button type="submit" class="btn btn-primary" id="form-submit-button">Tiếp theo</button>
-                            <input type="hidden" name="btAction" value="GetConflicts">
                         </div>
                         <div>
                             <c:forEach var="dto" items="${paramValues.shift}" varStatus="counter">

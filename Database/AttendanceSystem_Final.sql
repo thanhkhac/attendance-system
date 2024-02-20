@@ -98,6 +98,7 @@ CREATE TABLE Leaves(
 	[StartDate] date,
 	[EndDate] date,
 	FilePath nvarchar(100),
+	[CreatedDate] date DEFAULT GETDATE(),
 	CreatedBy int,
 
 	FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID),
@@ -188,11 +189,13 @@ CREATE TABLE [Requests](
 	RequestID int IDENTITY(1,1) PRIMARY KEY,
 	EmployeeID int,
 	Title nvarchar(50),
+	[SentDate] datetime,
 	[TypeID] int,
 	Content nvarchar(max),
 	[FilePath] nvarchar(max),
 	[Status] bit,
-	[ResponedBy] int
+	[ApproveDate] datetime,
+	[ResponedBy] int,
 
 	FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY (ResponedBy) REFERENCES Employees(EmployeeID),
@@ -251,12 +254,42 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email,
 INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber, EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) VALUES
 (N'Dương', N'Khánh', N'Mai Ngọc', 1, '2003-01-01', N'duongmnkhe172188@fpt.edu.vn', '12345678', '034204000406', '091903763', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_NHANVIEN, '2022-02-15', '2024-12-31')
 
+INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber, EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) 
+VALUES
+(N'Hồng', N'Thị', N'Nguyễn', 0, '1995-03-15', N'hongnt@gmail.com', 'password123', '012345678', '0987654321', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_NHANVIEN, '2021-01-15', '2023-12-31'),
+(N'Quang', N'Thế', N'Trần', 1, '1990-08-20', N'quangtt@gmail.com', 'pass456', '012345679', '0987654322', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYNHANSU, '2021-03-10', '2023-12-31'),
+(N'Minh', N'Văn', N'Phạm', 1, '1988-05-10', N'minhvp@gmail.com', 'pass789', '012345680', '0987654323', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_QUANLY, '2021-02-22', '2023-12-31'),
+(N'Thảo', N'Mai', N'Đặng', 0, '1993-12-03', N'thaodm@gmail.com', 'pass101', '012345681', '0987654324', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYKIEMQUANLYNHANSU, '2021-04-05', '2023-12-31'),
+(N'Anh', N'Huy', N'Lê', 1, '1997-09-18', N'anhlh@gmail.com', 'pass121', '012345682', '0987654325', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_NHANVIEN, '2021-06-15', '2023-12-31'),
+(N'Trang', N'Thị', N'Vũ', 0, '1994-07-25', N'trangtv@gmail.com', 'pass141', '012345683', '0987654326', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYNHANSU, '2021-08-10', '2023-12-31'),
+(N'Nam', N'Quốc', N'Nguyễn', 1, '1991-11-05', N'namnq@gmail.com', 'pass161', '012345684', '0987654327', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_QUANLY, '2021-09-22', '2023-12-31'),
+(N'Tâm', N'Thị', N'Lê', 0, '1996-02-12', N'tamtl@gmail.com', 'pass181', '012345685', '0987654328', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYKIEMQUANLYNHANSU, '2021-11-05', '2023-12-31'),
+(N'Tuấn', N'Trung', N'Đỗ', 1, '1998-06-30', N'tuandt@gmail.com', 'pass201', '012345686', '0987654329', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_NHANVIEN, '2022-01-15', '2024-12-31'),
+(N'Quỳnh', N'Thị', N'Phan', 0, '1992-04-08', N'quynhpt@gmail.com', 'pass221', '012345687', '0987654330', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYNHANSU, '2022-03-10', '2024-12-31'),
+(N'Thành', N'Long', N'Trần', 1, '1989-10-20', N'thanhtl@gmail.com', 'pass241', '012345688', '0987654331', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_QUANLY, '2022-02-22', '2024-12-31'),
+(N'Hoài', N'Yến', N'Nguyễn', 0, '1994-01-25', N'hoaing@gmail.com', 'pass261', '012345689', '0987654332', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYKIEMQUANLYNHANSU, '2022-04-05', '2024-12-31'),
+(N'Tuấn', N'Đức', N'Lê', 1, '1990-07-18', N'tuandl@gmail.com', 'pass281', '012345690', '0987654333', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_NHANVIEN, '2022-06-15', '2024-12-31'),
+(N'My', N'Thị', N'Võ', 0, '1993-05-10', N'mytv@gmail.com', 'pass301', '012345691', '0987654334', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYNHANSU, '2022-08-10', '2024-12-31'),
+(N'Trường', N'Đức', N'Phan', 1, '1988-12-03', N'truongdp@gmail.com', 'pass321', '012345692', '0987654335', @TYPE_FULLTIME, @DEPART_PHONGNHANSU, @ROLE_QUANLY, '2022-09-22', '2024-12-31'),
+(N'Thùy', N'Liên', N'Đặng', 0, '1997-02-18', N'thuyld@gmail.com', 'pass341', '012345693', '0987654336', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYKIEMQUANLYNHANSU, '2022-11-05', '2024-12-31')
+
 
 
 INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)
 VALUES
 ('2024-02-16', 1, '17:00:00', '19:30:00', '16:30:00', '20:00:00', '16:45:00', '19:45:00', 1),
 ('2024-02-17', 1, '15:00:00', '17:30:00', '14:30:00', '18:00:00', '14:45:00', '17:45:00', 1)
+
+INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)
+VALUES
+('2024-02-23', 1, '17:00:00', '19:30:00', '16:30:00', '20:00:00', NULL, NULL, 1),
+('2024-02-24', 1, '15:00:00', '17:30:00', '14:30:00', '18:00:00', NULL, NULL, 1)
+
+INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)
+VALUES
+('2024-02-23', 2, '17:00:00', '19:30:00', '16:30:00', '20:00:00', NULL, NULL, 1),
+('2024-02-24', 2, '15:00:00', '17:30:00', '14:30:00', '18:00:00', NULL, NULL, 1)
+
 
 INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
 ('Ca hành chính', '7:30', '17:30', '11:00', '13:30', '7:15', '17:45', 1)
