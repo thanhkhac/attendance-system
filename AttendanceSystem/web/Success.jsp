@@ -12,6 +12,8 @@
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+
         <title>JSP Page</title>
         <style>
             body{
@@ -47,7 +49,7 @@
             }
         </style>
     </head>
-    
+
     <body>
         <div class="content">
             <h1>Send A Request</h1>
@@ -57,6 +59,10 @@
             <div class="content-message">
                 <p><i class="fa-solid fa-check"></i> Yêu cầu của bạn đã được gửi tới hệ thống thành công !</p>
             </div>
+            <input id="autocomplete" placeholder="Enter your address" type="text">
         </div>
+
+
+
     </body>
 </html>
