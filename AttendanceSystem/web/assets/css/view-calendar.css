@@ -59,6 +59,9 @@
 .leave{
     background-color: #353535 !important;
 }
+.notOvertime{
+    background-color: #353535 !important;
+}
 
 .onlycheckin{
     background-color: #E18148 !important;
@@ -87,3 +90,4 @@
     }
 
 }
+ 
