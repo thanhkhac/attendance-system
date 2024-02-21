@@ -40,7 +40,6 @@ public class InsertLeaveRequestServlet extends HttpServlet {
         String URL = "Error.jsp";
         try {
             EmployeeDTO account = (EmployeeDTO) session.getAttribute("ACCOUNT");
-            int requestTypeID = Integer.parseInt(request.getParameter("requestID"));
             LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
             LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
             String reason = request.getParameter("reason");

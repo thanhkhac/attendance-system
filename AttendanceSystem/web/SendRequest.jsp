@@ -190,104 +190,98 @@
                                 <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
                                 <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
                             </div>
-                            <form action="DispatchController" method ="Post">
-                                <div class="request-input-box">
-                                    <span >Full Name (Họ Và Tên): </span>
-                                    <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Email: </span>
-                                    <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Phone(Số Điện Thoại): </span>
-                                    <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >StartDate (Từ Ngày): </span>
-                                    <input type="date" name="startDate" id="startDate" required="">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >EndDate (Đến Ngày): </span>
-                                    <input type="date" name="endDate" id="endDate" required="">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Reason (Lý do): </span>
-                                    <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
-                                </div>
-                                <div class="content-request-file">
-                                    <span class="body-span">File đính kèm (nếu có):</span>
-                                    <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                                    <input type="file" name="file" id="file">
-                                </div>
-                                <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
-                            </form>
+                            <div class="request-input-box">
+                                <span >Full Name (Họ Và Tên): </span>
+                                <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Email: </span>
+                                <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Phone(Số Điện Thoại): </span>
+                                <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                            </div>
+                            <div class="request-input-box">
+                                <span >StartDate (Từ Ngày): </span>
+                                <input type="date" name="startDate" id="startDate" required="">
+                            </div>
+                            <div class="request-input-box">
+                                <span >EndDate (Đến Ngày): </span>
+                                <input type="date" name="endDate" id="endDate" required="">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Reason (Lý do): </span>
+                                <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
+                            </div>
+                            <div class="content-request-file">
+                                <span class="body-span">File đính kèm (nếu có):</span>
+                                <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
+                                <input type="file" name="file" id="file">
+                            </div>
+                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
 
                         </div>
                         <div id="resignation-request">
-                            <form action="DispatchController" method="Post">
-                                <div class="request-input-box">
-                                    <span >Full Name (Họ Và Tên): </span>
-                                    <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Email: </span>
-                                    <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Phone(Số Điện Thoại): </span>
-                                    <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >StartDate (Từ Ngày): </span>
-                                    <input type="date" name="startDate" id="startDate" required="">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >EndDate (Đến Ngày): </span>
-                                    <input type="date" name="endDate" id="endDate" required="">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Reason (Lý do): </span>
-                                    <textarea  name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
-                                </div>
-                                <div class="content-request-file">
-                                    <span class="body-span">File đính kèm (nếu có):</span>
-                                    <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                                    <input type="file" name="file" id="file">
-                                </div>
-                                <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
-                            </form>
+                            <div class="request-input-box">
+                                <span >Full Name (Họ Và Tên): </span>
+                                <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Email: </span>
+                                <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Phone(Số Điện Thoại): </span>
+                                <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                            </div>
+                            <div class="request-input-box">
+                                <span >StartDate (Từ Ngày): </span>
+                                <input type="date" name="startDate" id="startDate" required="">
+                            </div>
+                            <div class="request-input-box">
+                                <span >EndDate (Đến Ngày): </span>
+                                <input type="date" name="endDate" id="endDate" required="">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Reason (Lý do): </span>
+                                <textarea  name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
+                            </div>
+                            <div class="content-request-file">
+                                <span class="body-span">File đính kèm (nếu có):</span>
+                                <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
+                                <input type="file" name="file" id="file">
+                            </div>
+                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                         </div>
                         <div id="iternShipConfirmation-request">
-                            <form action="DispatchController" method="Post">
-                                <div class="request-input-box">
-                                    <span >Full Name (Họ Và Tên): </span>
-                                    <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Email: </span>
-                                    <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Phone(Số Điện Thoại): </span>
-                                    <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
-                                </div>
-                                <div class="request-input-box">
-                                    <span >Number (Số Lượng): </span>
-                                    <input type="number" name="number" id="number" min="1" max="20" value="1">
-                                </div>
+                            <div class="request-input-box">
+                                <span >Full Name (Họ Và Tên): </span>
+                                <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Email: </span>
+                                <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Phone(Số Điện Thoại): </span>
+                                <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Number (Số Lượng): </span>
+                                <input type="number" name="number" id="number" min="1" max="20" value="1">
+                            </div>
 
-                                <div class="request-input-box">
-                                    <span >Reason (Lý do): </span>
-                                    <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"  required=""></textarea>
-                                </div>
-                                <div class="content-request-file">
-                                    <span class="body-span">File đính kèm (nếu có):</span>
-                                    <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                                    <input type="file" name="file" id="file">
-                                </div>
-                                <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
-                            </form>
+                            <div class="request-input-box">
+                                <span >Reason (Lý do): </span>
+                                <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"  required=""></textarea>
+                            </div>
+                            <div class="content-request-file">
+                                <span class="body-span">File đính kèm (nếu có):</span>
+                                <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
+                                <input type="file" name="file" id="file">
+                            </div>
+                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                         </div>
 
                     </div>
@@ -303,6 +297,7 @@
             var leave_requestHTML = document.getElementById("leave-request");
             var resignation_requestHTML = document.getElementById("resignation-request");
             var intern_requestHTML = document.getElementById("iternShipConfirmation-request");
+
             resignation_requestHTML.style.display = 'none';
             leave_requestHTML.style.display = 'none';
             intern_requestHTML.style.display = 'none';
@@ -316,9 +311,7 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var requestTypeID = document.getElementById("request-type").value;
-        });
+
 
         function isAcceptableDate(startDate_txt, endDate_txt) {
             var startDate = moment(startDate_txt).format("MM/DD/YYYY");
@@ -365,14 +358,15 @@
             var startDate_raw = document.getElementById("startDate").value;
             var endDate_raw = document.getElementById("endDate").value;
             var reason = document.getElementById("reason").value;
-            if (startDate_raw !== null && endDate_raw !== null && reason !== '') {
-                if (!isAcceptableDate(startDate_raw, endDate_raw)) {
-                    alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");
-                } else {
+            if (startDate_raw !== '' && endDate_raw !== '' && reason !== '') {
+                if (isAcceptableDate(startDate_raw, endDate_raw)) {
                     let URL = "/AttendanceSystem/InsertLeaveRequestServlet?startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
                     window.location.href = URL;
+//                    alert("True");
+                } else {
+                    alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");
                 }
-            }else{
+            } else {
                 alert("Vui Lòng Điền Đầy Đủ Thông Tin !");
             }
 
