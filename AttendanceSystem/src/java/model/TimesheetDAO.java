@@ -142,6 +142,48 @@ public class TimesheetDAO extends DAOBase {
         return true;
     }
 
+    public boolean deleteTimesheets(String[] rawEmployeeIDs,  int month, int year) {
+        String query = "" +
+                "DELETE FROM Timesheet\n" +
+                "WHERE \n" +
+                "	MONTH(Date) = ?\n" +
+                "	AND YEAR(Date) = ?\n" +
+                "	AND Date > GETDATE()\n" +
+                "	AND EmployeeID = ? ";
+        try {
+            super.connect();
+            con.setAutoCommit(false);
+            ps = con.prepareStatement(query);
+            ps.setInt(1, month);
+            ps.setInt(2, year);
+            for (int j = 0; j < rawEmployeeIDs.length; j++) {
+                int employeeID = Integer.parseInt(rawEmployeeIDs[j]);
+                ps.setInt(3, employeeID);
+                ps.addBatch();
+            }
+
+            try {
+                ps.executeBatch();
+                con.commit();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                con.rollback();
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                con.setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(TimesheetDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            super.closeAll();
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         TimesheetDAO timesheetDAO = new TimesheetDAO();
         System.out.println("getTimesheetDTO(1)");

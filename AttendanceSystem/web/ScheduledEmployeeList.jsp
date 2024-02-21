@@ -60,6 +60,8 @@
     request.setAttribute("employeeTypeList", employeeTypeList);
     request.setAttribute("listDepartment", listDepartment);
     request.setAttribute("roleList", roleList);
+    request.setAttribute("month", month);
+    request.setAttribute("year", year);
     %>
     <body>
         <div>
@@ -118,7 +120,7 @@
 
                 </div>
                 <div>
-                    <form action="DispatchController" method="POST">
+                    <form action="DeleteTimesheetForEmployees" method="POST">
                         <table class="table">
                             <tr>
                                 <th>
@@ -171,17 +173,13 @@
                         <div class=" my-3">
                             <button type="submit" class="btn btn-danger" id="form-submit-button">Xóa</button>
                             <input type="hidden" name="btAction" value="DeleteMultipleTimesheet">
-                        </div>
-                        <div>
-                            <c:forEach var="dto" items="${paramValues.shift}" varStatus="counter">
-                                <c:if test = "${dto ne 'no'}">
-                                    <input type="hidden" name="shift" value="${dto}">
-                                </c:if>
-                            </c:forEach>
+                            <input type="hidden" name="month" value="${requestScope.month}">
+                            <input type="hidden" name="year" value="${requestScope.year}">
                         </div>
                     </form>
                 </div>
             </div>
+
 
         </div>
         <script>
@@ -226,14 +224,6 @@
                 document.getElementById("select-role").addEventListener("change", filterEmployees);
                 document.getElementById("select-status").addEventListener("change", filterEmployees); // Thêm dòng này
 
-                document.getElementById("form-submit-button").addEventListener("click", function (event) {
-                    var checkedCheckboxes = document.querySelectorAll(".rowCheckbox:checked");
-
-                    if (checkedCheckboxes.length === 0) {
-                        alert("Vui lòng chọn ít nhất một nhân viên");
-                        event.preventDefault();
-                    }
-                });
             });
 
             function selectAllRows(select) {
@@ -246,6 +236,52 @@
                     }
                 });
             }
+
+            $(document).ready(function () {
+                $("#form-submit-button").click(function (event) {
+                    event.preventDefault();
+                    var checkedCheckboxes = document.querySelectorAll(".rowCheckbox:checked");
+
+                    if (checkedCheckboxes.length === 0) {
+                        alert("Vui lòng chọn ít nhất một nhân viên");
+                        return;
+                    }
+
+                    var formData = $("form").serialize();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "DeleteTimesheetForEmployees",
+                        data: formData,
+                        success: function (result) {
+                            if (result === "success") {
+                                $("#successModal").modal('show');
+                                var selectedMonth = $("#month").val();
+                                var selectedYear = $("#year").val();
+                                $.ajax({
+                                    type: "POST",
+                                    url: "ScheduledEmployeeList.jsp",
+                                    data: {
+                                        month: selectedMonth,
+                                        year: selectedYear
+                                    },
+                                    success: function (response) {
+                                        $("#result").html(response);
+                                    },
+                                    error: function () {
+                                        $("#result").html("Error occurred.");
+                                    }
+                                });
+                            } else {
+                                alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                            }
+                        },
+                        error: function () {
+                            alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                        }
+                    });
+                });
+            });
         </script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>
