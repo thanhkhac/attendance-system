@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.time.*"%>
+<%@page import="model.*"%>
+<%@page import="java.util.*"%>
+<%@page import="ultility.datetimeutil.DateTimeUtil"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,16 +28,46 @@
         </style>
 
     </head>
+    <%
+    DateTimeUtil dateTimeUtil = new DateTimeUtil();
+
+    
+    int year = dateTimeUtil.getVNLocalDateNow().getYear();
+    int month = dateTimeUtil.getVNLocalDateNow().getMonthValue();
+    String txtyear = request.getParameter("year");
+    String txtmonth = request.getParameter("month");
+        if (txtyear != null || txtmonth != null) {
+            try {
+                year = Integer.parseInt(txtyear);
+                month = Integer.parseInt(txtmonth);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                month = Integer.parseInt(txtmonth);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+    ArrayList<EmployeeDTO> EmployeeList = new EmployeeDAO().getScheduledEmployees(month, year);
+        
+    ArrayList<EmployeeTypeDTO> employeeTypeList = new EmployeeTypeDAO().getEmployeeTypeList();
+    ArrayList<DepartmentDTO> listDepartment = new DepartmentDAO().getListDepartment();
+    ArrayList<RoleDTO> roleList = new RoleDAO().getRoleList();
+        
+    request.setAttribute("EmployeeList", EmployeeList);
+    request.setAttribute("employeeTypeList", employeeTypeList);
+    request.setAttribute("listDepartment", listDepartment);
+    request.setAttribute("roleList", roleList);
+    %>
     <body>
         <div>
-            <%@include file="Sidebar.jsp" %>
-            <div class="right">
+            <div >
                 <div class="text-center pt-3" style="font-family: sans-serif; font-weight: 900">
-                    <h2>Danh sách nhân viên</h2>
                     <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
                         <i class="bi bi-arrow-left"></i> Trở lại
                     </a>
-
                 </div>
                 <div class="d-flex justify-content-around px-3 py-3 align-middle">
                     <table class="table table-primary">
@@ -42,6 +76,7 @@
                             <th>Phòng ban</th>
                             <th>Loại nhân viên</th>
                             <th>Role</th>
+                            <th>Đã chọn</th>
                         </tr>
                         <tr>
                             <td>
@@ -71,6 +106,13 @@
                                     </c:forEach>
                                 </select>   
                             </td>
+                            <td>
+                                <select class="form-select" id="select-status">
+                                    <option value="" selected="">Tất cả</option>
+                                    <option value="selected">Đã chọn</option>
+                                    <option value="unselected">Chưa chọn</option>
+                                </select>   
+                            </td>
                         </tr>
                     </table>
 
@@ -90,13 +132,17 @@
                                 <th>Loại nhân viên</th>
                                 <th>Role</th>
                             </tr>
-                            <c:forEach var="employee" items="${requestScope.UnscheduleEmployees}" varStatus="counter">
+                            <c:forEach var="employee" items="${requestScope.EmployeeList}" varStatus="counter">
                                 <tr class="employee-row">
                                     <td>
                                         <input type="checkbox" class="rowCheckbox" name="chkEmployeeID" value="${employee.employeeId}">
                                     </td>
                                     <td>${employee.employeeId}</td>
-                                    <td class="employee-name">${employee.lastName} ${employee.middleName} ${employee.firstName}</td>
+                                    <td>
+                                        <a class="employee-name" target="_blank" href="ViewEmployeeWorkSchedule.jsp?employeeID=${employee.employeeId}">
+                                            ${employee.lastName} ${employee.middleName} ${employee.firstName}
+                                        </a>
+                                    </td>
                                     <td>${employee.cccd}</td>
                                     <td>
                                         <c:forEach var="dto" items="${listDepartment}" varStatus="counter">
@@ -122,9 +168,9 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                        <div class="text-center mt-3">
-                            <button type="submit" class="btn btn-primary" id="form-submit-button">Tiếp theo</button>
-                            <input type="hidden" name="btAction" value="GetConflicts">
+                        <div class=" my-3">
+                            <button type="submit" class="btn btn-danger" id="form-submit-button">Xóa</button>
+                            <input type="hidden" name="btAction" value="DeleteMultipleTimesheet">
                         </div>
                         <div>
                             <c:forEach var="dto" items="${paramValues.shift}" varStatus="counter">
@@ -150,6 +196,7 @@
                     var selectDepartment = document.getElementById("select-department").value;
                     var selectEmployeeType = document.getElementById("select-employeeType").value;
                     var selectRole = document.getElementById("select-role").value;
+                    var selectStatus = document.getElementById("select-status").value; // Thêm dòng này
 
                     var rows = document.querySelectorAll(".employee-row");
 
@@ -159,11 +206,14 @@
                         var employeeType = row.children[5].innerText;
                         var role = row.children[6].innerText;
 
+                        var isChecked = row.querySelector(".rowCheckbox").checked;
+
                         var showRow =
                                 employeeName.includes(inputSearch) &&
                                 (selectDepartment === "" || department === selectDepartment) &&
                                 (selectEmployeeType === "" || employeeType === selectEmployeeType) &&
-                                (selectRole === "" || role === selectRole);
+                                (selectRole === "" || role === selectRole) &&
+                                (selectStatus === "" || (selectStatus === "selected" && isChecked) || (selectStatus === "unselected" && !isChecked));
 
                         row.style.display = showRow ? "" : "none";
                     });
@@ -174,6 +224,7 @@
                 document.getElementById("select-department").addEventListener("change", filterEmployees);
                 document.getElementById("select-employeeType").addEventListener("change", filterEmployees);
                 document.getElementById("select-role").addEventListener("change", filterEmployees);
+                document.getElementById("select-status").addEventListener("change", filterEmployees); // Thêm dòng này
 
                 document.getElementById("form-submit-button").addEventListener("click", function (event) {
                     var checkedCheckboxes = document.querySelectorAll(".rowCheckbox:checked");
@@ -185,7 +236,6 @@
                 });
             });
 
-
             function selectAllRows(select) {
                 var rowCheckboxes = document.querySelectorAll(".rowCheckbox");
 
@@ -196,10 +246,6 @@
                     }
                 });
             }
-
-            document.getElementById("selectAllCheckbox").addEventListener("click", selectAllRows);
-
-
         </script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>
