@@ -49,11 +49,12 @@
         </group>
         <group name="SWP391"/>
         <group name="java_web">
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/OvertimeScheduleWork.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/Overtime.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/ScheduleWorkCalendar.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/ScheduleWork.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/DepartmentDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/viewEmployeesByManager.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/ListEmployeeOvertimeAjax.java</file>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/OvertimeDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/employee/SearchEmployeeAjax.java</file>
         </group>
     </open-files>
 </project-private>

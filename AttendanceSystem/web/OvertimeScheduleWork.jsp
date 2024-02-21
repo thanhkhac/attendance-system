@@ -72,6 +72,7 @@
         request.setAttribute("shiftList", shiftList);
     %>
     <body>
+        
         <div class="container">
             <form action="DispatchController" id="myForm" method="POST">
                 <input type="hidden" name="month" value="${month}">
@@ -96,7 +97,7 @@
                                 </c:if>
                                 
                                 <td class="mytable-td" style="height: 5rem">
-                                    <a style="text-decoration: auto;" href="url">
+                                    
                                     <div class="date-block" style="border-bottom: 0px">
                                         <c:if test = "${wkday eq requestScope.today}">
                                             <div class="date text-danger" id="today">
@@ -111,30 +112,33 @@
                                     </div>
                                     <div class="shift-block">
                                         <c:if test = "${wkday > requestScope.today and wkday.getMonthValue() == month}">
-                                         <c:set var="count" value="${0}"/>
+                                         
+                                            <c:set var="count" value="${0}"/>
                                          <c:forEach var="list" items="${requestScope.listOvertime}">   
                                              <c:if test = "${wkday.compareTo(list)==0}">
+                                                 <a href="overtimeByDay?Day=${wkday}" class="box">
                                            <div class="shift notyet text-center">
                                                         <div class="shift__title">
                                                             Có tăng ca <br>
                                                             (Chưa diễn ra)
                                                         </div>                                                      
                                            </div>
+                                                     </a>
                                            <c:set var="count" value="${1}"/>
                                            </c:if>                                            
                                            </c:forEach>
                                          <c:if test = "${count==0}">
-                                             <a href="url">
+                                             
                                                  <div style="display:flex;justify-content: center">
-                                             <a class="box shift__title" href="url">
+                                             <a class="box shift__title" href="overtimeByDay?Day=${wkday}">
                                                  <p class="paragraph">Chưa có tăng ca</p>
-                                                 </a>
+                                                </a>
                                                      </div>
                                             
                                            </c:if>
                                         </c:if>
                                     </div>
-                                    </a>    
+                                      
                                 </td>
                                
                                 <c:if test="${(counter.index + 1) % 7 == 0}">

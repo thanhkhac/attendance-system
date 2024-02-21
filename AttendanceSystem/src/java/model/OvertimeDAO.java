@@ -57,6 +57,35 @@ public class OvertimeDAO extends DAOBase {
         }
         return list;
     }
+    
+    public ArrayList<OvertimeDTO> getOverTimeDTOByDay(LocalDate xDate) {
+        ArrayList<OvertimeDTO> list = new ArrayList<>();
+        query = "SELECT * FROM Overtimes\n" +
+                "WHERE\n" +
+                "	[Date] = ? ";
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, xDate.toString());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                LocalDate date = dateTimeUtil.parseSqlDate(rs.getDate("date"));
+                int employeeID = rs.getInt("EmployeeID");
+                LocalTime startTime = dateTimeUtil.parseSQLTime(rs.getTime("StartTime"));
+                LocalTime endTimeD = dateTimeUtil.parseSQLTime(rs.getTime("EndTime"));
+                LocalTime checkIn = dateTimeUtil.parseSQLTime(rs.getTime("CheckIn"));
+                LocalTime checkOut = dateTimeUtil.parseSQLTime(rs.getTime("CheckOut"));
+                LocalTime openAt = dateTimeUtil.parseSQLTime(rs.getTime("OpenAt"));
+                LocalTime closeAt = dateTimeUtil.parseSQLTime(rs.getTime("CloseAt"));;
+                int createdBy = rs.getInt("createdBy");
+                list.add(new OvertimeDTO(date, employeeID, startTime, endTimeD, openAt, closeAt, checkIn, checkOut, createdBy));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResource();
+        }
+        return list;
+    }
 
     public OvertimeDTO getConflicts(int xEmployeeid, String xDate, int xShiftID) {
         query = "DECLARE @EmployeeID INT = ? \n" +
@@ -124,11 +153,11 @@ public class OvertimeDAO extends DAOBase {
 
     public static void main(String[] args) {
         OvertimeDAO overtimeDAO = new OvertimeDAO();
-        LocalDate date = LocalDate.parse("2024-02-24");
+        LocalDate date = LocalDate.parse("   ");
         LocalDate date2 = LocalDate.parse("2024-02-24");
-        System.out.println(date.compareTo(date2));
+        //System.out.println(date.compareTo(date2));
 //        System.out.println(overtimeDAO.getOverTimeDTO(date, 1));
 //        System.out.println(overtimeDAO.getConflicts(1, "2024-02-23", 1));
-           //System.out.println(overtimeDAO.getOverTimeDTOByDay(date).size());
+           System.out.println(overtimeDAO.getOverTimeDTOByDay(date).size());
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import dbhelper.DBContext;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import ultility.datetimeutil.DateTimeUtil;
 
 public class EmployeeDAO extends DBContext {
@@ -725,7 +726,6 @@ public class EmployeeDAO extends DBContext {
 
         return list;
     }
-
     public ArrayList<EmployeeDTO> GetUnscheduleEmployees(int month, int year) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -774,22 +774,115 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
+    public ArrayList<EmployeeDTO> getEmployeeInfoByOvertime(String date,String start, String ends) {
+
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList();
+        if (connection != null) {
+            try {
+                String sql = "select * from Employees\n" +
+"join Overtimes on Overtimes.EmployeeID = Employees.EmployeeID\n" +
+"where Overtimes.StartTime = ? and Overtimes.EndTime = ? and Overtimes.Date = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, start);
+                stm.setString(2,ends);
+                stm.setString(3, date);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                     int employeeId = rs.getInt("employeeId");
+                    String firstName = rs.getNString("firstName");
+                    String middleName = rs.getNString("middleName");
+                    String lastName = rs.getNString("lastName");
+                    Date birthDate = rs.getDate("birthDate");
+                    Boolean gender = rs.getBoolean("gender");
+                    String email = rs.getNString("email");
+                    String password = rs.getNString("password");
+                    String cccd = rs.getString("cccd");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    int employeeTypeID = rs.getInt("employeeTypeID");
+                    int departmentID = rs.getInt("departmentID");
+                    int roleID = rs.getInt("roleID");
+                    Date startDate = rs.getDate("startDate");
+                    Date endDate = rs.getDate("endDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return list;
+    }
+    
+    
+   public ArrayList<EmployeeDTO> getEmployeeInfoByOvertimeAjax(String date,String start, String ends, int page) {
+
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList();
+        if (connection != null) {
+            try {
+                String sql = "select distinct Employees.EmployeeID,Email,Employees.BirthDate,Employees.FirstName,Employees.LastName\n" +
+"                ,Employees.MiddleName,Employees.Gender,Employees.DepartmentID,Employees.StartDate,Employees.EndDate,Employees.EmployeeTypeID,\n" +
+"                            Employees.Password,Employees.IsActive,Employees.CCCD,Employees.PhoneNumber,Employees.RoleID from Employees\n" +
+"                            join Overtimes on Overtimes.EmployeeID = Employees.EmployeeID\n" +
+"							Where Date = ? and Overtimes.StartTime = ? and Overtimes.EndTime = ?\n" +
+"                            Order by Employees.EmployeeID\n" +
+"                            Offset ? rows fetch next 1 rows only";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, date);
+                stm.setString(2,start);
+                stm.setString(3, ends);
+                stm.setInt(4, page);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                     int employeeId = rs.getInt("employeeId");
+                    String firstName = rs.getNString("firstName");
+                    String middleName = rs.getNString("middleName");
+                    String lastName = rs.getNString("lastName");
+                    Date birthDate = rs.getDate("birthDate");
+                    Boolean gender = rs.getBoolean("gender");
+                    String email = rs.getNString("email");
+                    String password = rs.getNString("password");
+                    String cccd = rs.getString("cccd");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    int employeeTypeID = rs.getInt("employeeTypeID");
+                    int departmentID = rs.getInt("departmentID");
+                    int roleID = rs.getInt("roleID");
+                    Date startDate = rs.getDate("startDate");
+                    Date endDate = rs.getDate("endDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return list;
+    }
+    
+    
 
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
-
+        System.out.println(dao.getEmployeeInfoByOvertimeAjax("2024-02-23","17:00","19:30",0).size());
         //test ham lay ttin
-        System.out.println(dao.getEmail("nguyennduongg039@gmail.com"));
-        System.out.println(dao.getCCCD("0000000"));
-        System.out.println(dao.getPhonenumber("454545454"));
-
-        System.out.println("getEmployeeDTO");
-//        System.out.println(dao.getEmployeeDTO(1));
-//        System.out.println(dao.getEmail("duong@gmail.com"));
-        ArrayList<EmployeeDTO> GetUnscheduleEmployees = dao.GetUnscheduleEmployees(2, 2024);
-        for (EmployeeDTO e : GetUnscheduleEmployees) {
-            System.out.println(e);
-        }
+//        System.out.println(dao.getEmail("nguyennduongg039@gmail.com"));`  
+//        System.out.println(dao.getCCCD("0000000"));
+//        System.out.println(dao.getPhonenumber("454545454"));
+//
+//        System.out.println("getEmployeeDTO");
+////        System.out.println(dao.getEmployeeDTO(1));
+////        System.out.println(dao.getEmail("duong@gmail.com"));
+//        ArrayList<EmployeeDTO> GetUnscheduleEmployees = dao.GetUnscheduleEmployees(2, 2024);
+//        for (EmployeeDTO e : GetUnscheduleEmployees) {
+//            System.out.println(e);
+//        }
     
     }
 
