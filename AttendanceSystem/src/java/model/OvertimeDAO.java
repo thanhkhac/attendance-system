@@ -3,6 +3,7 @@ package model;
 import dbhelper.DAOBase;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import ultility.datetimeutil.DateTimeUtil;
 
 public class OvertimeDAO extends DAOBase {
@@ -36,6 +37,25 @@ public class OvertimeDAO extends DAOBase {
             closeResource();
         }
         return null;
+    }
+    
+    public ArrayList<LocalDate> getAllOverTimeDTO() {
+        ArrayList<LocalDate> list = new ArrayList<>();
+        query = "select distinct Date from [Overtimes]";
+        try {
+            ps = con.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                LocalDate date = dateTimeUtil.parseSqlDate(rs.getDate("date"));
+                
+                list.add(date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResource();
+        }
+        return list;
     }
 
     public OvertimeDTO getConflicts(int xEmployeeid, String xDate, int xShiftID) {
@@ -104,8 +124,11 @@ public class OvertimeDAO extends DAOBase {
 
     public static void main(String[] args) {
         OvertimeDAO overtimeDAO = new OvertimeDAO();
-        LocalDate date = LocalDate.parse("2024-02-16");
-        System.out.println(overtimeDAO.getOverTimeDTO(date, 1));
-        System.out.println(overtimeDAO.getConflicts(1, "2024-02-23", 1));
+        LocalDate date = LocalDate.parse("2024-02-24");
+        LocalDate date2 = LocalDate.parse("2024-02-24");
+        System.out.println(date.compareTo(date2));
+//        System.out.println(overtimeDAO.getOverTimeDTO(date, 1));
+//        System.out.println(overtimeDAO.getConflicts(1, "2024-02-23", 1));
+           //System.out.println(overtimeDAO.getOverTimeDTOByDay(date).size());
     }
 }
