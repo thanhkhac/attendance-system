@@ -186,7 +186,7 @@
                         <div id="leave-request">
                             <div class="request-policy">
                                 <p>Quy định ngày nghỉ : </p>
-                                <p>Năm: xử lý tối đa trong 2 năm.</p>
+                                <p>Năm: xử lý tối đa trong 1 năm tới.</p>
                                 <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
                                 <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
                             </div>
@@ -283,7 +283,6 @@
                             </div>
                             <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                         </div>
-
                     </div>
                 </div>
             </form>
@@ -314,41 +313,37 @@
 
 
         function isAcceptableDate(startDate_txt, endDate_txt) {
-            var startDate = moment(startDate_txt).format("MM/DD/YYYY");
-            var endDate = moment(endDate_txt).format("MM/DD/YYYY");
-            var current = moment(new Date()).format("MM/DD/YYYY");
-            let startMonth = moment(startDate_txt).month() + 1; //khi dung nho tru 1
-            let startYear = moment(startDate_txt).year();
-//            let startDay = moment(startDate_txt).date();
+            var startDate = moment(startDate_txt);
+            var endDate = moment(endDate_txt);
+            var current = moment();
+            var startMonth = startDate.month() + 1;
+            var startYear = startDate.year();
 
-            let endMonth = moment(endDate_txt).month() + 1; //month() in js start with 0
-            let endYear = moment(endDate_txt).year();
-//            let endDay = moment(endDate_txt).date();
+            var endMonth = endDate.month() + 1;
+            var endYear = endDate.year();
 
+            var currentMonth = current.month() + 1;
+            var currentYear = current.year();
 
-            let currentMonth = moment(current).month() + 1;
-            let currentYear = moment(current).year();
-
-            let afterSixMonth = new Date(startDate_txt);
-            afterSixMonth.setMonth((startMonth - 1) + 6);
-
-            let afterOneMonth = new Date(current);
-            afterOneMonth.setMonth(currentMonth + 1);
+            var afterSixMonths = moment(startDate).add(6, 'months');
+            var afterOneMonth = moment(current).add(1, 'month');
 
             console.log("StartMonth: " + startMonth);
-            console.log("StartDate: " + startDate_txt);
-            console.log("EndDate: " + endDate);
-            console.log("Start Date after Six Months: " + moment(afterSixMonth).format("MM/DD/YYYY"));
-
-            if ((startYear <= currentYear + 2) && ((endYear <= currentYear + 2))) {
-                if (endDate >= startDate) {
-                    if (startDate >= current && endDate >= current) {
-                        if ((startDate <= moment(afterOneMonth).format("MM/DD/YYYY")) && (endDate <= moment(afterSixMonth).format("MM/DD/YYYY"))) {
-                            return true;
-                        }
-                    }
-                }
+            console.log("StartDate: " + startDate.format("MM/DD/YYYY"));
+            console.log("EndDate: " + endDate.format("MM/DD/YYYY"));
+            console.log("Start Date after Six Months: " + afterSixMonths.format("MM/DD/YYYY"));
+            
+            console.log(endDate.isSameOrBefore(afterSixMonths));
+            console.log(startDate.isSameOrBefore(afterOneMonth));
+            if (endDate.isSameOrAfter(startDate)
+                    && startYear <= currentYear + 1
+                    && startDate.isSameOrAfter(current)
+                    && endDate.isSameOrAfter(current)
+                    && startDate.isSameOrBefore(afterOneMonth)
+                    && endDate.isSameOrBefore(afterSixMonths)) {
+                return true;
             }
+
             return false;
         }
 
@@ -369,7 +364,6 @@
             } else {
                 alert("Vui Lòng Điền Đầy Đủ Thông Tin !");
             }
-
         }
 
     </script>

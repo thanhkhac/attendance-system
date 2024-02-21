@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import model.EmployeeDTO;
 import model.LeaveRequestDAO;
 
@@ -32,6 +33,31 @@ public class InsertLeaveRequestServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private LocalDate timeAfterNMonths(LocalDate time, int monthToAdd) {
+        LocalDate afterNMonth = time.plusMonths(monthToAdd);
+        return afterNMonth;
+    }
+
+    private boolean isAcceptableDate(LocalDate startDate, LocalDate endDate) {
+        LocalDate current = LocalDate.now();
+        if (startDate.isEqual(endDate) || startDate.isBefore(endDate)) {
+            System.out.println("1");
+            if ((startDate.isEqual(timeAfterNMonths(current, 12)) || startDate.isBefore(timeAfterNMonths(current, 12)))) {
+                System.out.println("2");
+                if ((startDate.isEqual(current) || startDate.isAfter(current))
+                        && (endDate.isEqual(current) || endDate.isAfter(current))) {
+                    System.out.println("3");
+                    if ((startDate.isEqual(timeAfterNMonths(current, 1)) || startDate.isBefore(timeAfterNMonths(current, 1)))
+                            && (endDate.isEqual(timeAfterNMonths(startDate, 6)) || endDate.isBefore(timeAfterNMonths(startDate, 6)))) {
+                        System.out.println("4");
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -44,9 +70,13 @@ public class InsertLeaveRequestServlet extends HttpServlet {
             LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
             String reason = request.getParameter("reason");
             LocalDate sentDate = LocalDate.now();
-            boolean rs = dao.InsertLeaveRequest(account, sentDate, startDate, endDate, reason);
-            if (rs) {
-                URL = "Success.jsp";
+            boolean isValid = isAcceptableDate(startDate, endDate);
+            System.out.println(isValid);
+            if (isValid) {
+                boolean rs = dao.InsertLeaveRequest(account, sentDate, startDate, endDate, reason);
+                if (rs) {
+                    URL = "Success.jsp";
+                }
             }
 
         } catch (Exception e) {
