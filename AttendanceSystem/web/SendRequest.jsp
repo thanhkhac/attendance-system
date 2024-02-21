@@ -151,6 +151,10 @@
     <body>
         <c:set var="listTpe" value="${requestScope.listType}" />
         <c:set var="account" value="${sessionScope.ACCOUNT}" />
+        <c:set var="listDepartment" value="${requestScope.listDepartment}" />
+        <c:set var="listEmployeeType" value="${requestScope.listEmployeeType}" />
+        <c:set var="listRole" value="${requestScope.listRole}" />
+
         <div class="content">
             <h1>Attendance System</h1>
             <div class="content-redirect">
@@ -191,7 +195,7 @@
                                 <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
                             </div>
                             <div class="request-input-box">
-                                <span >Full Name (Họ Và Tên): </span>
+                                <span >Full Name (Tên tôi là): </span>
                                 <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
                             </div>
                             <div class="request-input-box">
@@ -201,6 +205,33 @@
                             <div class="request-input-box">
                                 <span >Phone(Số Điện Thoại): </span>
                                 <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                            </div>
+                            <div class="request-input-box">
+                                <span >Hiện Đang Là (Nhân Viên): </span>
+                                <c:forEach items="${listEmployeeType}" var="type">
+                                    <c:if test="${account.getEmployeeTypeID() == type.getEmployeeTypeID()}">
+                                        <input readonly type="text" name="employeeType" id="employeeType" 
+                                               value="${type.getName()}" >
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="request-input-box">
+                                <span >Công Tác Tại (Phòng / Ban): </span>
+                                <c:forEach items="${listDepartment}" var="de">
+                                    <c:if test="${account.getDepartmentID() == de.getDepartmentID()}">
+                                        <input readonly type="text" name="department" id="department" 
+                                               value="${de.getName()}" >
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="request-input-box">
+                                <span >Với Vai Trò Là (Chức Vụ): </span>
+                                <c:forEach items="${listRole}" var="r">
+                                    <c:if test="${account.getRoleID() == r.getRoleID()}">
+                                        <input readonly type="text" name="role" id="role" 
+                                               value="${r.getName()}" >
+                                    </c:if>
+                                </c:forEach>
                             </div>
                             <div class="request-input-box">
                                 <span >StartDate (Từ Ngày): </span>
@@ -332,7 +363,7 @@
             console.log("StartDate: " + startDate.format("MM/DD/YYYY"));
             console.log("EndDate: " + endDate.format("MM/DD/YYYY"));
             console.log("Start Date after Six Months: " + afterSixMonths.format("MM/DD/YYYY"));
-            
+
             console.log(endDate.isSameOrBefore(afterSixMonths));
             console.log(startDate.isSameOrBefore(afterOneMonth));
             if (endDate.isSameOrAfter(startDate)

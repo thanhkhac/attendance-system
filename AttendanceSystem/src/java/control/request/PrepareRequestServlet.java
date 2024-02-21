@@ -12,8 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import model.RequestTypeDAO;
-import model.RequestTypeDTO;
+import model.*;
 
 /**
  *
@@ -35,9 +34,24 @@ public class PrepareRequestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         ArrayList<RequestTypeDTO> listType = new ArrayList<>();
+        ArrayList<DepartmentDTO> listDepartment = new ArrayList<>();
+        ArrayList<EmployeeTypeDTO> listEmployeeType = new ArrayList<>();
+        ArrayList<RoleDTO> listRole = new ArrayList<>();
+
         RequestTypeDAO dao = new RequestTypeDAO();
+        EmployeeTypeDAO emTypeDao = new EmployeeTypeDAO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        RoleDAO roleDao = new RoleDAO();
+        
         listType = dao.getRequestTypeList();
+        listDepartment = deDao.getListDepartment();
+        listEmployeeType = emTypeDao.getEmployeeTypeList();
+        listRole = roleDao.getRoleList();
+        
         request.setAttribute("listType", listType);
+        request.setAttribute("listDepartment", listDepartment);
+        request.setAttribute("listEmployeeType", listEmployeeType);
+        request.setAttribute("listRole", listRole);
         request.getRequestDispatcher("SendRequest.jsp").forward(request, response);
     }
 

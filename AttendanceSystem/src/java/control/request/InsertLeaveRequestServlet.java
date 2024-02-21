@@ -41,15 +41,15 @@ public class InsertLeaveRequestServlet extends HttpServlet {
     private boolean isAcceptableDate(LocalDate startDate, LocalDate endDate) {
         LocalDate current = LocalDate.now();
         if (startDate.isEqual(endDate) || startDate.isBefore(endDate)) {
-            System.out.println("1");
+//            System.out.println("1");
             if ((startDate.isEqual(timeAfterNMonths(current, 12)) || startDate.isBefore(timeAfterNMonths(current, 12)))) {
-                System.out.println("2");
+//                System.out.println("2");
                 if ((startDate.isEqual(current) || startDate.isAfter(current))
                         && (endDate.isEqual(current) || endDate.isAfter(current))) {
-                    System.out.println("3");
+//                    System.out.println("3");
                     if ((startDate.isEqual(timeAfterNMonths(current, 1)) || startDate.isBefore(timeAfterNMonths(current, 1)))
                             && (endDate.isEqual(timeAfterNMonths(startDate, 6)) || endDate.isBefore(timeAfterNMonths(startDate, 6)))) {
-                        System.out.println("4");
+//                        System.out.println("4");
                         return true;
                     }
                 }
