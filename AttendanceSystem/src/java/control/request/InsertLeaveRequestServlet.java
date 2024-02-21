@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import model.EmployeeDTO;
+import model.LeaveRequestDAO;
 
 /**
  *
@@ -35,15 +36,25 @@ public class InsertLeaveRequestServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
-        EmployeeDTO account = (EmployeeDTO) session.getAttribute("ACCOUNT");
-        int requestTypeID = Integer.parseInt(request.getParameter("requestID"));
-        LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
-        LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
-//        System.out.println(startDate);
-//        System.out.println(endDate);
-        String reason = request.getParameter("reason");
-        String filePath = request.getParameter("filePath");
-        request.getRequestDispatcher("Success.jsp").forward(request, response);
+        LeaveRequestDAO dao = new LeaveRequestDAO();
+        String URL = "Error.jsp";
+        try {
+            EmployeeDTO account = (EmployeeDTO) session.getAttribute("ACCOUNT");
+            int requestTypeID = Integer.parseInt(request.getParameter("requestID"));
+            LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
+            LocalDate endDate = LocalDate.parse(request.getParameter("endDate"));
+            String reason = request.getParameter("reason");
+            LocalDate sentDate = LocalDate.now();
+            boolean rs = dao.InsertLeaveRequest(account, sentDate, startDate, endDate, reason);
+            if (rs) {
+                URL = "Success.jsp";
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        request.getRequestDispatcher(URL).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

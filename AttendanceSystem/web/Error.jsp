@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Success
-    Created on : Feb 20, 2024, 4:14:09 PM
+    Document   : Error
+    Created on : Feb 21, 2024, 11:00:18 AM
     Author     : admin
 --%>
 
@@ -35,38 +35,34 @@
                 font-size: large;
             }
             .content-message {
-                background-color: #d4edda; 
-                border: 1px solid #c3e6cb; 
+                background-color: #f8d7da; 
+                border: 1px solid #f5c6cb; 
                 padding: 15px;
                 margin: 10px 0;
                 border-radius: 5px;
             }
 
             .content-message p {
-                color: #155724; 
+                color: #721c24; 
                 margin: 0;
                 font-size: larger;
             }
 
-            .fa-check {
-                color: #155724; 
+            .fa-bug {
+                color: #721c24; 
                 margin-right: 8px; 
             }
         </style>
     </head>
-
     <body>
         <div class="content">
             <h1>Thông Báo</h1>
             <div class="content-redirect">
-                <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Send Request</a> | Result</p>
+                <p><a href="javascript:history.back()">Trở Lại</a> | Error</p>
             </div>
             <div class="content-message">
-                <p><i class="fa-solid fa-check"></i> Yêu cầu của bạn đã được gửi tới hệ thống thành công !</p>
+                <p><i class="fa-solid fa-bug"></i> Có Lỗi Xảy Ra Trong Quá Trình Xử Lí !</p>
             </div>
         </div>
-
-
-
     </body>
 </html>

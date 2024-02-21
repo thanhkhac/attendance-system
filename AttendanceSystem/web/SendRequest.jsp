@@ -1,4 +1,4 @@
-/<%-- 
+<%-- 
   Document   : SendRequest
   Created on : Feb 19, 2024, 8:12:02 AM
   Author     : admin
@@ -204,11 +204,11 @@
                                     <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
                                 </div>
                                 <div class="request-input-box">
-                                    <span >StartDate (Ngày Bắt Đầu): </span>
+                                    <span >StartDate (Từ Ngày): </span>
                                     <input type="date" name="startDate" id="startDate" required="">
                                 </div>
                                 <div class="request-input-box">
-                                    <span >EndDate (Ngày Kết Thúc): </span>
+                                    <span >EndDate (Đến Ngày): </span>
                                     <input type="date" name="endDate" id="endDate" required="">
                                 </div>
                                 <div class="request-input-box">
@@ -239,11 +239,11 @@
                                     <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
                                 </div>
                                 <div class="request-input-box">
-                                    <span >StartDate (Ngày Bắt Đầu): </span>
+                                    <span >StartDate (Từ Ngày): </span>
                                     <input type="date" name="startDate" id="startDate" required="">
                                 </div>
                                 <div class="request-input-box">
-                                    <span >EndDate (Ngày Kết Thúc): </span>
+                                    <span >EndDate (Đến Ngày): </span>
                                     <input type="date" name="endDate" id="endDate" required="">
                                 </div>
                                 <div class="request-input-box">
@@ -315,6 +315,11 @@
                 intern_requestHTML.style.display = 'block';
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var requestTypeID = document.getElementById("request-type").value;
+        });
+
         function isAcceptableDate(startDate_txt, endDate_txt) {
             var startDate = moment(startDate_txt).format("MM/DD/YYYY");
             var endDate = moment(endDate_txt).format("MM/DD/YYYY");
@@ -359,9 +364,18 @@
         function checkInfor() {
             var startDate_raw = document.getElementById("startDate").value;
             var endDate_raw = document.getElementById("endDate").value;
-            if (!isAcceptableDate(startDate_raw, endDate_raw)) {
-                alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");
+            var reason = document.getElementById("reason").value;
+            if (startDate_raw !== null && endDate_raw !== null && reason !== '') {
+                if (!isAcceptableDate(startDate_raw, endDate_raw)) {
+                    alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");
+                } else {
+                    let URL = "/AttendanceSystem/InsertLeaveRequestServlet?startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
+                    window.location.href = URL;
+                }
+            }else{
+                alert("Vui Lòng Điền Đầy Đủ Thông Tin !");
             }
+
         }
 
     </script>
