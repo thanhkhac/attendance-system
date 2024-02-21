@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
-        <script src="https://momentjs.com/downloads/moment.min.js"></script>
+        <script src="assets/js/moment.js"></script>
 
         <title>JSP Page</title>
         <style>
@@ -234,16 +234,16 @@
                                 </c:forEach>
                             </div>
                             <div class="request-input-box">
-                                <span >StartDate (Từ Ngày): </span>
-                                <input type="date" name="startDate" id="startDate" required="">
+                                <span style="color: red">StartDate (Từ Ngày): </span>
+                                <input type="date" name="startDate" id="leave-startDate" required="">
                             </div>
                             <div class="request-input-box">
-                                <span >EndDate (Đến Ngày): </span>
-                                <input type="date" name="endDate" id="endDate" required="">
+                                <span style="color: red" >EndDate (Đến Ngày): </span>
+                                <input type="date" name="endDate" id="leave-endDate" required="">
                             </div>
                             <div class="request-input-box">
-                                <span >Reason (Lý do): </span>
-                                <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
+                                <span style="color: red" >Reason (Lý do): </span>
+                                <textarea name="reason" id="leave-reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
                             </div>
                             <div class="content-request-file">
                                 <span class="body-span">File đính kèm (nếu có):</span>
@@ -255,7 +255,7 @@
                         </div>
                         <div id="resignation-request">
                             <div class="request-input-box">
-                                <span >Full Name (Họ Và Tên): </span>
+                                <span >Full Name (Tên tôi là): </span>
                                 <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
                             </div>
                             <div class="request-input-box">
@@ -267,51 +267,49 @@
                                 <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
                             </div>
                             <div class="request-input-box">
-                                <span >StartDate (Từ Ngày): </span>
-                                <input type="date" name="startDate" id="startDate" required="">
+                                <span >Hiện Đang Là (Nhân Viên): </span>
+                                <c:forEach items="${listEmployeeType}" var="type">
+                                    <c:if test="${account.getEmployeeTypeID() == type.getEmployeeTypeID()}">
+                                        <input readonly type="text" name="employeeType" id="employeeType" 
+                                               value="${type.getName()}" >
+                                    </c:if>
+                                </c:forEach>
                             </div>
                             <div class="request-input-box">
-                                <span >EndDate (Đến Ngày): </span>
-                                <input type="date" name="endDate" id="endDate" required="">
+                                <span >Công Tác Tại (Phòng / Ban): </span>
+                                <c:forEach items="${listDepartment}" var="de">
+                                    <c:if test="${account.getDepartmentID() == de.getDepartmentID()}">
+                                        <input readonly type="text" name="department" id="department" 
+                                               value="${de.getName()}" >
+                                    </c:if>
+                                </c:forEach>
                             </div>
                             <div class="request-input-box">
-                                <span >Reason (Lý do): </span>
-                                <textarea  name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
-                            </div>
-                            <div class="content-request-file">
-                                <span class="body-span">File đính kèm (nếu có):</span>
-                                <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                                <input type="file" name="file" id="file">
-                            </div>
-                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
-                        </div>
-                        <div id="iternShipConfirmation-request">
-                            <div class="request-input-box">
-                                <span >Full Name (Họ Và Tên): </span>
-                                <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                <span >Với Vai Trò Là (Chức Vụ): </span>
+                                <c:forEach items="${listRole}" var="r">
+                                    <c:if test="${account.getRoleID() == r.getRoleID()}">
+                                        <input readonly type="text" name="role" id="role" 
+                                               value="${r.getName()}" >
+                                    </c:if>
+                                </c:forEach>
                             </div>
                             <div class="request-input-box">
-                                <span >Email: </span>
-                                <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
+                                <span >StartDate (Ngày Bắt Đầu): </span>
+                                <input readonly="" type="date" name="startDate" id="resign-startDate" value="${account.getStartDate()}">
                             </div>
                             <div class="request-input-box">
-                                <span >Phone(Số Điện Thoại): </span>
-                                <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                <span >EndDate (Hết Hạn Ngày): </span>
+                                <input readonly="" type="date" name="endDate" id="resign-endDate" value="${account.getEndDate()}">
                             </div>
                             <div class="request-input-box">
-                                <span >Number (Số Lượng): </span>
-                                <input type="number" name="number" id="number" min="1" max="20" value="1">
+                                <span style="color: red" >Extension To (Gia Hạn Đến): </span>
+                                <input type="date" name="extensionDate" id="resign-extensionDate" required="">
+                            </div>
+                            <div class="request-input-box">
+                                <span  style="color: red">Reason (Lý do): </span>
+                                <textarea name="reason" id="resign-reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
                             </div>
 
-                            <div class="request-input-box">
-                                <span >Reason (Lý do): </span>
-                                <textarea name="reason" id="reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px"  required=""></textarea>
-                            </div>
-                            <div class="content-request-file">
-                                <span class="body-span">File đính kèm (nếu có):</span>
-                                <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                                <input type="file" name="file" id="file">
-                            </div>
                             <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                         </div>
                     </div>
@@ -326,24 +324,20 @@
             var requestBody = document.getElementById("request-body");
             var leave_requestHTML = document.getElementById("leave-request");
             var resignation_requestHTML = document.getElementById("resignation-request");
-            var intern_requestHTML = document.getElementById("iternShipConfirmation-request");
 
             resignation_requestHTML.style.display = 'none';
             leave_requestHTML.style.display = 'none';
-            intern_requestHTML.style.display = 'none';
             console.log(requestTypeID);
             if (requestTypeID === "1") {
                 leave_requestHTML.style.display = 'block';
             } else if (requestTypeID === "2") {
                 resignation_requestHTML.style.display = 'block';
-            } else if (requestTypeID === "4") {
-                intern_requestHTML.style.display = 'block';
             }
         }
 
 
 
-        function isAcceptableDate(startDate_txt, endDate_txt) {
+        function isAcceptableLeaveDate(startDate_txt, endDate_txt) {
             var startDate = moment(startDate_txt);
             var endDate = moment(endDate_txt);
             var current = moment();
@@ -352,8 +346,8 @@
 
             var endMonth = endDate.month() + 1;
             var endYear = endDate.year();
-
             var currentMonth = current.month() + 1;
+
             var currentYear = current.year();
 
             var afterSixMonths = moment(startDate).add(6, 'months');
@@ -378,23 +372,67 @@
             return false;
         }
 
+        function isAcceptableResignDate(startDate_txt, endDate_txt, extendDate_txt) {
+            var startDate = moment(startDate_txt);
+            var endDate = moment(endDate_txt);
+            var extendDate = moment(extendDate_txt);
+            var currentDate = moment();
+
+            console.log("StartDate: " + startDate.format("DD/MM/YYYY"));
+            console.log("EndDate: " + endDate.format("DD/MM/YYYY"));
+            console.log("CurrentDate: " + currentDate.format("DD/MM/YYYY"));
+            console.log("ExtendDate: " + extendDate.format("DD/MM/YYYY"));
+
+            var currentAfter6Months = moment(currentDate).add(6, "months");
+            var currnetAfter2Years = moment(currentDate).add(2, "years");
+            if (currentDate.isSameOrBefore(endDate) //Gia han truoc khi het han
+                    && extendDate.isAfter(startDate) //Ngay Gia han > start, end Date
+                    && extendDate.isAfter(endDate)
+                    && extendDate.isSameOrAfter(currentAfter6Months) // Gia Han Toi Thieu? 6 thang From now
+                    && extendDate.isSameOrBefore(currnetAfter2Years) //Gia Han Toi Da 2 Nam From now
+                    ) {
+                return true;
+            }
+            return false;
+        }
 
 
         function checkInfor() {
-            var startDate_raw = document.getElementById("startDate").value;
-            var endDate_raw = document.getElementById("endDate").value;
-            var reason = document.getElementById("reason").value;
-            if (startDate_raw !== '' && endDate_raw !== '' && reason !== '') {
-                if (isAcceptableDate(startDate_raw, endDate_raw)) {
-                    let URL = "/AttendanceSystem/InsertLeaveRequestServlet?startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
-                    window.location.href = URL;
+            var requestTypeID = document.getElementById("request-type").value;
+            if (requestTypeID === "1") {
+                var startDate_raw = document.getElementById("leave-startDate").value;
+                var endDate_raw = document.getElementById("leave-endDate").value;
+                var reason = document.getElementById("leave-reason").value;
+                if (startDate_raw !== '' && endDate_raw !== '' && reason !== '') {
+                    if (isAcceptableLeaveDate(startDate_raw, endDate_raw)) {
+                        let URL = "/AttendanceSystem/InsertLeaveRequestServlet?startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
+                        window.location.href = URL;
 //                    alert("True");
+                    } else {
+                        alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");
+                    }
                 } else {
-                    alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");
+                    alert("Vui Lòng Điền Đầy Đủ Thông Tin !");
                 }
-            } else {
-                alert("Vui Lòng Điền Đầy Đủ Thông Tin !");
+            } else if (requestTypeID === "2") {
+                var startDate_raw = document.getElementById("resign-startDate").value;
+                var endDate_raw = document.getElementById("resign-endDate").value;
+                var extendDate_raw = document.getElementById("resign-extensionDate").value;
+                var reason = document.getElementById("resign-reason").value;
+
+                if (extendDate_raw !== '' && reason !== '') {
+                    if (isAcceptableResignDate(startDate_raw, endDate_raw, extendDate_raw)) {
+//                        let URL = "AttendanceSystem/InsertResignRequest?extendDate=" + extendDate_raw + "&reason=" + reason;
+//                        window.location.href = URL;
+                        alert("true");
+                    } else {
+                        alert("Thời gian gia hạn không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về gia hạn hợp đồng. ");
+                    }
+                } else {
+                    alert("Vui Lòng Điền Đầy Đủ Thông Tin !");
+                }
             }
+
         }
 
     </script>

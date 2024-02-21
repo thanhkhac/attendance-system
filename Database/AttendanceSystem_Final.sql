@@ -123,6 +123,21 @@ CREATE TABLE LeaveRequest(
 	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
 )
+CREATE TABLE ResignationRequest(
+	ResignationRequestID int PRIMARY KEY IDENTITY(1,1),
+	[EmployeeID] int,
+	[SentDate] datetime,
+	[ExtendDate] date,
+	Reason nvarchar(max),
+	ManagerApprove bit,
+	HrApprove bit,
+	ManagerID int,
+	HrID int,
+
+	FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
+	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
+	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
+)
 
 
 CREATE TABLE Overtimes(
@@ -181,7 +196,7 @@ CREATE TABLE News(
 )
 
 CREATE TABLE [RequestsType](
-	[TypeID] int PRIMARY KEY,
+	[TypeID] int PRIMARY KEY IDENTITY(1,1),
 	[Name] nvarchar(50)
 )
 
@@ -298,6 +313,12 @@ INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndT
 INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
 (N'Ca chiều', '13:30', '17:30', NULL, NULL, '13:15', '17:45', 1)
 
+INSERT INTO RequestsType([Name])
+VALUES (N'OverTime Request (Yêu Cầu Tăng Ca)')
+INSERT INTO RequestsType([Name])
+VALUES (N'Leave Request (Yêu Cầu Xin Nghỉ)')
+INSERT INTO RequestsType([Name])
+VALUES (N'Resignation Request (Yêu Cầu Gia Hạn Hợp Đồng)')
 
 DECLARE @EmployeeID INT = 1;
 DECLARE @ShiftID INT = 1;
