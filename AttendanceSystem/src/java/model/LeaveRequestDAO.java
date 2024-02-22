@@ -4,6 +4,7 @@
  */
 package model;
 
+import dbhelper.DAOBase;
 import dbhelper.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,7 @@ import ultility.datetimeutil.DateTimeUtil;
  *
  * @author nguye
  */
-public class LeaveRequestDAO extends DBContext {
+public class LeaveRequestDAO extends DAOBase {
 
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
@@ -49,6 +50,31 @@ public class LeaveRequestDAO extends DBContext {
             }
         }
         return list;
+    }
+
+    public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason) {
+        if (con != null) {
+            try {
+                String sql = "INSERT INTO LeaveRequest(EmployeeID, SentDate, StartDate, EndDate, Reason) "
+                        + "VALUES (?,?,?,?,?) ";
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, e.getEmployeeID());
+                ps.setString(2, sentDate.toString());
+                ps.setString(3, startDate.toString());
+                ps.setString(4, endDate.toString());
+                ps.setString(5, reason);
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    return true;
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            } finally {
+                closeAll();
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
