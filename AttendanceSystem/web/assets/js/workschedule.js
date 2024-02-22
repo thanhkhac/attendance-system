@@ -49,7 +49,6 @@ $(document).ready(function () {
     function updateCalendar() {
         var selectedMonth = $("#month").val();
         var selectedYear = $("#year").val();
-
         $.ajax({
             type: "POST",
             url: "ViewCalendar.jsp",
@@ -66,3 +65,4 @@ $(document).ready(function () {
         });
     }
 });
+

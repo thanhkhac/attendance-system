@@ -112,6 +112,7 @@ CREATE TABLE LeaveRequest(
 	[SentDate] datetime,
 	[StartDate] date,
 	[EndDate] date,
+	FilePath nvarchar(100),
 	Reason nvarchar(max),
 	ManagerApprove bit,
 	HrApprove bit,

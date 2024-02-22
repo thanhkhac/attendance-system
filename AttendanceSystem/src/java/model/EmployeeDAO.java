@@ -886,7 +886,6 @@ public class EmployeeDAO extends DBContext {
                         "WHERE \n" +
                         "	MONTH(TS.Date) = ?\n" +
                         "	AND YEAR(TS.Date) = ?\n" +
-                        "       AND TS.Date >= GETDATE()" +
                         ")";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, month);

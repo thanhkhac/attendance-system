@@ -14,12 +14,14 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import model.EmployeeDTO;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.EmployeeDAO;
 
 /**
  *
@@ -108,7 +110,7 @@ public class RouterFilter implements Filter {
         }
 
         doBeforeProcessing(request, response);
-        
+
         //--Bắt đầu phân quyền
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -116,6 +118,34 @@ public class RouterFilter implements Filter {
         System.out.println(url);
 
         EmployeeDTO employee = (EmployeeDTO) httpRequest.getSession().getAttribute("ACCOUNT");
+        
+        //
+        try {
+            if (employee == null) {
+                if (httpRequest.getCookies() != null) {
+                    Cookie arr[] = httpRequest.getCookies();
+                    String email = null;
+                    String password = null;
+                    for (Cookie cookie : arr) {
+                        if (cookie.getName().equals("EmailCookie")) {
+                            email = cookie.getValue();
+                        }
+                        if (cookie.getName().equals("PassWordCookie")) {
+                            password = cookie.getValue();
+                        }
+                    }
+
+                    EmployeeDAO dao = new EmployeeDAO();
+                    EmployeeDTO Account = dao.checkAccount(email, password);
+                    if (Account != null) {
+                        if (Account.isIsActived()) {
+                            httpRequest.getSession().setAttribute("ACCOUNT", Account);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
 
 //      Danh sách cáng đường dẫn mà tất cả mọi người đều có thể truy cập
         ArrayList<String> generalPaths = new ArrayList<>();
@@ -150,8 +180,6 @@ public class RouterFilter implements Filter {
         }
 
         //--Kết thúc phân quyền
-        
-        
         Throwable problem = null;
         try {
             chain.doFilter(request, response);
