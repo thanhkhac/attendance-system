@@ -7,11 +7,14 @@ package control.request;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import model.EmployeeDTO;
@@ -21,9 +24,21 @@ import model.LeaveRequestDAO;
  *
  * @author admin
  */
+//@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, //2MB
+//        maxFileSize = 1024 * 1024 * 10, //10MB
+//        maxRequestSize = 1024 * 1024 * 50)//50MB
+//@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
+//        maxFileSize = 1024 * 1024 * 10,
+//        maxRequestSize = 1024 * 1024 * 50)
 @WebServlet(name = "InsertLeaveRequestServlet", urlPatterns = {"/InsertLeaveRequestServlet"})
 public class InsertLeaveRequestServlet extends HttpServlet {
 
+//    private static final long serialVersionUID = 1L;
+//    public static final String SAVE_DIRECTORY = "Leave-Request-AttachedFiles";
+//
+//    public InsertLeaveRequestServlet() {
+//        super();
+//    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,6 +48,25 @@ public class InsertLeaveRequestServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    //    private String extractFileName(Part part) {
+//        // form-data; name="file"; filename="C:\file1.zip"
+//        // form-data; name="file"; filename="C:\Note\file2.zip"
+//        String contentDisp = part.getHeader("content-disposition");
+//        String[] items = contentDisp.split(";");
+//        for (String s : items) {
+//            if (s.trim().startsWith("filename")) {
+//                // C:\file1.zip
+//                // C:\Note\file2.zip
+//                String clientFileName = s.substring(s.indexOf("=") + 2, s.length() - 1);
+//                clientFileName = clientFileName.replace("\\", "/");
+//                int i = clientFileName.lastIndexOf('/');
+//                // file1.zip
+//                // file2.zip
+//                return clientFileName.substring(i + 1);
+//            }
+//        }
+//        return null;
+//    }
     private LocalDate timeAfterNMonths(LocalDate time, int monthToAdd) {
         LocalDate afterNMonth = time.plusMonths(monthToAdd);
         return afterNMonth;

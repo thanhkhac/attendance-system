@@ -105,28 +105,8 @@
                 font-size: medium;
                 margin-right: 50px;
             }
-            .content-request-file{
-                margin-top: 50px;
-                display: flex;
-                max-height: 50px;
-            }
-            .content-request-file input{
-                display: none;
-            }
-            .content-request-file label{
-                padding: 10px;
-                background-color: white;
-                border-radius: 5px;
-                color: #0072bb;
-                border: 3px solid #0072bb;
-                font-weight: 600;
-                font-size: large;
-                cursor: pointer;
-            }
-            .content-request-file label:hover{
-                background-color: #0072bb;
-                color: white;
-            }
+            
+            
             .request-policy{
                 margin: 20px 0;
                 font-style: italic;
@@ -174,7 +154,7 @@
                 <p  class="content-note-items">Trân Trọng !</p>
 
             </div>
-            <form action="DispatchController" method="Post">
+            <form action="DispatchController" method="Post" enctype="multipart/form-data">
                 <div class="content-request">
 
                     <div class="content-request-type">
@@ -245,11 +225,11 @@
                                 <span style="color: red" >Reason (Lý do): </span>
                                 <textarea name="reason" id="leave-reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
                             </div>
-                            <div class="content-request-file">
+<!--                            <div class="content-request-file">
                                 <span class="body-span">File đính kèm (nếu có):</span>
                                 <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                                <input type="file" name="file" id="file">
-                            </div>
+                                <input type="file" name="file" id="leave-file">
+                            </div>-->
                             <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
 
                         </div>
@@ -328,9 +308,9 @@
             resignation_requestHTML.style.display = 'none';
             leave_requestHTML.style.display = 'none';
             console.log(requestTypeID);
-            if (requestTypeID === "1") {
+            if (requestTypeID === "2") {
                 leave_requestHTML.style.display = 'block';
-            } else if (requestTypeID === "2") {
+            } else if (requestTypeID === "3") {
                 resignation_requestHTML.style.display = 'block';
             }
         }
@@ -344,32 +324,40 @@
             var startMonth = startDate.month() + 1;
             var startYear = startDate.year();
 
-            var endMonth = endDate.month() + 1;
-            var endYear = endDate.year();
-            var currentMonth = current.month() + 1;
-
             var currentYear = current.year();
 
-            var afterSixMonths = moment(startDate).add(6, 'months');
-            var afterOneMonth = moment(current).add(1, 'month');
+            var afterStartSixMonths = moment(startDate).add(6, 'months');
+            var afterCurrentOneMonth = moment(current).add(1, 'month');
 
             console.log("StartMonth: " + startMonth);
             console.log("StartDate: " + startDate.format("MM/DD/YYYY"));
             console.log("EndDate: " + endDate.format("MM/DD/YYYY"));
-            console.log("Start Date after Six Months: " + afterSixMonths.format("MM/DD/YYYY"));
+            console.log("Start Date after Six Months: " + afterStartSixMonths.format("MM/DD/YYYY"));
 
-            console.log(endDate.isSameOrBefore(afterSixMonths));
-            console.log(startDate.isSameOrBefore(afterOneMonth));
-            if (endDate.isSameOrAfter(startDate)
+            console.log(startDate.isSameOrBefore(current));
+            console.log(endDate.isSameOrBefore(current));
+            console.log(startDate.isSameOrBefore(afterCurrentOneMonth));
+            console.log(endDate.isSameOrBefore(afterStartSixMonths));
+            console.log(startYear <= currentYear + 1);
+            console.log(startDate.isSameOrBefore(endDate));
+            console.log(startDate.isSameOrBefore(endDate)
+                    && startYear <= currentYear + 1
+                    && startDate.isSameOrBefore(current)
+                    && endDate.isSameOrBefore(current)
+                    && startDate.isSameOrBefore(afterCurrentOneMonth)
+                    && endDate.isSameOrBefore(afterStartSixMonths));
+
+            if (startDate.isSameOrBefore(endDate)
                     && startYear <= currentYear + 1
                     && startDate.isSameOrAfter(current)
                     && endDate.isSameOrAfter(current)
-                    && startDate.isSameOrBefore(afterOneMonth)
-                    && endDate.isSameOrBefore(afterSixMonths)) {
+                    && startDate.isSameOrBefore(afterCurrentOneMonth)
+                    && endDate.isSameOrBefore(afterStartSixMonths)) {
                 return true;
+            } else {
+                return false;
             }
 
-            return false;
         }
 
         function isAcceptableResignDate(startDate_txt, endDate_txt, extendDate_txt) {
@@ -399,13 +387,14 @@
 
         function checkInfor() {
             var requestTypeID = document.getElementById("request-type").value;
-            if (requestTypeID === "1") {
+            if (requestTypeID === "2") {
                 var startDate_raw = document.getElementById("leave-startDate").value;
                 var endDate_raw = document.getElementById("leave-endDate").value;
                 var reason = document.getElementById("leave-reason").value;
+
                 if (startDate_raw !== '' && endDate_raw !== '' && reason !== '') {
                     if (isAcceptableLeaveDate(startDate_raw, endDate_raw)) {
-                        let URL = "/AttendanceSystem/InsertLeaveRequestServlet?startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
+                        let URL = "/AttendanceSystem/DispatchController?btAction=Gửi&startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
                         window.location.href = URL;
 //                    alert("True");
                     } else {
@@ -414,7 +403,7 @@
                 } else {
                     alert("Vui Lòng Điền Đầy Đủ Thông Tin !");
                 }
-            } else if (requestTypeID === "2") {
+            } else if (requestTypeID === "3") {
                 var startDate_raw = document.getElementById("resign-startDate").value;
                 var endDate_raw = document.getElementById("resign-endDate").value;
                 var extendDate_raw = document.getElementById("resign-extensionDate").value;
