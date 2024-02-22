@@ -20,6 +20,22 @@
         <servlet-name>ViewScheduleServlet</servlet-name>
         <servlet-class>controllers.ViewCalendarServlet</servlet-class>
     </servlet>
+        <servlet>
+        <servlet-name>GetAllNews</servlet-name>
+        <servlet-class>control.news.GetAllNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetDetailNew</servlet-name>
+        <servlet-class>control.news.GetDetailNew</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertNews</servlet-name>
+        <servlet-class>control.news.InsertNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteNews</servlet-name>
+        <servlet-class>control.news.DeleteNews</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Test</servlet-name>
         <url-pattern>/Test</url-pattern>
@@ -31,6 +47,22 @@
     <servlet-mapping>
         <servlet-name>ViewScheduleServlet</servlet-name>
         <url-pattern>/ViewCalendarServlet</url-pattern>
+    </servlet-mapping>
+        <servlet-mapping>
+        <servlet-name>GetAllNews</servlet-name>
+        <url-pattern>/getallnews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDetailNew</servlet-name>
+        <url-pattern>/getdetailnew</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertNews</servlet-name>
+        <url-pattern>/insertNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteNews</servlet-name>
+        <url-pattern>/deletenews</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
