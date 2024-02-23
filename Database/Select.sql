@@ -70,3 +70,5 @@ SELECT  EmployeeID,
 		UPDATE Employees
 		SET Email ='DucNTHE173064@fpt.edu.vn'
 		WHERE EmployeeID = 4
+
+
