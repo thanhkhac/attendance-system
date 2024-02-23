@@ -90,6 +90,7 @@ public class ShiftDAO extends DAOBase {
 
     public static void main(String[] args) {
         ShiftDAO shiftDAO = new ShiftDAO();
+        ArrayList<ShiftDTO> shifts = new ShiftDAO().getAllShiftDTO();
         System.out.println("getTimesheetDTO: " + shiftDAO.getShiftDTO(3));
         System.out.println(shiftDAO.getAllShiftDTO().size());
         System.out.println(shiftDAO.getActiveShiftDTO().size());

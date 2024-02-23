@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class DBContext {
 
-    protected static Connection connection;
+    protected  Connection connection;
     private static final String USER = "sa";
     private static final String PASS = "123456";
     private static final String URL = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Attendance_DB_Final";

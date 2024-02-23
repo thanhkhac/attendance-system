@@ -228,7 +228,7 @@ public class OvertimeDAO extends DAOBase {
                 "WHERE \n" +
                 "	CONVERT(date, OT.Date) = CONVERT(date, GETDATE()) \n" +
                 "	AND CONVERT(time, GETDATE()) BETWEEN OT.OpenAt AND OT.CloseAt\n" +
-                "	AND EmployeeID = 1\n" +
+                "	AND EmployeeID = ?\n" +
                 "	AND CheckIn is null";
         try {
             ps = connection.prepareStatement(query);
