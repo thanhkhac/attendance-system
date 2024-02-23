@@ -128,7 +128,6 @@
                 margin: 0;
                 font-size: larger;
             }
-
             .fa-xmark {
                 color: #721c24;
                 margin-right: 8px;
@@ -186,7 +185,7 @@
                 </div>
             </c:if>
             <div class="content-note">
-                <h1>Send A Request</h1>
+                <h1>Leave Request (Đơn Xin Nghỉ Phép)</h1>
                 <p class="content-note-items">
                     <span>Lưu ý:</span> Khi gửi đơn, yêu cầu tới các phòng ban !
                 </p>

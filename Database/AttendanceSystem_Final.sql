@@ -127,6 +127,8 @@ CREATE TABLE LeaveRequest(
 CREATE TABLE ResignationRequest(
 	ResignationRequestID int PRIMARY KEY IDENTITY(1,1),
 	[EmployeeID] int,
+	StartDateContract date,
+	EndDateContract date,
 	[SentDate] datetime,
 	[ExtendDate] date,
 	Reason nvarchar(max),

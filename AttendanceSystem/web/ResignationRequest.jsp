@@ -104,8 +104,6 @@
                 font-size: medium;
                 margin-right: 50px;
             }
-
-
             .request-policy{
                 margin: 20px 0;
                 font-style: italic;
@@ -116,6 +114,30 @@
             .request-policy p:first-child{
                 color: red;
             }
+            .content-message {
+                background-color: #f8d7da;
+                border: 1px solid #f5c6cb;
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 5px;
+            }
+
+            .content-message p {
+                color: #721c24;
+                margin: 0;
+                font-size: larger;
+            }
+            .fa-xmark {
+                color: #721c24;
+                margin-right: 8px;
+            }
+            .confirmation-box{
+                margin: 20px 0;
+                font-size: large;
+            }
+            .confirmation-box input{
+            }
+
             @media screen and (orientation: portrait) {
                 .content{
                     max-width: 90%;
@@ -143,15 +165,23 @@
     </head>
     <body>
         <c:set var="account" value="${sessionScope.ACCOUNT}" />
-        <c:set var="account" value="${sessionScope.ACCOUNT}" />
         <c:set var="listDepartment" value="${requestScope.listDepartment}" />
         <c:set var="listEmployeeType" value="${requestScope.listEmployeeType}" />
         <c:set var="listRole" value="${requestScope.listRole}" />
+        <c:set var="err" value="${requestScope.error}" />
+        <c:set var="msg" value="${msg}" />
+        <c:set var="extendDate" value="${requestScope.extensionDate}" />
+        <c:set var="reason" value="${requestScope.reason}" />
         <div class="content">
             <h1>Attendance System</h1>
             <div class="content-redirect">
                 <p><a href="ThanhCong.html">Home</a> | Send Request</p>
             </div>
+            <c:if test="${not empty msg}">
+                <div class="content-message">
+                    <p><i class="fa-solid fa-xmark"></i>${msg}</p>
+                </div>
+            </c:if>
             <div class="content-note">
                 <h1>Resignation Request (Đơn yêu cầu gia hạn hợp đồng)</h1>
                 <p class="content-note-items">
@@ -166,19 +196,25 @@
                 <p  class="content-note-items">Trân Trọng !</p>
 
             </div>
-            <form  id="form-request" action="DispatchController" method="Post" enctype="multipart/form-data">
+            <form  id="form-request" action="InsertResignationRequestServlet" method="Post">
                 <div class="content-request">
                     <div class="content-request-type">
                         <label for="request-type">Request Type: </label>
                         <select name="requestID" id="request-type" onchange="Tranformation()">
                             <option value="0">Choose Type Of Request (Chọn Loại Yêu Cầu)</option>
                             <c:forEach items="${listType}" var="t">
-                                <option id="requestTypeID" value="${t.getRequestTypeID()}"><a href="ResignationRequest.jsp">${t.getRequestTypeName()}</a></option>
-                            </c:forEach>
+                                <option id="requestTypeID" value="${t.getRequestTypeID()}">${t.getRequestTypeName()}</option>
+                                </c:forEach>
                         </select>
                     </div>
                     <div class="content-request-body" id="request-body">
                         <div id="resignation-request">
+                            <div class="request-policy">
+                                <p>Quy định gia hạn hợp đồng : </p>
+                                <p>Năm: Gia hạn tối thiểu 6 tháng và tối đa 2 năm. </p>
+                                <p>Tháng: Gia hạn trong vòng 1 tháng trước khi hết hạn. </p>
+                                <p>Lưu ý: Sau khi hết hạn hợp đồng là bắt đầu một hợp đồng mới !</p>
+                            </div>
                             <div class="request-input-box">
                                 <span >Full Name (Tên tôi là): </span>
                                 <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
@@ -228,19 +264,50 @@
                             </div>
                             <div class="request-input-box">
                                 <span style="color: red" >Extension To (Gia Hạn Đến): </span>
-                                <input type="date" name="extensionDate" id="resign-extensionDate" required="">
+                                <input type="date" name="extensionDate" id="resign-extensionDate" required="" 
+                                       <c:if test="${not empty extendDate}">
+                                           value="${extendDate}"
+                                       </c:if>
+                                       >
                             </div>
-                            <div class="request-input-box">
-                                <span  style="color: red">Reason (Lý do): </span>
-                                <textarea name="reason" id="resign-reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
+                            <c:if test="${err.getInvalidDate_error() !=null}">
+                                <div class="content-message">
+                                    <p><i class="fa-solid fa-xmark"></i>  ${err.getInvalidDate_error()}</p>
+                                </div>
+                            </c:if>
+                            <div class="request-input-box" style="margin-top: 50px;">
+                                <span style="color: red" >Reason (Lý do): </span>
+                                <c:if test="${reason.length()>0}">
+                                    <textarea 
+                                        name="reason" 
+                                        id="reason" 
+                                        rows="5" 
+                                        cols="20" 
+                                        style="width: 500px; height: 140px" 
+                                        required=""
+                                        >${reason}</textarea>  
+                                </c:if>
+                                <c:if test="${reason==null}">
+                                    <textarea 
+                                        name="reason" 
+                                        id="reason" 
+                                        rows="5" 
+                                        cols="20" 
+                                        style="width: 500px; height: 140px" 
+                                        required=""
+                                        ></textarea>
+                                </c:if>
                             </div>
-
-                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                            <div class="confirmation-box">
+                                <input required="" type="checkbox" name="confirm" id="confirm">
+                                <label for="confirm">Tôi đồng ý với điều khoản dịch vụ.</label> 
+                            </div>
+                            <input class="btn btn-success" type="submit" name="btAction" value="Gửi">
                         </div>              
                     </div>
                 </div>
             </form>
-        </div>
+        </div
     </body>
     <script>
 
