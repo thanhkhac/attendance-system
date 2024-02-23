@@ -4,7 +4,7 @@
  */
 package model;
 
-import dbhelper.DBContext;
+import dbhelper.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
@@ -15,7 +15,7 @@ import ultility.datetimeutil.DateTimeUtil;
  *
  * @author nguye
  */
-public class LeaveRequestDAO extends DBContext {
+public class LeaveRequestDAO extends DAOBase {
 
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
@@ -37,13 +37,13 @@ public class LeaveRequestDAO extends DBContext {
     }
 
     public ArrayList<LeaveRequestDTO> getLeaveRequest() {
-        ArrayList<LeaveRequestDTO> list = new ArrayList();
+        ArrayList<LeaveRequestDTO> list = new ArrayList<>();
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
                 String sql = "SELECT * FROM LeaveRequest\n"
-                        + "  ORDER BY HrApprove ASC, ManagerApprove DESC";
+                        + "  ORDER BY HrApprove ASC, ManagerApprove ASC";
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -64,11 +64,61 @@ public class LeaveRequestDAO extends DBContext {
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);
+            } finally {
+                closeAll();
             }
         }
         return list;
     }
 
+    public boolean approvalOfApplicationByManager(int status , int managerID , int requestID) {
+        if (connection != null) {
+            try {
+                String sql = "UPDATE LeaveRequest\n"
+                        + "SET ManagerApprove = ?, ManagerID = ?\n"
+                        + "WHERE LeaveRequestID = ?";
+                ps = connection.prepareStatement(sql);
+                ps.setInt(1, status);
+                ps.setInt(2, managerID);
+                ps.setInt(3, requestID);
+                int row = ps.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e);
+            } finally {
+                closeAll();
+            }
+        }
+        return false;
+    }
+
+    public boolean approvalOfApplicationByHr(int status , int hrID , int requestID) {
+        if (connection != null) {
+            try {
+                String sql = "UPDATE LeaveRequest\n"
+                        + "SET HrApprove = ?, HrID = ?\n"
+                        + "WHERE LeaveRequestID = ?";
+                ps = connection.prepareStatement(sql);
+                ps.setInt(1, status);
+                ps.setInt(2, hrID);
+                ps.setInt(3, requestID);
+                int row = ps.executeUpdate();
+                if (row > 0) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e);
+            } finally {
+                closeAll();
+            }
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
         LeaveRequestDAO dao = new LeaveRequestDAO();
         EmployeeDAO emDao = new EmployeeDAO();
@@ -80,10 +130,20 @@ public class LeaveRequestDAO extends DBContext {
         for (LeaveRequestDTO lr : list) {
             emDTO = emDao.getEmployeeDTO(lr.getEmployeeID());
             managerDTO = emDao.getEmployeeDTO(lr.getManagerID());
-            System.out.println(emDTO);
-            if (managerDTO != null) {
-                System.out.println(managerDTO);
+            if(!lr.getManagerApprove()){
+                System.out.println("false");
             }
+//            if(lr.getManagerID() == 4){
+//                System.out.println("Quan li nhan su");
+//            }else if(lr.getHrID() == 2){
+//                System.out.println("Quan li");
+//            }
+//            System.out.println(lr.getManagerApprove());
+//            System.out.println(lr.getHrApprove());
+//            System.out.println(emDTO);
+//            if (managerDTO != null) {
+//                System.out.println(managerDTO);
+//            }
         }
     }
 }
