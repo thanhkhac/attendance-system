@@ -12,9 +12,9 @@ public class TimesheetDAO extends DAOBase {
     private final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public TimesheetDTO getTimesheetDTO(int sTimesheetID) {
-        query = "SELECT * FROM Timesheet \n" +
-                "WHERE \n" +
-                "	TimesheetID = ?";
+        query = "SELECT * FROM Timesheet \n"
+                + "WHERE \n"
+                + "	TimesheetID = ?";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, sTimesheetID);
@@ -39,11 +39,11 @@ public class TimesheetDAO extends DAOBase {
 
     public ArrayList<TimesheetDTO> getTimesheetInRange(int xEmployeeID, LocalDate start, LocalDate end) {
         ArrayList<TimesheetDTO> list = new ArrayList<>();
-        query = "SELECT * FROM\n" +
-                "	Timesheet\n" +
-                "WHERE\n" +
-                "	EmployeeID = ? \n" +
-                "	AND [Date] Between ? and ?";
+        query = "SELECT * FROM\n"
+                + "	Timesheet\n"
+                + "WHERE\n"
+                + "	EmployeeID = ? \n"
+                + "	AND [Date] Between ? and ?";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
@@ -69,11 +69,11 @@ public class TimesheetDAO extends DAOBase {
     }
 
     public TimesheetDTO getTimesheetByDate(int xEmployeeID, LocalDate xDate) {
-        query = "SELECT * FROM\n" +
-                "	Timesheet\n" +
-                "WHERE\n" +
-                "	EmployeeID = ? \n" +
-                "	AND [Date]  = ?";
+        query = "SELECT * FROM\n"
+                + "	Timesheet\n"
+                + "WHERE\n"
+                + "	EmployeeID = ? \n"
+                + "	AND [Date]  = ?";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, xEmployeeID);

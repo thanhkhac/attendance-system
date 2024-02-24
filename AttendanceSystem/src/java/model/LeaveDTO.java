@@ -2,8 +2,8 @@ package model;
 
 import java.time.LocalDate;
 
-
 public class LeaveDTO {
+
     private int leaveID;
     private int employeeID;
     private LocalDate startDate;
@@ -48,7 +48,5 @@ public class LeaveDTO {
     public String toString() {
         return "LeaveDTO{" + "leaveID=" + leaveID + ", employeeID=" + employeeID + ", startDate=" + startDate + ", endDate=" + endDate + ", filePath=" + filePath + ", createdBy=" + createdBy + '}';
     }
-    
-    
-    
+
 }

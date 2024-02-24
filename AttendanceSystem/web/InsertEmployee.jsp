@@ -116,311 +116,311 @@
         
     %>
     <body>
-            <section class="vh-100 gradient-custom">
-                <div class="container py-5 h-100">
-                    <div class="row justify-content-center align-items-center h-100">
-                        <div class="col-12 col-lg-9 col-xl-7" style="width: 900px">
-                            <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
-                                <div class="card-body p-4 p-md-5">
-                                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Insert Employee</h3>
-                                    <form action="DispatchController">
+        <section class="vh-100 gradient-custom">
+            <div class="container py-5 h-100">
+                <div class="row justify-content-center align-items-center h-100">
+                    <div class="col-12 col-lg-9 col-xl-7" style="width: 900px">
+                        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                            <div class="card-body p-4 p-md-5">
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Insert Employee</h3>
+                                <form action="DispatchController">
 
-                                        <div class="row">
+                                    <div class="row">
 
-                                            <div class="col-md-4 mb-4">
+                                        <div class="col-md-4 mb-4">
 
-                                                <div class="form-outline">
-                                                    <input type="text" id="lastName" class="form-control form-control-lg" name="txtLastName" value="<%=lastname%>"/>
-                                                    <label class="form-label" for="lastName">Họ</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if( err_lname.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_lname%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
+                                            <div class="form-outline">
+                                                <input type="text" id="lastName" class="form-control form-control-lg" name="txtLastName" value="<%=lastname%>"/>
+                                                <label class="form-label" for="lastName">Họ</label>
                                             </div>
 
-                                            <div class="col-md-4 mb-4">
-
-                                                <div class="form-outline">
-                                                    <input type="text" id="middleName" class="form-control form-control-lg" name="txtMiddleName" value="<%=middlename%>"/>
-                                                    <label class="form-label" for="middleName">Tên Đệm</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_mname.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_mname%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-md-4 mb-4">
-
-                                                <div class="form-outline">
-                                                    <input type="text" id="firstName" class="form-control form-control-lg" name="txtFirstName" value="<%=firstname%>"/>
-                                                    <label class="form-label" for="firstName">Tên Riêng</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_fname.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_fname%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4 mb-4">
-
-                                                <div class="form-outline datepicker w-100">
-                                                    <input type="date" class="form-control form-control-lg display-color" id="birthdayDate" name="txtBirthDate" value="${BIRTHDATE}"/>
-                                                    <label for="birthdayDate" class="form-label">Ngày sinh</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_birthdate.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation""></i><%=err_birthdate%></p>
-                                                    <%
-                                                    }
-                                                    %>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-md-4 mb-4 pb-2">
-
-                                                <div class="form-outline">
-                                                    <input type="tel" id="cccd" class="form-control form-control-lg" name="txtCCCD" value="<%=cccd%>"/>
-                                                    <label class="form-label" for="cccd">Căn cước công dân</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_cccd.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_cccd%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-md-4 mb-4">
-
-                                                <h6 class="mb-2 pb-1">Giới tính</h6>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="txtGender" id="femaleGender"
-                                                           value="male" checked />
-                                                    <label class="form-check-label" for="femaleGender">Nam</label>
-                                                </div>
-
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="txtGender" id="maleGender"
-                                                           value="female" />
-                                                    <label class="form-check-label" for="maleGender">Nữ</label>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4 pb-2">
-
-                                                <div class="form-outline">
-                                                    <input type="email" id="email" class="form-control form-control-lg" name="txtEmail" value="<%=email%>"/>
-                                                    <label class="form-label" for="emailAddress">Email</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_email.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_email%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-6 mb-4 pb-2">
-
-                                                <div class="form-outline">
-                                                    <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="txtPhonenumber" value="<%=phonenumber%>"/>
-                                                    <label class="form-label" for="phoneNumber">Số điện thoại</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_phonenum.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_phonenum%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4 mb-4">
-
-                                                <select class="select form-control-lg display-color" name="txtEmployeeTypeID" " >
-                                                    <option value="" disabled>Choose option</option>
-
-                                                    <%
-                                                    for (EmployeeTypeDTO employeeTypeDTO : listEmployeeType) {
-                                                        if(employeetypeid != null && employeetypeid.equals(employeeTypeDTO.getName())){
-                                                    
-                                                    %>
-                                                    <option selected value="<%=employeeTypeDTO.getName()%>"><%=employeeTypeDTO.getName()%></option>
-                                                    <%
-                                                        }else{
-                                                    %>
-                                                    <option value="<%=employeeTypeDTO.getName()%>"><%=employeeTypeDTO.getName()%></option>
-                                                    <%
-                                                        }
-                                                    }
-                                                    %>
-                                                </select> 
-                                                <label class="form-label select-label">Loại nhân viên</label>
-
-                                            </div>
-
-                                            <div class="col-md-4 mb-4">
-
-                                                <select class="select form-control-lg display-color" name="txtDepartmentID" ">
-                                                    <option value="" disabled>Choose option</option>
-                                                    <%
-                                                    for (DepartmentDTO departmentDTO : listDepartment) {
-                                                        if(departmentid != null && departmentid.equals(departmentDTO.getName())){
-                                                    %>
-                                                    <option selected value="<%=departmentDTO.getName()%>"><%=departmentDTO.getName()%></option>
-                                                    <%   
-                                                        }else{
-                                                    %>
-                                                    <option value="<%=departmentDTO.getName()%>"><%=departmentDTO.getName()%></option>
-                                                    <%
-                                                        }
-                                                    }
-                                                    %>
-                                                </select> 
-                                                <label class="form-label select-label">Phòng ban</label>
-
-                                            </div>
-
-                                            <div class="col-md-4 mb-4">
-
-                                                <select class="select form-control-lg display-color" name="txtRoleID" ">
-                                                    <option value="1" disabled>Choose option</option>
-                                                    <%
-                                                    for (RoleDTO roleDTO : listRole) {
-                                                        if(roleid != null && roleid.equals(roleDTO.getName())){
-                                                    %>
-                                                    <option selected="" value="<%=roleDTO.getName()%>"><%=roleDTO.getName()%></option>
-                                                    <%
-                                                        }else{
-                                                    %>
-                                                    <option value="<%=roleDTO.getName()%>"><%=roleDTO.getName()%></option>
-                                                    <%
-                                                        }
-                                                    }
-                                                    %>
-                                                </select> 
-                                                <label class="form-label select-label">Chức vụ</label>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6 mb-4">
-
-                                                <div class="form-outline datepicker w-100">
-                                                    <input type="date" class="form-control form-control-lg display-color" id="startDate" name="txtStartDate" value="${STARTDATE}"/>
-                                                    <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_s_date.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_s_date%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-md-6 mb-4">
-
-                                                <div class="form-outline datepicker w-100">
-                                                    <input type="date" class="form-control form-control-lg display-color" id="endate" name="txtEndDate" value="${ENDDATE}""/>
-                                                    <label for="endDate" class="form-label">Ngày kết thúc</label>
-                                                </div>
-
-                                                <div class="form-outline">
-                                                    <%
-                                                    if(err_e_date.length() > 0){
-                                                    %>
-                                                    <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_e_date%></p>
-                                                        <%
-                                                        }
-                                                        %>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-
-                                            <div class="col-md-6 mb-4 form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" id="isActive" name="txtIsActive">
-                                                <label class="form-check-label" for="isActive">Kích hoạt tài khoản</label>
-                                            </div>
-
-                                            <div class="col-md-6 mb-4 form-check form-switch">
+                                            <div class="form-outline">
                                                 <%
-                                                if(msg != null && msg.length() > 0){
+                                                if( err_lname.length() > 0){
                                                 %>
-                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=msg%></p>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_lname%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+
+                                            <div class="form-outline">
+                                                <input type="text" id="middleName" class="form-control form-control-lg" name="txtMiddleName" value="<%=middlename%>"/>
+                                                <label class="form-label" for="middleName">Tên Đệm</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_mname.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_mname%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+
+                                            <div class="form-outline">
+                                                <input type="text" id="firstName" class="form-control form-control-lg" name="txtFirstName" value="<%=firstname%>"/>
+                                                <label class="form-label" for="firstName">Tên Riêng</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_fname.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_fname%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4 mb-4">
+
+                                            <div class="form-outline datepicker w-100">
+                                                <input type="date" class="form-control form-control-lg display-color" id="birthdayDate" name="txtBirthDate" value="${BIRTHDATE}"/>
+                                                <label for="birthdayDate" class="form-label">Ngày sinh</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_birthdate.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation""></i><%=err_birthdate%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-4 mb-4 pb-2">
+
+                                            <div class="form-outline">
+                                                <input type="tel" id="cccd" class="form-control form-control-lg" name="txtCCCD" value="<%=cccd%>"/>
+                                                <label class="form-label" for="cccd">Căn cước công dân</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_cccd.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_cccd%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+
+                                            <h6 class="mb-2 pb-1">Giới tính</h6>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="txtGender" id="femaleGender"
+                                                       value="male" checked />
+                                                <label class="form-check-label" for="femaleGender">Nam</label>
+                                            </div>
+
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="txtGender" id="maleGender"
+                                                       value="female" />
+                                                <label class="form-check-label" for="maleGender">Nữ</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4 pb-2">
+
+                                            <div class="form-outline">
+                                                <input type="email" id="email" class="form-control form-control-lg" name="txtEmail" value="<%=email%>"/>
+                                                <label class="form-label" for="emailAddress">Email</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_email.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_email%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6 mb-4 pb-2">
+
+                                            <div class="form-outline">
+                                                <input type="tel" id="phoneNumber" class="form-control form-control-lg" name="txtPhonenumber" value="<%=phonenumber%>"/>
+                                                <label class="form-label" for="phoneNumber">Số điện thoại</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_phonenum.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_phonenum%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-4 mb-4">
+
+                                            <select class="select form-control-lg display-color" name="txtEmployeeTypeID" " >
+                                                <option value="" disabled>Choose option</option>
+
+                                                <%
+                                                for (EmployeeTypeDTO employeeTypeDTO : listEmployeeType) {
+                                                    if(employeetypeid != null && employeetypeid.equals(employeeTypeDTO.getName())){
+                                                    
+                                                %>
+                                                <option selected value="<%=employeeTypeDTO.getName()%>"><%=employeeTypeDTO.getName()%></option>
+                                                <%
+                                                    }else{
+                                                %>
+                                                <option value="<%=employeeTypeDTO.getName()%>"><%=employeeTypeDTO.getName()%></option>
+                                                <%
+                                                    }
+                                                }
+                                                %>
+                                            </select> 
+                                            <label class="form-label select-label">Loại nhân viên</label>
+
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+
+                                            <select class="select form-control-lg display-color" name="txtDepartmentID" ">
+                                                <option value="" disabled>Choose option</option>
+                                                <%
+                                                for (DepartmentDTO departmentDTO : listDepartment) {
+                                                    if(departmentid != null && departmentid.equals(departmentDTO.getName())){
+                                                %>
+                                                <option selected value="<%=departmentDTO.getName()%>"><%=departmentDTO.getName()%></option>
+                                                <%   
+                                                    }else{
+                                                %>
+                                                <option value="<%=departmentDTO.getName()%>"><%=departmentDTO.getName()%></option>
+                                                <%
+                                                    }
+                                                }
+                                                %>
+                                            </select> 
+                                            <label class="form-label select-label">Phòng ban</label>
+
+                                        </div>
+
+                                        <div class="col-md-4 mb-4">
+
+                                            <select class="select form-control-lg display-color" name="txtRoleID" ">
+                                                <option value="1" disabled>Choose option</option>
+                                                <%
+                                                for (RoleDTO roleDTO : listRole) {
+                                                    if(roleid != null && roleid.equals(roleDTO.getName())){
+                                                %>
+                                                <option selected="" value="<%=roleDTO.getName()%>"><%=roleDTO.getName()%></option>
+                                                <%
+                                                    }else{
+                                                %>
+                                                <option value="<%=roleDTO.getName()%>"><%=roleDTO.getName()%></option>
+                                                <%
+                                                    }
+                                                }
+                                                %>
+                                            </select> 
+                                            <label class="form-label select-label">Chức vụ</label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6 mb-4">
+
+                                            <div class="form-outline datepicker w-100">
+                                                <input type="date" class="form-control form-control-lg display-color" id="startDate" name="txtStartDate" value="${STARTDATE}"/>
+                                                <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_s_date.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_s_date%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-md-6 mb-4">
+
+                                            <div class="form-outline datepicker w-100">
+                                                <input type="date" class="form-control form-control-lg display-color" id="endate" name="txtEndDate" value="${ENDDATE}""/>
+                                                <label for="endDate" class="form-label">Ngày kết thúc</label>
+                                            </div>
+
+                                            <div class="form-outline">
+                                                <%
+                                                if(err_e_date.length() > 0){
+                                                %>
+                                                <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_e_date%></p>
+                                                    <%
+                                                    }
+                                                    %>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-6 mb-4 form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="isActive" name="txtIsActive">
+                                            <label class="form-check-label" for="isActive">Kích hoạt tài khoản</label>
+                                        </div>
+
+                                        <div class="col-md-6 mb-4 form-check form-switch">
+                                            <%
+                                            if(msg != null && msg.length() > 0){
+                                            %>
+                                            <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=msg%></p>
                                                 <%
                                                 }
                                                 %>
-                                            </div>
                                         </div>
-                                        <div class="mt-4 pt-2">
-                                            <button class="btn btn-primary btn-lg" name="btAction" value="Insert">Thêm</button>
-                                        </div>
+                                    </div>
+                                    <div class="mt-4 pt-2">
+                                        <button class="btn btn-primary btn-lg" name="btAction" value="Insert">Thêm</button>
+                                    </div>
 
-                                    </form>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
 
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>

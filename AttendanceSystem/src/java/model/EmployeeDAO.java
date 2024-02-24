@@ -17,7 +17,6 @@ public class EmployeeDAO extends DBContext {
 
     final public DateTimeUtil DATE_TIME_UTIL = new DateTimeUtil();
 
-
     public ArrayList<EmployeeGeneral> getEmployeeInfo() {
 
         PreparedStatement stm = null;
@@ -25,30 +24,30 @@ public class EmployeeDAO extends DBContext {
         ArrayList<EmployeeGeneral> list = new ArrayList();
         if (connection != null) {
             try {
-                String sql = "SELECT " +
-                        "   EmployeeID, " +
-                        "   FirstName, " +
-                        "   MiddleName, " +
-                        "   LastName, " +
-                        "   Password, " +
-                        "   Gender, " +
-                        "   Email, " +
-                        "   BirthDate, " +
-                        "   CCCD, " +
-                        "   StartDate, " +
-                        "   EndDate, " +
-                        "   isActive, " +
-                        "   PhoneNumber, " +
-                        "   Employees.DepartmentID AS EmployeeDepartmentID, " +
-                        "   Employees.RoleID, " +
-                        "   Roles.Name AS RoleName, " +
-                        "   Employees.EmployeeTypeID AS TypeID, " +
-                        "   Departments.Name AS DepartmentName, " +
-                        "   EmployeeTypes.Name AS EmployeeTypeName " +
-                        "FROM Employees " +
-                        "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID " +
-                        "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID " +
-                        "JOIN Roles ON Employees.RoleID = Roles.RoleID ";
+                String sql = "SELECT "
+                        + "   EmployeeID, "
+                        + "   FirstName, "
+                        + "   MiddleName, "
+                        + "   LastName, "
+                        + "   Password, "
+                        + "   Gender, "
+                        + "   Email, "
+                        + "   BirthDate, "
+                        + "   CCCD, "
+                        + "   StartDate, "
+                        + "   EndDate, "
+                        + "   isActive, "
+                        + "   PhoneNumber, "
+                        + "   Employees.DepartmentID AS EmployeeDepartmentID, "
+                        + "   Employees.RoleID, "
+                        + "   Roles.Name AS RoleName, "
+                        + "   Employees.EmployeeTypeID AS TypeID, "
+                        + "   Departments.Name AS DepartmentName, "
+                        + "   EmployeeTypes.Name AS EmployeeTypeName "
+                        + "FROM Employees "
+                        + "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID "
+                        + "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID "
+                        + "JOIN Roles ON Employees.RoleID = Roles.RoleID ";
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -114,7 +113,7 @@ public class EmployeeDAO extends DBContext {
                     Date endDate = rs.getDate("EndDate");
                     boolean isActived = rs.getBoolean("isActive");
                     EmployeeDTO e = new EmployeeDTO(employeeID, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
-                   
+
                     return e;
                 }
             } catch (Exception e) {
@@ -160,35 +159,35 @@ public class EmployeeDAO extends DBContext {
                 } else {
                     queryTypeID = " AND EmployeeTypes.EmployeeTypeID = " + typeID_raw;
                 }
-                String sql = "SELECT " +
-                        "   EmployeeID, " +
-                        "   FirstName, " +
-                        "   MiddleName, " +
-                        "   LastName, " +
-                        "   Password, " +
-                        "   Gender, " +
-                        "   Email, " +
-                        "   BirthDate, " +
-                        "   CCCD, " +
-                        "   StartDate, " +
-                        "   EndDate, " +
-                        "   isActive, " +
-                        "   PhoneNumber, " +
-                        "   Employees.DepartmentID AS EmployeeDepartmentID, " +
-                        "   Employees.RoleID, " +
-                        "   Roles.Name AS RoleName, " +
-                        "   Employees.EmployeeTypeID AS TypeID, " +
-                        "   Departments.Name AS DepartmentName, " +
-                        "   EmployeeTypes.Name AS EmployeeTypeName " +
-                        "FROM Employees " +
-                        "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID " +
-                        "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID " +
-                        "JOIN Roles ON Employees.RoleID = Roles.RoleID " +
-                        "WHERE " +
-                        "   ( FirstName LIKE ? OR MiddleName LIKE ? OR LastName LIKE ? ) " +
-                        queryDepartmentID +
-                        queryTypeID +
-                        order;
+                String sql = "SELECT "
+                        + "   EmployeeID, "
+                        + "   FirstName, "
+                        + "   MiddleName, "
+                        + "   LastName, "
+                        + "   Password, "
+                        + "   Gender, "
+                        + "   Email, "
+                        + "   BirthDate, "
+                        + "   CCCD, "
+                        + "   StartDate, "
+                        + "   EndDate, "
+                        + "   isActive, "
+                        + "   PhoneNumber, "
+                        + "   Employees.DepartmentID AS EmployeeDepartmentID, "
+                        + "   Employees.RoleID, "
+                        + "   Roles.Name AS RoleName, "
+                        + "   Employees.EmployeeTypeID AS TypeID, "
+                        + "   Departments.Name AS DepartmentName, "
+                        + "   EmployeeTypes.Name AS EmployeeTypeName "
+                        + "FROM Employees "
+                        + "JOIN Departments ON Employees.DepartmentID = Departments.DepartmentID "
+                        + "JOIN EmployeeTypes ON Employees.EmployeeTypeID = EmployeeTypes.EmployeeTypeID "
+                        + "JOIN Roles ON Employees.RoleID = Roles.RoleID "
+                        + "WHERE "
+                        + "   ( FirstName LIKE ? OR MiddleName LIKE ? OR LastName LIKE ? ) "
+                        + queryDepartmentID
+                        + queryTypeID
+                        + order;
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, "%" + searchvalue + "%");
                 stm.setNString(2, "%" + searchvalue + "%");
@@ -320,9 +319,9 @@ public class EmployeeDAO extends DBContext {
         String set_email = "";
         if (connection != null) {
             try {
-                String sql = "SELECT Email \n" +
-                        "FROM Employees\n" +
-                        "WHERE Email = ?";
+                String sql = "SELECT Email \n"
+                        + "FROM Employees\n"
+                        + "WHERE Email = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, email);
                 rs = stm.executeQuery();
@@ -362,7 +361,7 @@ public class EmployeeDAO extends DBContext {
         }
         return null;
     }
-    
+
     // NguyenManhDuong - select phonenumber
     public String getPhonenumber(String phonenumber) {
         PreparedStatement stm = null;
@@ -394,9 +393,9 @@ public class EmployeeDAO extends DBContext {
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "UPDATE Employees\n" +
-                        "SET Password = ?\n" +
-                        "WHERE Email = ?";
+                String sql = "UPDATE Employees\n"
+                        + "SET Password = ?\n"
+                        + "WHERE Email = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, password);
                 stm.setNString(2, email);
@@ -417,10 +416,10 @@ public class EmployeeDAO extends DBContext {
 
         if (connection != null) {
             try {
-                String sql = "update Employees\n" +
-                        "set PhoneNumber = ? , " +
-                        "Gender = ? " +
-                        "where Email = ?";
+                String sql = "update Employees\n"
+                        + "set PhoneNumber = ? , "
+                        + "Gender = ? "
+                        + "where Email = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, Phone);
                 stm.setInt(2, Gender);
@@ -436,11 +435,12 @@ public class EmployeeDAO extends DBContext {
         }
         return false;
     }
+
     public boolean UpdateEmployeeByHR(String firstName, String middleName, String lastName,
             Boolean gender, String cccd, String phoneNumber, String email,
             String password, String birthDate, int departmentID, int typeID, int roleID, int employeeID) {
         PreparedStatement stm = null;
-        
+
         if (connection != null) {
             try {
                 String sql = "UPDATE Employees "
@@ -483,7 +483,6 @@ public class EmployeeDAO extends DBContext {
         }
         return false;
     }
-    
 
     // NguyenManhDuong - insert employee
     public boolean insertEmployee(String firstName, String middleName, String lastName, boolean gender, LocalDate birthDate, String email, String password,
@@ -530,8 +529,8 @@ public class EmployeeDAO extends DBContext {
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "select * from Employees \n" +
-                        " where DepartmentID = ?";
+                String sql = "select * from Employees \n"
+                        + " where DepartmentID = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, phong);
                 rs = stm.executeQuery();
@@ -561,7 +560,8 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
- public EmployeeTypeDTO getEmployeeType(int employeeTypeID) {
+
+    public EmployeeTypeDTO getEmployeeType(int employeeTypeID) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
@@ -584,16 +584,15 @@ public class EmployeeDAO extends DBContext {
         }
         return null;
     }
-    
-    
+
     public ArrayList<EmployeeDTO> SearchEmployeeByName(String Name) {
         ArrayList<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "select * from Employees\n" +
-                        " where LastName like ? or FirstName like ? or MiddleName like ?";
+                String sql = "select * from Employees\n"
+                        + " where LastName like ? or FirstName like ? or MiddleName like ?";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, "%" + Name + "%");
                 stm.setString(2, "%" + Name + "%");
@@ -626,30 +625,30 @@ public class EmployeeDAO extends DBContext {
         return list;
     }
 
-    public int getTotalEmployeeByDepartment(int phong, String search,int Ca) {
+    public int getTotalEmployeeByDepartment(int phong, String search, int Ca) {
         int count = 0;
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                if(Ca>0){
-                String sql = "select count(distinct Employees.EmployeeID) as dem from Employees\n" +
-"join Timesheet on Timesheet.EmployeeID = Employees.EmployeeID\n" +
-"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) and Timesheet.ShiftID = ?";
-                stm = connection.prepareStatement(sql);
-                stm.setInt(1, phong);
-                stm.setString(2, "%" + search + "%");
-                stm.setString(3, "%" + search + "%");
-                stm.setString(4, "%" + search + "%");
-                stm.setInt(5, Ca);
-                } else{
-                    String sql = "select count(distinct Employees.EmployeeID) as dem from Employees\n" +
-"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) ";
-                stm = connection.prepareStatement(sql);
-                stm.setInt(1, phong);
-                stm.setString(2, "%" + search + "%");
-                stm.setString(3, "%" + search + "%");
-                stm.setString(4, "%" + search + "%");
+                if (Ca > 0) {
+                    String sql = "select count(distinct Employees.EmployeeID) as dem from Employees\n"
+                            + "join Timesheet on Timesheet.EmployeeID = Employees.EmployeeID\n"
+                            + "where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) and Timesheet.ShiftID = ?";
+                    stm = connection.prepareStatement(sql);
+                    stm.setInt(1, phong);
+                    stm.setString(2, "%" + search + "%");
+                    stm.setString(3, "%" + search + "%");
+                    stm.setString(4, "%" + search + "%");
+                    stm.setInt(5, Ca);
+                } else {
+                    String sql = "select count(distinct Employees.EmployeeID) as dem from Employees\n"
+                            + "where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) ";
+                    stm = connection.prepareStatement(sql);
+                    stm.setInt(1, phong);
+                    stm.setString(2, "%" + search + "%");
+                    stm.setString(3, "%" + search + "%");
+                    stm.setString(4, "%" + search + "%");
                 }
                 rs = stm.executeQuery();
                 if (rs.next()) {
@@ -663,43 +662,41 @@ public class EmployeeDAO extends DBContext {
         return count;
     }
 
-   
-    
-    public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a, int phong, String name,int ca) {
+    public ArrayList<EmployeeDTO> searchAjaxEmployeeByDepartment(int a, int phong, String name, int ca) {
         ArrayList<EmployeeDTO> list = new ArrayList();
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                if(ca>0){
-                String sql ="select distinct Employees.EmployeeID,Email,Employees.BirthDate,Employees.FirstName,Employees.LastName\n" +
-",Employees.MiddleName,Employees.Gender,Employees.DepartmentID,Employees.StartDate,Employees.EndDate,Employees.EmployeeTypeID,\n" +
-"Employees.Password,Employees.IsActive,Employees.CCCD,Employees.PhoneNumber,Employees.RoleID from Employees\n" +
-"join Timesheet on Timesheet.EmployeeID = Employees.EmployeeID\n" +
-"join Shifts on Timesheet.ShiftID = Shifts.ShiftID\n" +
-"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) and Shifts.ShiftID = ?\n" +
-"Order by Employees.EmployeeID\n" +
-    "Offset ? rows fetch next 2 rows only";
-                stm = connection.prepareStatement(sql);
-                stm.setInt(1, phong);
-                stm.setString(2, "%" + name + "%");
-                stm.setString(3, "%" + name + "%");
-                stm.setString(4, "%" + name + "%");
-                stm.setInt(5, ca);
-                stm.setInt(6, (a - 1) * 2);
-                rs = stm.executeQuery();
-                }else{
-                    String sql ="select * from Employees\n" +
-"where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?)\n" +
-"Order by EmployeeID\n" +
-"Offset ? rows fetch next 2 rows only";
-                stm = connection.prepareStatement(sql);
-                stm.setInt(1, phong);
-                stm.setString(2, "%" + name + "%");
-                stm.setString(3, "%" + name + "%");
-                stm.setString(4, "%" + name + "%");
-                stm.setInt(5, (a - 1) * 2);
-                rs = stm.executeQuery();
+                if (ca > 0) {
+                    String sql = "select distinct Employees.EmployeeID,Email,Employees.BirthDate,Employees.FirstName,Employees.LastName\n"
+                            + ",Employees.MiddleName,Employees.Gender,Employees.DepartmentID,Employees.StartDate,Employees.EndDate,Employees.EmployeeTypeID,\n"
+                            + "Employees.Password,Employees.IsActive,Employees.CCCD,Employees.PhoneNumber,Employees.RoleID from Employees\n"
+                            + "join Timesheet on Timesheet.EmployeeID = Employees.EmployeeID\n"
+                            + "join Shifts on Timesheet.ShiftID = Shifts.ShiftID\n"
+                            + "where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?) and Shifts.ShiftID = ?\n"
+                            + "Order by Employees.EmployeeID\n"
+                            + "Offset ? rows fetch next 2 rows only";
+                    stm = connection.prepareStatement(sql);
+                    stm.setInt(1, phong);
+                    stm.setString(2, "%" + name + "%");
+                    stm.setString(3, "%" + name + "%");
+                    stm.setString(4, "%" + name + "%");
+                    stm.setInt(5, ca);
+                    stm.setInt(6, (a - 1) * 2);
+                    rs = stm.executeQuery();
+                } else {
+                    String sql = "select * from Employees\n"
+                            + "where DepartmentID=? and (LastName like ? or FirstName like ? or MiddleName like ?)\n"
+                            + "Order by EmployeeID\n"
+                            + "Offset ? rows fetch next 2 rows only";
+                    stm = connection.prepareStatement(sql);
+                    stm.setInt(1, phong);
+                    stm.setString(2, "%" + name + "%");
+                    stm.setString(3, "%" + name + "%");
+                    stm.setString(4, "%" + name + "%");
+                    stm.setInt(5, (a - 1) * 2);
+                    rs = stm.executeQuery();
                 }
                 while (rs.next()) {
                     int employeeID = rs.getInt("EmployeeID");
@@ -732,7 +729,6 @@ public class EmployeeDAO extends DBContext {
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
 
-        
         //test ham lay ttin
         System.out.println(dao.getEmail("nguyennduongg039@gmail.com"));
         System.out.println(dao.getCCCD("0000000"));

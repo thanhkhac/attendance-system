@@ -61,7 +61,7 @@ public class DateTimeUtil {
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
         int year = dateTimeUtil.getVNLocalDateNow().getYear();
         int month = dateTimeUtil.getVNLocalDateNow().getMonthValue();
-        
+
         System.out.println("year: " + year);
         System.out.println("month: " + month);
     }

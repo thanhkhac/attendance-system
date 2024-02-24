@@ -32,33 +32,36 @@ public class RoleDAO extends DAOBase {
             } finally {
             }
         }
-        return list ;
+        return list;
     }
+
     public RoleDTO getRoleById(int roleID) {
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "SELECT *\r\n" + //
-                        "  FROM [Attendance_DB].[dbo].[Roles]\r\n" + //
+                String sql = "SELECT *\r\n"
+                        + //
+                        "  FROM [Attendance_DB].[dbo].[Roles]\r\n"
+                        + //
                         "  where RoleID = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, roleID);
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     RoleDTO dto = new RoleDTO(
-                        rs.getInt("RoleID"),
-                        rs.getString("Name"));
+                            rs.getInt("RoleID"),
+                            rs.getString("Name"));
                     return dto;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
-            } 
+            }
         }
         return null;
     }
-    
+
     public int getRoleIDByName(String roleName) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -66,12 +69,12 @@ public class RoleDAO extends DAOBase {
         if (connection != null) {
             try {
                 String sql = "SELECT RoleID \n"
-                + "FROM Roles \n"
-                + "WHERE [Name] = ? ";
+                        + "FROM Roles \n"
+                        + "WHERE [Name] = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, roleName);
                 rs = stm.executeQuery();
-                
+
                 if (rs.next()) {
                     id = rs.getInt("RoleID");
                 }
@@ -82,5 +85,5 @@ public class RoleDAO extends DAOBase {
         }
         return id;
     }
-    
+
 }

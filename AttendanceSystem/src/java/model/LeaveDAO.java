@@ -10,10 +10,10 @@ public class LeaveDAO extends DAOBase {
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public LeaveDTO getLeaveDTO(int xEmployeeID, String xDate) {
-        query = "SELECT * FROM Leaves\n" +
-                "WHERE \n" +
-                "	EmployeeID = ? \n" +
-                "	AND ? Between [StartDate] AND [EndDate] ";
+        query = "SELECT * FROM Leaves\n"
+                + "WHERE \n"
+                + "	EmployeeID = ? \n"
+                + "	AND ? Between [StartDate] AND [EndDate] ";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, xEmployeeID);

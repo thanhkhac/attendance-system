@@ -180,6 +180,4 @@ public class EmployeeDTO {
         this.isActived = isActived;
     }
 
-    
-    
 }

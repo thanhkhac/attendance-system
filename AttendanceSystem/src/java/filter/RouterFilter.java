@@ -108,7 +108,7 @@ public class RouterFilter implements Filter {
         }
 
         doBeforeProcessing(request, response);
-        
+
         //--Bắt đầu phân quyền
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
@@ -150,8 +150,6 @@ public class RouterFilter implements Filter {
         }
 
         //--Kết thúc phân quyền
-        
-        
         Throwable problem = null;
         try {
             chain.doFilter(request, response);
