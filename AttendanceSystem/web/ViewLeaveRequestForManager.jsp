@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ProcessLeaveRequestForManager
-    Created on : Feb 19, 2024, 8:14:44 AM
+    Document   : ViewLeaveRequestForManager
+    Created on : Feb 23, 2024, 9:57:59 PM
     Author     : nguye
 --%>
 
@@ -42,7 +42,7 @@
             <%@include file="Sidebar.jsp" %>
             <div class="right">
                 <div class="text-center">
-                    <h1 style="margin: 30px">Danh sách đơn (HR)</h1>
+                    <h1 style="margin: 30px">Danh sách đơn (Manager)</h1>
                     <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
                         <i class="bi bi-arrow-left"></i> Trở lại
                     </a>
@@ -50,8 +50,7 @@
                 <div>
                     <form action="DispatchController" method="POST">
                         <%
-                            if(acc.getRoleID() == 2){
-                                
+                            if(acc.getRoleID() == 4){ // role quản lí(manager)
                         %>
                         <table class="table">
                             <tr style="background-color: #CFE2FF">
@@ -62,9 +61,7 @@
                                 <th class="text-center">Ngày kết thúc</th>
                                 <th class="text-center">Lí do</th>
                                 <th class="text-center">Trạng thái <br> (Manager)</th>  
-                                <th class="text-center">Trạng thái <br> (HR)</th>
                                 <th class="text-center">Người phê duyệt <br> (Manager)</th>
-                                <th class="text-center">Người phê duyệt <br> (HR)</th>
                                 <th class="text-center">check</th>
                             </tr>
                             <%
@@ -72,7 +69,6 @@
                                     emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
                                     managerDTO = dao.getEmployeeDTO(lr.getManagerID());
                                     hrDTO = dao.getEmployeeDTO(lr.getHrID());
-                                    if(lr.getManagerApprove()){
                             %>
                             <tr class="employee-row">
                                 <td class="text-center"><%=lr.getLeaveRequestID()%></td>
@@ -99,24 +95,6 @@
                                         }
                                     %>
                                 </td>
-                                <td class="text-center font-weight-bold">
-                                    <%
-                                        Boolean hrApprove = lr.getHrApprove();
-                                        if(hrApprove == null){
-                                    %>
-                                    <p class="fw-bold">Pending</p>
-                                    <%
-                                        }else if (hrApprove == true){
-                                    %>
-                                    <p class="text-success fw-bold" >Accepted</p>
-                                    <%
-                                        }else if (hrApprove == false){
-                                    %>
-                                    <p class="text-danger fw-bold">Denied</p>
-                                    <%
-                                        }
-                                    %>
-                                </td>
                                 <td class="text-center tdbreak">
                                     <%
                                         if(managerDTO != null){
@@ -130,22 +108,9 @@
                                         }
                                     %>
                                 </td>
-                                <td class="text-center tdbreak">
-                                    <%
-                                        if(hrDTO != null){
-                                    %>
-                                    <%= hrDTO.getLastName() + " " + hrDTO.getMiddleName() + " " + hrDTO.getFirstName() %>
-                                    <%
-                                        }else{
-                                    %>
-                                    <p class="text-center fw-bold">Pending</p>
-                                    <%
-                                        }
-                                    %>
-                                </td>
                                 <td class="text-center">
                                     <%
-                                        if(lr.getManagerApprove() != null && lr.getHrApprove() != null){
+                                        if(lr.getManagerApprove() != null){
                                         }else{
                                     %>
                                     <button onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
@@ -156,19 +121,18 @@
                                     </button>
                                 </td>
                             </tr>
-                            <%  
-                                        }
+                            <%
                                     }
                                 }
                             %>
                         </table>
-                        <%
-                        }else{
-                        %>
-                        <p class="text-center">Tài khoản này không phải Quản lí nhân sự</p>
-                        <%
-                        }
-                        %>
+                            <%
+                            }else{
+                            %>
+                            <p class="text-center">Tài khoản này không phải Quản lí</p>
+                            <%
+                            }
+                            %>
                     </form>
                 </div>
             </div>
