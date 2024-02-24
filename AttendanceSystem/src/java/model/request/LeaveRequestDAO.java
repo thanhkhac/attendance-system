@@ -4,14 +4,13 @@
  */
 package model.request;
 
-
 import dbhelper.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import model.EmployeeDTO;
+import model.*;
 import ultility.datetimeutil.DateTimeUtil;
 
 /**
@@ -74,8 +73,7 @@ public class LeaveRequestDAO extends DAOBase {
         return list;
     }
 
-
-    public boolean approvalOfApplicationByManager(int status , int managerID , int requestID) {
+    public boolean approvalOfApplicationByManager(int status, int managerID, int requestID) {
         if (connection != null) {
             try {
                 String sql = "UPDATE LeaveRequest\n"
@@ -100,8 +98,7 @@ public class LeaveRequestDAO extends DAOBase {
         return false;
     }
 
-
-    public boolean approvalOfApplicationByHr(int status , int hrID , int requestID) {
+    public boolean approvalOfApplicationByHr(int status, int hrID, int requestID) {
         if (connection != null) {
             try {
                 String sql = "UPDATE LeaveRequest\n"
@@ -124,7 +121,32 @@ public class LeaveRequestDAO extends DAOBase {
         }
         return false;
     }
-    
+
+    public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason) {
+        if (con != null) {
+            try {
+                String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason) "
+                        + "VALUES (?,?,?,?,?) ";
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, e.getEmployeeID());
+                ps.setString(2, sentDate.toString());
+                ps.setString(3, startDate.toString());
+                ps.setString(4, endDate.toString());
+                ps.setString(5, reason);
+                int result = ps.executeUpdate();
+                if (result > 0) {
+                    return true;
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace();
+            } finally {
+                closeAll();
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         LeaveRequestDAO dao = new LeaveRequestDAO();
         EmployeeDAO emDao = new EmployeeDAO();

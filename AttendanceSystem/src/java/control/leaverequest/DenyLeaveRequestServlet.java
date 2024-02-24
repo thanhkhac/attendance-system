@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.EmployeeDTO;
-import model.LeaveRequestDAO;
+import model.request.LeaveRequestDAO;
 
 /**
  *
