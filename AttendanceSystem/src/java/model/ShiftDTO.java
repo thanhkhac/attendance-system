@@ -12,7 +12,8 @@ public class ShiftDTO {
     private LocalTime breakEndTime;
     private LocalTime openAt;
     private LocalTime closeAt;
-
+    private boolean isActive;
+    
     public ShiftDTO(int shiftID, String name, LocalTime startTime, LocalTime endTime, LocalTime breakStartTime, LocalTime breakEndTime, LocalTime openAt, LocalTime closeAt) {
         this.shiftID = shiftID;
         this.name = name;
@@ -23,6 +24,22 @@ public class ShiftDTO {
         this.openAt = openAt;
         this.closeAt = closeAt;
     }
+
+    public ShiftDTO(int shiftID, String name, LocalTime startTime, LocalTime endTime, LocalTime breakStartTime, LocalTime breakEndTime, LocalTime openAt, LocalTime closeAt, boolean isActive) {
+        this.shiftID = shiftID;
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.breakStartTime = breakStartTime;
+        this.breakEndTime = breakEndTime;
+        this.openAt = openAt;
+        this.closeAt = closeAt;
+        this.isActive = isActive;
+    }
+    
+    
+    
+    
 
     public int getShiftID() {
         return shiftID;
@@ -88,9 +105,14 @@ public class ShiftDTO {
         this.closeAt = closeAt;
     }
 
+    public boolean isIsActive() {
+        return isActive;
+    }
+    
     @Override
     public String toString() {
-        return "ShiftDTO{" + "shiftID=" + shiftID + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime + ", breakStartTime=" + breakStartTime + ", breakEndTime=" + breakEndTime + ", openAt=" + openAt + ", closeAt=" + closeAt + '}';
+        return "ShiftDTO{" + "shiftID=" + shiftID + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime + ", breakStartTime=" + breakStartTime + ", breakEndTime=" + breakEndTime + ", openAt=" + openAt + ", closeAt=" + closeAt + ", isActive=" + isActive + '}';
     }
+
 
 }

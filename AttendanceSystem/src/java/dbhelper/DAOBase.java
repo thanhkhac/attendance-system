@@ -47,6 +47,7 @@ public class DAOBase extends DBContext {
     @Override
     public void connect() {
         super.connect();
+        con = connection;
     }
 
     public void closeAll() {
