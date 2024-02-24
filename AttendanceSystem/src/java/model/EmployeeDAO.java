@@ -820,7 +820,7 @@ public class EmployeeDAO extends DBContext {
     }
     
     
-   public ArrayList<EmployeeDTO> getEmployeeInfoByOvertimeAjax(String date,String start, String ends, int page) {
+   public ArrayList<EmployeeDTO> getEmployeeInfoByOvertimeAjax(String date,String start, String ends, int page,String FirstName,String MidName,String LastName,int phong) {
 
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -831,14 +831,18 @@ public class EmployeeDAO extends DBContext {
 "                ,Employees.MiddleName,Employees.Gender,Employees.DepartmentID,Employees.StartDate,Employees.EndDate,Employees.EmployeeTypeID,\n" +
 "                            Employees.Password,Employees.IsActive,Employees.CCCD,Employees.PhoneNumber,Employees.RoleID from Employees\n" +
 "                            join Overtimes on Overtimes.EmployeeID = Employees.EmployeeID\n" +
-"							Where Date = ? and Overtimes.StartTime = ? and Overtimes.EndTime = ?\n" +
+"			Where Date = ? and Overtimes.StartTime = ? and Overtimes.EndTime = ? and (Employees.LastName like  ?  and Employees.FirstName like ? and Employees.MiddleName like ?) and Employees.DepartmentID =? \n" +
 "                            Order by Employees.EmployeeID\n" +
 "                            Offset ? rows fetch next 1 rows only";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, date);
                 stm.setString(2,start);
                 stm.setString(3, ends);
-                stm.setInt(4, page);
+                stm.setNString(4, "%" + LastName + "%");
+                stm.setNString(5, "%" + FirstName + "%");
+                stm.setNString(6, "%" + MidName + "%");
+                stm.setInt(8, page);
+                stm.setInt(7, phong);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                      int employeeId = rs.getInt("employeeId");
@@ -917,10 +921,145 @@ public class EmployeeDAO extends DBContext {
         }
         return list;
     }
+    
+    
+    
+    public ArrayList<EmployeeDTO> getListAddEmployeeOvertime(String date) {
+
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList();
+        if (connection != null) {
+            try {
+                String sql = "SELECT * \n" +
+"FROM Employees\n" +
+"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID\n" +
+"AND Overtimes.Date = ?\n" +
+"WHERE Overtimes.EmployeeID IS NULL;";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, date);
+                
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                     int employeeId = rs.getInt("employeeId");
+                    String firstName = rs.getNString("firstName");
+                    String middleName = rs.getNString("middleName");
+                    String lastName = rs.getNString("lastName");
+                    Date birthDate = rs.getDate("birthDate");
+                    Boolean gender = rs.getBoolean("gender");
+                    String email = rs.getNString("email");
+                    String password = rs.getNString("password");
+                    String cccd = rs.getString("cccd");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    int employeeTypeID = rs.getInt("employeeTypeID");
+                    int departmentID = rs.getInt("departmentID");
+                    int roleID = rs.getInt("roleID");
+                    Date startDate = rs.getDate("startDate");
+                    Date endDate = rs.getDate("endDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return list;
+    }
+    
+    public int countEmployeeOvertime(String date,String DepartID, String EmployID, String firstname, String LastName,String MidName ){
+        int count = 0;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        if (connection != null) {
+            try {
+              
+                    String sql = "SELECT count(distinct Employees.EmployeeID) as dem \n" +
+"FROM Employees\n" +
+"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID\n" +
+"AND Overtimes.Date = ?\n" +
+"WHERE  Overtimes.EmployeeID IS NULL and Employees.DepartmentID like ? and Employees.EmployeeTypeID like ?\n" +
+"and Employees.FirstName like ? and Employees.LastName like ? and Employees.MiddleName like ?";
+                    stm = connection.prepareStatement(sql);
+                stm.setString(1, date);
+                stm.setString(2, "%"+DepartID+"%");
+                stm.setString(3, "%"+EmployID+"%");
+                stm.setNString(4, "%"+firstname+"%");
+                stm.setNString(5, "%"+LastName+"%");
+                stm.setNString(6, "%"+MidName+"%");
+  
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    count = rs.getInt("dem");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return count;
+    }
+    
+   public ArrayList<EmployeeDTO> getListAddEmployeeOvertimeAjax(int page,String date,String DepartID, String EmployID, String firstname, String LastName,String MidName ) {
+
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList();
+        if (connection != null) {
+            try {
+                String sql = "SELECT * \n" +
+"FROM Employees\n" +
+"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID\n" +
+"AND Overtimes.Date = ?\n" +
+"WHERE  Overtimes.EmployeeID IS NULL and Employees.DepartmentID like ? and Employees.EmployeeTypeID like ?\n" +
+"and Employees.FirstName like ? and Employees.LastName like ? and Employees.MiddleName like ?\n Order by Employees.EmployeeID\n" +
+"Offset ? rows fetch next 5 rows only" +
+";";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, date);
+                stm.setString(2, "%"+DepartID+"%");
+                stm.setString(3, "%"+EmployID+"%");
+                stm.setNString(4, "%"+firstname+"%");
+                stm.setNString(5, "%"+LastName+"%");
+                stm.setNString(6, "%"+MidName+"%");
+                stm.setInt(7, (page-1)*5);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                     int employeeId = rs.getInt("employeeId");
+                    String firstName = rs.getNString("firstName");
+                    String middleName = rs.getNString("middleName");
+                    String lastName = rs.getNString("lastName");
+                    Date birthDate = rs.getDate("birthDate");
+                    Boolean gender = rs.getBoolean("gender");
+                    String email = rs.getNString("email");
+                    String password = rs.getNString("password");
+                    String cccd = rs.getString("cccd");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    int employeeTypeID = rs.getInt("employeeTypeID");
+                    int departmentID = rs.getInt("departmentID");
+                    int roleID = rs.getInt("roleID");
+                    Date startDate = rs.getDate("startDate");
+                    Date endDate = rs.getDate("endDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return list;
+    }
+    
+    
+    
 
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
-        System.out.println(dao.getEmployeeInfoByOvertimeAjax("2024-02-23","17:00","19:30",0).size());
+        System.out.println(dao.countEmployeeOvertime("2024-02-17","2","1","","",""));
+        //System.out.println(dao.getEmployeeInfoByOvertimeAjax("2024-02-23","17:00","19:30",0,"","","",2).size());
         //test ham lay ttin
 
 //        System.out.println(dao.getEmail("nguyennduongg039@gmail.com"));`  
