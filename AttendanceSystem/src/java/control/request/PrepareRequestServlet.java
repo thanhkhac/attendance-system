@@ -81,6 +81,7 @@ public class PrepareRequestServlet extends HttpServlet {
         request.setAttribute("listDepartment", listDepartment);
         request.setAttribute("listEmployeeType", listEmployeeType);
         request.setAttribute("listRole", listRole);
+        request.setAttribute("requestTypeID", requestTypeID);
         request.getRequestDispatcher(URL).forward(request, response);
     }
 

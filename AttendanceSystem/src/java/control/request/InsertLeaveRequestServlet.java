@@ -16,8 +16,8 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.time.LocalDate;
 import model.EmployeeDTO;
-import model.LeaveRequestDAO;
-import model.SendRequestError;
+import model.request.LeaveRequestDAO;
+import model.request.SendRequestError;
 
 /**
  *

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package model.request;
 
 /**
  *
@@ -12,7 +12,7 @@ public class SendRequestError {
 
     private String nullValue_error;
     private String invalidDate_error;
-    private String invalidHour_error;
+    private String invalidTime_error;
     private String invalidRole_error;
     private String reasonLength_error;
     private String fileSize_error;
@@ -20,10 +20,10 @@ public class SendRequestError {
     public SendRequestError() {
     }
 
-    public SendRequestError(String nullValue_error, String invalidDate_error, String invalidHour_error, String invalidRole_error, String reasonLength_error, String fileSize_error) {
+    public SendRequestError(String nullValue_error, String invalidDate_error, String invalidTime_error, String invalidRole_error, String reasonLength_error, String fileSize_error) {
         this.nullValue_error = nullValue_error;
         this.invalidDate_error = invalidDate_error;
-        this.invalidHour_error = invalidHour_error;
+        this.invalidTime_error = invalidTime_error;
         this.invalidRole_error = invalidRole_error;
         this.reasonLength_error = reasonLength_error;
         this.fileSize_error = fileSize_error;
@@ -45,12 +45,12 @@ public class SendRequestError {
         this.invalidDate_error = invalidDate_error;
     }
 
-    public String getInvalidHour_error() {
-        return invalidHour_error;
+    public String getInvalidTime_error() {
+        return invalidTime_error;
     }
 
-    public void setInvalidHour_error(String invalidHour_error) {
-        this.invalidHour_error = invalidHour_error;
+    public void setInvalidTime_error(String invalidTime_error) {
+        this.invalidTime_error = invalidTime_error;
     }
 
     public String getInvalidRole_error() {

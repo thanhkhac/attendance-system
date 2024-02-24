@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package model.request;
 
 import dbhelper.DAOBase;
 import dbhelper.DBContext;
@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import model.EmployeeDTO;
 import ultility.datetimeutil.DateTimeUtil;
 
 /**
@@ -26,7 +27,7 @@ public class LeaveRequestDAO extends DAOBase {
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "SELECT * FROM LeaveRequest";
+                String sql = "SELECT * FROM LeaveRequests";
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while (rs.next()) {
@@ -40,8 +41,8 @@ public class LeaveRequestDAO extends DAOBase {
                     Boolean hrApprove = rs.getString("HrApprove") != null ? Boolean.valueOf(rs.getString("HrApprove")) : null;
                     int managerID = rs.getInt("ManagerID");
                     int hrID = rs.getInt("HrID");
-
-                    LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, reason, managerApprove, hrApprove, managerID, hrID);
+                    Boolean status = rs.getString("Status") != null ? Boolean.valueOf(rs.getString("Status")) : null;
+                    LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, reason, managerApprove, hrApprove, managerID, hrID, status);
                     list.add(lr);
                 }
             } catch (Exception e) {
@@ -55,7 +56,7 @@ public class LeaveRequestDAO extends DAOBase {
     public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason) {
         if (con != null) {
             try {
-                String sql = "INSERT INTO LeaveRequest(EmployeeID, SentDate, StartDate, EndDate, Reason) "
+                String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason) "
                         + "VALUES (?,?,?,?,?) ";
                 ps = con.prepareStatement(sql);
                 ps.setInt(1, e.getEmployeeID());
@@ -93,6 +94,7 @@ public class LeaveRequestDAO extends DAOBase {
             System.out.println(lr.getHrApprove());
             System.out.println(lr.getManagerID());
             System.out.println(lr.getHrID());
+            System.out.println(lr.getStatus());
             System.out.println("\n");
         }
     }

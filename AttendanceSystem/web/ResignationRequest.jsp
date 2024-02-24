@@ -118,7 +118,8 @@
                 background-color: #f8d7da;
                 border: 1px solid #f5c6cb;
                 padding: 10px;
-                margin: 10px 0;
+                margin: 20px 0;
+                margin-bottom: 50px;
                 border-radius: 5px;
             }
 
@@ -168,6 +169,7 @@
         <c:set var="listDepartment" value="${requestScope.listDepartment}" />
         <c:set var="listEmployeeType" value="${requestScope.listEmployeeType}" />
         <c:set var="listRole" value="${requestScope.listRole}" />
+        <c:set var="requestTypeID" value="${requestScope.requestTypeID}" />
         <c:set var="err" value="${requestScope.error}" />
         <c:set var="msg" value="${msg}" />
         <c:set var="extendDate" value="${requestScope.extensionDate}" />
@@ -200,11 +202,15 @@
                 <div class="content-request">
                     <div class="content-request-type">
                         <label for="request-type">Request Type: </label>
-                        <select name="requestID" id="request-type" onchange="Tranformation()">
-                            <option value="0">Choose Type Of Request (Chọn Loại Yêu Cầu)</option>
+                        <select name="requestID" id="request-type" onchange="Tranformation()" >
+
                             <c:forEach items="${listType}" var="t">
-                                <option id="requestTypeID" value="${t.getRequestTypeID()}">${t.getRequestTypeName()}</option>
-                                </c:forEach>
+                                <option id="requestTypeID" value="${t.getRequestTypeID()}"
+                                        <c:if test="${requestTypeID eq t.getRequestTypeID()}">
+                                            selected=""
+                                        </c:if>
+                                        >${t.getRequestTypeName()}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="content-request-body" id="request-body">
@@ -262,7 +268,11 @@
                                 <span >EndDate (Hết Hạn Ngày): </span>
                                 <input readonly="" type="date" name="endDate" id="resign-endDate" value="${account.getEndDate()}">
                             </div>
-                            <div class="request-input-box">
+                            <div class="request-input-box"
+                                 <c:if test="${err.getInvalidDate_error() !=null}">
+                                     style="margin-bottom: 20px;"
+                                 </c:if>
+                                 >
                                 <span style="color: red" >Extension To (Gia Hạn Đến): </span>
                                 <input type="date" name="extensionDate" id="resign-extensionDate" required="" 
                                        <c:if test="${not empty extendDate}">

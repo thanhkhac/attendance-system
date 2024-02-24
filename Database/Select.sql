@@ -70,5 +70,7 @@ SELECT  EmployeeID,
 		UPDATE Employees
 		SET Email ='DucNTHE173064@fpt.edu.vn'
 		WHERE EmployeeID = 4
-
+		UPDATE Employees
+		SET EndDate ='02/25/2024'
+		WHERE EmployeeID = 3
 

@@ -13,17 +13,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import model.EmployeeDTO;
-import model.request.ResignationRequestDAO;
+import model.request.OverTimeRequestDAO;
 import model.request.SendRequestError;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "InsertResignationRequestServlet", urlPatterns = {"/InsertResignationRequestServlet"})
-public class InsertResignationRequestServlet extends HttpServlet {
+@WebServlet(name = "InsertOverTimeRequestServlet", urlPatterns = {"/InsertOverTimeRequestServlet"})
+public class InsertOverTimeRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,31 +36,28 @@ public class InsertResignationRequestServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private boolean isAcceptableTime(Time startTime, Time endTime) {
+        Time currentTime = new Time(System.currentTimeMillis());
+        final Time fixedStartTime = Time.valueOf("07:30:00");
+        final Time fixedEndTime = Time.valueOf("20:00:00");
+
+        if ((startTime.after(fixedStartTime) || startTime.equals(fixedStartTime)) 
+                && (endTime.before(fixedEndTime)||endTime.equals(fixedEndTime))) {
+            return true;
+        }
+        return false;
+    }
+
     private LocalDate timeAfterNMonths(LocalDate time, int monthToAdd) {
         LocalDate afterNMonth = time.plusMonths(monthToAdd);
         return afterNMonth;
     }
 
-    private LocalDate timeBeforeMonths(LocalDate time, int monthToSub) {
-        LocalDate afterNMonth = time.minusMonths(monthToSub);
-        return afterNMonth;
-    }
-
-    private boolean isAcceptableDate(LocalDate startDateContract, LocalDate endDateContract, LocalDate extendDate) {
-        LocalDate current = LocalDate.now();
-        if (current.isEqual(endDateContract) || current.isBefore(endDateContract)) { //current>=endDateContract (chua het han hop dong cu)
-            System.out.println("1");
-            if (current.isAfter(startDateContract) && current.isAfter(timeBeforeMonths(endDateContract, 1))) { //current > startDate, current > endate-1 month, gia han truoc endDate 1 thang
-                System.out.println("2");
-                if (extendDate.isAfter(timeAfterNMonths(endDateContract, 6))
-                        || extendDate.isEqual(timeAfterNMonths(endDateContract, 6))) { // Gia han it nhat 6 thang
-                    System.out.println("3");
-                    if (extendDate.isEqual(timeAfterNMonths(endDateContract, 24))
-                            || extendDate.isBefore(timeAfterNMonths(endDateContract, 24))) { // Gia han nhieu nhat 2 nam
-                        System.out.println("4");
-                        return true;
-                    }
-                }
+    public boolean isAcceptableDate(LocalDate date) {
+        LocalDate currentDate = LocalDate.now();
+        if (date.isAfter(currentDate) || date.isEqual(currentDate)) { //date >= current
+            if (date.isBefore(timeAfterNMonths(date, 1)) || date.isEqual(timeAfterNMonths(date, 1))) { //date<=current+1month (xu li don trong 1 thang toi)
+                return true;
             }
         }
         return false;
@@ -97,45 +96,55 @@ public class InsertResignationRequestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        EmployeeDTO account = (EmployeeDTO) session.getAttribute("ACCOUNT");
-        LocalDate extendDate = LocalDate.parse(request.getParameter("extensionDate"));
-//        String extendDate = request.getParameter("extensionDate");
-        String reason = request.getParameter("reason");
-        LocalDate startDateContract = new Date(account.getStartDate().getTime()).toLocalDate();
-        LocalDate endDateContract = new Date(account.getEndDate().getTime()).toLocalDate();
+        EmployeeDTO e = (EmployeeDTO) session.getAttribute("ACCOUNT");
+        String startTime_raw = request.getParameter("startTime");
+        String endTime_raw = request.getParameter("endTime");
+        LocalDate date = LocalDate.parse(request.getParameter("date"));
         LocalDate current = LocalDate.now();
+        Time startTime = null;
+        Time endTime = null;
+        final SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         SendRequestError err = new SendRequestError();
-        ResignationRequestDAO dao = new ResignationRequestDAO();
+        OverTimeRequestDAO dao = new OverTimeRequestDAO();
         boolean isErr = false;
         String URL = "Error.jsp";
-        if (!isAcceptableDate(startDateContract, endDateContract, extendDate)) {
-            isErr = true;
-            err.setInvalidDate_error("Khoảng Thời Gian Không Hợp Lệ !");
+        try {
+            java.util.Date timeStart = format.parse(startTime_raw);
+            java.util.Date timeEnd = format.parse(endTime_raw);
+            startTime = new Time(timeStart.getTime());
+            endTime = new Time(timeEnd.getTime());
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
-        if (extendDate == null || reason.length() <= 0) {
+        if (!isAcceptableTime(startTime, endTime)) {
             isErr = true;
-            err.setNullValue_error("Không Được Bỏ Trống !");
+            err.setInvalidTime_error("Khoảng thời gian không hợp lệ !");
         }
-        if (reason.length() < 1 || reason.length() > 250) {
+        if (!isAcceptableDate(date)) {
             isErr = true;
-            err.setReasonLength_error("Lý Do [1-250] kí tự");
+            err.setInvalidDate_error("Ngày tăng ca không hợp lệ !");
+        }
+        if (e.getRoleID() == 4 || e.getRoleID() == 5) {
+            isErr = true;
+            err.setInvalidRole_error("Không áp dụng tăng ca với một số chức vụ !");
         }
         if (!isErr) {
-            boolean rs = dao.insertResignationRequest(account, current, extendDate, reason);
+            boolean rs = dao.insertOverTimeRequest(e, current, date, startTime, endTime, e.getEmployeeID());
             if (rs) {
                 URL = "Success.jsp";
             } else {
                 URL = "Error.jsp";
             }
         } else {
-            request.setAttribute("extensionDate", extendDate);
-            request.setAttribute("reason", reason);
-            request.setAttribute("error", err);
             request.setAttribute("msg", "Gửi Yêu Cầu Thất Bại !");
-            URL = "PrepareRequestServlet?requestTypeID=3";
+            request.setAttribute("date", date);
+            request.setAttribute("startTime", startTime_raw);
+            request.setAttribute("endTime", endTime_raw);
+            request.setAttribute("error", err);
+            URL = "PrepareRequestServlet?requestTypeID=1";
         }
         request.getRequestDispatcher(URL).forward(request, response);
-
     }
 
     /**

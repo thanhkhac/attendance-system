@@ -2,51 +2,54 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model;
+package model.request;
 
+import java.sql.Time;
 import java.time.LocalDate;
 
 /**
  *
  * @author admin
  */
-public class ResignationRequestDTO {
+public class OverTimeRequestDTO {
 
-    private int resignationRequestID;
+    private int overTimeRequestID;
     private int employeeID;
     private LocalDate sentDate;
-    private LocalDate startDateContract;
-    private LocalDate endDateContract;
-    private LocalDate extendDate;
-    private String reason;
+    private LocalDate date;
+    private Time startTime;
+    private Time endTime;
     private Boolean managerApprove;
     private Boolean hrApprove;
     private int managerID;
     private int hrID;
+    private Boolean status;
+    private int createdBy;
 
-    public ResignationRequestDTO() {
+    public OverTimeRequestDTO() {
     }
 
-    public ResignationRequestDTO(int resignationRequestID, int employeeID, LocalDate sentDate, LocalDate startDateContract, LocalDate endDateContract, LocalDate extendDate, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID) {
-        this.resignationRequestID = resignationRequestID;
+    public OverTimeRequestDTO(int overTimeRequestID, int employeeID, LocalDate sentDate, LocalDate date, Time startTime, Time endTime, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status, int createdBy) {
+        this.overTimeRequestID = overTimeRequestID;
         this.employeeID = employeeID;
         this.sentDate = sentDate;
-        this.startDateContract = startDateContract;
-        this.endDateContract = endDateContract;
-        this.extendDate = extendDate;
-        this.reason = reason;
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.managerApprove = managerApprove;
         this.hrApprove = hrApprove;
         this.managerID = managerID;
         this.hrID = hrID;
+        this.status = status;
+        this.createdBy = createdBy;
     }
 
-    public int getResignationRequestID() {
-        return resignationRequestID;
+    public int getOverTimeRequestID() {
+        return overTimeRequestID;
     }
 
-    public void setResignationRequestID(int resignationRequestID) {
-        this.resignationRequestID = resignationRequestID;
+    public void setOverTimeRequestID(int overTimeRequestID) {
+        this.overTimeRequestID = overTimeRequestID;
     }
 
     public int getEmployeeID() {
@@ -65,36 +68,28 @@ public class ResignationRequestDTO {
         this.sentDate = sentDate;
     }
 
-    public LocalDate getStartDateContract() {
-        return startDateContract;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setStartDateContract(LocalDate startDateContract) {
-        this.startDateContract = startDateContract;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public LocalDate getEndDateContract() {
-        return endDateContract;
+    public Time getStartTime() {
+        return startTime;
     }
 
-    public void setEndDateContract(LocalDate endDateContract) {
-        this.endDateContract = endDateContract;
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
     }
 
-    public LocalDate getExtendDate() {
-        return extendDate;
+    public Time getEndTime() {
+        return endTime;
     }
 
-    public void setExtendDate(LocalDate extendDate) {
-        this.extendDate = extendDate;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
     }
 
     public Boolean getManagerApprove() {
@@ -129,4 +124,23 @@ public class ResignationRequestDTO {
         this.hrID = hrID;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+//    public void setStatus(Boolean status) {
+//        this.status = status;
+//    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    
+    
+    
 }

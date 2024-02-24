@@ -105,8 +105,6 @@
                 font-size: medium;
                 margin-right: 50px;
             }
-
-
             .request-policy{
                 margin: 20px 0;
                 font-style: italic;
@@ -117,11 +115,28 @@
             .request-policy p:first-child{
                 color: red;
             }
+            .content-message {
+                background-color: #f8d7da;
+                border: 1px solid #f5c6cb;
+                padding: 10px;
+                margin: 20px 0;
+                margin-bottom: 50px;
+                border-radius: 5px;
+            }
+
+            .content-message p {
+                color: #721c24;
+                margin: 0;
+                font-size: larger;
+            }
+            .fa-xmark {
+                color: #721c24;
+                margin-right: 8px;
+            }
             @media screen and (orientation: portrait) {
                 .content{
                     max-width: 90%;
                 }
-
             }
             @media (max-width:1450px) {
                 .content{
@@ -148,14 +163,24 @@
         <c:set var="listDepartment" value="${requestScope.listDepartment}" />
         <c:set var="listEmployeeType" value="${requestScope.listEmployeeType}" />
         <c:set var="listRole" value="${requestScope.listRole}" />
-
+        <c:set var="requestTypeID" value="${requestScope.requestTypeID}" />
+        <c:set var="date" value="${requestScope.date}" />
+        <c:set var="startTime" value="${requestScope.startTime}" />
+        <c:set var="endTime" value="${requestScope.endTime}" />
+        <c:set var="msg" value="${requestScope.msg}" />
+        <c:set var="err" value="${requestScope.error}" />
         <div class="content">
             <h1>Attendance System</h1>
             <div class="content-redirect">
                 <p><a href="ThanhCong.html">Home</a> | Send Request</p>
             </div>
+            <c:if test="${not empty msg}">
+                <div class="content-message">
+                    <p><i class="fa-solid fa-xmark"></i>${msg}</p>
+                </div>
+            </c:if>
             <div class="content-note">
-                <h1>Send A Request</h1>
+                <h1>OverTime Request (Yêu cầu xin tăng ca)</h1>
                 <p class="content-note-items">
                     <span>Lưu ý:</span> Khi gửi đơn, yêu cầu tới các phòng ban !
                 </p>
@@ -168,14 +193,17 @@
                 <p  class="content-note-items">Trân Trọng !</p>
 
             </div>
-            <form  id="form-request" action="DispatchController" method="Post" enctype="multipart/form-data">
+            <form  id="form-request" action="InsertOverTimeRequestServlet" method="Post" >
                 <div class="content-request">
                     <div class="content-request-type">
                         <label for="request-type">Request Type: </label>
-                        <select name="requestID" id="request-type" onchange="Tranformation()">
-                            <option value="0">Choose Type Of Request (Chọn Loại Yêu Cầu)</option>
+                        <select name="requestID" id="request-type" onchange="Tranformation()" >
                             <c:forEach items="${listType}" var="t">
-                                <option id="requestTypeID" value="${t.getRequestTypeID()}"><a href="ResignationRequest.jsp">${t.getRequestTypeName()}</a></option>
+                                <option id="requestTypeID" value="${t.getRequestTypeID()}"
+                                        <c:if test="${requestTypeID eq t.getRequestTypeID()}">
+                                            selected=""
+                                        </c:if>
+                                        >${t.getRequestTypeName()}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -217,7 +245,11 @@
                                     </c:if>
                                 </c:forEach>
                             </div>
-                            <div class="request-input-box">
+                            <div class="request-input-box"
+                                 <c:if test="${err.getInvalidRole_error() !=null}">
+                                     style="margin-bottom: 20px;"
+                                 </c:if>
+                                 >
                                 <span >Với Vai Trò Là (Chức Vụ): </span>
                                 <c:forEach items="${listRole}" var="r">
                                     <c:if test="${account.getRoleID() == r.getRoleID()}">
@@ -226,14 +258,53 @@
                                     </c:if>
                                 </c:forEach>
                             </div>
-                            <div class="request-input-box">
-                                <span style="color: red">StartDate (Từ Ngày): </span>
-                                <input type="date" name="startDate" id="leave-startDate" required="">
+                            <c:if test="${err.getInvalidRole_error() !=null}">
+                                <div class="content-message">
+                                    <p><i class="fa-solid fa-xmark"></i>  ${err.getInvalidRole_error()}</p>
+                                </div>
+                            </c:if>
+                            <div class="request-input-box"
+                                 <c:if test="${err.getInvalidDate_error() !=null}">
+                                     style="margin-bottom: 20px;"
+                                 </c:if>
+                                 >
+                                <span style="color: red">Date (Ngày Thực Hiện): </span>
+                                <input type="date" name="date" id="overTime-date" required=""
+                                       <c:if test="${not empty date}">
+                                           value="${date}"
+                                       </c:if>
+                                       >
                             </div>
+                            <c:if test="${err.getInvalidDate_error() !=null}">
+                                <div class="content-message">
+                                    <p><i class="fa-solid fa-xmark"></i>  ${err.getInvalidDate_error()}</p>
+                                </div>
+                            </c:if>
                             <div class="request-input-box">
-                                <span style="color: red" >EndDate (Đến Ngày): </span>
-                                <input type="date" name="endDate" id="leave-endDate" required="">
+                                <span style="color: red">Start Time (Giờ Bắt Đầu): </span>
+                                <input type="time" name="startTime" id="startTime" required=""
+                                       <c:if test="${not empty startTime}">
+                                           value="${startTime}"
+                                       </c:if>
+                                       >
                             </div>
+                            <div class="request-input-box"
+                                 <c:if test="${err.getInvalidRole_error() !=null}">
+                                     style="margin-bottom: 20px;"
+                                 </c:if>
+                                 >
+                                <span style="color: red">End Time (Giờ Kết Thúc): </span>
+                                <input type="time" name="endTime" id="endTime" required=""
+                                       <c:if test="${not empty endTime}">
+                                           value="${endTime}"
+                                       </c:if>
+                                       >
+                            </div>
+                            <c:if test="${err.getInvalidTime_error() !=null}">
+                                <div class="content-message">
+                                    <p><i class="fa-solid fa-xmark"></i>  ${err.getInvalidTime_error()}</p>
+                                </div>
+                            </c:if>
                             <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
                         </div>
                     </div>
