@@ -4,7 +4,9 @@
  */
 package model;
 
+
 import dbhelper.*;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
@@ -71,6 +73,7 @@ public class LeaveRequestDAO extends DAOBase {
         return list;
     }
 
+
     public boolean approvalOfApplicationByManager(int status , int managerID , int requestID) {
         if (connection != null) {
             try {
@@ -88,12 +91,14 @@ public class LeaveRequestDAO extends DAOBase {
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println(e);
+
             } finally {
                 closeAll();
             }
         }
         return false;
     }
+
 
     public boolean approvalOfApplicationByHr(int status , int hrID , int requestID) {
         if (connection != null) {

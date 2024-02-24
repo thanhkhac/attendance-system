@@ -52,6 +52,5 @@ public class EmployeeGeneral extends EmployeeDTO {
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }
-    
-    
+
 }

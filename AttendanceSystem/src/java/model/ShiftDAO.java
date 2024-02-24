@@ -11,8 +11,8 @@ public class ShiftDAO extends DAOBase {
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public ShiftDTO getShiftDTO(int xShiftID) {
-        query = "SELECT * FROM Shifts\n" +
-                "WHERE ShiftID = ?";
+        query = "SELECT * FROM Shifts\n"
+                + "WHERE ShiftID = ?";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, xShiftID);
@@ -89,7 +89,7 @@ public class ShiftDAO extends DAOBase {
 
     public static void main(String[] args) {
         ShiftDAO shiftDAO = new ShiftDAO();
-        System.out.println("getTimesheetDTO: " + shiftDAO.getShiftDTO(1));
+        System.out.println("getTimesheetDTO: " + shiftDAO.getShiftDTO(3));
         System.out.println(shiftDAO.getAllShiftDTO().size());
         System.out.println(shiftDAO.getActiveShiftDTO().size());
     }

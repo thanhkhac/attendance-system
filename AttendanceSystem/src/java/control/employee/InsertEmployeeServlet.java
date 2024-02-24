@@ -42,7 +42,7 @@ public class InsertEmployeeServlet extends HttpServlet {
     final String ERR_FORMAT_CCCD = "Sai định dạng CCCD";
     final String ERR_FORMAT_SDT = "Sai định dạng SĐT";
     final String ERR_FORMAT_DATE = "Sai định dạng ngày tháng năm";
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -73,7 +73,7 @@ public class InsertEmployeeServlet extends HttpServlet {
         String email_check = emDao.getEmail(email);
         String cccd_check = emDao.getCCCD(cccd);
         String phonenumber_check = emDao.getPhonenumber(phonenumber);
-        
+
         LocalDate birth_date = null;
         LocalDate start_date = null;
         LocalDate end_date = null;
@@ -116,7 +116,7 @@ public class InsertEmployeeServlet extends HttpServlet {
         } else if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             request.setAttribute("ERR_EMAIL", ERR_FORMAT_EMAIL);
             isErr = true;
-        } else if(email.equals(email_check)){
+        } else if (email.equals(email_check)) {
             request.setAttribute("ERR_EMAIL", "Email đã tồn tại trong hệ thống");
             isErr = true;
         }
@@ -127,7 +127,7 @@ public class InsertEmployeeServlet extends HttpServlet {
         } else if (!cccd.matches("^0\\d{11}$")) {
             request.setAttribute("ERR_CCCD", ERR_FORMAT_CCCD);
             isErr = true;
-        } else if(cccd.equals(cccd_check)){
+        } else if (cccd.equals(cccd_check)) {
             request.setAttribute("ERR_CCCD", "Căn cước công dân đã tồn tại trong hệ thống");
             isErr = true;
         }
@@ -138,7 +138,7 @@ public class InsertEmployeeServlet extends HttpServlet {
         } else if (!phonenumber.matches("^0\\d{9}$")) {
             request.setAttribute("ERR_PHONE", ERR_FORMAT_SDT);
             isErr = true;
-        } else if(phonenumber.equals(phonenumber_check)){
+        } else if (phonenumber.equals(phonenumber_check)) {
             request.setAttribute("ERR_PHONE", "Số điện thoại đã tồn tại trong hệ thống");
             isErr = true;
         }
@@ -211,7 +211,7 @@ public class InsertEmployeeServlet extends HttpServlet {
                     if (get_end_month - get_start_month < 6) {    // thời hạn làm việc ít nhất là 6 tháng
                         msg = "Thời gian làm việc ít nhất 6 tháng";
                     } else {  // thời hạn làm việc >= 6 tháng
-                        defaultPW = em.sendOTP("Default Password" , "default password", email);
+                        defaultPW = em.sendOTP("Default Password", "default password", email);
                         if (emDao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, defaultPW, cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
                             msg = "Thêm nhân viên thành công";
                         } else {
@@ -219,7 +219,7 @@ public class InsertEmployeeServlet extends HttpServlet {
                         }
                     }
                 } else {  // năm kêt thúc lớn hơn năm bắt đầu
-                    defaultPW = em.sendOTP("Default Password" , "default password", email);
+                    defaultPW = em.sendOTP("Default Password", "default password", email);
                     if (emDao.insertEmployee(firstName, middleName, lastName, gender_raw, birth_date, email, defaultPW, cccd, phonenumber, employee_type_id_raw, department_id_raw, role_id_raw, start_date, end_date, activeAcc) == true) {
                         msg = "Thêm nhân viên thành công";
                     } else {
@@ -244,12 +244,11 @@ public class InsertEmployeeServlet extends HttpServlet {
         request.setAttribute("EMPLTYPEID", employeeTypeID);
         request.setAttribute("DEPARTMENTID", departmentID);
         request.setAttribute("ROLEID", roleID);
-        
+
         request.setAttribute("MSG", msg);
         request.getRequestDispatcher(INSERT_PAGE).forward(request, response);
-        
-        
-        }
+
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

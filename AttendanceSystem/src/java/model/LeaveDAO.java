@@ -10,10 +10,10 @@ public class LeaveDAO extends DAOBase {
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public LeaveDTO getLeaveDTO(int xEmployeeID, String xDate) {
-        query = "SELECT * FROM Leaves\n" +
-                "WHERE \n" +
-                "	EmployeeID = ? \n" +
-                "	AND ? Between [StartDate] AND [EndDate] ";
+        query = "SELECT * FROM Leaves\n"
+                + "WHERE \n"
+                + "	EmployeeID = ? \n"
+                + "	AND ? Between [StartDate] AND [EndDate] ";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
@@ -25,8 +25,9 @@ public class LeaveDAO extends DAOBase {
                 LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("startDate"));
                 LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("endDate"));
                 String filePath = rs.getNString("filePath");
+                LocalDate createdDate = DATE_UTIL.parseSqlDate(rs.getDate("CreatedDate"));
                 int createdBy = rs.getInt("createdBy");
-                return new LeaveDTO(leaveID, employeeID, startDate, endDate, filePath, createdBy);
+                return new LeaveDTO(leaveID, employeeID, startDate, endDate, filePath, createdDate, createdBy);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,6 +39,6 @@ public class LeaveDAO extends DAOBase {
 
     public static void main(String[] args) {
         LeaveDAO leaveDAO = new LeaveDAO();
-
+        System.out.println(leaveDAO.getLeaveDTO(1, "2024-02-01"));
     }
 }
