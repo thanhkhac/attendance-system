@@ -12,7 +12,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.DepartmentDAO;
+import model.DepartmentDTO;
 import model.EmployeeDAO;
+import model.EmployeeDTO;
 
 /**
  *
@@ -33,18 +37,109 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String txtName = request.getParameter("txt");
-        String Date = request.getParameter("date");
-        String startEnd = request.getParameter("StartEnd");
-        EmployeeDAO dao = new EmployeeDAO();
-        String [] tachName = txtName.split(" ");
-        String firstName = tachName[0];
-        String lastName = tachName[tachName.length-1];
-        String Middname = "";
-        for(int i=1; i<tachName.length-1;i++){
-            Middname+=  tachName[i]+ " ";
+        String Page = request.getParameter("Page");
+        int page =1 ;
+        if(Page!=null&&Page.length()>0){
+            page = Integer.parseInt(Page);
         }
-        Middname = Middname.trim();
-        out.print(startEnd + "-" );
+        String Date = request.getParameter("date");
+        String startTime = request.getParameter("StartEnd");
+        String endTime = request.getParameter("EndTime");
+        String Phong = request.getParameter("Phong");
+        if(Phong==null)
+            Phong = "";
+        EmployeeDAO dao = new EmployeeDAO();
+        String lastName = "";
+       String firstName=""; 
+       String Middname = "";
+       String [] tachName = txtName.split(" ");
+       
+        lastName = tachName[0]; 
+        if(tachName.length==1){
+        lastName= tachName[tachName.length-1];   
+        }
+        else if(tachName.length==2){
+            lastName = tachName[0];
+            Middname = tachName[1];
+        }
+        else{
+            lastName = tachName[0];
+            firstName= tachName[tachName.length-1]; 
+            for(int i=1; i<tachName.length-1;i++){
+            Middname +=  tachName[i]+ " ";
+            Middname = Middname.trim();
+        }       
+        }
+        //out.print(startTime+"-"+endTime+" "+Phong+lastName+Middname+firstName +Date+"-"+Phong);
+         out.print("<table class=\"table project-list-table table-nowrap align-middle table-borderless\">\n" +
+"                                                            <thead>\n" +
+"                                                                <tr>\n" +
+"\n" +
+"                                                                    <th scope=\"col\">Name</th>\n" +
+"                                                                    <th scope=\"col\">Position</th>\n" +
+"                                                                    <th scope=\"col\">Email</th>\n" +
+"                                                                    <th scope=\"col\">Employee ID</th>\n" +
+"                                                                    <th scope=\"col\" style=\"width: 200px;\">Action</th>\n" +
+"                                                                </tr>\n" +
+"                                                            </thead>\n" +
+"                                                            <tbody >");
+         
+         ArrayList<EmployeeDTO> listemp = dao.getListAddEmployeeOvertimeEachShiftAjax(page, Date, Phong, firstName, lastName, Middname,startTime,endTime);
+         int countPage = dao.countEmployeeOvertimeByShift(Date, Phong, firstName, lastName, Middname, startTime, endTime);
+         int endPage = 1;
+           
+        if (countPage % 4 == 0) {
+            endPage = countPage / 4;
+        } else {
+            endPage = countPage / 4 + 1;
+        }
+        DepartmentDTO demp = null;
+         for(EmployeeDTO list :listemp){
+            demp = new DepartmentDAO().getDepartmentById(list.getDepartmentID());
+             out.print("<tr>\n" +
+"                                                                    <td><img src=\"https://bootdey.com/img/Content/avatar/avatar1.png\" alt=\"\" class=\"avatar-sm rounded-circle me-2\" /><a href=\"#\" class=\"text-body\">"+list.getLastName()+" "+list.getMiddleName()+" "+list.getFirstName()+"</a></td>\n" +
+"                                                                    <td><span class=\"badge badge-soft-success mb-0\">"+demp.getName()+"</span></td>\n" +
+"                                                                    <td>"+list.getEmail()+"</td>\n" +
+"                                                                    <td>"+list.getEmployeeId()+"</td>\n" +
+"                                                                    <td>\n" +
+"                                                                        " +
+"<ul class=\"list-inline mb-0\">\n" +
+"  <li class=\"list-inline-item\">                                                                          \n" +
+" <a href=\"javascript:void(0);\"  title=\"Delete\" class=\"px-2 text-danger\"><i class=\"bx bx-trash-alt font-size-18\"></i></a>\n" +
+"                   </li>                                                        \n" +
+"                                                                            \n" +
+"\n" +
+"                                                                        </ul>\n" +
+"                                                                    </td>\n" +
+"                                                                </tr>");
+         }
+         out.print("</tbody>\n" +
+"                                                        </table>");
+         out.print("<ul class=\"pagination\" style=\"\n" +
+"                justify-content: end;\n" +
+"                \">");
+         if(page<=1){
+             out.print("<li class=\"page-item click_page\"><a class=\"page-link\" href=\"#\">Trước</a></li>");
+         }
+         else{
+             out.print("<li class=\"page-item click_page\"><a data-index=\""+(page-1)+"\"  class=\"page-link\" href=\"#\">Trước</a></li>");
+         }
+         for(int i=1;i<=endPage;i++){
+             if(i==page){
+                 out.print("<li class=\"page-item click_page\"><a style=\"background-color: #cfd5da96;\" class=\"page-link page\" data-index=\""+i+"\"  href=\"#\">"+i+"</a><li>");
+                 
+             }else{
+                 out.print("<li class=\"page-item click_page\"><a  class=\"page-link page\" data-index=\""+i+"\"  href=\"#\">"+i+"</a><li>");
+             }
+         }
+         if(page<endPage&&endPage>1){
+             out.print("<li class=\"page-item click_page\"><a data-index=\""+(page+1)+"\"  class=\"page-link\" href=\"#\">Sau</a></li>");
+         }
+         else{
+             out.print("<li class=\"page-item click_page\"><a data-index=\""+(page)+"\" class=\"page-link\" href=\"#\">Sau</a></li>");
+         }
+         out.print(" </ul>\n" +
+"                                                    </div>");
         }
     
 

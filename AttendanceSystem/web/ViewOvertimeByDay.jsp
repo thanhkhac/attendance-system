@@ -259,34 +259,48 @@
                         <div class="hover-top-in text-center">
 
                             <a class="linkOvertime" href="#">
+                                <%
+                                    
+                                int countPage = new EmployeeDAO().countEmployeeOvertimeByShift(Day,"","","","",overtime.getStartTime().toString(),overtime.getEndTime().toString());
+                                                          int endPage = 1;
+           
+        if (countPage % 4 == 0) {
+            endPage = countPage / 4;
+        } else {
+            endPage = countPage / 4 + 1;
+        }
+                                %>
                                 <div style="padding-top: 23px" class="overflow-hidden z-index-1 position-relative px-5 hover-top--in mt-3 mb-3">
                                     <div style="border-radius: 12px;" class="mx-2 mx-xl-3 shadow mt-n4 bg-white p-4 pt-6 mx-4 text-center ">
-                                        <h6 class="fw-700 dark-color mb-1"><%=overtime.getStartTime()%> - <%=overtime.getEndTime()%></h6><small>Số nhân viên tăng ca: <%=listEmployee.size()%></small>
+                                        <h6 class="fw-700 dark-color mb-1"><%=overtime.getStartTime()%> - <%=overtime.getEndTime()%></h6><small>Số nhân viên tăng ca: <%=countPage%></small>
                                     </div>                      
                                 </div>
                             </a>
                             <div class="overlay" style="z-index:2000">
-                                <div class="centered-div" >
+                                <div style="width: 900px;" class="centered-div" >
                                     <button class="close-button"><img  style="width: 10px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSkBKbhGamdqx3Bab4sQqUwkljoYvQ-WasvA&usqp=CAU" alt=""></button>
                                     <div class="container">
                                         <div class="container row align-items-center">
                                             <div class="col-md-6">
                                                 <div class="mt-4">
                                                     <div class="input-group rounded">
-                                                        <input oninput="searchByName(this)"  type="search" class="form-control rounded txtSearch" placeholder="Search" />
-
+                                                        <input   type="search" class="form-control rounded txtSearch" placeholder="Search" />
+                                                        <input   type="hidden" class="startTime" value="<%=overtime.getStartTime()%>" />
+                                                        <input   type="hidden" class="endTime" value="<%=overtime.getEndTime()%>" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2"></div>
                                             <div style="width: 240px;" class="col-md-4">
                                                 <div class="mt-4">
-                                                    <select onchange="searchByName(this)" id="form-select" class="form-select" >
+                                                    <select  class="form-select" >
+                                                        <option value="" selected="" >Tất cả</option>
                                                         <%
                                                           ArrayList<DepartmentDTO> listDepart = new DepartmentDAO().getListDepartment();
+                                                          
                                                           for(DepartmentDTO depart:listDepart ){
                                                         %>
-                                                        <option value="3">Three</option>
+                                                        <option value="<%=depart.getDepartmentID()%>" ><%=depart.getName()%></option>
                                                         <%}%>
                                                     </select>
                                                 </div>
@@ -295,7 +309,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="">
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive listEmployee">
                                                         <table class="table project-list-table table-nowrap align-middle table-borderless">
                                                             <thead>
                                                                 <tr>
@@ -307,9 +321,10 @@
                                                                     <th scope="col" style="width: 200px;">Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody class = "listEmployee">
+                                                            <tbody >
                                                                 <%
                                                                    DepartmentDTO demp = new DepartmentDTO();
+                                                                   int count = 0;
                                                                    for(EmployeeDTO listemp : listEmployee){
                                                                     
                                                                     demp = new DepartmentDAO().getDepartmentById(listemp.getDepartmentID());
@@ -328,12 +343,40 @@
 
                                                                         </ul>
                                                                     </td>
+                                                                    
                                                                 </tr>
-                                                                <%}%>
+                                                                
+                                                                <%
+                                                                    count++;
+                                                                    if(count==4)
+                                                                    break;
+                                                                    }%>
 
 
                                                             </tbody>
                                                         </table>
+                                                                <ul class="pagination" style="
+                justify-content: end;
+                ">
+                <li class="page-item"><a data-index="1" class="page-link" href="#">Trước</a></li>
+
+                <%
+                  for(int i=1;i<=endPage;i++){
+                  
+                  if(i==1){
+                %>
+                <li class="page-item"><a style="background-color: #cfd5da96;" class="page-link page" data-index="<%=i%>"  href="#"><%=i%></a><li>
+                 <%}else{%>   
+
+                <li class="page-item"><a  class="page-link page" data-index="<%=i%>"  href="#"><%=i%></a><li>
+                 <%}}
+                 if(endPage==1){
+                 %>
+                     <li class="page-item"><a data-index="1"  class="page-link page" href="#">Sau</a></li>
+                 <%}else{%>
+                <li class="page-item"><a data-index="2"  class="page-link page" href="#">Sau</a></li>
+<%}%>
+            </ul>
                                                     </div>
                                                 </div>
                                             </div>
@@ -343,16 +386,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="float-sm-end">
-                                                    <ul class="pagination mb-sm-0">
-                                                        <li class="page-item disabled">
-                                                            <a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
-                                                        </li>
-                                                        <li class="page-item active"><a onclick="searchByName(this)" href="#" class="page-link">1</a></li>
-
-                                                        <li class="page-item">
-                                                            <a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
-                                                        </li>
-                                                    </ul>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -442,62 +476,169 @@
 </section>
 <script>
 
-    var startEnd;
-    var showDivLinks = document.querySelectorAll(".linkOvertime");
-// khi an vao link co ten class show-div-link se hien ra box an
-    showDivLinks.forEach(function (link) {
-        link.addEventListener("click", function (e) {
-            
-            var overlay = this.nextElementSibling;
-            startEnd = overlay.nextElementSibling.value;
-            console.log(startEnd);
-            overlay.style.display = "block";
+// JavaScript để hiển thị popup khi nhấn vào linkOvertime
+var startEnd;
+var showDivLinks = document.querySelectorAll(".linkOvertime");
 
-            var closeButton = overlay.querySelector(".close-button");
-            closeButton.addEventListener("click", function () {
-                overlay.style.display = "none";
-            });
-        });
-    });
-
-
-
-    $(document).on("click", ".show-div-link", function (e) {
+showDivLinks.forEach(function (link) {
+    link.addEventListener("click", function (e) {
         e.preventDefault();
-        var overlay = $(this).next(".overlay");
-        overlay.css("display", "block");
+        var overlay = this.nextElementSibling;
+        startEnd = overlay.nextElementSibling.value;
+        overlay.style.display = "block";
 
-        var closeButton = overlay.find(".close-button");
-        closeButton.on("click", function () {
-            overlay.css("display", "none");
+        var closeButton = overlay.querySelector(".close-button");
+        closeButton.addEventListener("click", function () {
+            overlay.style.display = "none";
         });
     });
+});
 
-    function searchByName(param) {
-        var txtSearch = $(".txtSearch").val();
-        var phongBan = $("#phongBan").val();
-        var Date = $("#date").val();
-        $.ajax({
-            url: "/AttendanceSystem/listEmployeeOvertimeAjax",
-            type: "get",
-            data: {
-                txt: txtSearch,
-                phong: phongBan,
-                date: Date,
-                StartEnd: startEnd
-            },
-            success: function (data) {
-                var row = $(".listEmployee");
-                row.html(data);
+// JavaScript để gửi AJAX khi giá trị của txtSearch thay đổi
+$(".txtSearch").on("input", function () {
+    var txtSearch = $(this).val();
+    var Date = $("#date").val();
+    var startEnd = $(this).closest(".overlay").find(".startTime").val();
+    var endTime = $(this).closest(".overlay").find(".endTime").val();
+    var chonPhong = $(this).closest(".overlay").find(".form-select").val();  
+    var listEmployee = $(this).closest(".overlay").find(".listEmployee");
+    console.log(startEnd);
+    $.ajax({
+        url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+        type: "get",
+        data: {
+            txt: txtSearch,
+            date: Date,
+            StartEnd: startEnd,
+            EndTime:endTime,
+            Phong:chonPhong
+        },
+        success: function (data) {
+            listEmployee.html(data);
+        },
+        error: function (xhr) {
+            console.log("Error:", xhr);
+        }
+    });
+});
 
-                // Gọi lại sự kiện hoặc hàm JS bạn muốn chạy vi khi dung ajax lay du lieu tu serverlet se mat ket noi
-                //initializeYourFunctions();
-            },
-            error: function (xhr) {
-                console.log("Error:", xhr);
-            }
-        });
-    }
+$(".form-select").change(function () {
+    var txtSearch = $(".txtSearch").val();
+    var Date = $("#date").val();
+    var overlay = $(this).closest(".overlay");
+    var startEnd = overlay.find(".startTime").val();
+    var endTime = overlay.find(".endTime").val();
+    var chonPhong = $(this).val();  
+    var listEmployee = overlay.find(".listEmployee");
+    console.log(startEnd);
+    $.ajax({
+        url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+        type: "get",
+        data: {
+            txt: txtSearch,
+            date: Date,
+            StartEnd: startEnd,
+            EndTime: endTime,
+            Phong: chonPhong
+        },
+        success: function (data) {
+            listEmployee.html(data);
+        },
+        error: function (xhr) {
+            console.log("Error:", xhr);
+        }
+    });
+});
+
+    $(document).on("click", ".page-item", function () {
+    var txtSearch = $(".txtSearch").val();
+    var Date = $("#date").val();
+    var startEnd = $(this).closest(".overlay").find(".startTime").val();
+    var endTime = $(this).closest(".overlay").find(".endTime").val();
+    var chonPhong = $(this).closest(".overlay").find(".form-select").val();  
+
+    // Lấy giá trị của thuộc tính data-index từ phần tử <a> con
+    var dataIndex = $(this).find("a").attr("data-index");
+
+    var listEmployee = $(this).closest(".overlay").find(".listEmployee");
+    console.log(startEnd);
+    $.ajax({
+        url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+        type: "get",
+        data: {
+             txt: txtSearch,
+            date: Date,
+            StartEnd: startEnd,
+            EndTime: endTime,
+            Phong: chonPhong,
+            Page: dataIndex // Truyền giá trị data-index vào dữ liệu gửi đi
+        },
+        success: function (data) {
+            listEmployee.html(data);   
+        },
+        error: function (xhr) {
+            console.log("Error:", xhr);
+        }
+    });
+});
+
+
+//    var startEnd;
+//    var showDivLinks = document.querySelectorAll(".linkOvertime");
+//// khi an vao link co ten class show-div-link se hien ra box an
+//    showDivLinks.forEach(function (link) {
+//        link.addEventListener("click", function (e) {
+//            
+//            var overlay = this.nextElementSibling;
+//            startEnd = overlay.nextElementSibling.value;
+//            console.log(startEnd);
+//            overlay.style.display = "block";
+//
+//            var closeButton = overlay.querySelector(".close-button");
+//            closeButton.addEventListener("click", function () {
+//                overlay.style.display = "none";
+//            });
+//        });
+//    });
+//
+//
+//
+//    $(document).on("click", ".show-div-link", function (e) {
+//        e.preventDefault();
+//        var overlay = $(this).next(".overlay");
+//        overlay.css("display", "block");
+//
+//        var closeButton = overlay.find(".close-button");
+//        closeButton.on("click", function () {
+//            overlay.css("display", "none");
+//        });
+//    });
+//
+//    function searchByName(param) {
+//        var txtSearch = $(".txtSearch").val();
+//        var phongBan = $("#phongBan").val();
+//        var Date = $("#date").val();
+//        $.ajax({
+//            url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+//            type: "get",
+//            data: {
+//                txt: txtSearch,
+//                phong: phongBan,
+//                date: Date,
+//                StartEnd: startEnd
+//            },
+//            success: function (data) {
+//                var row = $(".listEmployee");
+//                row.html(data);
+//
+//                // Gọi lại sự kiện hoặc hàm JS bạn muốn chạy vi khi dung ajax lay du lieu tu serverlet se mat ket noi
+//                //initializeYourFunctions();
+//            },
+//            error: function (xhr) {
+//                console.log("Error:", xhr);
+//            }
+//        });
+//    }
 </script>              
 </body>
 </html>

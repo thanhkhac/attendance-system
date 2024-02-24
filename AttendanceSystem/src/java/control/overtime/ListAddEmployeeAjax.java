@@ -42,18 +42,23 @@ public class ListAddEmployeeAjax extends HttpServlet {
        String Middname = "";
        String [] tachName = txtSearch.split(" ");
        
-        lastName = tachName[0];
-        
-        firstName=""; 
-        if(tachName.length>1){
-        firstName= tachName[tachName.length-1];   
+        lastName = tachName[0]; 
+        if(tachName.length==1){
+        lastName= tachName[tachName.length-1];   
         }
-        Middname = "";
-        for(int i=1; i<tachName.length-1;i++){
+        else if(tachName.length==2){
+            lastName = tachName[0];
+            Middname = tachName[1];
+        }
+        else{
+            lastName = tachName[0];
+            firstName= tachName[tachName.length-1]; 
+            for(int i=1; i<tachName.length-1;i++){
             Middname +=  tachName[i]+ " ";
+            Middname = Middname.trim();
+        }       
         }
         
-        Middname = Middname.trim();
        
             
        String phongBan  =request.getParameter("phong");
