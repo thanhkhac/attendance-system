@@ -59,7 +59,7 @@
         <div class="content">
             <h1>Thông Báo</h1>
             <div class="content-redirect">
-                <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Send Request</a> | Result</p>
+                <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Trở Lại</a> | Result</p>
             </div>
             <div class="content-message">
                 <p><i class="fa-solid fa-check"></i> Yêu cầu của bạn đã được gửi tới hệ thống thành công !</p>

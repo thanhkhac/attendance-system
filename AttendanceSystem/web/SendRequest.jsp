@@ -10,6 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
@@ -105,8 +106,8 @@
                 font-size: medium;
                 margin-right: 50px;
             }
-            
-            
+
+
             .request-policy{
                 margin: 20px 0;
                 font-style: italic;
@@ -125,6 +126,32 @@
             }
             #iternShipConfirmation-request{
                 display: none;
+            }
+            #overtime-request{
+                display: none;
+            }
+            @media screen and (orientation: portrait) {
+                .content{
+                    max-width: 90%;
+                }
+
+            }
+            @media (max-width:1450px) {
+                .content{
+                }
+                .content-request-type select{
+                    max-width: 90%;
+                }
+                .request-input-box{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .request-input-box input{
+                    max-width: 100%;
+                }
+                .request-input-box textArea{
+                    max-width: 100%;
+                }
             }
         </style>
     </head>
@@ -146,172 +173,38 @@
                     <span>Lưu ý:</span> Khi gửi đơn, yêu cầu tới các phòng ban !
                 </p>
 
-                <p class="content-note-items">Bộ phận xử lý đơn / yêu cầu sẽ tiếp nhận và xử lý trong vòng 24h.</p>
+                <p class="content-note-items">*Bộ phận xử lý đơn / yêu cầu sẽ tiếp nhận và xử lý trong vòng 24h.</p>
 
-                <p class="content-note-items">Để tránh SPAM, thời gian phản hồi đơn / yêu cầu sẽ được diễn ra theo quy tắc: Nếu gửi N (N&gt;1) đơn / yêu cầu
+                <p class="content-note-items">*Để tránh SPAM, thời gian phản hồi đơn / yêu cầu sẽ được diễn ra theo quy tắc: Nếu gửi N (N&gt;1) đơn / yêu cầu
                     với cùng một mục đích thì thời gian phản hồi sẽ diễn ra trong vòng Nx48h.</p>
-                <p class="content-note-items">Vì vậy hãy cân nhắc kĩ trước khi gửi đơn / yêu cầu !</p>
+                <p class="content-note-items">*Vì vậy hãy cân nhắc kĩ trước khi gửi đơn / yêu cầu !</p>
                 <p  class="content-note-items">Trân Trọng !</p>
-
             </div>
-            <form action="DispatchController" method="Post" enctype="multipart/form-data">
-                <div class="content-request">
-
-                    <div class="content-request-type">
-                        <label for="request-type">Request Type: </label>
-                        <select name="requestID" id="request-type" onchange="Tranformation()">
-                            <option value="0">Choose Type Of Request (Chọn Loại Yêu Cầu)</option>
-                            <c:forEach items="${listType}" var="t">
-                                <option id="requestTypeID" value="${t.getRequestTypeID()}">${t.getRequestTypeName()}</option>
+            <div class="content-request">
+                <div class="content-request-type">
+                    <label for="request-type">Request Type: </label>
+                    <select name="requestID" id="request-type" onchange="Tranformation()">
+                        <option value="0">Choose Type Of Request (Chọn Loại Yêu Cầu)</option>
+                        <c:forEach items="${listType}" var="t">
+                            <option id="requestTypeID" value="${t.getRequestTypeID()}">${t.getRequestTypeName()}</option>
                             </c:forEach>
-                        </select>
-                    </div>
-                    <div class="content-request-body" id="request-body">
-                        <div id="leave-request">
-                            <div class="request-policy">
-                                <p>Quy định ngày nghỉ : </p>
-                                <p>Năm: xử lý tối đa trong 1 năm tới.</p>
-                                <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
-                                <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
-                            </div>
-                            <div class="request-input-box">
-                                <span >Full Name (Tên tôi là): </span>
-                                <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Email: </span>
-                                <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Phone(Số Điện Thoại): </span>
-                                <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Hiện Đang Là (Nhân Viên): </span>
-                                <c:forEach items="${listEmployeeType}" var="type">
-                                    <c:if test="${account.getEmployeeTypeID() == type.getEmployeeTypeID()}">
-                                        <input readonly type="text" name="employeeType" id="employeeType" 
-                                               value="${type.getName()}" >
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="request-input-box">
-                                <span >Công Tác Tại (Phòng / Ban): </span>
-                                <c:forEach items="${listDepartment}" var="de">
-                                    <c:if test="${account.getDepartmentID() == de.getDepartmentID()}">
-                                        <input readonly type="text" name="department" id="department" 
-                                               value="${de.getName()}" >
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="request-input-box">
-                                <span >Với Vai Trò Là (Chức Vụ): </span>
-                                <c:forEach items="${listRole}" var="r">
-                                    <c:if test="${account.getRoleID() == r.getRoleID()}">
-                                        <input readonly type="text" name="role" id="role" 
-                                               value="${r.getName()}" >
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="request-input-box">
-                                <span style="color: red">StartDate (Từ Ngày): </span>
-                                <input type="date" name="startDate" id="leave-startDate" required="">
-                            </div>
-                            <div class="request-input-box">
-                                <span style="color: red" >EndDate (Đến Ngày): </span>
-                                <input type="date" name="endDate" id="leave-endDate" required="">
-                            </div>
-                            <div class="request-input-box">
-                                <span style="color: red" >Reason (Lý do): </span>
-                                <textarea name="reason" id="leave-reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
-                            </div>
-<!--                            <div class="content-request-file">
-                                <span class="body-span">File đính kèm (nếu có):</span>
-                                <label for="file">Upload File Here | <i class="fa-solid fa-arrow-up-from-bracket" aria-hidden="true"></i></label> 
-                                <input type="file" name="file" id="leave-file">
-                            </div>-->
-                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
-
-                        </div>
-                        <div id="resignation-request">
-                            <div class="request-input-box">
-                                <span >Full Name (Tên tôi là): </span>
-                                <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Email: </span>
-                                <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Phone(Số Điện Thoại): </span>
-                                <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span >Hiện Đang Là (Nhân Viên): </span>
-                                <c:forEach items="${listEmployeeType}" var="type">
-                                    <c:if test="${account.getEmployeeTypeID() == type.getEmployeeTypeID()}">
-                                        <input readonly type="text" name="employeeType" id="employeeType" 
-                                               value="${type.getName()}" >
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="request-input-box">
-                                <span >Công Tác Tại (Phòng / Ban): </span>
-                                <c:forEach items="${listDepartment}" var="de">
-                                    <c:if test="${account.getDepartmentID() == de.getDepartmentID()}">
-                                        <input readonly type="text" name="department" id="department" 
-                                               value="${de.getName()}" >
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="request-input-box">
-                                <span >Với Vai Trò Là (Chức Vụ): </span>
-                                <c:forEach items="${listRole}" var="r">
-                                    <c:if test="${account.getRoleID() == r.getRoleID()}">
-                                        <input readonly type="text" name="role" id="role" 
-                                               value="${r.getName()}" >
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <div class="request-input-box">
-                                <span >StartDate (Ngày Bắt Đầu): </span>
-                                <input readonly="" type="date" name="startDate" id="resign-startDate" value="${account.getStartDate()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span >EndDate (Hết Hạn Ngày): </span>
-                                <input readonly="" type="date" name="endDate" id="resign-endDate" value="${account.getEndDate()}">
-                            </div>
-                            <div class="request-input-box">
-                                <span style="color: red" >Extension To (Gia Hạn Đến): </span>
-                                <input type="date" name="extensionDate" id="resign-extensionDate" required="">
-                            </div>
-                            <div class="request-input-box">
-                                <span  style="color: red">Reason (Lý do): </span>
-                                <textarea name="reason" id="resign-reason" name="reason" rows="5" cols="20" style="width: 500px; height: 140px" required=""></textarea>
-                            </div>
-
-                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
-                        </div>
-                    </div>
+                    </select>
                 </div>
-            </form>
-        </div>
+            </div>
     </body>
     <script>
 
         function Tranformation() {
             var requestTypeID = document.getElementById("request-type").value;
-            var requestBody = document.getElementById("request-body");
-            var leave_requestHTML = document.getElementById("leave-request");
-            var resignation_requestHTML = document.getElementById("resignation-request");
-
-            resignation_requestHTML.style.display = 'none';
-            leave_requestHTML.style.display = 'none';
+            
+            
             console.log(requestTypeID);
-            if (requestTypeID === "2") {
-                leave_requestHTML.style.display = 'block';
+            if (requestTypeID === "1") {
+                window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
+            } else if (requestTypeID === "2") {
+                window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             } else if (requestTypeID === "3") {
-                resignation_requestHTML.style.display = 'block';
+                window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             }
         }
 
@@ -394,8 +287,9 @@
 
                 if (startDate_raw !== '' && endDate_raw !== '' && reason !== '') {
                     if (isAcceptableLeaveDate(startDate_raw, endDate_raw)) {
-                        let URL = "/AttendanceSystem/DispatchController?btAction=Gửi&startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
-                        window.location.href = URL;
+//                        let URL = "/AttendanceSystem/DispatchController?btAction=Gửi&startDate=" + startDate_raw + "&endDate=" + endDate_raw + "&reason=" + reason;
+//                        window.location.href = URL;
+                        document.getElementById("form-request").submit();
 //                    alert("True");
                     } else {
                         alert("Thời gian nghỉ không hợp lệ !\n\Vui lòng kiểm tra lại quy tắc về xin nghỉ. ");

@@ -106,7 +106,7 @@ CREATE TABLE Leaves(
 )
 
 
-CREATE TABLE LeaveRequest(
+CREATE TABLE LeaveRequests(
 	LeaveRequestID int PRIMARY KEY IDENTITY(1,1),
 	[EmployeeID] int,
 	[SentDate] datetime,
@@ -118,15 +118,18 @@ CREATE TABLE LeaveRequest(
 	HrApprove bit,
 	ManagerID int,
 	HrID int,
+	[Status] bit default(0),
 	CHECK(StartDate <= EndDate),
 
 	FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
 )
-CREATE TABLE ResignationRequest(
+CREATE TABLE ResignationRequests(
 	ResignationRequestID int PRIMARY KEY IDENTITY(1,1),
 	[EmployeeID] int,
+	StartDateContract date,
+	EndDateContract date,
 	[SentDate] datetime,
 	[ExtendDate] date,
 	Reason nvarchar(max),
@@ -134,6 +137,7 @@ CREATE TABLE ResignationRequest(
 	HrApprove bit,
 	ManagerID int,
 	HrID int,
+	[Status] bit default(0),
 
 	FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
@@ -176,6 +180,7 @@ CREATE TABLE OvertimeRequests(
 	ManagerID int,
 	HrID int,
 	CreatedBy int not null,
+	[Status] bit default(0),
 	
 	PRIMARY KEY([Date], [EmployeeID]),
 	CHECK(StartTime < EndTime),
@@ -345,8 +350,57 @@ VALUES
   (1, '2024-02-15', '2024-02-18', 'path4', 1),
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
 
+--Trigger on OverTimeRequests
+GO
+CREATE TRIGGER OvertimeRequest_update_status
+ON OvertimeRequests
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
+    BEGIN
+        UPDATE OvertimeRequests
+        SET [Status] = 1
+        FROM inserted
+        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
+    END
+END;
+GO
 
 
+--Trigger on LeaveRequests
+GO
+CREATE TRIGGER LeaveRequests_update_status
+ON LeaveRequests
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
+    BEGIN
+        UPDATE LeaveRequests
+        SET [Status] = 1
+        FROM inserted
+        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
+    END
+END;
+GO
+
+--Trigger on ResignationRequests
+GO
+CREATE TRIGGER ResignationRequests_update_status
+ON ResignationRequests
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
+    BEGIN
+        UPDATE ResignationRequests
+        SET [Status] = 1
+        FROM inserted
+        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
+    END
+END;
+GO
 
 
 

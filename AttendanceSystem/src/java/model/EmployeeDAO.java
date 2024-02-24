@@ -1065,7 +1065,7 @@ public class EmployeeDAO extends DBContext {
         //System.out.println(dao.getEmployeeInfoByOvertimeAjax("2024-02-23","17:00","19:30",0,"","","",2).size());
 
 
-        System.out.println(dao.getEmployeeInfoByOvertimeAjax("2024-02-23","17:00","19:30",0).size());
+        //System.out.println(dao.getEmployeeInfoByOvertimeAjax("2024-02-23","17:00","19:30",0).size());
 
         //test ham lay ttin
 
