@@ -39,5 +39,4 @@ public class DepartmentDTO {
         this.managerID = managerID;
     }
 
-    
 }

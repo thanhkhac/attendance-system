@@ -135,11 +135,13 @@
                                                                             ${wkday.timesheet.checkout}
                                                                         </td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td>Người tạo:
-                                                                        </td>
-                                                                        <td>${wkday.leaveResponed.lastName} ${wkday.leaveResponed.middleName} ${wkday.leaveResponed.firstName}</td>
-                                                                    </tr>
+                                                                    <c:if test = "${not empty wkday.leave}">
+                                                                        <tr>
+                                                                            <td>Người tạo:
+                                                                            </td>
+                                                                            <td>${wkday.leaveResponed.lastName} ${wkday.leaveResponed.middleName} ${wkday.leaveResponed.firstName}</td>
+                                                                        </tr>
+                                                                    </c:if>
                                                                 </tbody>
                                                             </table>
                                                         </div>

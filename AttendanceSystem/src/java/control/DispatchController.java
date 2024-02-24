@@ -72,6 +72,8 @@ public class DispatchController extends HttpServlet {
                 URL = "GetUnscheduleEmployees";
             } else if (button.equals("GetConflicts")) {
                 URL = "GetConflicts";
+            } else if (button.equals("Gửi")) {
+                URL = "InsertLeaveRequestServlet";
             }
         } finally {
 //            request.setAttribute("departmentID",  departmentID);

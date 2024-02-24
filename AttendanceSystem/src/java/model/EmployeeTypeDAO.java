@@ -37,7 +37,7 @@ public class EmployeeTypeDAO extends DAOBase {
         }
         return list;
     }
-    
+
     public int getEmployeeTypeIDByName(String employeeTypeName) {
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -45,12 +45,12 @@ public class EmployeeTypeDAO extends DAOBase {
         if (connection != null) {
             try {
                 String sql = "SELECT EmployeeTypeID \n"
-                + "FROM EmployeeTypes \n"
-                + "WHERE [Name] = ? ";
+                        + "FROM EmployeeTypes \n"
+                        + "WHERE [Name] = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, employeeTypeName);
                 rs = stm.executeQuery();
-                
+
                 if (rs.next()) {
                     id = rs.getInt("EmployeeTypeID");
                 }
@@ -61,5 +61,5 @@ public class EmployeeTypeDAO extends DAOBase {
         }
         return id;
     }
-    
+
 }

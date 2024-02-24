@@ -1,7 +1,7 @@
 package model;
 
-
 public class RoleDTO {
+
     private int roleId;
     private String name;
 
@@ -30,7 +30,5 @@ public class RoleDTO {
     public String toString() {
         return "RoleDTO{" + "roleID=" + roleId + ", name=" + name + '}';
     }
-    
-    
-    
+
 }

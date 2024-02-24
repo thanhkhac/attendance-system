@@ -73,7 +73,7 @@ public class CheckLoginServlet extends HttpServlet {
         }
         
         }catch(Exception e){
-             // Xử lý ngoại lệ nếu cần thiết
+            
         }
     } 
 

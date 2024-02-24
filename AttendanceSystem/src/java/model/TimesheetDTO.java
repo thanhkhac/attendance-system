@@ -56,5 +56,4 @@ public class TimesheetDTO {
         return "TimesheetDTO{" + "timesheetID=" + timesheetID + ", date=" + date + ", employeeID=" + employeeID + ", shiftID=" + shiftID + ", checkin=" + checkin + ", checkout=" + checkout + ", createdBy=" + createdBy + '}';
     }
 
-
 }

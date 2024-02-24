@@ -44,23 +44,14 @@
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
         </group>
         <group name="SWP391"/>
-        <group>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/dbhelper/DBContext.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/model/EmployeeDTO.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/src/java/control/request/PrepareRequestServlet.java</file>
-            <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
-        </group>
+
         <group name="SWP391">
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/InsertEmployee.jsp</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/LeaveDAO.java</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/ultility/datetimeutil/DateTimeUtil.java</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/LeaveRequestDTO.java</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/RoleDAO.java</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
+            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/ViewLeaveRequestForHR.jsp</file>
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/LeaveRequestDAO.java</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/ScheduleWorkEmployees.jsp</file>
-            <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/web/ProcessLeaveRequestForManager.jsp</file>
         </group>
+
         <group name="SWP391"/>
         <group name="java_web">
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/OvertimeDTO.java</file>
@@ -74,5 +65,6 @@
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/OverTimeByDay.java</file>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/OvertimeDAO.java</file>
         </group>
+
     </open-files>
 </project-private>
