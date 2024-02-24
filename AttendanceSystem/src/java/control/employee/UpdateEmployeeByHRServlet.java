@@ -60,6 +60,8 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
         int employeeID = 0;
         Boolean gender = null;
         boolean isErr = false;
+        String regexName = "^[^\\d\\p{Punct}]+$";
+        String messageNameError = "Thành phần của Tên ko được chứa số hay kí tự đặc biệt !";
         try {
             birthDay = LocalDate.parse(txt_birthday);
             departmentID = Integer.parseInt(txt_departmentID);
@@ -78,8 +80,8 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             txt_firstName = "Null";
             request.setAttribute("txt_firstName", txt_firstName);
 
-        } else if (!txt_firstName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
-            err.setName_format_error("Thành phần của Tên ko được chứa số hay kí tự đặc biệt !");
+        } else if (!txt_firstName.matches(regexName)) {
+            err.setName_format_error(messageNameError);
             isErr = true;
             request.setAttribute("txt_firstName", txt_firstName);
         } else { //isTrue
@@ -91,8 +93,8 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             isErr = true;
             txt_middleName = "Null";
             request.setAttribute("txt_middleName", txt_middleName);
-        } else if (!txt_middleName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
-            err.setName_format_error("Thành phần của Tên ko được chứa số hay kí tự đặc biệt !");
+        } else if (!txt_middleName.matches(regexName)) {
+            err.setName_format_error(messageNameError);
             isErr = true;
             request.setAttribute("txt_middleName", txt_middleName);
         } else { //isTrue
@@ -105,8 +107,8 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             txt_lastName = "Null";
             request.setAttribute("txt_lastName", txt_lastName);
 
-        } else if (!txt_lastName.matches("^[A-ZĐÀ-Ỹa-zà-ỹ\\s]*$")) {
-            err.setName_format_error("Thành phần của Tên ko được chứa số hay kí tự đặc biệt !");
+        } else if (!txt_lastName.matches(regexName)) {
+            err.setName_format_error(messageNameError);
             isErr = true;
             request.setAttribute("txt_lastName", txt_lastName);
         } else { //isTrue
@@ -136,17 +138,15 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             request.setAttribute("txt_password", txt_password);
 
         }
-        if ((LocalDate.now().getYear() - birthDay.getYear() < 18) || LocalDate.now().getYear() - birthDay.getYear() < 0) {
+        if  ((LocalDate.now().getYear() - birthDay.getYear() < 18) || LocalDate.now().getYear() - birthDay.getYear() < 0) {
             isErr = true;
             err.setDate_invalid("Ngày sinh không hợp lệ [ " + LocalDate.now().getYear() + " - năm sinh ] >= 18 !");
             request.setAttribute("txt_birthDate", txt_birthday);
 
         }
-        if (txt_typeID.equals("3")) {
-            if (!txt_roleID.equals("1")) {
-                msg = "Vai trò hiện tại không thể giao cho nhân viên Intern !";
-                isErr = true;
-            }
+        if (txt_typeID.equals("3") && !txt_roleID.equals("1")) {
+            msg = "Vai trò hiện tại không thể giao cho nhân viên Intern !";
+            isErr = true;
         }
         if (!isErr) {
             boolean rs = dao.UpdateEmployeeByHR(txt_firstName, txt_middleName, txt_lastName,

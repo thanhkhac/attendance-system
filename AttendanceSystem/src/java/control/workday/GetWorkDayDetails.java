@@ -38,11 +38,10 @@ public class GetWorkDayDetails extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        
-        
+
         TimesheetDAO tsDAO = new TimesheetDAO();
         ArrayList<LocalDate> calendar = dateTimeUtil.getCalendar(year, month);
-        
+
         EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
 
         ArrayList<WorkDayDetails> workingdays = new ArrayList<>();

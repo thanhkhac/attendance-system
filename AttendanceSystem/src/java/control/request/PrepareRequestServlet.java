@@ -12,8 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import model.RequestTypeDAO;
-import model.RequestTypeDTO;
+import model.*;
 
 /**
  *
@@ -34,11 +33,56 @@ public class PrepareRequestServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String URL = "";
+
         ArrayList<RequestTypeDTO> listType = new ArrayList<>();
+        ArrayList<DepartmentDTO> listDepartment = new ArrayList<>();
+        ArrayList<EmployeeTypeDTO> listEmployeeType = new ArrayList<>();
+        ArrayList<RoleDTO> listRole = new ArrayList<>();
+
         RequestTypeDAO dao = new RequestTypeDAO();
-        listType = dao.getRequestTypeList();
+        EmployeeTypeDAO emTypeDao = new EmployeeTypeDAO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        RoleDAO roleDao = new RoleDAO();
+        String requestTypeID = "";
+        try {
+            requestTypeID = request.getParameter("requestTypeID");
+            listType = dao.getRequestTypeList();
+            listDepartment = deDao.getListDepartment();
+            listEmployeeType = emTypeDao.getEmployeeTypeList();
+            listRole = roleDao.getRoleList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        if (requestTypeID != null) {
+            switch (requestTypeID) {
+                case "1": {
+                    URL = "OverTimeRequest.jsp";
+                    break;
+                }
+                case "2": {
+                    URL = "LeaveRequest.jsp";
+                    break;
+                }
+                case "3": {
+                    URL = "ResignationRequest.jsp";
+                    break;
+                }
+                default: {
+                    URL = "SendRequest.jsp";
+                    break;
+                }
+            }
+        } else {
+            URL = "SendRequest.jsp";
+        }
         request.setAttribute("listType", listType);
-        request.getRequestDispatcher("SendRequest.jsp").forward(request, response);
+        request.setAttribute("listDepartment", listDepartment);
+        request.setAttribute("listEmployeeType", listEmployeeType);
+        request.setAttribute("listRole", listRole);
+        request.setAttribute("requestTypeID", requestTypeID);
+        request.getRequestDispatcher(URL).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

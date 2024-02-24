@@ -106,7 +106,7 @@ CREATE TABLE Leaves(
 )
 
 
-CREATE TABLE LeaveRequest(
+CREATE TABLE LeaveRequests(
 	LeaveRequestID int PRIMARY KEY IDENTITY(1,1),
 	[EmployeeID] int,
 	[SentDate] datetime,
@@ -118,7 +118,26 @@ CREATE TABLE LeaveRequest(
 	HrApprove bit,
 	ManagerID int,
 	HrID int,
+	[Status] bit default(0),
 	CHECK(StartDate <= EndDate),
+
+	FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
+	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
+	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
+)
+CREATE TABLE ResignationRequests(
+	ResignationRequestID int PRIMARY KEY IDENTITY(1,1),
+	[EmployeeID] int,
+	StartDateContract date,
+	EndDateContract date,
+	[SentDate] datetime,
+	[ExtendDate] date,
+	Reason nvarchar(max),
+	ManagerApprove bit,
+	HrApprove bit,
+	ManagerID int,
+	HrID int,
+	[Status] bit default(0),
 
 	FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
@@ -161,6 +180,7 @@ CREATE TABLE OvertimeRequests(
 	ManagerID int,
 	HrID int,
 	CreatedBy int not null,
+	[Status] bit default(0),
 	
 	PRIMARY KEY([Date], [EmployeeID]),
 	CHECK(StartTime < EndTime),
@@ -182,7 +202,7 @@ CREATE TABLE News(
 )
 
 CREATE TABLE [RequestsType](
-	[TypeID] int PRIMARY KEY,
+	[TypeID] int PRIMARY KEY IDENTITY(1,1),
 	[Name] nvarchar(50)
 )
 
@@ -299,6 +319,12 @@ INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndT
 INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
 (N'Ca chiều', '13:30', '17:30', NULL, NULL, '13:15', '17:45', 1)
 
+INSERT INTO RequestsType([Name])
+VALUES (N'OverTime Request (Yêu Cầu Tăng Ca)')
+INSERT INTO RequestsType([Name])
+VALUES (N'Leave Request (Yêu Cầu Xin Nghỉ)')
+INSERT INTO RequestsType([Name])
+VALUES (N'Resignation Request (Yêu Cầu Gia Hạn Hợp Đồng)')
 
 DECLARE @EmployeeID INT = 1;
 DECLARE @ShiftID INT = 1;
@@ -324,8 +350,57 @@ VALUES
   (1, '2024-02-15', '2024-02-18', 'path4', 1),
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
 
+--Trigger on OverTimeRequests
+GO
+CREATE TRIGGER OvertimeRequest_update_status
+ON OvertimeRequests
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
+    BEGIN
+        UPDATE OvertimeRequests
+        SET [Status] = 1
+        FROM inserted
+        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
+    END
+END;
+GO
 
 
+--Trigger on LeaveRequests
+GO
+CREATE TRIGGER LeaveRequests_update_status
+ON LeaveRequests
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
+    BEGIN
+        UPDATE LeaveRequests
+        SET [Status] = 1
+        FROM inserted
+        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
+    END
+END;
+GO
+
+--Trigger on ResignationRequests
+GO
+CREATE TRIGGER ResignationRequests_update_status
+ON ResignationRequests
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
+    BEGIN
+        UPDATE ResignationRequests
+        SET [Status] = 1
+        FROM inserted
+        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
+    END
+END;
+GO
 
 
 
