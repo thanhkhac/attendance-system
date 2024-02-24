@@ -11,8 +11,8 @@ public class ShiftDAO extends DAOBase {
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public ShiftDTO getShiftDTO(int xShiftID) {
-        query = "SELECT * FROM Shifts\n" +
-                "WHERE ShiftID = ?";
+        query = "SELECT * FROM Shifts\n"
+                + "WHERE ShiftID = ?";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, xShiftID);

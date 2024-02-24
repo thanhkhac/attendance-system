@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.EmployeeDAO;
 
 /**
  *
@@ -31,7 +32,19 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-            
+        String txtName = request.getParameter("txt");
+        String Date = request.getParameter("date");
+        String startEnd = request.getParameter("StartEnd");
+        EmployeeDAO dao = new EmployeeDAO();
+        String [] tachName = txtName.split(" ");
+        String firstName = tachName[0];
+        String lastName = tachName[tachName.length-1];
+        String Middname = "";
+        for(int i=1; i<tachName.length-1;i++){
+            Middname+=  tachName[i]+ " ";
+        }
+        Middname = Middname.trim();
+        out.print(startEnd + "-" );
         }
     
 

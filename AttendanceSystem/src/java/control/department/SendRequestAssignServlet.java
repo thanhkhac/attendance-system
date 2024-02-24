@@ -44,7 +44,7 @@ public class SendRequestAssignServlet extends HttpServlet {
         try {
             //dddd
             int departmentID = Integer.parseInt(txt_departmentID);
-            department =  Dedao.getDepartmentById(departmentID);
+            department = Dedao.getDepartmentById(departmentID);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -14,7 +14,7 @@ public class SampleDAO extends DAOBase {
             ps = con.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -57,11 +57,11 @@ public class RecoveryPasswordServlet extends HttpServlet {
             if (receivemail.isEmpty()) {
                 msg = "Vui lòng điền email";
             } else {
-                
+
                 if (receivemail.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
                     if (check_email == null || !receivemail.equals(check_email)) {
                         msg = "Email không tồn tại";
-                        
+
                     } else {
 
                         msg = "Mã OTP vừa được gửi, vui lòng kiểm tra email";
