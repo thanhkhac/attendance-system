@@ -57,13 +57,9 @@
         </group>
         <group name="SWP391"/>
         <group>
-            <file>file:/C:/Users/ADMIN-PC/Desktop/swp%20jsp/news%20sp/attendance-system/AttendanceSystem/web/ManageNews.jsp</file>
-            <file>file:/C:/Users/ADMIN-PC/Desktop/swp%20jsp/news%20sp/attendance-system/AttendanceSystem/src/java/control/news/GetAllNews.java</file>
-            <file>file:/C:/Users/ADMIN-PC/Desktop/swp%20jsp/news%20sp/attendance-system/AttendanceSystem/web/ViewNewsDetail.jsp</file>
-            <file>file:/C:/Users/ADMIN-PC/Desktop/swp%20jsp/news%20sp/attendance-system/AttendanceSystem/web/ViewNews.jsp</file>
-            <file>file:/C:/Users/ADMIN-PC/Desktop/swp%20jsp/news%20sp/attendance-system/AttendanceSystem/src/java/control/news/UpdateNews.java</file>
-            <file>file:/C:/Users/ADMIN-PC/Desktop/swp%20jsp/news%20sp/attendance-system/AttendanceSystem/src/java/control/news/GetAllNewsByHR.java</file>
-            <file>file:/C:/Users/ADMIN-PC/Desktop/swp%20jsp/news%20sp/attendance-system/AttendanceSystem/web/UpdateNews.jsp</file>
+            <file>file:/C:/Users/acer/Downloads/attendance-system%20(5)/attendance-system/AttendanceSystem/src/java/model/NewsDAO.java</file>
+            <file>file:/C:/Users/acer/Downloads/attendance-system%20(5)/attendance-system/AttendanceSystem/src/java/dbhelper/DBContext.java</file>
+            <file>file:/C:/Users/acer/Downloads/attendance-system%20(5)/attendance-system/AttendanceSystem/src/java/model/NewsDTO.java</file>
         </group>
     </open-files>
 </project-private>
