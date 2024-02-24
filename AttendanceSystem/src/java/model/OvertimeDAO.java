@@ -11,9 +11,9 @@ public class OvertimeDAO extends DAOBase {
     final DateTimeUtil dateTimeUtil = new DateTimeUtil();
 
     public OvertimeDTO getOverTimeDTO(LocalDate xDate, int xEmployeeID) {
-        query = "SELECT * FROM Overtimes\n" +
-                "WHERE\n" +
-                "	EmployeeID = ? AND [Date] = ? ";
+        query = "SELECT * FROM Overtimes\n"
+                + "WHERE\n"
+                + "	EmployeeID = ? AND [Date] = ? ";
         try {
             ps = con.prepareStatement(query);
             ps.setInt(1, xEmployeeID);

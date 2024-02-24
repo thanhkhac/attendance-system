@@ -186,6 +186,7 @@ public class EmployeeDTO {
         this.isActived = isActived;
     }
 
+
     @Override
     public String toString() {
         return "EmployeeDTO{" + "employeeId=" + employeeId + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName + ", birthDate=" + birthDate + ", gender=" + gender + ", email=" + email + ", password=" + password + ", cccd=" + cccd + ", phoneNumber=" + phoneNumber + ", employeeTypeID=" + employeeTypeID + ", departmentID=" + departmentID + ", roleID=" + roleID + ", startDate=" + startDate + ", endDate=" + endDate + ", isActived=" + isActived + '}';

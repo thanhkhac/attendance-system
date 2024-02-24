@@ -3,8 +3,8 @@ package model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-
 public class OvertimeDTO {
+
     LocalDate date;
     int employeeID;
     LocalTime startTime;
@@ -68,9 +68,4 @@ public class OvertimeDTO {
         return createdBy;
     }
 
-    
-    
-    
-    
-    
 }

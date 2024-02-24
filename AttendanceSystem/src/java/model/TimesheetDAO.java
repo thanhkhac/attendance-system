@@ -28,6 +28,7 @@ public class TimesheetDAO extends DAOBase {
     }
 
     public TimesheetDTO getTimesheetDTO(int sTimesheetID) {
+
         query = "SELECT * FROM Timesheet \n" +
                 "WHERE \n" +
                 "TimesheetID = ?";
@@ -48,6 +49,7 @@ public class TimesheetDAO extends DAOBase {
 
     public ArrayList<TimesheetDTO> getTimesheetInRange(int xEmployeeID, LocalDate start, LocalDate end) {
         ArrayList<TimesheetDTO> list = new ArrayList<>();
+
         query = "SELECT * FROM\n" +
                 "Timesheet\n" +
                 "WHERE\n" +
@@ -71,6 +73,7 @@ public class TimesheetDAO extends DAOBase {
     }
 
     public TimesheetDTO getTimesheetByDate(int xEmployeeID, LocalDate xDate) {
+
         query = "SELECT * FROM\n" +
                 "Timesheet\n" +
                 "WHERE\n" +

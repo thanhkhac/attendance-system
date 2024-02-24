@@ -9,6 +9,7 @@ package model;
  * @author admin
  */
 public class UpdateInfoError {
+
     private String null_error;
     private String name_format_error;
     private String cccd_format_error;
@@ -21,8 +22,6 @@ public class UpdateInfoError {
     public UpdateInfoError() {
     }
 
-    
-    
     public UpdateInfoError(String null_error, String name_format_error, String cccd_format_error, String phone_format_error, String password_format_error, String email_format_error, String date_invalid, String dublicate_error) {
         this.null_error = null_error;
         this.name_format_error = name_format_error;
@@ -97,6 +96,5 @@ public class UpdateInfoError {
     public void setDublicate_error(String dublicate_error) {
         this.dublicate_error = dublicate_error;
     }
-    
-    
+
 }

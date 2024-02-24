@@ -34,7 +34,7 @@ public class GetAllEmployeeByHRServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         EmployeeDAO dao = new EmployeeDAO();
         ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
-        request.setAttribute("List",  list);
+        request.setAttribute("List", list);
         request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
 
     }

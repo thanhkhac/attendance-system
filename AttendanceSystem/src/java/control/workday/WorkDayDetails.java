@@ -26,7 +26,7 @@ public class WorkDayDetails {
         this.date = date;
         this.employeeID = employeeID;
         timesheet = new TimesheetDAO().getTimesheetByDate(employeeID, date);
-        leave =  new LeaveDAO().getLeaveDTO(employeeID, date.toString());
+        leave = new LeaveDAO().getLeaveDTO(employeeID, date.toString());
         overtime = new OvertimeDAO().getOverTimeDTO(date, employeeID);
         shift = (timesheet == null) ? null : new ShiftDAO().getShiftDTO(timesheet.getShiftID());
         leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getCreatedBy());
