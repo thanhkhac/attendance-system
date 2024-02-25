@@ -41,6 +41,7 @@ public class AddListEmloyeeOvertime extends HttpServlet {
         String start = request.getParameter("start");
         String end = request.getParameter("end");
         String list = request.getParameter("listEmployeeAdd");
+        if(list.length()>0){
         String[] listID = list.split("\\|");
         //out.print(listID[1]);
         int listIDInt [] = new int [listID.length];
@@ -68,8 +69,9 @@ public class AddListEmloyeeOvertime extends HttpServlet {
         request.setAttribute("END", end);
         request.setAttribute("DATE", date);
         request.getRequestDispatcher("OvertimeSuccess.jsp").forward(request, response);
+        }
         }else{
-            request.setAttribute("START", start);
+             request.setAttribute("START", start);
         request.setAttribute("END", end);
         request.setAttribute("DATE", date);
             request.setAttribute("THATBAI", "Chưa chọn nhân viên nào tăng ca vui lòng chọn lại");

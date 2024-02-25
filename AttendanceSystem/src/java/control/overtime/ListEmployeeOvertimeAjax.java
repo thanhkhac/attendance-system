@@ -17,6 +17,7 @@ import model.DepartmentDAO;
 import model.DepartmentDTO;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
+import model.OvertimeDAO;
 
 /**
  *
@@ -36,6 +37,16 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String DeleteStart = request.getParameter("deleteStart");
+        String DeleteEnd = request.getParameter("deleteEnd");
+        String DeleteDate = request.getParameter("deleteDate");
+        String DeleteID = request.getParameter("deleteID");
+        String DeleteAll = request.getParameter("deleteAll");
+        if(DeleteStart!=null&&DeleteEnd!=null&&DeleteDate!=null&&DeleteID!=null){
+            int id = Integer.parseInt(DeleteID);
+            boolean check = new OvertimeDAO().deleteOvertime(DeleteDate, DeleteStart, DeleteEnd, id);
+           
+        }
         String txtName = request.getParameter("txt");
         String Page = request.getParameter("Page");
         int page =1 ;
@@ -69,6 +80,13 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
             Middname +=  tachName[i]+ " ";
             Middname = Middname.trim();
         }       
+        }
+        if(DeleteAll!=null){
+             boolean checkDelete = false;
+            ArrayList<EmployeeDTO> listEmpp = new EmployeeDAO().getEmployeeInfoByOvertime(Date,startTime,endTime);
+            for(EmployeeDTO emp :listEmpp){
+                 checkDelete = new OvertimeDAO().deleteOvertime(Date, startTime, endTime, emp.getEmployeeID());
+            }
         }
         //out.print(startTime+"-"+endTime+" "+Phong+lastName+Middname+firstName +Date+"-"+Phong);
          out.print("<table class=\"table project-list-table table-nowrap align-middle table-borderless\">\n" +
@@ -105,7 +123,7 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
 "                                                                        " +
 "<ul class=\"list-inline mb-0\">\n" +
 "  <li class=\"list-inline-item\">                                                                          \n" +
-" <a href=\"javascript:void(0);\"  title=\"Delete\" class=\"px-2 text-danger\"><i class=\"bx bx-trash-alt font-size-18\"></i></a>\n" +
+" <a style=\"color:red\" href=\"javascript:void(0);\" class=\"deleteEmp\"  title=\"Delete\" class=\"px-2 text-danger\"><i class=\"bx bx-trash-alt font-size-18\"></i></a>\n" +
 "                   </li>                                                        \n" +
 "                                                                            \n" +
 "\n" +
@@ -115,28 +133,29 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
          }
          out.print("</tbody>\n" +
 "                                                        </table>");
+         out.print("<a href=\"#\" style=\"position: absolute;left:22px;    background-color: #d61a1a;\" class=\"btn btn-primary deleteAll\">Xóa ca</a>");
          out.print("<ul class=\"pagination\" style=\"\n" +
 "                justify-content: end;\n" +
 "                \">");
          if(page<=1){
-             out.print("<li class=\"page-item click_page\"><a class=\"page-link\" href=\"#\">Trước</a></li>");
+             out.print("<li class=\"page-item click_page\"><a style=\"color: black;\" class=\"page-link\" href=\"#\">Trước</a></li>");
          }
          else{
-             out.print("<li class=\"page-item click_page\"><a data-index=\""+(page-1)+"\"  class=\"page-link\" href=\"#\">Trước</a></li>");
+             out.print("<li class=\"page-item click_page\"><a style=\"color: black;\" data-index=\""+(page-1)+"\"  class=\"page-link\" href=\"#\">Trước</a></li>");
          }
          for(int i=1;i<=endPage;i++){
              if(i==page){
-                 out.print("<li class=\"page-item click_page\"><a style=\"background-color: #cfd5da96;\" class=\"page-link page\" data-index=\""+i+"\"  href=\"#\">"+i+"</a><li>");
+                 out.print("<li class=\"page-item click_page\"><a  style=\"background-color: #cfd5da96;color: black;\" class=\"page-link page\" data-index=\""+i+"\"  href=\"#\">"+i+"</a><li>");
                  
              }else{
-                 out.print("<li class=\"page-item click_page\"><a  class=\"page-link page\" data-index=\""+i+"\"  href=\"#\">"+i+"</a><li>");
+                 out.print("<li class=\"page-item click_page\"><a style=\"color: black;\" class=\"page-link page\" data-index=\""+i+"\"  href=\"#\">"+i+"</a><li>");
              }
          }
          if(page<endPage&&endPage>1){
-             out.print("<li class=\"page-item click_page\"><a data-index=\""+(page+1)+"\"  class=\"page-link\" href=\"#\">Sau</a></li>");
+             out.print("<li class=\"page-item click_page\"><a style=\"color: black;\" data-index=\""+(page+1)+"\"  class=\"page-link\" href=\"#\">Sau</a></li>");
          }
          else{
-             out.print("<li class=\"page-item click_page\"><a data-index=\""+(page)+"\" class=\"page-link\" href=\"#\">Sau</a></li>");
+             out.print("<li class=\"page-item click_page\"><a style=\"color: black;\" data-index=\""+(page)+"\" class=\"page-link\" href=\"#\">Sau</a></li>");
          }
          out.print(" </ul>\n" +
 "                                                    </div>");
