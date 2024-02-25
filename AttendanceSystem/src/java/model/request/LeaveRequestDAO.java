@@ -44,7 +44,7 @@ public class LeaveRequestDAO extends DAOBase {
         ResultSet rs = null;
         if (connection != null) {
             try {
-                String sql = "SELECT * FROM LeaveRequest\n"
+                String sql = "SELECT * FROM LeaveRequests\n"
                         + "  ORDER BY HrApprove ASC, ManagerApprove ASC";
                 stm = connection.prepareStatement(sql);
                 rs = stm.executeQuery();
@@ -76,7 +76,7 @@ public class LeaveRequestDAO extends DAOBase {
     public boolean approvalOfApplicationByManager(int status, int managerID, int requestID) {
         if (connection != null) {
             try {
-                String sql = "UPDATE LeaveRequest\n"
+                String sql = "UPDATE LeaveRequests\n"
                         + "SET ManagerApprove = ?, ManagerID = ?\n"
                         + "WHERE LeaveRequestID = ?";
                 ps = connection.prepareStatement(sql);
@@ -101,7 +101,7 @@ public class LeaveRequestDAO extends DAOBase {
     public boolean approvalOfApplicationByHr(int status, int hrID, int requestID) {
         if (connection != null) {
             try {
-                String sql = "UPDATE LeaveRequest\n"
+                String sql = "UPDATE LeaveRequests\n"
                         + "SET HrApprove = ?, HrID = ?\n"
                         + "WHERE LeaveRequestID = ?";
                 ps = connection.prepareStatement(sql);
@@ -122,17 +122,18 @@ public class LeaveRequestDAO extends DAOBase {
         return false;
     }
 
-    public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason) {
+    public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason, String filePath) {
         if (con != null) {
             try {
-                String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason) "
-                        + "VALUES (?,?,?,?,?) ";
+                String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason, FilePath) "
+                        + "VALUES (?,?,?,?,?,?) ";
                 ps = con.prepareStatement(sql);
                 ps.setInt(1, e.getEmployeeID());
                 ps.setString(2, sentDate.toString());
                 ps.setString(3, startDate.toString());
                 ps.setString(4, endDate.toString());
                 ps.setString(5, reason);
+                ps.setNString(6, filePath);
                 int result = ps.executeUpdate();
                 if (result > 0) {
                     return true;

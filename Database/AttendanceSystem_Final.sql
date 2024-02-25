@@ -97,7 +97,7 @@ CREATE TABLE Leaves(
 	[EmployeeID] int,
 	[StartDate] date,
 	[EndDate] date,
-	FilePath nvarchar(100),
+	FilePath nvarchar(max),
 	[CreatedDate] date DEFAULT GETDATE(),
 	CreatedBy int,
 
@@ -112,7 +112,7 @@ CREATE TABLE LeaveRequests(
 	[SentDate] datetime,
 	[StartDate] date,
 	[EndDate] date,
-	FilePath nvarchar(100),
+	FilePath nvarchar(max),
 	Reason nvarchar(max),
 	ManagerApprove bit,
 	HrApprove bit,

@@ -88,21 +88,21 @@
                         },
                         success: function (response) {
                             $("#result").html(response);
-                             const paragraph = document.getElementById('paragraph');
+                            const paragraph = document.getElementById('paragraph');
 
-const links = document.querySelectorAll('.box');
+                            const links = document.querySelectorAll('.box');
 
-links.forEach(function(link) {
-    link.addEventListener('mouseenter', function() {
-        const paragraph = this.querySelector('.paragraph');
-        paragraph.textContent = 'Thêm';
-    });
+                            links.forEach(function (link) {
+                                link.addEventListener('mouseenter', function () {
+                                    const paragraph = this.querySelector('.paragraph');
+                                    paragraph.textContent = 'Thêm';
+                                });
 
-    link.addEventListener('mouseleave', function() {
-        const paragraph = this.querySelector('.paragraph');
-        paragraph.textContent = 'Chưa có tăng ca';
-    });
-});
+                                link.addEventListener('mouseleave', function () {
+                                    const paragraph = this.querySelector('.paragraph');
+                                    paragraph.textContent = 'Chưa có tăng ca';
+                                });
+                            });
                         },
                         error: function () {
                             $("#result").html("Error occurred.");
@@ -150,21 +150,21 @@ links.forEach(function(link) {
                         },
                         success: function (response) {
                             $("#result").html(response);
-                             const paragraph = document.getElementById('paragraph');
+                            const paragraph = document.getElementById('paragraph');
 
-const links = document.querySelectorAll('.box');
+                            const links = document.querySelectorAll('.box');
 
-links.forEach(function(link) {
-    link.addEventListener('mouseenter', function() {
-        const paragraph = this.querySelector('.paragraph');
-        paragraph.textContent = 'Thêm';
-    });
+                            links.forEach(function (link) {
+                                link.addEventListener('mouseenter', function () {
+                                    const paragraph = this.querySelector('.paragraph');
+                                    paragraph.textContent = 'Thêm';
+                                });
 
-    link.addEventListener('mouseleave', function() {
-        const paragraph = this.querySelector('.paragraph');
-        paragraph.textContent = 'Chưa có tăng ca';
-    });
-});
+                                link.addEventListener('mouseleave', function () {
+                                    const paragraph = this.querySelector('.paragraph');
+                                    paragraph.textContent = 'Chưa có tăng ca';
+                                });
+                            });
                         },
                         error: function () {
                             $("#result").html("Error occurred.");

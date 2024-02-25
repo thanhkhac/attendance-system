@@ -213,25 +213,25 @@
         </style>
     </head>
     <body>
-         <%
-          String error = (String) request.getAttribute("ERROROVERTIME");
-          if(error!=null&&error.length()>0){
-         %>
-         <script>
-             var result = window.confirm("Ca đã tồn tại vui lòng chọn lại");
-         </script>
-         
-         <%}%>
-         
-         <%
-          String error2 = (String) request.getAttribute("ERRORSTARTTIME");
-          if(error2!=null&&error2.length()>0){
-         %>
-         <script>
-             var result2 = window.confirm("StarTtime phải nhỏ hơn EndTime vui lòng nhập lại ");
-         </script>
-         
-         <%}%>
+        <%
+         String error = (String) request.getAttribute("ERROROVERTIME");
+         if(error!=null&&error.length()>0){
+        %>
+        <script>
+            var result = window.confirm("Ca đã tồn tại vui lòng chọn lại");
+        </script>
+
+        <%}%>
+
+        <%
+         String error2 = (String) request.getAttribute("ERRORSTARTTIME");
+         if(error2!=null&&error2.length()>0){
+        %>
+        <script>
+            var result2 = window.confirm("StarTtime phải nhỏ hơn EndTime vui lòng nhập lại ");
+        </script>
+
+        <%}%>
         <%
            String Day = (String) request.getAttribute("DAY");
            ArrayList<OvertimeDTO> list = (ArrayList<OvertimeDTO>) request.getAttribute("LISTOVERTIME"); 
@@ -242,8 +242,8 @@
                 <div class="row section-heading justify-content-center text-center wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 0.3s; animation-delay: 0.3s; animation-name: fadeInUp;">
                     <div class="col-lg-8 col-xl-6">
                         <a href="javascript:history.back()" class="btn btn-outline-secondary" style="    width: 106px;position: absolute; left: 15px; top: 15px;">
-                        <i class="bi bi-arrow-left"></i> Trở lại
-                    </a>
+                            <i class="bi bi-arrow-left"></i> Trở lại
+                        </a>
                         <h3 class="h2 bg-primary-after after-50px pb-3 mb-3">Các ca tăng ca trong ngày <%=Day%></h3>
                     </div>
                 </div>
@@ -360,9 +360,9 @@
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-3">
 
                                             <div>
-                                                
+
                                                 <a href="addEmployeeOvertime?startTime=<%=overtime.getStartTime()%>&&endTime=<%=overtime.getEndTime()%>&&date=<%=overtime.getDate()%>&&Add=add" class="btn btn-primary"><i class="bx bx-plus me-1"></i> Thêm nhân viên</a>
-                                                
+
                                             </div>
 
                                         </div>
@@ -447,7 +447,7 @@
 // khi an vao link co ten class show-div-link se hien ra box an
     showDivLinks.forEach(function (link) {
         link.addEventListener("click", function (e) {
-            
+
             var overlay = this.nextElementSibling;
             startEnd = overlay.nextElementSibling.value;
             console.log(startEnd);
