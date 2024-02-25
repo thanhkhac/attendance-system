@@ -73,7 +73,7 @@
                                     emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
                                     managerDTO = dao.getEmployeeDTO(lr.getManagerID());
                                     hrDTO = dao.getEmployeeDTO(lr.getHrID());
-                                    if(lr.getManagerApprove()){
+                                    if(lr.getManagerApprove() != null && lr.getManagerApprove()){
                             %>
                             <tr class="employee-row">
                                 <td class="text-center"><%=lr.getLeaveRequestID()%></td>
