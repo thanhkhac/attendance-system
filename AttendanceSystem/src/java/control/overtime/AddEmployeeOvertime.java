@@ -37,7 +37,7 @@ public class AddEmployeeOvertime extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();        
+        PrintWriter out = response.getWriter();
         String startTime = request.getParameter("startTime");
         String endTime = request.getParameter("endTime");
         String date = request.getParameter("date");
@@ -86,10 +86,10 @@ public class AddEmployeeOvertime extends HttpServlet {
             int countPage =dao.countEmployeeOvertime(date, "", "", "", "", "");
             int endPage = 0;
             
-        if (countPage % 5 == 0) {
-            endPage = countPage / 5;
+        if (countPage % 10 == 0) {
+            endPage = countPage / 10;
         } else {
-            endPage = countPage / 5 + 1;
+            endPage = countPage / 10 + 1;
         }
         String EndPage = String.valueOf(endPage);
         
