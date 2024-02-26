@@ -4,6 +4,7 @@
     Author     : nguye
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*" %>
 <%@page import="java.time.*" %>
@@ -17,13 +18,23 @@
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <style>
             .right{
-                position: absolute;
-                width: 83%;
-                right: 0px;
+                /*                position: absolute;
+                                width: 83%;
+                                right: 0px;*/
+                padding: 30px;
             }
             .tdbreak {
                 word-break: break-word;
                 max-width: 150px;
+            }
+            .content-redirect{
+                background-color: #F5F5F5;
+                border-radius: 5px;
+                padding: 4px;
+            }
+            .content-redirect p{
+                margin: 0px;
+                font-size: large;
             }
         </style>
 
@@ -40,19 +51,21 @@
     %>
     <body>
         <div>
-            <%@include file="Sidebar.jsp" %>
+            <%--<%@include file="Sidebar.jsp" %>--%>
             <div class="right">
+                <div class="content-redirect">
+                    <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Trở Lại</a> | Process Request For HR</p>
+                </div>
                 <div class="text-center">
                     <h1 style="margin: 30px">Danh sách đơn (HR)</h1>
-                    <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
-                        <i class="bi bi-arrow-left"></i> Trở lại
-                    </a>
+                    <!--                    <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
+                                            <i class="bi bi-arrow-left"></i> Trở lại
+                                        </a>-->
                 </div>
                 <div>
                     <form action="DispatchController" method="POST">
                         <%
                             if(acc.getRoleID() == 2){
-                                
                         %>
                         <table class="table">
                             <tr style="background-color: #CFE2FF">
@@ -66,7 +79,7 @@
                                 <th class="text-center">Trạng thái <br> (HR)</th>
                                 <th class="text-center">Người phê duyệt <br> (Manager)</th>
                                 <th class="text-center">Người phê duyệt <br> (HR)</th>
-                                <th class="text-center">check</th>
+                                <th class="text-center">Check</th>
                             </tr>
                             <%
                                 for (LeaveRequestDTO lr : list) {
