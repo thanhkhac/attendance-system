@@ -17,6 +17,7 @@ public class LeaveRequestDTO {
     private LocalDate sentDate;
     private LocalDate startDate;
     private LocalDate endDate;
+    private String filePath;
     private String reason;
     private Boolean managerApprove;
     private Boolean hrApprove;
@@ -25,6 +26,21 @@ public class LeaveRequestDTO {
     private Boolean status;
 
     public LeaveRequestDTO() {
+    }
+
+    public LeaveRequestDTO(int leaveRequestID, int employeeID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String filePath, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status) {
+        this.leaveRequestID = leaveRequestID;
+        this.employeeID = employeeID;
+        this.sentDate = sentDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.filePath = filePath;
+        this.reason = reason;
+        this.managerApprove = managerApprove;
+        this.hrApprove = hrApprove;
+        this.managerID = managerID;
+        this.hrID = hrID;
+        this.status = status;
     }
 
     public LeaveRequestDTO(int leaveRequestID, int employeeID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status) {
@@ -79,6 +95,10 @@ public class LeaveRequestDTO {
 
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 
     public String getReason() {

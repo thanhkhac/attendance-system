@@ -8,16 +8,18 @@ import java.util.logging.Logger;
 
 public class DBContext {
 
-    protected Connection connection;
-    private static final String user = "sa";
-    private static final String pass = "123456";
-    private static final String url = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Attendance_DB_Final";
+    protected static Connection connection;
+    private static final String USER = "sa";
+    private static final String PASS = "123456";
+    private static final String URL = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Attendance_DB_Final";
 
     public DBContext() {
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("Connect Successfully");
+            if (connection == null || connection.isClosed()) {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                connection = DriverManager.getConnection(URL, USER, PASS);
+            }
+             System.out.println("Connect Successfully");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -25,9 +27,11 @@ public class DBContext {
 
     public void connect() {
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url, user, pass);
-            System.out.println("Get connection");
+            if (connection == null || connection.isClosed()) {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                connection = DriverManager.getConnection(URL, USER, PASS);
+            }
+            System.out.println("Connect Successfully");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
         }
