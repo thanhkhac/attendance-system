@@ -47,12 +47,7 @@
                             <i class="bi bi-arrow-left"></i> Tiếp theo 
                         </a>
                         
-                        <form action="addListEmloyeeOvertime" id="MyForm">
-                            <input type="hidden" name="Date" value="<%=Date%>">
-                            <input type="hidden" name="start" value="<%=startTime%>">
-                            <input type="hidden" name="end" value="<%=endTime%>">
-                            <input type="hidden" id="listEmployeeAdd" name="listEmployeeAdd">
-                       </form>
+                        
                     </div>
                     <div class="d-flex justify-content-around  py-3 align-middle">
                         <table class="table table-primary">
@@ -100,13 +95,18 @@
 
                     </div>
                     <div id="listEmployee" class="table-responsive">
-
+                    <form action="addListEmloyeeOvertime" id="MyForm">
+                            <input type="hidden" id="dateHidden" name="Date" value="<%=Date%>">
+                            <input type="hidden" id="startHidden" name="start" value="<%=startTime%>">
+                            <input type="hidden" id="endHidden" name="end" value="<%=endTime%>">
+                            <input type="hidden" id="listEmployeeAdd"  name="listEmployeeAdd">
+                       </form>
 
                         <table id="mytable" class="table table-bordred table-striped">
 
                             <thead>
 
-                            <th><input type="checkbox" id="checkall" /></th>
+                            <th><input onclick="searchByName(this)" type="checkbox" id="checkall" /></th>
                             <th>EmployeeID</th>
                             <th>Full name</th>   
                             <th>CCCD</th>                   
@@ -121,20 +121,27 @@
                                   String EndPage = (String) request.getAttribute("COUNTPAGE");
                                   int endPage = Integer.parseInt(EndPage);
                                   ArrayList<EmployeeDTO> list =(ArrayList<EmployeeDTO>) request.getAttribute("LIST");
-                                  if(list.size()>0)
+                                  if(list.size()>0){
+                                  DepartmentDTO departEmp = new DepartmentDTO();
+                                   int count =0;
                                   for(EmployeeDTO emp :list){
+                                  departEmp = new DepartmentDAO().getDepartmentById(emp.getDepartmentID());
                                 %>
                            
                                 <tr>
-                                    <td><input type="checkbox" class="checkthis" /></td>
+                                    <td><input  type="checkbox" class="checkthis" /></td>
                                     <td><%=emp.getEmployeeId()%></td>
                                     <td><%=emp.getLastName()%> <%=emp.getMiddleName()%> <%=emp.getFirstName()%></td>
                                     <td><%=emp.getCccd()%></td>
                                     <td><%=emp.getEmail()%></td>
                                     <td><%=emp.getEmployeeTypeID()%></td>
-                                    <td><%=emp.getDepartmentID()%></td>
+                                    <td><%=departEmp.getName()%></td>
                                 </tr>
-                                <%}%>
+                                <%
+                                    count++;
+                                    if(count==10)
+                                    break;
+                                    }}%>
                                
                             </tbody>
 
@@ -155,9 +162,11 @@
 
                 <li class="page-item"><a  class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
 
-                    <%}}%>       
+                    <%}}if(endPage>1){%>       
                 <li class="page-item"><a data-index="<%=2%>" onclick="searchByName(this)" class="page-link" href="#">Sau</a></li>
-
+<%}else{%>
+                <li class="page-item"><a data-index="<%=1%>" onclick="searchByName(this)" class="page-link" href="#">Sau</a></li>
+                <%}%>
             </ul>
         </div>
                     </div>
@@ -170,6 +179,7 @@
 
 
         <script>
+            var checkBox = document.getElementById("checkall");
             var selectedEmployeeIDs = "";// Biến lưu trữ chuỗi employeeID của các ô được chọn
        $(document).ready(function () {
      
@@ -183,6 +193,7 @@
                 $(this).prop("checked", false);
                 var employeeID = $(this).closest("tr").find("td:eq(1)").text();
                 selectedEmployeeIDs = "";
+                
             });
             checkAllClicked = false;
             
@@ -194,6 +205,7 @@
                     if($(this).attr("id") !== "checkall"){
                     var employeeID = $(this).closest("tr").find("td:eq(1)").text();
                     selectedEmployeeIDs += employeeID + "|";
+                    
                 }
                 });
                 checkAllClicked = true;
@@ -204,6 +216,7 @@
                 $(this).prop("checked", false);
                 var employeeID = $(this).closest("tr").find("td:eq(1)").text();
                 selectedEmployeeIDs = "";
+                
             });
             checkAllClicked = false;
         }
@@ -218,7 +231,8 @@
             if($(this).attr("id") !== "checkall"){
             selectedEmployeeIDs += employeeID + "|";}
         } else {
-            selectedEmployeeIDs = selectedEmployeeIDs.replace(employeeID + "|", "");
+            if($(this).attr("id") !== "checkall"){
+            selectedEmployeeIDs = selectedEmployeeIDs.replace(employeeID + "|", "");}
         }
         console.log(selectedEmployeeIDs);
     });
@@ -229,8 +243,13 @@
 
 
             function searchByName(param) {
-                
+                var CheckALL = "";                
+                if(checkBox.checked == true){
+                    CheckALL = "daCheck";
+                }
                 var txtSearch = $("#txtSearch").val();
+                var startx = $("#startHidden").val();
+                var endx = $("#endHidden").val();                
                 var Page = param.dataset.index;
                 var phongBan = $("#phongBan").val();
                 var Date = $("#Date").val();
@@ -240,6 +259,10 @@
                     url: "/AttendanceSystem/listAddEmployeeAjax",
                     type: "get",
                     data: {
+                        Check:CheckALL,
+                        Startx:startx,
+                        Endx:endx,
+                        listEmpp:selectedEmployeeIDs,                       
                         txt: txtSearch,
                         phong: phongBan,
                         EmpID: empID,
@@ -247,9 +270,10 @@
                         date:Date
                         
                     },
-                    success: function (data) {
+                    success: function (data) {                       
                         var row = $("#listEmployee");
                         row.html(data);
+                        selectedEmployeeIDs = document.getElementById("listEmployeeAdd").value;
 $(document).ready(function () {
      
     var checkAllClicked = false; // Biến đánh dấu xem nút "Chọn tất cả" đã được click hay chưa
@@ -273,6 +297,7 @@ $(document).ready(function () {
                     if($(this).attr("id") !== "checkall"){
                     var employeeID = $(this).closest("tr").find("td:eq(1)").text();
                     selectedEmployeeIDs += employeeID + "|";
+                    
                 }
                 });
                 checkAllClicked = true;
@@ -283,6 +308,7 @@ $(document).ready(function () {
                 $(this).prop("checked", false);
                 var employeeID = $(this).closest("tr").find("td:eq(1)").text();
                 selectedEmployeeIDs = "";
+                
             });
             checkAllClicked = false;
         }
@@ -296,7 +322,8 @@ $(document).ready(function () {
         if ($(this).is(":checked")&&$(this).attr("id") !== "checkall") {
             selectedEmployeeIDs += employeeID + "|";
         } else {
-            selectedEmployeeIDs = selectedEmployeeIDs.replace(employeeID + "|", "");
+            if($(this).attr("id") !== "checkall"){
+            selectedEmployeeIDs = selectedEmployeeIDs.replace(employeeID + "|", "");}
         }
         console.log(selectedEmployeeIDs);
     });

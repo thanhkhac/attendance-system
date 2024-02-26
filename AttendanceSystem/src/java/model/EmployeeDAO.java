@@ -1017,7 +1017,7 @@ public class EmployeeDAO extends DBContext {
 "AND Overtimes.Date = ?\n" +
 "WHERE  Overtimes.EmployeeID IS NULL and Employees.DepartmentID like ? and Employees.EmployeeTypeID like ?\n" +
 "and Employees.FirstName like ? and Employees.LastName like ? and Employees.MiddleName like ?\n Order by Employees.EmployeeID\n" +
-"Offset ? rows fetch next 5 rows only" +
+"Offset ? rows fetch next 10 rows only" +
 ";";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, date);
@@ -1026,7 +1026,7 @@ public class EmployeeDAO extends DBContext {
                 stm.setNString(4, "%"+firstname+"%");
                 stm.setNString(5, "%"+LastName+"%");
                 stm.setNString(6, "%"+MidName+"%");
-                stm.setInt(7, (page-1)*5);
+                stm.setInt(7, (page-1)*10);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                      int employeeId = rs.getInt("employeeId");
