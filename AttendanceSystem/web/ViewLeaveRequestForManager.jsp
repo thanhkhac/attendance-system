@@ -25,6 +25,22 @@
                 word-break: break-word;
                 max-width: 150px;
             }
+            .content{
+                background-color: white;
+                max-width: 65%;
+                margin: auto;
+                padding: 20px;
+                margin-top: 10px;
+            }
+            .content-redirect{
+                background-color: #F5F5F5;
+                border-radius: 5px;
+                padding: 4px;
+            }
+            .content-redirect p{
+                margin: 0px;
+                font-size: large;
+            }
         </style>
 
     </head>
@@ -34,19 +50,25 @@
         EmployeeDTO emDTO = new EmployeeDTO();
         EmployeeDTO managerDTO = new EmployeeDTO();
         EmployeeDTO hrDTO = new EmployeeDTO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        DepartmentDTO deDTO = new DepartmentDTO();
         
-        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequest();
+        
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
+        int departmentID = acc.getDepartmentID();
+        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequestByDepartment(departmentID);
+        deDTO = deDao.getDepartmentById(departmentID);
     %>
     <body>
         <div>
-            <%@include file="Sidebar.jsp" %>
-            <div class="right">
+                <div class="content">
+                    <h1>Thông Báo</h1>
+                    <div class="content-redirect">
+                        <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Trở Lại</a> | Result</p>
+                    </div>  
+                </div>
                 <div class="text-center">
-                    <h1 style="margin: 30px">Danh sách đơn nghỉ phép (Manager)</h1>
-                    <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
-                        <i class="bi bi-arrow-left"></i> Trở lại
-                    </a>
+                    <h1 style="margin: 30px">Danh sách đơn nghỉ phép của <%=deDTO.getName()%> (Manager)</h1>
                 </div>
                 <div>
                     <form action="DispatchController" method="POST">
@@ -70,6 +92,7 @@
                                     emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
                                     managerDTO = dao.getEmployeeDTO(lr.getManagerID());
                                     hrDTO = dao.getEmployeeDTO(lr.getHrID());
+                                    if(lr.getDepartmentID() == departmentID){
                             %>
                             <tr class="employee-row">
                                 <td class="text-center"><%=lr.getLeaveRequestID()%></td>
@@ -123,20 +146,20 @@
                                 </td>
                             </tr>
                             <%
+                                        }
                                     }
                                 }
                             %>
                         </table>
-                            <%
-                            }else{
-                            %>
-                            <p class="text-center">Tài khoản này không phải Quản lí</p>
-                            <%
-                            }
-                            %>
+                        <%
+                        }else{
+                        %>
+                        <p class="text-center">Tài khoản này không phải Quản lí</p>
+                        <%
+                        }
+                        %>
                     </form>
                 </div>
-            </div>
 
         </div>
         <script>

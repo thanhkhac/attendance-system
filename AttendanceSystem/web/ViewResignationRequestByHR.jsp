@@ -25,30 +25,47 @@
                 word-break: break-word;
                 max-width: 150px;
             }
+            .content{
+                background-color: white;
+                max-width: 65%;
+                margin: auto;
+                padding: 20px;
+                margin-top: 10px;
+            }
+            .content-redirect{
+                background-color: #F5F5F5;
+                border-radius: 5px;
+                padding: 4px;
+            }
+            .content-redirect p{
+                margin: 0px;
+                font-size: large;
+            }
         </style>
 
     </head>
     <%
-//        LeaveRequestDAO lrDao = new LeaveRequestDAO();
         ResignationRequestDAO rrDao = new ResignationRequestDAO();
         EmployeeDAO dao = new EmployeeDAO();
         EmployeeDTO emDTO = new EmployeeDTO();
         EmployeeDTO managerDTO = new EmployeeDTO();
         EmployeeDTO hrDTO = new EmployeeDTO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        DepartmentDTO deDTO = new DepartmentDTO();
         
-//        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequest();
-        ArrayList<ResignationRequestDTO> list = rrDao.getRegisnationRequest();
+        ArrayList<ResignationRequestDTO> list = rrDao.getRegisnationRequestForHR(1);
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
     %>
     <body>
         <div>
-            <%@include file="Sidebar.jsp" %>
-            <div class="right">
+            <div class="content">
+                <h1>Thông Báo</h1>
+                <div class="content-redirect">
+                    <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Trở Lại</a> | Result</p>
+                </div>  
+            </div>
                 <div class="text-center">
                     <h1 style="margin: 30px">Danh sách đơn Regisnation (HR)</h1>
-                    <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
-                        <i class="bi bi-arrow-left"></i> Trở lại
-                    </a>
                 </div>
                 <div>
                     <form action="DispatchController" method="POST">
@@ -59,6 +76,7 @@
                         <table class="table">
                             <tr style="background-color: #CFE2FF">
                                 <th class="text-center">Mã đơn</th>
+                                <th class="text-center">Phòng ban</th>
                                 <th class="text-center">Mã nhân viên</th>
                                 <th class="text-center">Ngày gửi</th>
                                 <th class="text-center">Ngày bắt đầu làm việc</th>
@@ -69,7 +87,6 @@
                                 <th class="text-center">Trạng thái <br> (HR)</th>
                                 <th class="text-center">Người phê duyệt <br> (Manager)</th>
                                 <th class="text-center">Người phê duyệt <br> (HR)</th>
-                                <th class="text-center">Status</th>
                                 <th class="text-center">check</th>
                             </tr>
                             <%
@@ -77,10 +94,15 @@
                                     emDTO = dao.getEmployeeDTO(rr.getEmployeeID());
                                     managerDTO = dao.getEmployeeDTO(rr.getManagerID());
                                     hrDTO = dao.getEmployeeDTO(rr.getHrID());
-                                    if(rr.getManagerApprove() != null && rr.getManagerApprove()){
+                                    
+                                    int departmentID = rr.getDepartmentID();
+                                    deDTO = deDao.getDepartmentById(departmentID);
+                                    
+//                                    if(rr.getManagerApprove() != null && rr.getManagerApprove()){
                             %>
                             <tr class="employee-row">
                                 <td class="text-center"><%=rr.getResignationRequestID()%></td>
+                                <td class="text-center"><%=deDTO.getName()%></td>
                                 <td class="tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
                                 <td class="text-center"><%=rr.getSentDate()%></td>
                                 <td class="text-center"><%=rr.getStartDateContract()%></td>     
@@ -149,24 +171,6 @@
                                         }
                                     %>
                                 </td>
-                                <td class="text-center tdbreak">
-                                    <%
-                                        Boolean status = rr.getStatus();
-                                        if(status == null){
-                                    %>
-                                        <p class="fw-bold">Pending</p>
-                                    <%
-                                        }else if (status == true){
-                                    %>
-                                        <p class="text-success fw-bold" >Accepted</p>
-                                    <%
-                                        } else if (status == false){
-                                    %>
-                                        <p class="text-danger fw-bold">Denied</p>
-                                    <%
-                                        }
-                                    %>
-                                </td>
                                 <td class="text-center">
                                     <%
                                         if(rr.getManagerApprove() != null && rr.getHrApprove() != null){
@@ -182,7 +186,7 @@
                             </tr>
                             <%  
                                         }
-                                    } // en if
+                                    //} // en if
                                 } // end foreach
                             %>
                         </table>
@@ -195,7 +199,6 @@
                         %>
                     </form>
                 </div>
-            </div>
 
         </div>
         <script>

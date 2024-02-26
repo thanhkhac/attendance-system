@@ -14,6 +14,7 @@ public class LeaveRequestDTO {
 
     private int leaveRequestID;
     private int employeeID;
+    private int departmentID;
     private LocalDate sentDate;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -26,6 +27,22 @@ public class LeaveRequestDTO {
     private Boolean status;
 
     public LeaveRequestDTO() {
+    }
+
+    public LeaveRequestDTO(int leaveRequestID, int employeeID, int departmentID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String filePath, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status) {
+        this.leaveRequestID = leaveRequestID;
+        this.employeeID = employeeID;
+        this.departmentID = departmentID;
+        this.sentDate = sentDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.filePath = filePath;
+        this.reason = reason;
+        this.managerApprove = managerApprove;
+        this.hrApprove = hrApprove;
+        this.managerID = managerID;
+        this.hrID = hrID;
+        this.status = status;
     }
 
     public LeaveRequestDTO(int leaveRequestID, int employeeID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String filePath, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status) {
@@ -71,6 +88,14 @@ public class LeaveRequestDTO {
 
     public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
+    }
+
+    public int getDepartmentID() {
+        return departmentID;
+    }
+
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
     }
 
     public LocalDate getSentDate() {
@@ -150,7 +175,7 @@ public class LeaveRequestDTO {
 //    }
     @Override
     public String toString() {
-        return "LeaveRequestDTO{" + "leaveRequestID=" + leaveRequestID + ", employeeID=" + employeeID + ", sentDate=" + sentDate + ", startDate=" + startDate + ", endDate=" + endDate + ", reason=" + reason + ", managerApprove=" + managerApprove + ", hrApprove=" + hrApprove + ", managerID=" + managerID + ", hrID=" + hrID + ", status=" + status + '}';
+        return "LeaveRequestDTO{" + "leaveRequestID=" + leaveRequestID + ", employeeID=" + employeeID + ", sentDate=" + sentDate + ", startDate=" + startDate + ", filePath=" + filePath + ", endDate=" + endDate + ", reason=" + reason + ", managerApprove=" + managerApprove + ", hrApprove=" + hrApprove + ", managerID=" + managerID + ", hrID=" + hrID + ", status=" + status + '}';
     }
 
 }
