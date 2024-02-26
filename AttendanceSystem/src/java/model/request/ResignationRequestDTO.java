@@ -139,5 +139,10 @@ public class ResignationRequestDTO {
 //        this.status = status;
 //    }
 
+    @Override
+    public String toString() {
+        return "LeaveRequestDTO{" + "resignationRequestID="+ resignationRequestID + ", employeeID=" + employeeID + ", startDateContract="+ startDateContract + ", endDateContract="+ endDateContract + ", sentDate=" + sentDate + ", " + ", extendDate="+ extendDate + ", reason=" + reason + ", managerApprove=" +  managerApprove + ", hrApprove=" + hrApprove + ", managerID=" + managerID + ", hrID=" + hrID + ", status=" + status +'}';
+    }
+
     
 }

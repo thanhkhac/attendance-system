@@ -43,7 +43,7 @@
             <%@include file="Sidebar.jsp" %>
             <div class="right">
                 <div class="text-center">
-                    <h1 style="margin: 30px">Danh sách đơn (Manager)</h1>
+                    <h1 style="margin: 30px">Danh sách đơn nghỉ phép (Manager)</h1>
                     <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
                         <i class="bi bi-arrow-left"></i> Trở lại
                     </a>

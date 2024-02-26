@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ProcessLeaveRequestForManager
-    Created on : Feb 19, 2024, 8:14:44 AM
+    Document   : ViewResignationRequestByManager
+    Created on : Feb 25, 2024, 1:52:57 PM
     Author     : nguye
 --%>
 
@@ -29,13 +29,13 @@
 
     </head>
     <%
-        LeaveRequestDAO lrDao = new LeaveRequestDAO();
+        ResignationRequestDAO rrDao = new ResignationRequestDAO();
         EmployeeDAO dao = new EmployeeDAO();
         EmployeeDTO emDTO = new EmployeeDTO();
         EmployeeDTO managerDTO = new EmployeeDTO();
         EmployeeDTO hrDTO = new EmployeeDTO();
         
-        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequest();
+        ArrayList<ResignationRequestDTO> list = rrDao.getRegisnationRequest();
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
     %>
     <body>
@@ -43,7 +43,7 @@
             <%@include file="Sidebar.jsp" %>
             <div class="right">
                 <div class="text-center">
-                    <h1 style="margin: 30px">Danh sách đơn nghỉ phép (HR)</h1>
+                    <h1 style="margin: 30px">Danh sách đơn Regisnation (Manager)</h1>
                     <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
                         <i class="bi bi-arrow-left"></i> Trở lại
                     </a>
@@ -51,7 +51,7 @@
                 <div>
                     <form action="DispatchController" method="POST">
                         <%
-                            if(acc.getRoleID() == 2){   //role quản lí nhân sự 
+                            if(acc.getRoleID() == 4){   //role quản lí 
                                 
                         %>
                         <table class="table">
@@ -59,32 +59,35 @@
                                 <th class="text-center">Mã đơn</th>
                                 <th class="text-center">Mã nhân viên</th>
                                 <th class="text-center">Ngày gửi</th>
-                                <th class="text-center">Ngày bắt đầu</th>
-                                <th class="text-center">Ngày kết thúc</th>
+                                <th class="text-center">Ngày bắt đầu làm việc</th>
+                                <th class="text-center">Ngày kết thúc làm việc</th>
+                                <th class="text-center">Ngày gia hạn</th>
                                 <th class="text-center">Lí do</th>
                                 <th class="text-center">Trạng thái <br> (Manager)</th>  
-                                <th class="text-center">Trạng thái <br> (HR)</th>
+                                <!--<th class="text-center">Trạng thái <br> (HR)</th>-->
                                 <th class="text-center">Người phê duyệt <br> (Manager)</th>
-                                <th class="text-center">Người phê duyệt <br> (HR)</th>
+                                <!--<th class="text-center">Người phê duyệt <br> (HR)</th>-->
+                                <!--<th class="text-center">Status</th>-->
                                 <th class="text-center">check</th>
                             </tr>
                             <%
-                                for (LeaveRequestDTO lr : list) {
-                                    emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
-                                    managerDTO = dao.getEmployeeDTO(lr.getManagerID());
-                                    hrDTO = dao.getEmployeeDTO(lr.getHrID());
-                                    if(lr.getManagerApprove() != null && lr.getManagerApprove()){
+                                for (ResignationRequestDTO rr : list) {
+                                    emDTO = dao.getEmployeeDTO(rr.getEmployeeID());
+                                    managerDTO = dao.getEmployeeDTO(rr.getManagerID());
+                                    hrDTO = dao.getEmployeeDTO(rr.getHrID());
+//                                    if(rr.getManagerApprove() != null && rr.getManagerApprove()){
                             %>
                             <tr class="employee-row">
-                                <td class="text-center"><%=lr.getLeaveRequestID()%></td>
+                                <td class="text-center"><%=rr.getResignationRequestID()%></td>
                                 <td class="tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
-                                <td class="text-center"><%=lr.getSentDate()%></td>
-                                <td class="text-center"><%=lr.getStartDate()%></td>     
-                                <td class="text-center"><%=lr.getEndDate()%></td>
-                                <td class="tdbreak"><%=lr.getReason()%></td>
+                                <td class="text-center"><%=rr.getSentDate()%></td>
+                                <td class="text-center"><%=rr.getStartDateContract()%></td>     
+                                <td class="text-center"><%=rr.getEndDateContract()%></td>
+                                <td class="text-center"><%=rr.getExtendDate()%></td>
+                                <td class="tdbreak"><%=rr.getReason()%></td>
                                 <td class="text-center">
                                     <%
-                                        Boolean managerApprove = lr.getManagerApprove();
+                                        Boolean managerApprove = rr.getManagerApprove();
                                         if(managerApprove == null){
                                     %>
                                     <p class="fw-bold">Pending</p>
@@ -100,9 +103,10 @@
                                         }
                                     %>
                                 </td>
+                                <%--
                                 <td class="text-center font-weight-bold">
                                     <%
-                                        Boolean hrApprove = lr.getHrApprove();
+                                        Boolean hrApprove = rr.getHrApprove();
                                         if(hrApprove == null){
                                     %>
                                     <p class="fw-bold">Pending</p>
@@ -118,6 +122,7 @@
                                         }
                                     %>
                                 </td>
+                                --%>
                                 <td class="text-center tdbreak">
                                     <%
                                         if(managerDTO != null){
@@ -131,6 +136,7 @@
                                         }
                                     %>
                                 </td>
+                                <%--
                                 <td class="text-center tdbreak">
                                     <%
                                         if(hrDTO != null){
@@ -144,29 +150,33 @@
                                         }
                                     %>
                                 </td>
+                                --%>
+                                <%--
+                                <td class="text-center tdbreak"><%=rr.getStatus()%></td>
+                                --%>
                                 <td class="text-center">
                                     <%
-                                        if(lr.getManagerApprove() != null && lr.getHrApprove() != null){
+                                        if(rr.getManagerApprove() != null){
                                         }else{
                                     %>
-                                    <button onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
+                                    <button onclick="xacNhan('Accept', '<%= rr.getResignationRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= rr.getResignationRequestID() %>">
                                         <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
                                     </button>
-                                    <button onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-danger" type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
+                                    <button onclick="xacNhan('Deny', '<%= rr.getResignationRequestID() %>', event)" class="border bg-danger" type="submit" name="btAction" value="Deny<%= rr.getResignationRequestID() %>">
                                         <i class="fa-solid fa-x" style="color: #FFFFFF"></i>
                                     </button>
                                 </td>
                             </tr>
                             <%  
                                         }
-                                    }
+//                                    }
                                 }
                             %>
                         </table>
                         <%
                         }else{
                         %>
-                        <p class="text-center">Tài khoản này không phải Quản lí nhân sự</p>
+                        <p class="text-center">Tài khoản này không phải Quản lí</p>
                         <%
                         }
                         %>
@@ -176,15 +186,15 @@
 
         </div>
         <script>
-            function xacNhan(action, leaveRequestID, event) {
+            function xacNhan(action, resignationRequestID, event) {
                 var xacNhan = confirm("Bạn có chắc chắn muốn thực hiện hành động này không?");
                 if (xacNhan) {
                     alert("Hành động đã được xác nhận!");
                     // Thực hiện hành động khi xác nhận
                     if (action === 'Accept') {
-                        window.location.href = "AcceptLeaveRequestServlet?leaveRequestID=" + leaveRequestID + "&btAction=Accept";
+                        window.location.href = "AcceptResignationRequestServlet?resignationRequestID=" + resignationRequestID + "&btAction=Accept";
                     } else if (action === 'Deny') {
-                        window.location.href = "DenyLeaveRequestServlet?leaveRequestID=" + leaveRequestID + "&btAction=Deny";
+                        window.location.href = "DenyResignationRequestServlet?resignationRequestID=" + resignationRequestID + "&btAction=Deny";
                     }
                 } else {
                     alert("Hành động đã bị hủy bỏ!");
