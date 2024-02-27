@@ -11,6 +11,7 @@ import ultility.datetimeutil.DateTimeUtil;
 public class OvertimeDAO extends DAOBase {
 
     final DateTimeUtil dateTimeUtil = new DateTimeUtil();
+
     public OvertimeDTO getOvertimeDTO(ResultSet result) throws SQLException {
         LocalDate date = dateTimeUtil.parseSqlDate(result.getDate("date"));
         int employeeID = result.getInt("EmployeeID");
@@ -29,7 +30,7 @@ public class OvertimeDAO extends DAOBase {
                 "VALUES\n" +
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, Date);
             ps.setInt(2, EmployeeID);
             ps.setString(3, StartTime);
@@ -46,7 +47,7 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
 
         return false;
@@ -57,8 +58,7 @@ public class OvertimeDAO extends DAOBase {
         query = "delete from Overtimes\n" +
                 "where Date = ? and StartTime = ? and EndTime = ? and EmployeeID = ?";
         try {
-            ps = con.prepareStatement(query);
-
+            ps = connection.prepareStatement(query);
             ps.setString(1, Date);
             ps.setString(2, start);
             ps.setString(3, End);
@@ -70,12 +70,13 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return false;
     }
 
     public OvertimeDTO getOverTimeDTO(LocalDate xDate, int xEmployeeID) {
+        connect();
         query = "SELECT * FROM Overtimes\n" +
                 "WHERE\n" +
                 "	EmployeeID = ? AND [Date] = ? ";
@@ -99,12 +100,13 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return null;
     }
 
     public ArrayList<LocalDate> getAllOverTimeDTO() {
+        connect();
         ArrayList<LocalDate> list = new ArrayList<>();
         query = "select distinct Date from [Overtimes]";
         try {
@@ -118,16 +120,17 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return list;
     }
 
     public ArrayList<OvertimeDTO> getOverTimeDTOByDay(LocalDate xDate) {
+        connect();
         ArrayList<OvertimeDTO> list = new ArrayList<>();
-        query = "SELECT * FROM Overtimes\n"
-                + "WHERE\n"
-                + "	[Date] = ? ";
+        query = "SELECT * FROM Overtimes\n" +
+                 "WHERE\n" +
+                 "	[Date] = ? ";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, xDate.toString());
@@ -147,49 +150,48 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return list;
     }
 
     public OvertimeDTO getConflicts(int xEmployeeid, String xDate, int xShiftID) {
-        query = "DECLARE @EmployeeID INT = ? \n"
-                + "DECLARE @Date DATE = ? \n"
-                + "DECLARE @ShiftID INT = ? \n"
-                + "\n"
-                + "SELECT \n"
-                + "	OT.Date,\n"
-                + "	OT.EmployeeID,\n"
-                + "	OT.StartTime,\n"
-                + "	OT.EndTime,\n"
-                + "	OT.OpenAt,\n"
-                + "	OT.CloseAt,\n"
-                + "	OT.CheckIn,\n"
-                + "	OT.CheckOut,\n"
-                + "	OT.CreatedBy\n"
-                + "FROM \n"
-                + "    Overtimes OT\n"
-                + "    JOIN Shifts S ON OT.Date = @Date\n"
-                + "WHERE \n"
-                + "    ShiftID = @ShiftID\n"
-                + "	AND EmployeeID = @EmployeeID\n"
-                + "    AND \n"
-                + "    (   \n"
-                + "        (OT.StartTime > S.StartTime AND OT.StartTime < S.EndTime)\n"
-                + "        OR\n"
-                + "        (OT.EndTime > S.StartTime AND OT.EndTime < S.EndTime)\n"
-                + "        OR \n"
-                + "        (S.StartTime > OT.StartTime AND S.StartTime < OT.EndTime)\n"
-                + "        OR\n"
-                + "        (S.EndTime > OT.StartTime AND S.EndTime < OT.EndTime)\n"
-                + "		OR\n"
-                + "		(S.StartTime = OT.StartTime)\n"
-                + "		OR \n"
-                + "		(S.EndTime = OT.EndTime)\n"
-                + "    )";
+        connect();
+        query = "DECLARE @EmployeeID INT = ? \n" +
+                 "DECLARE @Date DATE = ? \n" +
+                 "DECLARE @ShiftID INT = ? \n" +
+                 "\n" +
+                 "SELECT \n" +
+                 "	OT.Date,\n" +
+                 "	OT.EmployeeID,\n" +
+                 "	OT.StartTime,\n" +
+                 "	OT.EndTime,\n" +
+                 "	OT.OpenAt,\n" +
+                 "	OT.CloseAt,\n" +
+                 "	OT.CheckIn,\n" +
+                 "	OT.CheckOut,\n" +
+                 "	OT.CreatedBy\n" +
+                 "FROM \n" +
+                 "    Overtimes OT\n" +
+                 "    JOIN Shifts S ON OT.Date = @Date\n" +
+                 "WHERE \n" +
+                 "    ShiftID = @ShiftID\n" +
+                 "	AND EmployeeID = @EmployeeID\n" +
+                 "    AND \n" +
+                 "    (   \n" +
+                 "        (OT.StartTime > S.StartTime AND OT.StartTime < S.EndTime)\n" +
+                 "        OR\n" +
+                 "        (OT.EndTime > S.StartTime AND OT.EndTime < S.EndTime)\n" +
+                 "        OR \n" +
+                 "        (S.StartTime > OT.StartTime AND S.StartTime < OT.EndTime)\n" +
+                 "        OR\n" +
+                 "        (S.EndTime > OT.StartTime AND S.EndTime < OT.EndTime)\n" +
+                 "		OR\n" +
+                 "		(S.StartTime = OT.StartTime)\n" +
+                 "		OR \n" +
+                 "		(S.EndTime = OT.EndTime)\n" +
+                 "    )";
         try {
-            //Mở kết nối
-            super.connect();
             ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeid);
             ps.setString(2, xDate);
@@ -210,12 +212,13 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            super.closeAll();
+            closeAll();
         }
         return null;
     }
 
     public boolean UpdateCheckIn(int xEmployeeID) {
+        connect();
         query = "" +
                 "UPDATE Overtimes\n" +
                 "SET CheckIn = CONVERT(time, GETDATE())\n" +
@@ -227,8 +230,7 @@ public class OvertimeDAO extends DAOBase {
                 "	AND EmployeeID = 1\n" +
                 "	AND CheckIn is null";
         try {
-            super.connect();
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             int rs = ps.executeUpdate();
             if (rs > 0) {
@@ -237,12 +239,13 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            super.closeAll();
+            closeAll();
         }
         return false;
     }
 
     public boolean UpdateCheckOut(int xEmployeeID) {
+        connect();
         query = "" +
                 "UPDATE Overtimes\n" +
                 "SET CheckOut = CONVERT(time, GETDATE())\n" +
@@ -253,8 +256,7 @@ public class OvertimeDAO extends DAOBase {
                 "	AND CONVERT(time, GETDATE()) BETWEEN OT.OpenAt AND OT.CloseAt\n" +
                 "	AND EmployeeID = ?";
         try {
-            super.connect();
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             int rs = ps.executeUpdate();
             if (rs > 0) {
@@ -269,6 +271,7 @@ public class OvertimeDAO extends DAOBase {
     }
 
     public OvertimeDTO getCurrentOvertime(int xEmployeeID) {
+        connect();
         query = "" +
                 "SELECT * \n" +
                 "FROM\n" +
@@ -278,9 +281,7 @@ public class OvertimeDAO extends DAOBase {
                 "	AND CONVERT(time, GETDATE()) BETWEEN OT.OpenAt AND OT.CloseAt\n" +
                 "	AND EmployeeID = ?";
         try {
-            //Mở kết nối
-            super.connect();
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -295,14 +296,14 @@ public class OvertimeDAO extends DAOBase {
         return null;
     }
 
-
     public ArrayList<OvertimeDTO> getOverTimeByRange(int id, LocalDate startDate, LocalDate endDate) {
+        connect();
         ArrayList<OvertimeDTO> list = new ArrayList<>();
         if (connection != null) {
             try {
-                String sql = "SELECT * FROM Overtimes "
-                        + "WHERE EmployeeID = ? "
-                        + "AND [Date] BETWEEN ? AND ? ";
+                String sql = "SELECT * FROM Overtimes " +
+                         "WHERE EmployeeID = ? " +
+                         "AND [Date] BETWEEN ? AND ? ";
                 ps = connection.prepareStatement(sql);
                 ps.setInt(1, id);
                 ps.setString(2, startDate.toString());
@@ -321,7 +322,6 @@ public class OvertimeDAO extends DAOBase {
                     list.add(new OvertimeDTO(date, employeeID, startTime, endTime, openAt, closeAt, checkIn, checkOut, createdBy));
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
                 e.printStackTrace();
             } finally {
                 closeAll();
@@ -329,7 +329,6 @@ public class OvertimeDAO extends DAOBase {
         }
         return list;
     }
-
 
     public static void main(String[] args) {
         OvertimeDAO overtimeDAO = new OvertimeDAO();

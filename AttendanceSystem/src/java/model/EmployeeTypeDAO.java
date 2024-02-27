@@ -16,7 +16,9 @@ import java.util.ArrayList;
 public class EmployeeTypeDAO extends DAOBase {
 
     public ArrayList<EmployeeTypeDTO> getEmployeeTypeList() {
+        connect();
         ArrayList<EmployeeTypeDTO> list = new ArrayList<>();
+
         if (connection != null) {
             try {
                 query = "SELECT * FROM EmployeeTypes ";
@@ -30,23 +32,23 @@ public class EmployeeTypeDAO extends DAOBase {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println(e.getMessage());
             } finally {
-                closeResource();
+                closeAll();
             }
         }
         return list;
     }
 
     public int getEmployeeTypeIDByName(String employeeTypeName) {
+        connect();
         PreparedStatement stm = null;
         ResultSet rs = null;
         int id = 0;
         if (connection != null) {
             try {
-                String sql = "SELECT EmployeeTypeID \n"
-                        + "FROM EmployeeTypes \n"
-                        + "WHERE [Name] = ? ";
+                String sql = "SELECT EmployeeTypeID \n" +
+                         "FROM EmployeeTypes \n" +
+                         "WHERE [Name] = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, employeeTypeName);
                 rs = stm.executeQuery();
@@ -55,8 +57,9 @@ public class EmployeeTypeDAO extends DAOBase {
                     id = rs.getInt("EmployeeTypeID");
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
                 e.printStackTrace();
+            } finally {
+                close();
             }
         }
         return id;

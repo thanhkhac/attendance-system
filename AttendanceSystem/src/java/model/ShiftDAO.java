@@ -11,6 +11,7 @@ public class ShiftDAO extends DAOBase {
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public ShiftDTO getShiftDTO(int xShiftID) {
+        connect();
         query = "SELECT * FROM Shifts\n"
                 + "WHERE ShiftID = ?";
         try {
@@ -31,7 +32,7 @@ public class ShiftDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return null;
     }
@@ -56,7 +57,7 @@ public class ShiftDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return list;
     }
@@ -82,7 +83,7 @@ public class ShiftDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return list;
     }

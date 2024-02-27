@@ -14,15 +14,7 @@ public class DBContext {
     private static final String URL = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Attendance_DB_Final";
 
     public DBContext() {
-        try {
-            if (connection == null || connection.isClosed()) {
-                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                connection = DriverManager.getConnection(URL, USER, PASS);
-            }
-             System.out.println("Connect Successfully");
-        } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        connect();
     }
 
     public void connect() {
@@ -30,10 +22,21 @@ public class DBContext {
             if (connection == null || connection.isClosed()) {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 connection = DriverManager.getConnection(URL, USER, PASS);
+                System.out.println("Connect Successfully");
             }
-            System.out.println("Connect Successfully");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void close() {
+        if (connection != null) {
+            try {
+                System.out.println("close");
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
