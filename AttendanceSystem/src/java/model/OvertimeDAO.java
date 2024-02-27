@@ -26,7 +26,8 @@ public class OvertimeDAO extends DAOBase {
     }
 
     public boolean insertOvertime(String Date, int EmployeeID, String StartTime, String EndTime, String open, String Close, String CheckIn, String CheckOut, int CreateID) {
-        query = "INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)\n" +
+       connect();  
+      query = "INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)\n" +
                 "VALUES\n" +
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -54,7 +55,7 @@ public class OvertimeDAO extends DAOBase {
     }
 
     public boolean deleteOvertime(String Date, String start, String End, int ID) {
-
+ connect();
         query = "delete from Overtimes\n" +
                 "where Date = ? and StartTime = ? and EndTime = ? and EmployeeID = ?";
         try {
