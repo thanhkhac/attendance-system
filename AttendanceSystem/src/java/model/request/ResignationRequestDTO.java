@@ -14,6 +14,7 @@ public class ResignationRequestDTO {
 
     private int resignationRequestID;
     private int employeeID;
+    private int departmentID;
     private LocalDate sentDate;
     private LocalDate startDateContract;
     private LocalDate endDateContract;
@@ -26,6 +27,22 @@ public class ResignationRequestDTO {
     private Boolean status;
 
     public ResignationRequestDTO() {
+    }
+
+    public ResignationRequestDTO(int resignationRequestID, int employeeID, int departmentID, LocalDate sentDate, LocalDate startDateContract, LocalDate endDateContract, LocalDate extendDate, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status) {
+        this.resignationRequestID = resignationRequestID;
+        this.employeeID = employeeID;
+        this.departmentID = departmentID;
+        this.sentDate = sentDate;
+        this.startDateContract = startDateContract;
+        this.endDateContract = endDateContract;
+        this.extendDate = extendDate;
+        this.reason = reason;
+        this.managerApprove = managerApprove;
+        this.hrApprove = hrApprove;
+        this.managerID = managerID;
+        this.hrID = hrID;
+        this.status = status;
     }
 
     public ResignationRequestDTO(int resignationRequestID, int employeeID, LocalDate sentDate, LocalDate startDateContract, LocalDate endDateContract, LocalDate extendDate, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status) {
@@ -57,6 +74,14 @@ public class ResignationRequestDTO {
 
     public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
+    }
+
+    public int getDepartmentID() {
+        return departmentID;
+    }
+
+    public void setDepartmentID(int departmentID) {
+        this.departmentID = departmentID;
     }
 
     public LocalDate getSentDate() {

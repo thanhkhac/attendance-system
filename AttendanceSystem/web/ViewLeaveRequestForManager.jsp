@@ -45,9 +45,13 @@
         EmployeeDTO emDTO = new EmployeeDTO();
         EmployeeDTO managerDTO = new EmployeeDTO();
         EmployeeDTO hrDTO = new EmployeeDTO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        DepartmentDTO deDTO = new DepartmentDTO();
         
-        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequest();
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
+        int departmentID = acc.getDepartmentID();
+        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequestByDepartment(departmentID);
+        deDTO = deDao.getDepartmentById(departmentID);
     %>
     <body>
         <div>
@@ -64,9 +68,6 @@
                 </div>
                 <div>
                     <form action="DispatchController" method="POST">
-                        <%
-                            if(acc.getRoleID() == 4){ // role quản lí(manager)
-                        %>
                         <table class="table">
                             <tr style="background-color: #CFE2FF">
                                 <th class="text-center">Mã đơn</th>
@@ -141,13 +142,6 @@
                                 }
                             %>
                         </table>
-                        <%
-                        }else{
-                        %>
-                        <p class="text-center">Tài khoản này không phải Quản lí</p>
-                        <%
-                        }
-                        %>
                     </form>
                 </div>
             </div>
