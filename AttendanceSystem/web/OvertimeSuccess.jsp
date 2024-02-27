@@ -96,7 +96,8 @@
         <%}if(ThatBai!=null){%>
         <div class="overlay">
             <div class="centered-div" >
-                <h2 style="font-weight: 700;font-family: cursive;"><%=ThatBai%></h2>
+                <h2 style="font-size: 25px;
+                    "><%=ThatBai%></h2>
 <div style="margin-top: 107px;">
                     <form action="addEmployeeOvertime">
         <input type="hidden" name="startTime" value="<%=Start%>">

@@ -100,7 +100,7 @@ links.forEach(function(link) {
 
     link.addEventListener('mouseleave', function() {
         const paragraph = this.querySelector('.paragraph');
-        paragraph.textContent = 'Chưa có tăng ca';
+        paragraph.textContent = 'Trống';
     });
 });
                         },
@@ -162,7 +162,7 @@ links.forEach(function(link) {
 
     link.addEventListener('mouseleave', function() {
         const paragraph = this.querySelector('.paragraph');
-        paragraph.textContent = 'Chưa có tăng ca';
+        paragraph.textContent = 'Trống';
     });
 });
                         },

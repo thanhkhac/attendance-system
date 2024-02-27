@@ -210,28 +210,48 @@
                 font-weight: 630;
                 color: #b1b0afe6;
             }
+            .addEmp{
+                height: 40px;
+                background-color: #2b2b2b;
+                border: 0px;
+                transition: transform 0.35s ease
+            }
+            .addEmp:hover{
+                background-color: black;
+                transform: translateY(-10px);
+            }
+            .deleteAll{
+                height: 40px;
+                background-color: #2b2b2b;
+                border: 0px;
+                transition: transform 0.35s ease
+            }
+            .deleteAll:hover{
+                background-color: black;
+                transform: translateY(-10px);
+            }
         </style>
     </head>
     <body>
-         <%
-          String error = (String) request.getAttribute("ERROROVERTIME");
-          if(error!=null&&error.length()>0){
-         %>
-         <script>
-             var result = window.confirm("Ca đã tồn tại vui lòng chọn lại");
-         </script>
-         
-         <%}%>
-         
-         <%
-          String error2 = (String) request.getAttribute("ERRORSTARTTIME");
-          if(error2!=null&&error2.length()>0){
-         %>
-         <script>
-             var result2 = window.confirm("StarTtime phải nhỏ hơn EndTime vui lòng nhập lại ");
-         </script>
-         
-         <%}%>
+        <%
+         String error = (String) request.getAttribute("ERROROVERTIME");
+         if(error!=null&&error.length()>0){
+        %>
+        <script>
+            var result = window.confirm("Ca đã tồn tại vui lòng chọn lại");
+        </script>
+
+        <%}%>
+
+        <%
+         String error2 = (String) request.getAttribute("ERRORSTARTTIME");
+         if(error2!=null&&error2.length()>0){
+        %>
+        <script>
+            var result2 = window.confirm("StarTtime phải nhỏ hơn EndTime vui lòng nhập lại ");
+        </script>
+
+        <%}%>
         <%
            String Day = (String) request.getAttribute("DAY");
            ArrayList<OvertimeDTO> list = (ArrayList<OvertimeDTO>) request.getAttribute("LISTOVERTIME"); 
@@ -242,8 +262,8 @@
                 <div class="row section-heading justify-content-center text-center wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 0.3s; animation-delay: 0.3s; animation-name: fadeInUp;">
                     <div class="col-lg-8 col-xl-6">
                         <a href="javascript:history.back()" class="btn btn-outline-secondary" style="    width: 106px;position: absolute; left: 15px; top: 15px;">
-                        <i class="bi bi-arrow-left"></i> Trở lại
-                    </a>
+                            <i class="bi bi-arrow-left"></i> Trở lại
+                        </a>
                         <h3 class="h2 bg-primary-after after-50px pb-3 mb-3">Các ca tăng ca trong ngày <%=Day%></h3>
                     </div>
                 </div>
@@ -259,34 +279,48 @@
                         <div class="hover-top-in text-center">
 
                             <a class="linkOvertime" href="#">
+                                <%
+                                    
+                                int countPage = new EmployeeDAO().countEmployeeOvertimeByShift(Day,"","","","",overtime.getStartTime().toString(),overtime.getEndTime().toString());
+                                                          int endPage = 1;
+           
+        if (countPage % 4 == 0) {
+            endPage = countPage / 4;
+        } else {
+            endPage = countPage / 4 + 1;
+        }
+                                %>
                                 <div style="padding-top: 23px" class="overflow-hidden z-index-1 position-relative px-5 hover-top--in mt-3 mb-3">
                                     <div style="border-radius: 12px;" class="mx-2 mx-xl-3 shadow mt-n4 bg-white p-4 pt-6 mx-4 text-center ">
-                                        <h6 class="fw-700 dark-color mb-1"><%=overtime.getStartTime()%> - <%=overtime.getEndTime()%></h6><small>Số nhân viên tăng ca: <%=listEmployee.size()%></small>
+                                        <h6 class="fw-700 dark-color mb-1"><%=overtime.getStartTime()%> - <%=overtime.getEndTime()%></h6><small>Số nhân viên tăng ca: <%=countPage%></small>
                                     </div>                      
                                 </div>
                             </a>
                             <div class="overlay" style="z-index:2000">
-                                <div class="centered-div" >
+                                <div style="width: 900px;" class="centered-div" >
                                     <button class="close-button"><img  style="width: 10px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSkBKbhGamdqx3Bab4sQqUwkljoYvQ-WasvA&usqp=CAU" alt=""></button>
                                     <div class="container">
                                         <div class="container row align-items-center">
                                             <div class="col-md-6">
                                                 <div class="mt-4">
                                                     <div class="input-group rounded">
-                                                        <input oninput="searchByName(this)"  type="search" class="form-control rounded txtSearch" placeholder="Search" />
-
+                                                        <input   type="search" class="form-control rounded txtSearch" placeholder="Search" />
+                                                        <input   type="hidden" class="startTime" value="<%=overtime.getStartTime()%>" />
+                                                        <input   type="hidden" class="endTime" value="<%=overtime.getEndTime()%>" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-2"></div>
                                             <div style="width: 240px;" class="col-md-4">
                                                 <div class="mt-4">
-                                                    <select onchange="searchByName(this)" id="form-select" class="form-select" >
+                                                    <select  class="form-select" >
+                                                        <option value="" selected="" >Tất cả</option>
                                                         <%
                                                           ArrayList<DepartmentDTO> listDepart = new DepartmentDAO().getListDepartment();
+                                                          
                                                           for(DepartmentDTO depart:listDepart ){
                                                         %>
-                                                        <option value="3">Three</option>
+                                                        <option value="<%=depart.getDepartmentID()%>" ><%=depart.getName()%></option>
                                                         <%}%>
                                                     </select>
                                                 </div>
@@ -295,7 +329,7 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="">
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive listEmployee">
                                                         <table class="table project-list-table table-nowrap align-middle table-borderless">
                                                             <thead>
                                                                 <tr>
@@ -307,9 +341,10 @@
                                                                     <th scope="col" style="width: 200px;">Action</th>
                                                                 </tr>
                                                             </thead>
-                                                            <tbody class = "listEmployee">
+                                                            <tbody >
                                                                 <%
                                                                    DepartmentDTO demp = new DepartmentDTO();
+                                                                   int count = 0;
                                                                    for(EmployeeDTO listemp : listEmployee){
                                                                     
                                                                     demp = new DepartmentDAO().getDepartmentById(listemp.getDepartmentID());
@@ -323,17 +358,52 @@
                                                                         <ul class="list-inline mb-0">
 
                                                                             <li class="list-inline-item">
-                                                                                <a href="javascript:void(0);"  title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
+                                                                                <a style="color:red" href="javascript:void(0);" class="deleteEmp"  title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
                                                                             </li>
 
                                                                         </ul>
                                                                     </td>
-                                                                </tr>
-                                                                <%}%>
+                                                            <input type="hidden" class="deleteStart" value="<%=overtime.getStartTime()%>">
+                                                            <input type="hidden" class="deleteEnd" value="<%=overtime.getEndTime()%>">
+                                                            <input type="hidden" class="deleteDate" value="<%=Day%>">
+                                                            <input type="hidden" class="deleteID" value="<%=listemp.getEmployeeId()%>">
+                                                            </tr>
+
+                                                            <%
+                                                                count++;
+                                                                if(count==4)
+                                                                break;
+                                                                }%>
 
 
                                                             </tbody>
                                                         </table>
+                                                        <div>
+                                                            <a href="#" style="position: absolute;left:22px;    background-color: #d61a1a;" class="btn btn-primary deleteAll">Xóa ca</a>
+
+                                                            <ul class="pagination" style="
+                                                                justify-content: end;
+                                                                ">
+                                                                <li class="page-item"><a style="color: black;" data-index="1" class="page-link" href="#">Trước</a></li>
+
+                                                                <%
+                                                                  for(int i=1;i<=endPage;i++){
+                  
+                                                                  if(i==1){
+                                                                %>
+                                                                <li class="page-item"><a style="background-color: #cfd5da96;color: black;" class="page-link page" data-index="<%=i%>"  href="#"><%=i%></a><li>
+                                                                    <%}else{%>   
+
+                                                                <li class="page-item"><a  style="color: black;" class="page-link page" data-index="<%=i%>"  href="#"><%=i%></a><li>
+                                                                    <%}}
+                                                                    if(endPage==1){
+                                                                    %>
+                                                                <li class="page-item"><a style="color: black;" data-index="1"  class="page-link page" href="#">Sau</a></li>
+                                                                    <%}else{%>
+                                                                <li class="page-item"><a style="color: black;" data-index="2"  class="page-link page" href="#">Sau</a></li>
+                                                                    <%}%>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -343,16 +413,7 @@
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="float-sm-end">
-                                                    <ul class="pagination mb-sm-0">
-                                                        <li class="page-item disabled">
-                                                            <a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
-                                                        </li>
-                                                        <li class="page-item active"><a onclick="searchByName(this)" href="#" class="page-link">1</a></li>
 
-                                                        <li class="page-item">
-                                                            <a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
-                                                        </li>
-                                                    </ul>
                                                 </div>
                                             </div>
                                         </div>
@@ -360,9 +421,8 @@
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-3">
 
                                             <div>
-                                                
-                                                <a href="addEmployeeOvertime?startTime=<%=overtime.getStartTime()%>&&endTime=<%=overtime.getEndTime()%>&&date=<%=overtime.getDate()%>&&Add=add" class="btn btn-primary"><i class="bx bx-plus me-1"></i> Thêm nhân viên</a>
-                                                
+                                                <a href="addEmployeeOvertime?startTime=<%=overtime.getStartTime()%>&&endTime=<%=overtime.getEndTime()%>&&date=<%=overtime.getDate()%>&&Add=add" class="btn btn-primary addEmp"><i class="bx bx-plus me-1"></i> Thêm nhân viên</a>
+
                                             </div>
 
                                         </div>
@@ -442,15 +502,15 @@
 </section>
 <script>
 
+// JavaScript để hiển thị popup khi nhấn vào linkOvertime
     var startEnd;
     var showDivLinks = document.querySelectorAll(".linkOvertime");
-// khi an vao link co ten class show-div-link se hien ra box an
+
     showDivLinks.forEach(function (link) {
         link.addEventListener("click", function (e) {
-            
+            e.preventDefault();
             var overlay = this.nextElementSibling;
             startEnd = overlay.nextElementSibling.value;
-            console.log(startEnd);
             overlay.style.display = "block";
 
             var closeButton = overlay.querySelector(".close-button");
@@ -460,44 +520,225 @@
         });
     });
 
-
-
-    $(document).on("click", ".show-div-link", function (e) {
-        e.preventDefault();
-        var overlay = $(this).next(".overlay");
-        overlay.css("display", "block");
-
-        var closeButton = overlay.find(".close-button");
-        closeButton.on("click", function () {
-            overlay.css("display", "none");
-        });
-    });
-
-    function searchByName(param) {
-        var txtSearch = $(".txtSearch").val();
-        var phongBan = $("#phongBan").val();
+// JavaScript để gửi AJAX khi giá trị của txtSearch thay đổi
+    $(".txtSearch").on("input", function () {
+        var txtSearch = $(this).val();
         var Date = $("#date").val();
+        var startEnd = $(this).closest(".overlay").find(".startTime").val();
+        var endTime = $(this).closest(".overlay").find(".endTime").val();
+        var chonPhong = $(this).closest(".overlay").find(".form-select").val();
+        var listEmployee = $(this).closest(".overlay").find(".listEmployee");
         $.ajax({
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
             data: {
                 txt: txtSearch,
-                phong: phongBan,
                 date: Date,
-                StartEnd: startEnd
+                StartEnd: startEnd,
+                EndTime: endTime,
+                Phong: chonPhong
             },
             success: function (data) {
-                var row = $(".listEmployee");
-                row.html(data);
-
-                // Gọi lại sự kiện hoặc hàm JS bạn muốn chạy vi khi dung ajax lay du lieu tu serverlet se mat ket noi
-                //initializeYourFunctions();
+                listEmployee.html(data);
             },
             error: function (xhr) {
                 console.log("Error:", xhr);
             }
         });
+    });
+
+    $(".form-select").change(function () {
+        var txtSearch = $(".txtSearch").val();
+        var Date = $("#date").val();
+        var overlay = $(this).closest(".overlay");
+        var startEnd = overlay.find(".startTime").val();
+        var endTime = overlay.find(".endTime").val();
+        var chonPhong = $(this).val();
+        var listEmployee = overlay.find(".listEmployee");
+        $.ajax({
+            url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+            type: "get",
+            data: {
+                txt: txtSearch,
+                date: Date,
+                StartEnd: startEnd,
+                EndTime: endTime,
+                Phong: chonPhong
+            },
+            success: function (data) {
+                listEmployee.html(data);
+            },
+            error: function (xhr) {
+                console.log("Error:", xhr);
+            }
+        });
+    });
+
+    $(document).on("click", ".page-item", function () {
+        var txtSearch = $(".txtSearch").val();
+        var Date = $("#date").val();
+        var startEnd = $(this).closest(".overlay").find(".startTime").val();
+        var endTime = $(this).closest(".overlay").find(".endTime").val();
+        var chonPhong = $(this).closest(".overlay").find(".form-select").val();
+
+        // Lấy giá trị của thuộc tính data-index từ phần tử <a> con
+        var dataIndex = $(this).find("a").attr("data-index");
+
+        var listEmployee = $(this).closest(".overlay").find(".listEmployee");
+        $.ajax({
+            url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+            type: "get",
+            data: {
+                txt: txtSearch,
+                date: Date,
+                StartEnd: startEnd,
+                EndTime: endTime,
+                Phong: chonPhong,
+                Page: dataIndex // Truyền giá trị data-index vào dữ liệu gửi đi
+            },
+            success: function (data) {
+                listEmployee.html(data);
+            },
+            error: function (xhr) {
+                console.log("Error:", xhr);
+            }
+        });
+    });
+    $(document).on("click", ".deleteAll", function () {
+         if (confirm("Bạn có chắc chắn muốn xóa ca này không?")) {
+        var txtSearch = $(".txtSearch").val();
+        var Date = $("#date").val();
+        var startEnd = $(this).closest(".overlay").find(".startTime").val();
+        var endTime = $(this).closest(".overlay").find(".endTime").val();
+        var chonPhong = $(this).closest(".overlay").find(".form-select").val();
+        var DeleteAll = "ok";
+        // Lấy giá trị của thuộc tính data-index từ phần tử <a> con   
+        var listEmployee = $(this).closest(".overlay").find(".listEmployee");
+        $.ajax({
+            url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+            type: "get",
+            data: {
+                txt: txtSearch,
+                date: Date,
+                deleteAll:DeleteAll,
+                StartEnd: startEnd,
+                EndTime: endTime,
+                Phong: chonPhong,
+                
+            },
+            success: function (data) {
+                //listEmployee.html(data);
+                window.location.reload();
+            },
+            error: function (xhr) {
+                console.log("Error:", xhr);
+            }
+        });
+    }else{
+        
     }
+    });
+    $(document).on("click", ".deleteEmp", function () {
+        // Hiển thị hộp thoại xác nhận
+        if (confirm("Bạn có chắc chắn muốn xóa không?")) {
+            var DeleteStart = $(this).closest(".overlay").find(".deleteStart").val();
+            var DeleteEnd = $(this).closest(".overlay").find(".deleteEnd").val();
+            var DeleteDate = $(this).closest(".overlay").find(".deleteDate").val();
+            var DeleteID = $(this).closest(".overlay").find(".deleteID").val();
+            var txtSearch = $(".txtSearch").val();
+            var Date = $("#date").val();
+            var startEnd = $(this).closest(".overlay").find(".startTime").val();
+            var endTime = $(this).closest(".overlay").find(".endTime").val();
+            var chonPhong = $(this).closest(".overlay").find(".form-select").val();
+
+            // Lấy giá trị của thuộc tính data-index từ phần tử <a> con
+            var dataIndex = $(this).find("a").attr("data-index");
+
+            var listEmployee = $(this).closest(".overlay").find(".listEmployee");
+            console.log(startEnd);
+            $.ajax({
+                url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+                type: "get",
+                data: {
+                    deleteStart: DeleteStart,
+                    deleteEnd: DeleteEnd,
+                    deleteDate: DeleteDate,
+                    deleteID: DeleteID,
+                    txt: txtSearch,
+                    date: Date,
+                    StartEnd: startEnd,
+                    EndTime: endTime,
+                    Phong: chonPhong,
+                    Page: dataIndex // Truyền giá trị data-index vào dữ liệu gửi đi
+                },
+                success: function (data) {
+                    listEmployee.html(data);
+                },
+                error: function (xhr) {
+                    console.log("Error:", xhr);
+                }
+            });
+        } else {
+            // Nếu người dùng chọn "no" hoặc hủy bỏ, không làm gì cả hoặc thực hiện các hành động khác tùy ý
+        }
+    });
+
+//    var startEnd;
+//    var showDivLinks = document.querySelectorAll(".linkOvertime");
+//// khi an vao link co ten class show-div-link se hien ra box an
+//    showDivLinks.forEach(function (link) {
+//        link.addEventListener("click", function (e) {
+//            
+//            var overlay = this.nextElementSibling;
+//            startEnd = overlay.nextElementSibling.value;
+//            console.log(startEnd);
+//            overlay.style.display = "block";
+//
+//            var closeButton = overlay.querySelector(".close-button");
+//            closeButton.addEventListener("click", function () {
+//                overlay.style.display = "none";
+//            });
+//        });
+//    });
+//
+//
+//
+//    $(document).on("click", ".show-div-link", function (e) {
+//        e.preventDefault();
+//        var overlay = $(this).next(".overlay");
+//        overlay.css("display", "block");
+//
+//        var closeButton = overlay.find(".close-button");
+//        closeButton.on("click", function () {
+//            overlay.css("display", "none");
+//        });
+//    });
+//
+//    function searchByName(param) {
+//        var txtSearch = $(".txtSearch").val();
+//        var phongBan = $("#phongBan").val();
+//        var Date = $("#date").val();
+//        $.ajax({
+//            url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+//            type: "get",
+//            data: {
+//                txt: txtSearch,
+//                phong: phongBan,
+//                date: Date,
+//                StartEnd: startEnd
+//            },
+//            success: function (data) {
+//                var row = $(".listEmployee");
+//                row.html(data);
+//
+//                // Gọi lại sự kiện hoặc hàm JS bạn muốn chạy vi khi dung ajax lay du lieu tu serverlet se mat ket noi
+//                //initializeYourFunctions();
+//            },
+//            error: function (xhr) {
+//                console.log("Error:", xhr);
+//            }
+//        });
+//    }
 </script>              
 </body>
 </html>
