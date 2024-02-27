@@ -48,7 +48,7 @@ public class TimesheetDAO extends DAOBase {
     }
 
     public ArrayList<TimesheetDTO> getTimesheetInRange(int xEmployeeID, LocalDate start, LocalDate end) {
-                connect();
+        connect();
 
         ArrayList<TimesheetDTO> list = new ArrayList<>();
 
@@ -97,9 +97,34 @@ public class TimesheetDAO extends DAOBase {
         return null;
     }
 
+    public TimesheetDTO getCurrentTimesheet(int xEmployeeID) {
+        connect();
+        query = "" +
+                "SELECT * \n" +
+                "FROM \n" +
+                "	Timesheet TS\n" +
+                "	JOIN Shifts S ON TS.ShiftID = S.ShiftID\n" +
+                "WHERE \n" +
+                "	CONVERT(date, TS.Date) = CONVERT(date, GETDATE())\n" +
+                "	AND CONVERT(time, GETDATE()) BETWEEN S.OpenAt AND S.CloseAt\n" +
+                "	AND EmployeeID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, xEmployeeID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return getTimesheetDTO(rs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return null;
+    }
+
     public boolean insertTimesheet(String[] rawShifts, String[] rawEmployeeIDs, int createdBy) {
         String query = "INSERT INTO Timesheet ([Date], EmployeeID, ShiftID, CreatedBy) VALUES (?, ?, ?, ?)";
-
         try {
             super.connect();
             connection.setAutoCommit(false);
@@ -189,8 +214,64 @@ public class TimesheetDAO extends DAOBase {
         }
     }
 
+    public boolean UpdateCheckIn(int xEmployeeID) {
+        connect();
+        query = "" +
+                "UPDATE Timesheet\n" +
+                "SET CheckIn =  CONVERT(time, GETDATE())\n" +
+                "FROM \n" +
+                "	Timesheet TS\n" +
+                "	JOIN Shifts S ON TS.ShiftID = S.ShiftID\n" +
+                "WHERE \n" +
+                "	CONVERT(date, TS.Date) = CONVERT(date, GETDATE())\n" +
+                "	AND CONVERT(time, GETDATE()) BETWEEN S.OpenAt AND S.CloseAt\n" +
+                "	AND EmployeeID = ?\n";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, xEmployeeID);
+            int rs = ps.executeUpdate();
+            if (rs > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return false;
+    }
+
+    public boolean UpdateCheckOut(int xEmployeeID) {
+        connect();
+        query = "" +
+                "UPDATE Timesheet\n" +
+                "SET CheckOut =  CONVERT(time, GETDATE())\n" +
+                "FROM \n" +
+                "	Timesheet TS\n" +
+                "	JOIN Shifts S ON TS.ShiftID = S.ShiftID\n" +
+                "WHERE \n" +
+                "	CONVERT(date, TS.Date) = CONVERT(date, GETDATE())\n" +
+                "	AND CONVERT(time, GETDATE()) BETWEEN S.OpenAt AND S.CloseAt\n" +
+                "	AND EmployeeID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, xEmployeeID);
+            int rs = ps.executeUpdate();
+            if (rs > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
+
         TimesheetDAO timesheetDAO = new TimesheetDAO();
+
         System.out.println("getTimesheetDTO(1)");
         System.out.println(timesheetDAO.getTimesheetDTO(1));
         System.out.println("getTimesheetInRange()");
