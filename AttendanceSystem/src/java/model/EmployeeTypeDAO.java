@@ -16,11 +16,12 @@ import java.util.ArrayList;
 public class EmployeeTypeDAO extends DAOBase {
 
     public ArrayList<EmployeeTypeDTO> getEmployeeTypeList() {
+        connect();
         ArrayList<EmployeeTypeDTO> list = new ArrayList<>();
-//        if (connection != null) {
+
+        if (connection != null) {
             try {
                 query = "SELECT * FROM EmployeeTypes ";
-                connect();
                 ps = connection.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -31,24 +32,23 @@ public class EmployeeTypeDAO extends DAOBase {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println(e.getMessage());
             } finally {
                 closeAll();
             }
-//        }
+        }
         return list;
     }
 
     public int getEmployeeTypeIDByName(String employeeTypeName) {
+        connect();
         PreparedStatement stm = null;
         ResultSet rs = null;
         int id = 0;
-//        if (connection != null) {
+        if (connection != null) {
             try {
-                String sql = "SELECT EmployeeTypeID \n"
-                        + "FROM EmployeeTypes \n"
-                        + "WHERE [Name] = ? ";
-                connect();
+                String sql = "SELECT EmployeeTypeID \n" +
+                         "FROM EmployeeTypes \n" +
+                         "WHERE [Name] = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, employeeTypeName);
                 rs = stm.executeQuery();
@@ -57,12 +57,11 @@ public class EmployeeTypeDAO extends DAOBase {
                     id = rs.getInt("EmployeeTypeID");
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
                 e.printStackTrace();
-            }finally{
-                closeAll();
+            } finally {
+                close();
             }
-//        }
+        }
         return id;
     }
 
