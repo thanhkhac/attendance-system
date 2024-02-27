@@ -59,7 +59,7 @@ public class EmployeeTypeDAO extends DAOBase {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                close();
+                closeAll();
             }
         }
         return id;

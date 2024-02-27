@@ -182,10 +182,20 @@
                 <!--<div class="confirm-button-container col-md-5">-->
                 <form action="ScheduleLeaveForRequestServlet" method="Post" class="confirm-button-container">
                     <input type="hidden" name="requestID" value="${leave.getLeaveRequestID()}">
-                    <input class="btn btn-success confirm-button" type="submit" name="" value="Chấp Nhận Đơn Nghỉ Phép">
+                    <input onclick="confirmation()" class="btn btn-success confirm-button" type="submit" name="" value="Chấp Nhận Đơn Nghỉ Phép">
                 </form> 
                 <!--</div>-->
             </div>
         </div>
     </body>
+    <script>
+        function confirmation(){
+            var cf = confirm("Bạn có chắc chắn thực hiện hành động này ?");
+            if(cf){
+                alert("Xong !");
+            }else{
+                alert("Hủy !");
+            }
+        }
+    </script>
 </html>
