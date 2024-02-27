@@ -51,9 +51,6 @@
             <file>file:/C:/Users/nguye/OneDrive/Máy%20tính/SWP_PROJ/attendance-system/AttendanceSystem/src/java/model/LeaveRequestDAO.java</file>
         </group>
         <group name="SWP391"/>
-        <group name="java_web">
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/AddEmployeeOvertime.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/news/InsertNews.java</file>
-        </group>
+        <group name="java_web"/>
     </open-files>
 </project-private>
