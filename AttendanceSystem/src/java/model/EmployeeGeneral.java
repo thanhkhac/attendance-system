@@ -16,6 +16,10 @@ public class EmployeeGeneral extends EmployeeDTO {
     private String employeeTypeName;
     private String roleName;
 
+    public EmployeeGeneral() {
+    }
+
+    
     public EmployeeGeneral(String departmentName, String employeeTypeName, String roleName) {
         this.departmentName = departmentName;
         this.employeeTypeName = employeeTypeName;

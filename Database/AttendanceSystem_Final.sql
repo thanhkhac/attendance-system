@@ -97,7 +97,8 @@ CREATE TABLE Leaves(
 	[EmployeeID] int,
 	[StartDate] date,
 	[EndDate] date,
-	FilePath nvarchar(100),
+	FilePath nvarchar(max),
+	[Reason] nvarchar(max),
 	[CreatedDate] date DEFAULT GETDATE(),
 	CreatedBy int,
 
@@ -112,7 +113,7 @@ CREATE TABLE LeaveRequests(
 	[SentDate] datetime,
 	[StartDate] date,
 	[EndDate] date,
-	FilePath nvarchar(100),
+	FilePath nvarchar(max),
 	Reason nvarchar(max),
 	ManagerApprove bit,
 	HrApprove bit,
@@ -349,66 +350,5 @@ VALUES
   (1, '2024-02-10', '2024-02-12', 'path3', 1),
   (1, '2024-02-15', '2024-02-18', 'path4', 1),
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
-
---Trigger on OverTimeRequests
-GO
-CREATE TRIGGER OvertimeRequest_update_status
-ON OvertimeRequests
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
-    BEGIN
-        UPDATE OvertimeRequests
-        SET [Status] = 1
-        FROM inserted
-        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
-    END
-END;
-GO
-
-
---Trigger on LeaveRequests
-GO
-CREATE TRIGGER LeaveRequests_update_status
-ON LeaveRequests
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
-    BEGIN
-        UPDATE LeaveRequests
-        SET [Status] = 1
-        FROM inserted
-        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
-    END
-END;
-GO
-
---Trigger on ResignationRequests
-GO
-CREATE TRIGGER ResignationRequests_update_status
-ON ResignationRequests
-AFTER UPDATE
-AS
-BEGIN
-    IF UPDATE(HrApprove) OR UPDATE(ManagerApprove)
-    BEGIN
-        UPDATE ResignationRequests
-        SET [Status] = 1
-        FROM inserted
-        WHERE inserted.HrApprove = 1 AND inserted.ManagerApprove = 1;
-    END
-END;
-GO
-
-
-
-
-
-
-
-
-
 
 

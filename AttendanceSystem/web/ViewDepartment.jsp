@@ -53,11 +53,16 @@
             <h1 class="h3 mb-2 text-gray-800">Department</h1>
 
             <!-- Add Department Button -->
-            <c:if test="${sessionScope.ACCOUNT != null and sessionScope.ACCOUNT.roleID == 3}">
+   
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDepartment">
                     Add Department
                 </button>
-            </c:if>
+                <c:if test="${requestScope.duplicateName}">
+                    <div class="alert alert-danger" role="alert">
+                        Duplicate department name. Please choose a different name.
+                    </div>
+                </c:if>
+      
 
             <!-- Search Department -->
             <form class="row g-3" action="DepartmentServlet?action=search" method="POST">
@@ -81,9 +86,9 @@
                         <th scope="col">Department Name</th>
                         <th scope="col">Manager's name</th>
                         <th>Total Employees</th>
-                            <c:if test="${sessionScope.ACCOUNT != null and sessionScope.ACCOUNT.roleID == 3}">
+                          
                             <th>Action</th>
-                            </c:if>
+                   
                     </tr>
                 </thead>
                 <tbody>
@@ -111,7 +116,7 @@
                                 ${employeeCount}
 
                             </td>
-                            <c:if test="${sessionScope.ACCOUNT != null and sessionScope.ACCOUNT.roleID == 3}">
+                    
                                 <td>
                                     <!-- Assign Manager Form -->
                                     <form action="DispatchController" method="POST" style="display: inline;">
@@ -131,7 +136,7 @@
                                         Delete
                                     </button>
                                 </td>
-                            </c:if>
+                        
                         </tr>
 
                     </c:forEach>

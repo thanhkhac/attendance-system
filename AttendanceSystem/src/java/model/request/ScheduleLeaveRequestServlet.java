@@ -2,25 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package control.news;
+package model.request;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import model.NewsDAO;
-import model.NewsDTO;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import model.*;
+import model.request.*;
 
 /**
  *
- * @author ADMIN-PC
+ * @author admin
  */
-public class GetDetailNew extends HttpServlet {
+@WebServlet(name = "ScheduleLeaveRequestServlet", urlPatterns = {"/ScheduleLeaveRequestServlet"})
+public class ScheduleLeaveRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,35 +34,7 @@ public class GetDetailNew extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String newIdParam = request.getParameter("newId");
-        if (newIdParam != null && !newIdParam.isEmpty()) {
-            try {
-                int newId = Integer.parseInt(newIdParam);
-                NewsDAO newdao = new NewsDAO();
-                NewsDTO newdto = newdao.getNewsById(newId);
-                List<NewsDTO> othernew = newdao.getOtherNews(newId);
-
-                try {
-                    String filePath = newdto.getFilePath();
-                    byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
-                    if (fileBytes.length > 0) {
-                        String htmlContent = new String(fileBytes);
-                        request.setAttribute("htmlContent", htmlContent);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                request.setAttribute("news", newdto);
-                request.setAttribute("otherNews", othernew);
-                request.getRequestDispatcher("ViewNewsDetail.jsp").forward(request, response);
-            } catch (NumberFormatException e) {
-                response.getWriter().println("Invalid newId format.");
-            }
-        } else {
-            response.getWriter().println("Missing newId parameter.");
-        }
+        doPost(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -90,7 +63,31 @@ public class GetDetailNew extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String requestID = request.getParameter("requestID");
+        TimesheetDAO timeDAO = new TimesheetDAO();
+        OvertimeDAO overtimeDAO = new OvertimeDAO();
+        LeaveRequestDAO leaveDAO = new LeaveRequestDAO();
+        EmployeeDAO emDAO = new EmployeeDAO();
+        ArrayList<TimesheetDTO> listTimeSheet = new ArrayList<>();
+        ArrayList<OvertimeDTO> listOverTime = new ArrayList<>();
+        LeaveRequestDTO leave = new LeaveRequestDTO();
+        EmployeeGeneral employee = new EmployeeGeneral();
+        try {
+            int id = Integer.parseInt(requestID);
+            leave = leaveDAO.getRequestById(id);
+            employee = emDAO.getEmployeeGeneral(leave.getEmployeeID());
+            listTimeSheet = timeDAO.getTimesheetInRange(leave.getEmployeeID(), leave.getStartDate(), leave.getEndDate());
+            listOverTime = overtimeDAO.getOverTimeByRange(leave.getEmployeeID(), leave.getStartDate(), leave.getEndDate());
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        request.setAttribute("employee", employee);
+        request.setAttribute("leave", leave);
+        request.setAttribute("listTimeSheet", listTimeSheet);
+        request.setAttribute("listOverTime", listOverTime);
+        request.getRequestDispatcher("ScheduleLeave.jsp").forward(request, response);
     }
 
     /**

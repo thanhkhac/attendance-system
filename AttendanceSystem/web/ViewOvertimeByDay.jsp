@@ -235,6 +235,7 @@
     <body>
         <%
          String error = (String) request.getAttribute("ERROROVERTIME");
+         
          if(error!=null&&error.length()>0){
         %>
         <script>
@@ -254,6 +255,7 @@
         <%}%>
         <%
            String Day = (String) request.getAttribute("DAY");
+           String DAQUA = (String) request.getAttribute("DAQUA");
            ArrayList<OvertimeDTO> list = (ArrayList<OvertimeDTO>) request.getAttribute("LISTOVERTIME"); 
         %>
         <input type="hidden" id="date" value="<%=Day%>">
@@ -356,11 +358,11 @@
                                                                     <td><%=listemp.getEmployeeId()%></td>
                                                                     <td>
                                                                         <ul class="list-inline mb-0">
-
+                                                                           <%if(DAQUA!=null){}else{%>
                                                                             <li class="list-inline-item">
                                                                                 <a style="color:red" href="javascript:void(0);" class="deleteEmp"  title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
                                                                             </li>
-
+                                                                             <%}%>
                                                                         </ul>
                                                                     </td>
                                                             <input type="hidden" class="deleteStart" value="<%=overtime.getStartTime()%>">
@@ -379,8 +381,9 @@
                                                             </tbody>
                                                         </table>
                                                         <div>
+                                                             <%if(DAQUA!=null){}else{%>
                                                             <a href="#" style="position: absolute;left:22px;    background-color: #d61a1a;" class="btn btn-primary deleteAll">Xóa ca</a>
-
+<%}%>
                                                             <ul class="pagination" style="
                                                                 justify-content: end;
                                                                 ">
@@ -420,11 +423,12 @@
 
                                         <div class="d-flex flex-wrap align-items-center justify-content-center gap-2 mb-3">
 
+
                                             <div>
+                                                 <%if(DAQUA!=null){}else{%>
                                                 <a href="addEmployeeOvertime?startTime=<%=overtime.getStartTime()%>&&endTime=<%=overtime.getEndTime()%>&&date=<%=overtime.getDate()%>&&Add=add" class="btn btn-primary addEmp"><i class="bx bx-plus me-1"></i> Thêm nhân viên</a>
-
-                                            </div>
-
+<%}%>
+                                            </div>                                                                                       
                                         </div>
 
                                     </div>
@@ -439,8 +443,11 @@
                     <div class="KoCa">
                         <h2 class="textKoCa">Chưa có ca nào</h2>
                     </div>
+<%}
+             if(DAQUA!=null){}else{   
+%>
 
-                    <%}%>
+
                     <div style="text-align: center;"  class="container mt-3">
 
                         <button style="background-color: #000000c9;
@@ -450,7 +457,9 @@
                                 font-weight: 400;" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
                             Thêm ca
                         </button>
+                       <% }%>
                     </div>
+                    
                     <form action="addEmployeeOvertime">
                         <input type="hidden" name="date" value="<%=Day%>">
                         <!-- The Modal -->
@@ -479,11 +488,12 @@
 
                                     <!-- Modal footer -->
                                     <div class="modal-footer mt-2" style="">
+                                        
                                         <form action="addEmployeeOvertime">
-
+                                             
                                             <button type="submit" style="    background: #000000d1;height: 39px;margin-top: 10px;
                                                     border: 0px;" type="button" class="btn btn-danger" data-bs-dismiss="modal">Chọn nhân viên</button>
-
+                                            
                                     </div>
 
                                 </div>
@@ -605,41 +615,41 @@
         });
     });
     $(document).on("click", ".deleteAll", function () {
-         if (confirm("Bạn có chắc chắn muốn xóa ca này không?")) {
-        var txtSearch = $(".txtSearch").val();
-        var Date = $("#date").val();
-        var startEnd = $(this).closest(".overlay").find(".startTime").val();
-        var endTime = $(this).closest(".overlay").find(".endTime").val();
-        var chonPhong = $(this).closest(".overlay").find(".form-select").val();
-        var DeleteAll = "ok";
-        // Lấy giá trị của thuộc tính data-index từ phần tử <a> con   
-        var listEmployee = $(this).closest(".overlay").find(".listEmployee");
-        $.ajax({
-            url: "/AttendanceSystem/listEmployeeOvertimeAjax",
-            type: "get",
-            data: {
-                txt: txtSearch,
-                date: Date,
-                deleteAll:DeleteAll,
-                StartEnd: startEnd,
-                EndTime: endTime,
-                Phong: chonPhong,
-                
-            },
-            success: function (data) {
-                //listEmployee.html(data);
-                window.location.reload();
-                
-            },
-            error: function (xhr) {
-                console.log("Error:", xhr);
-            }
-        });
-    }else{
-        
-    }
+        if (confirm("Bạn có chắc chắn muốn xóa ca này không?")) {
+            var txtSearch = $(".txtSearch").val();
+            var Date = $("#date").val();
+            var startEnd = $(this).closest(".overlay").find(".startTime").val();
+            var endTime = $(this).closest(".overlay").find(".endTime").val();
+            var chonPhong = $(this).closest(".overlay").find(".form-select").val();
+            var DeleteAll = "ok";
+            // Lấy giá trị của thuộc tính data-index từ phần tử <a> con   
+            var listEmployee = $(this).closest(".overlay").find(".listEmployee");
+            $.ajax({
+                url: "/AttendanceSystem/listEmployeeOvertimeAjax",
+                type: "get",
+                data: {
+                    txt: txtSearch,
+                    date: Date,
+                    deleteAll: DeleteAll,
+                    StartEnd: startEnd,
+                    EndTime: endTime,
+                    Phong: chonPhong,
+
+                },
+                success: function (data) {
+                    //listEmployee.html(data);
+                    window.location.reload();
+
+                },
+                error: function (xhr) {
+                    console.log("Error:", xhr);
+                }
+            });
+        } else {
+
+        }
     });
-    
+
     $(document).on("click", ".deleteEmp", function () {
         // Hiển thị hộp thoại xác nhận
         if (confirm("Bạn có chắc chắn muốn xóa không?")) {
@@ -684,8 +694,8 @@
             // Nếu người dùng chọn "no" hoặc hủy bỏ, không làm gì cả hoặc thực hiện các hành động khác tùy ý
         }
     });
-    
-    
+
+
 
 //    var startEnd;
 //    var showDivLinks = document.querySelectorAll(".linkOvertime");
