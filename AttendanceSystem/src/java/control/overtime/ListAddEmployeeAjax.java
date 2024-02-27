@@ -16,6 +16,7 @@ import model.DepartmentDAO;
 import model.DepartmentDTO;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
+import model.EmployeeTypeDAO;
 
 /**
  *
@@ -127,9 +128,11 @@ public class ListAddEmployeeAjax extends HttpServlet {
 
         DepartmentDTO departEmp = new DepartmentDTO();
         int countCheckBox = 0;
+        String TypeName ="";
         for (EmployeeDTO listemp : list) {
             countCheckBox = 0;
             departEmp = new DepartmentDAO().getDepartmentById(listemp.getDepartmentID());
+            TypeName = new EmployeeTypeDAO().getEmployeeTypeIDByID(listemp.getEmployeeTypeID());
             if (checkAll != null && checkAll.length() > 0) {
                 out.print("<tr>\n"
                         + "    <td><input type=\"checkbox\" class=\"checkthis\" checked /></td>\n");
@@ -150,7 +153,7 @@ public class ListAddEmployeeAjax extends HttpServlet {
                     + "    <td>" + listemp.getLastName() + " " + listemp.getMiddleName() + " " + listemp.getFirstName() + "</td>\n"
                     + "    <td>" + listemp.getCccd() + "</td>\n"
                     + "    <td>" + listemp.getEmail() + "</td>\n"
-                    + "    <td>" + listemp.getEmployeeTypeID() + "</td>\n"
+                    + "    <td>" + TypeName + "</td>\n"
                     + "    <td>" + departEmp.getName() + "</td>\n"
                     + "</tr>");
 

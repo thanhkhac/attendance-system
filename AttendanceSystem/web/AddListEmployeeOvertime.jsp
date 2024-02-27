@@ -125,8 +125,10 @@
                                   if(list.size()>0){
                                   DepartmentDTO departEmp = new DepartmentDTO();
                                    int count =0;
+                                   String TypeName="";
                                   for(EmployeeDTO emp :list){
                                   departEmp = new DepartmentDAO().getDepartmentById(emp.getDepartmentID());
+                                  TypeName = new EmployeeTypeDAO().getEmployeeTypeIDByID(emp.getEmployeeTypeID());
                                 %>
                            
                                 <tr>
@@ -135,7 +137,7 @@
                                     <td><%=emp.getLastName()%> <%=emp.getMiddleName()%> <%=emp.getFirstName()%></td>
                                     <td><%=emp.getCccd()%></td>
                                     <td><%=emp.getEmail()%></td>
-                                    <td><%=emp.getEmployeeTypeID()%></td>
+                                    <td><%=TypeName%></td>
                                     <td><%=departEmp.getName()%></td>
                                 </tr>
                                 <%
