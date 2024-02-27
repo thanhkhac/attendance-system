@@ -116,7 +116,7 @@
                                     <div class="shift-block">
                                         <c:if test = "${ wkday.getMonthValue() == month}">
                                          
-                                            <c:if test = "${wkday > requestScope.today}">
+                                            <c:if test = "${wkday >= requestScope.today}">
                                             
                                             <c:set var="count" value="${0}"/>
                                          <c:forEach var="list" items="${requestScope.listOvertime}">   
@@ -142,7 +142,7 @@
                                             
                                            </c:if>
                                          </c:if>
-                                           <c:if test = "${wkday <= requestScope.today}">
+                                           <c:if test = "${wkday < requestScope.today}">
                                                
                                          <c:forEach var="list" items="${requestScope.listOvertime}">   
                                              <c:if test = "${wkday.compareTo(list)==0}">
