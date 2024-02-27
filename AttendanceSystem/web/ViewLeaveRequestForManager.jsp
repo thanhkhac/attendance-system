@@ -37,6 +37,42 @@
                 margin: 0px;
                 font-size: large;
             }
+            
+            #pagination-container {
+                margin-top: 20px;
+                text-align: right;
+            }
+
+            #pagination {
+                display: inline-block;
+                padding-left: 0;
+                margin: 20px 0;
+                border-radius: .25rem;
+            }
+
+            #pagination li {
+                display: inline;
+                margin-right: 5px;
+            }
+
+            #pagination li a {
+                position: relative;
+                float: left;
+                padding: .5rem .75rem;
+                margin-left: -1px;
+                line-height: 1.25;
+                color: #007bff;
+                text-decoration: none;
+                background-color: #fff;
+                border: 1px solid #dee2e6;
+            }
+
+            #pagination li.active a {
+                z-index: 1;
+                color: #fff;
+                background-color: #007bff;
+                border-color: #007bff;
+            }
         </style>
     </head>
     <%
@@ -142,6 +178,9 @@
                                 }
                             %>
                         </table>
+                        <div id="pagination-container">
+                            <ul id="pagination" class="pagination justify-content-center"></ul>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -164,6 +203,49 @@
                 }
                 event.preventDefault();
             }
+        </script>
+        
+        <script>
+            var pageSize = 3; // Số lượng dòng mỗi trang
+            var currentPage = 1; // Trang hiện tại
+
+            function showPage(page) {
+                var rows = document.getElementsByClassName('employee-row');
+                var pageCount = Math.ceil(rows.length / pageSize);
+
+                // Ẩn tất cả các dòng
+                for (var i = 0; i < rows.length; i++) {
+                    rows[i].style.display = 'none';
+                }
+
+                // Hiển thị các dòng của trang hiện tại
+                var startIndex = (page - 1) * pageSize;
+                var endIndex = startIndex + pageSize;
+                for (var i = startIndex; i < endIndex && i < rows.length; i++) {
+                    rows[i].style.display = 'table-row';
+                }
+
+                // Tạo nút điều hướng phân trang
+                var paginationElement = document.getElementById('pagination');
+                paginationElement.innerHTML = '';
+                for (var i = 1; i <= pageCount; i++) {
+                    var li = document.createElement('li');
+                    var a = document.createElement('a');
+                    a.href = '#';
+                    a.innerHTML = i;
+                    a.addEventListener('click', function (e) {
+                        currentPage = parseInt(e.target.innerHTML);
+                        showPage(currentPage);
+                    });
+                    li.appendChild(a);
+                    paginationElement.appendChild(li);
+                }
+            }
+
+            // Hiển thị trang đầu tiên khi trang được tải
+            document.addEventListener('DOMContentLoaded', function () {
+                showPage(currentPage);
+            });
         </script>
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
