@@ -181,7 +181,7 @@ public class ListAddEmployeeAjax extends HttpServlet {
 
         for (int i = 1; i <= endPage; i++) {
             if (i == Page) {
-                out.print("<li class=\"page-item\"><a style=\"background-color: #cfd5da96;\" class=\"page-link page\" data-index=\"" + i + "\" onclick=\"searchByName(this)\" href=\"#\">" + i + "</a><li>");
+                out.print("<li class=\"page-item\"\"><a style=\"background-color: #cfd5da96;\" class=\"page-link page pageNow\" data-index=\"" + i + "\" onclick=\"searchByName(this)\" href=\"#\">" + i + "</a><li>");
             } else {
                 out.print("<li class=\"page-item\"><a  class=\"page-link page\" data-index=\"" + i + "\" onclick=\"searchByName(this)\" href=\"#\">" + i + "</a><li>");
             }

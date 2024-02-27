@@ -57,18 +57,32 @@ public class AddListEmloyeeOvertime extends HttpServlet {
         EmployeeDTO acc =  (EmployeeDTO)  session.getAttribute("ACCOUNT");
         LocalTime StartTime = LocalTime.parse(start).minusMinutes(30);
         LocalTime EndTime = LocalTime.parse(end).plusMinutes(30);
+        
+        if(LocalTime.parse(end).isAfter(LocalTime.parse("23:29"))){
+            EndTime = LocalTime.parse("23:59");
+        }
+        if(LocalTime.parse(start).isBefore(LocalTime.parse("00:30"))){
+            StartTime = LocalTime.parse("00:00");
+        }
+        
+        
         String open = StartTime.toString();
-        String checkOut = EndTime.toString();
+        String close = EndTime.toString();
         OvertimeDAO daoOver = new OvertimeDAO();
+        int countEmp = 0;
         boolean check = false;
         for(int i=0; i<listIDInt.length;i++){
-            check = daoOver.insertOvertime(date, listIDInt[i], start, end, open, checkOut, null, null, acc.getEmployeeID());
+            check = daoOver.insertOvertime(date, listIDInt[i], start, end, open, close, null, null, acc.getEmployeeID());
+            if(check)
+                countEmp ++;
         }
-        request.setAttribute("THANHCONG", "Đã thêm thành công " + listIDInt.length + " nhân viên tăng ca từ "+ start +" đến "+ end +" vào ngày "+ date);
+        
+        request.setAttribute("THANHCONG", "Đã thêm thành công " + countEmp + " nhân viên tăng ca từ "+ start +" đến "+ end +" vào ngày "+ date);
         request.setAttribute("START", start);
         request.setAttribute("END", end);
         request.setAttribute("DATE", date);
         request.getRequestDispatcher("OvertimeSuccess.jsp").forward(request, response);
+        
         }
         }else{
              request.setAttribute("START", start);
