@@ -7,11 +7,10 @@ package control.news;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import model.NewsDAO;
 import model.NewsDTO;
@@ -20,7 +19,8 @@ import model.NewsDTO;
  *
  * @author ADMIN-PC
  */
-public class GetDetailNew extends HttpServlet {
+@WebServlet(name = "SearchAllDetailNews", urlPatterns = {"/SearchAllDetailNews"})
+public class SearchAllDetailNews extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,34 +34,27 @@ public class GetDetailNew extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String newIdParam = request.getParameter("newId");
-        if (newIdParam != null && !newIdParam.isEmpty()) {
-            try {
-                int newId = Integer.parseInt(newIdParam);
-                NewsDAO newdao = new NewsDAO();
-                NewsDTO newdto = newdao.getNewsById(newId);
-                List<NewsDTO> othernew = newdao.getOtherNews(newId);
-
+       String fromDate = request.getParameter("fromDate");
+        String toDate = request.getParameter("toDate");
+           NewsDAO newsdao = new NewsDAO();
+            int newsPerPage = 5;
+            int currentPage = 1;
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && !pageParam.isEmpty()) {
                 try {
-                    String filePath = newdto.getFilePath();
-                    byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
-                    if (fileBytes.length > 0) {
-                        String htmlContent = new String(fileBytes);
-                        request.setAttribute("htmlContent", htmlContent);
-                    }
-                } catch (IOException e) {
+                    currentPage = Integer.parseInt(pageParam);
+                } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
-
-                request.setAttribute("news", newdto);
-                request.setAttribute("otherNews", othernew);
-                request.getRequestDispatcher("ViewNewsDetail.jsp").forward(request, response);
-            } catch (NumberFormatException e) {
-                response.getWriter().println("Invalid newId format.");
             }
-        } else {
-            response.getWriter().println("Missing newId parameter.");
-        }
+            List<NewsDTO> newlist = newsdao.getNewsByPageWithDate(currentPage, newsPerPage, fromDate, toDate);
+            int totalNews = newsdao.getTotalNewsCount1(fromDate, toDate);
+            int totalPages = (int) Math.ceil((double) totalNews / newsPerPage);
+            request.setAttribute("listN", newlist);
+            request.setAttribute("currentPage", currentPage);
+            request.setAttribute("totalPages", totalPages);
+            request.getRequestDispatcher("ViewNews.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
