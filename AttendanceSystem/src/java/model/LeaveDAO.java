@@ -10,6 +10,7 @@ public class LeaveDAO extends DAOBase {
     static final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     public LeaveDTO getLeaveDTO(int xEmployeeID, String xDate) {
+        connect();
         query = "SELECT * FROM Leaves\n"
                 + "WHERE \n"
                 + "	EmployeeID = ? \n"
@@ -32,7 +33,7 @@ public class LeaveDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return null;
     }

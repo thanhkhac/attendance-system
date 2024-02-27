@@ -17,6 +17,7 @@ import java.util.List;
 public class DepartmentDAO extends DBContext {
 
     public ArrayList<DepartmentDTO> getListDepartment() {
+        connect();
 
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -37,20 +38,21 @@ public class DepartmentDAO extends DBContext {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             } finally {
-                //close
+                close();
             }
         }
         return list;
     }
 
     public boolean updateManager(String managerID, String departmentID) {
+        connect();
         PreparedStatement stm = null;
 
         if (connection != null) {
             try {
-                String sql = "UPDATE Departments "
-                        + "SET ManagerID = ? "
-                        + "WHERE DepartmentID = ? ";
+                String sql = "UPDATE Departments " +
+                        "SET ManagerID = ? " +
+                        "WHERE DepartmentID = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, Integer.parseInt(managerID));
                 stm.setInt(2, Integer.parseInt(departmentID));
@@ -62,42 +64,44 @@ public class DepartmentDAO extends DBContext {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             } finally {
+                close();
             }
         }
         return false;
     }
 
     public DepartmentDTO getDepartmentById(int departmentID) {
+        connect();
         PreparedStatement stm = null;
         ResultSet rs = null;
 //        if (connection != null) {
-            try {
-                String sql = "SELECT *\r\n"
-                        + //
-                        "  FROM [Attendance_DB].[dbo].[Departments]\r\n"
-                        + //
-                        "  where DepartmentID = ?";
-                stm = connection.prepareStatement(sql);
-                stm.setInt(1, departmentID);
-                rs = stm.executeQuery();
-                if (rs.next()) {
-                    DepartmentDTO dto = new DepartmentDTO(
-                            rs.getInt("DepartmentID"),
-                            rs.getString("Name"),
-                            rs.getInt("ManagerID"));
-                    return dto;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+        try {
+            String sql = "SELECT *\r\n" + //
+                    "  FROM [Attendance_DB].[dbo].[Departments]\r\n" + //
+                    "  where DepartmentID = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, departmentID);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                DepartmentDTO dto = new DepartmentDTO(
+                        rs.getInt("DepartmentID"),
+                        rs.getString("Name"),
+                        rs.getInt("ManagerID"));
+                return dto;
             }
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } finally {
+            close();
+        }
         return null;
     }
 
     public boolean deleteById(int departmentId) {
-        String sql = "DELETE FROM [dbo].[Departments]\n"
-                + "      WHERE DepartmentID = ? ";
+        connect();
+        String sql = "DELETE FROM [dbo].[Departments]\n" +
+                "      WHERE DepartmentID = ? ";
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
@@ -110,16 +114,17 @@ public class DepartmentDAO extends DBContext {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
 
+            } finally {
+                close();
             }
         }
         return false;
     }
 
     public boolean edit(DepartmentDTO dto) {
-        String sql = "UPDATE [dbo].[Departments]\r\n"
-                + //
-                "   SET [Name] = ?\r\n"
-                + //
+        connect();
+        String sql = "UPDATE [dbo].[Departments]\r\n" + //
+                "   SET [Name] = ?\r\n" + //
                 " WHERE DepartmentID = ?";
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -134,16 +139,19 @@ public class DepartmentDAO extends DBContext {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
 
+            } finally {
+                close();
             }
         }
         return false;
     }
 
     public boolean addDepartment(DepartmentDTO dto) {
-        String sql = "INSERT INTO [dbo].[Departments]\n"
-                + "           ([Name])           \n"
-                + "     VALUES\n"
-                + "           (?)";
+        connect();
+        String sql = "INSERT INTO [dbo].[Departments]\n" +
+                "           ([Name])           \n" +
+                "     VALUES\n" +
+                "           (?)";
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
@@ -155,13 +163,15 @@ public class DepartmentDAO extends DBContext {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
+            } finally {
+                close();
             }
         }
         return false;
     }
 
     public List<DepartmentDTO> searchByName(DepartmentDTO dto) {
-
+        connect();
         PreparedStatement stm = null;
         ResultSet rs = null;
         ArrayList<DepartmentDTO> list = new ArrayList<>();
@@ -182,21 +192,22 @@ public class DepartmentDAO extends DBContext {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             } finally {
-                //close
+                close();
             }
         }
         return list;
     }
 
     public int getDepartmentIDByName(String departmentName) {
+        connect();
         PreparedStatement stm = null;
         ResultSet rs = null;
         int id = 0;
         if (connection != null) {
             try {
-                String sql = "SELECT DepartmentID \n"
-                        + "FROM Departments \n"
-                        + "WHERE [Name] = ? ";
+                String sql = "SELECT DepartmentID \n" +
+                        "FROM Departments \n" +
+                        "WHERE [Name] = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, departmentName);
                 rs = stm.executeQuery();
@@ -207,6 +218,8 @@ public class DepartmentDAO extends DBContext {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
+            } finally {
+                close();
             }
         }
         return id;
