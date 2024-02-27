@@ -239,7 +239,7 @@ public class LeaveRequestDAO extends DAOBase {
                 int managerID = rs.getInt("ManagerID");
                 int hrID = rs.getInt("HrID");
                 Boolean status = parseBoolean(rs.getString("Status"));
-                request = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, reason, reason, managerApprove, hrApprove, managerID, hrID, status);
+                request = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, filePath, reason, managerApprove, hrApprove, managerID, hrID, status);
 //                    if (request != null) {
 //                        return request;
 //                    }
