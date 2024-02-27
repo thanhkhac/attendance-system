@@ -18,7 +18,6 @@ public class DepartmentDAO extends DBContext {
 
     public ArrayList<DepartmentDTO> getListDepartment() {
         connect();
-
         PreparedStatement stm = null;
         ResultSet rs = null;
         ArrayList<DepartmentDTO> list = new ArrayList<>();

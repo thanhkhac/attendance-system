@@ -96,6 +96,9 @@
             .confirm-button-container{
             }
             .confirm-button{
+                max-width: 250px;
+                margin: auto;
+                margin-top: 20px;
             }
         </style>
     </head>
@@ -180,20 +183,22 @@
                     </div>
                 </div>
                 <!--<div class="confirm-button-container col-md-5">-->
-                <form action="ScheduleLeaveForRequestServlet" method="Post" class="confirm-button-container">
-                    <input type="hidden" name="requestID" value="${leave.getLeaveRequestID()}">
-                    <input onclick="confirmation()" class="btn btn-success confirm-button" type="submit" name="" value="Chấp Nhận Đơn Nghỉ Phép">
-                </form> 
+                <!--<form action="ScheduleLeaveForRequestServlet" method="Post" class="confirm-button-container">-->
+                <input type="hidden" name="requestID" id="requestID" value="${leave.getLeaveRequestID()}">
+                <input onclick="confirmation()" class="btn btn-success confirm-button" type="submit" name="" value="Chấp Nhận Đơn Nghỉ Phép">
+                <!--</form>--> 
                 <!--</div>-->
             </div>
         </div>
     </body>
     <script>
-        function confirmation(){
+        function confirmation() {
             var cf = confirm("Bạn có chắc chắn thực hiện hành động này ?");
-            if(cf){
+            var requestID = document.getElementById("requestID").value;
+            if (cf) {
                 alert("Hành động được xác nhận !");
-            }else{
+                window.location.href = "ScheduleLeaveForRequestServlet?requestID=" + requestID;
+            } else {
                 alert("Hủy hành động !");
             }
         }
