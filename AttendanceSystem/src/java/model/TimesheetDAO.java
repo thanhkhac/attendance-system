@@ -42,12 +42,14 @@ public class TimesheetDAO extends DAOBase {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return null;
     }
 
     public ArrayList<TimesheetDTO> getTimesheetInRange(int xEmployeeID, LocalDate start, LocalDate end) {
+                connect();
+
         ArrayList<TimesheetDTO> list = new ArrayList<>();
 
         query = "SELECT * FROM\n" +
@@ -67,13 +69,13 @@ public class TimesheetDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return list;
     }
 
     public TimesheetDTO getTimesheetByDate(int xEmployeeID, LocalDate xDate) {
-
+        connect();
         query = "SELECT * FROM\n" +
                 "Timesheet\n" +
                 "WHERE\n" +
@@ -90,7 +92,7 @@ public class TimesheetDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeResource();
+            closeAll();
         }
         return null;
     }
@@ -199,6 +201,9 @@ public class TimesheetDAO extends DAOBase {
             System.out.println(timesheetDTO);
         }
         System.out.println("getTimesheetByDate: " + timesheetDAO.getTimesheetByDate(1, start));
+        for (int i = 0; i < 100000; i++) {
+            timesheetDAO.getTimesheetInRange(1, start, end);
+        }
     }
 
 }
