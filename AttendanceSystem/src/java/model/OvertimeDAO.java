@@ -29,7 +29,7 @@ public class OvertimeDAO extends DAOBase {
                 "VALUES\n" +
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setString(1, Date);
             ps.setInt(2, EmployeeID);
             ps.setString(3, StartTime);
@@ -57,7 +57,7 @@ public class OvertimeDAO extends DAOBase {
         query = "delete from Overtimes\n" +
                 "where Date = ? and StartTime = ? and EndTime = ? and EmployeeID = ?";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
 
             ps.setString(1, Date);
             ps.setString(2, start);
@@ -228,7 +228,7 @@ public class OvertimeDAO extends DAOBase {
                 "	AND CheckIn is null";
         try {
             super.connect();
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             int rs = ps.executeUpdate();
             if (rs > 0) {
@@ -254,7 +254,7 @@ public class OvertimeDAO extends DAOBase {
                 "	AND EmployeeID = ?";
         try {
             super.connect();
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             int rs = ps.executeUpdate();
             if (rs > 0) {
@@ -280,7 +280,7 @@ public class OvertimeDAO extends DAOBase {
         try {
             //Mở kết nối
             super.connect();
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             rs = ps.executeQuery();
             while (rs.next()) {

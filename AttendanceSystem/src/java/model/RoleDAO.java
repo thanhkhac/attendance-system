@@ -17,48 +17,53 @@ public class RoleDAO extends DAOBase {
 
     public ArrayList<RoleDTO> getRoleList() {
         ArrayList<RoleDTO> list = new ArrayList<>();
-        if (connection != null) {
-            try {
-                query = "SELECT * FROM Roles ";
-                ps = connection.prepareStatement(query);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    int roleId = rs.getInt("RoleID");
-                    String name = rs.getString("Name");
-                    RoleDTO r = new RoleDTO(roleId, name);
-                    list.add(r);
-                }
-            } catch (Exception e) {
-            } finally {
+//        if (connection != null) {
+        try {
+            query = "SELECT * FROM Roles ";
+            connect();
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int roleId = rs.getInt("RoleID");
+                String name = rs.getString("Name");
+                RoleDTO r = new RoleDTO(roleId, name);
+                list.add(r);
             }
+        } catch (Exception e) {
+        } finally {
+            closeAll();
         }
+//        }
         return list;
     }
 
     public RoleDTO getRoleById(int roleID) {
         PreparedStatement stm = null;
         ResultSet rs = null;
-        if (connection != null) {
-            try {
-                String sql = "SELECT *\r\n"
-                        + //
-                        "  FROM [Attendance_DB].[dbo].[Roles]\r\n"
-                        + //
-                        "  where RoleID = ?";
-                stm = connection.prepareStatement(sql);
-                stm.setInt(1, roleID);
-                rs = stm.executeQuery();
-                if (rs.next()) {
-                    RoleDTO dto = new RoleDTO(
-                            rs.getInt("RoleID"),
-                            rs.getString("Name"));
-                    return dto;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+//        if (connection != null) {
+        try {
+            String sql = "SELECT *\r\n"
+                    + //
+                    "  FROM [Attendance_DB].[dbo].[Roles]\r\n"
+                    + //
+                    "  where RoleID = ?";
+            connect();
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, roleID);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                RoleDTO dto = new RoleDTO(
+                        rs.getInt("RoleID"),
+                        rs.getString("Name"));
+                return dto;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        } finally {
+            closeAll();
         }
+//        }
         return null;
     }
 
@@ -66,23 +71,26 @@ public class RoleDAO extends DAOBase {
         PreparedStatement stm = null;
         ResultSet rs = null;
         int id = 0;
-        if (connection != null) {
-            try {
-                String sql = "SELECT RoleID \n"
-                        + "FROM Roles \n"
-                        + "WHERE [Name] = ? ";
-                stm = connection.prepareStatement(sql);
-                stm.setNString(1, roleName);
-                rs = stm.executeQuery();
+//        if (connection != null) {
+        try {
+            String sql = "SELECT RoleID \n"
+                    + "FROM Roles \n"
+                    + "WHERE [Name] = ? ";
+            connect();
+            stm = connection.prepareStatement(sql);
+            stm.setNString(1, roleName);
+            rs = stm.executeQuery();
 
-                if (rs.next()) {
-                    id = rs.getInt("RoleID");
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
+            if (rs.next()) {
+                id = rs.getInt("RoleID");
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeAll();
         }
+//        }
         return id;
     }
 
