@@ -60,6 +60,7 @@ public class NewsDAO extends dbhelper.DBContext {
 
         return newsList;
     }
+    
 
     public NewsDTO getNewsById(int newsId) {
         String sql = "SELECT * FROM News WHERE NewsID = ?";
@@ -394,7 +395,7 @@ public class NewsDAO extends dbhelper.DBContext {
         return newsList;
     }
 
-public List<NewsDTO> getNewsByEmployeeAndSortOrder(String employee, String sortOrder) {
+    public List<NewsDTO> getNewsByEmployeeAndSortOrder(String employee, String sortOrder) {
         List<NewsDTO> newsList = new ArrayList<>();
         NewsDAO n = new NewsDAO();
 
@@ -554,83 +555,83 @@ public List<NewsDTO> getNewsByEmployeeAndSortOrder(String employee, String sortO
         return 0;
     }
 
-    public List<NewsDTO> getNewsByPageWithSearch(int pageNumber, int newsPerPage, String id, String title, String content, String filePath, String fromDate, String toDate) {
-        List<NewsDTO> newsList = new ArrayList<>();
-        NewsDAO n = new NewsDAO();
+public List<NewsDTO> getNewsByPageWithSearch(int pageNumber, int newsPerPage, String id, String title, String content, String filePath, String fromDate, String toDate) {
+    List<NewsDTO> newsList = new ArrayList<>();
+    NewsDAO n = new NewsDAO();
 
-        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM News WHERE 1=1");
+    StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM News WHERE 1=1");
+
+    if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+        sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
+    }
+
+    if (!id.isEmpty()) {
+        sqlBuilder.append(" AND NewsID = ?");
+    } else {
+        sqlBuilder.append(" AND 1=1");
+    }
+
+    if (!title.isEmpty()) {
+        sqlBuilder.append(" AND Title LIKE ?");
+    }
+
+    if (!content.isEmpty()) {
+        sqlBuilder.append(" AND Content LIKE ?");
+    }
+
+    if (!filePath.isEmpty()) {
+        sqlBuilder.append(" AND FilePath LIKE ?");
+    }
+
+    sqlBuilder.append(" ORDER BY NewsID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+    try (PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
+        int parameterIndex = 1;
 
         if (!fromDate.isEmpty() && !toDate.isEmpty()) {
-            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
+            ps.setString(parameterIndex++, fromDate);
+            ps.setString(parameterIndex++, toDate);
         }
 
         if (!id.isEmpty()) {
-            sqlBuilder.append(" AND NewsID = ?");
-        } else {
-            sqlBuilder.append(" AND 1=1");
+            ps.setString(parameterIndex++, id);
         }
 
         if (!title.isEmpty()) {
-            sqlBuilder.append(" AND Title LIKE ?");
+            ps.setString(parameterIndex++, "%" + title + "%");
         }
 
         if (!content.isEmpty()) {
-            sqlBuilder.append(" AND Content LIKE ?");
+            ps.setString(parameterIndex++, "%" + content + "%");
         }
 
         if (!filePath.isEmpty()) {
-            sqlBuilder.append(" AND FilePath LIKE ?");
+            ps.setString(parameterIndex++, "%" + filePath + "%");
         }
 
-        sqlBuilder.append(" ORDER BY NewsID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        int offset = (pageNumber - 1) * newsPerPage;
+        ps.setInt(parameterIndex++, offset);
+        ps.setInt(parameterIndex++, newsPerPage);
 
-        try ( PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
-            int parameterIndex = 1;
-
-            if (!fromDate.isEmpty() && !toDate.isEmpty()) {
-                ps.setString(parameterIndex++, fromDate);
-                ps.setString(parameterIndex++, toDate);
+        try (ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                NewsDTO news = new NewsDTO();
+                news.setNewId(rs.getInt("NewsID"));
+                news.setTitle(rs.getString("Title"));
+                news.setContent(rs.getString("Content"));
+                news.setFilePath(rs.getString("FilePath"));
+                news.setDateTime(rs.getTimestamp("DateTime"));
+                news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                newsList.add(news);
             }
-
-            if (!id.isEmpty()) {
-                ps.setString(parameterIndex++, id);
-            }
-
-            if (!title.isEmpty()) {
-                ps.setString(parameterIndex++, "%" + title + "%");
-            }
-
-            if (!content.isEmpty()) {
-                ps.setString(parameterIndex++, "%" + content + "%");
-            }
-
-            if (!filePath.isEmpty()) {
-                ps.setString(parameterIndex++, "%" + filePath + "%");
-            }
-
-            int offset = (pageNumber - 1) * newsPerPage;
-            ps.setInt(parameterIndex++, offset);
-            ps.setInt(parameterIndex++, newsPerPage);
-
-            try ( ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    NewsDTO news = new NewsDTO();
-                    news.setNewId(rs.getInt("NewsID"));
-                    news.setTitle(rs.getString("Title"));
-                    news.setContent(rs.getString("Content"));
-                    news.setFilePath(rs.getString("FilePath"));
-                    news.setDateTime(rs.getTimestamp("DateTime"));
-                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
-                    newsList.add(news);
-                    newsList.add(news);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return newsList;
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+
+    return newsList;
+}
+
 
     public List<NewsDTO> getNewsByPageWithOrderAndEmployee(int pageNumber, int newsPerPage, String employee, String sortOrder) {
         List<NewsDTO> newsList = new ArrayList<>();
@@ -706,5 +707,32 @@ public List<NewsDTO> getNewsByEmployeeAndSortOrder(String employee, String sortO
     }
 
     public static void main(String[] args) {
+    NewsDAO newsDAO = new NewsDAO();
+
+    // Test getNewsByPageWithSearch
+    int pageNumberSearch = 1;           // Adjust the page number based on your requirements
+    int newsPerPageSearch = 5;          // Adjust the number of news per page based on your requirements
+    String idSearch = "";               // Adjust the id for searching (empty for all)
+    String titleSearch = "S";     // Adjust the title for searching
+    String contentSearch = "";          // Adjust the content for searching
+    String filePathSearch = "";         // Adjust the file path for searching
+    String fromDateSearch = "";         // Adjust the from date for searching
+    String toDateSearch = "";           // Adjust the to date for searching
+
+    List<NewsDTO> newsByPageWithSearch = newsDAO.getNewsByPageWithSearch(
+        pageNumberSearch, newsPerPageSearch, idSearch, titleSearch, contentSearch, filePathSearch, fromDateSearch, toDateSearch
+    );
+
+    System.out.println("News on page " + pageNumberSearch + " with search:");
+    for (NewsDTO news : newsByPageWithSearch) {
+        System.out.println(news.toString());
     }
+
+    // Test getTotalSearchNewsCount
+    int totalSearchNewsCount = newsDAO.getTotalSearchNewsCount(
+        idSearch, titleSearch, contentSearch, filePathSearch, fromDateSearch, toDateSearch
+    );
+    System.out.println("Total number of news with search: " + totalSearchNewsCount);
+}
+
 }
