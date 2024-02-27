@@ -5,21 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DAOBase extends DBContext {
+public class DAOBase  extends DBContext{
 
-    public Connection con = null;
     public PreparedStatement ps = null;
     public ResultSet rs = null;
     public String query = null;
 
     public DAOBase() {
-        con = connection;
     }
 
     public void finalize() {
         try {
-            if (con != null) {
-                con.close();
+            if (connection != null) {
+                connection.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,7 +45,7 @@ public class DAOBase extends DBContext {
     @Override
     public void connect() {
         super.connect();
-        con = connection;
+        connection = connection;
     }
 
     public void closeAll() {
@@ -66,9 +64,9 @@ public class DAOBase extends DBContext {
                 e.printStackTrace();
             }
         }
-        if (con != null) {
+        if (connection != null) {
             try {
-                con.close();
+                connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

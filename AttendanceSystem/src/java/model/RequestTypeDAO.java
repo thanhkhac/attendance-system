@@ -15,10 +15,10 @@ public class RequestTypeDAO extends DAOBase {
 
     public ArrayList<RequestTypeDTO> getRequestTypeList() {
         ArrayList<RequestTypeDTO> list = new ArrayList<>();
-        if (con != null) {
+        if (connection != null) {
             try {
                 String sql = "SELECT * FROM RequestsType ";
-                ps = con.prepareStatement(sql);
+                ps = connection.prepareStatement(sql);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     int id = rs.getInt("TypeID");

@@ -17,10 +17,10 @@ public class EmployeeTypeDAO extends DAOBase {
 
     public ArrayList<EmployeeTypeDTO> getEmployeeTypeList() {
         ArrayList<EmployeeTypeDTO> list = new ArrayList<>();
-        if (con != null) {
+        if (connection != null) {
             try {
                 query = "SELECT * FROM EmployeeTypes ";
-                ps = con.prepareStatement(query);
+                ps = connection.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     int employeeTypeId = rs.getInt("EmployeeTypeID");

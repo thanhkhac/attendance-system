@@ -11,7 +11,7 @@ public class SampleDAO extends DAOBase {
         try {
             //Mở kết nối
             super.connect();
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
 
