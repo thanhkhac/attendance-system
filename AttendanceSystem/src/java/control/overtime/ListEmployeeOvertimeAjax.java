@@ -16,6 +16,7 @@ import model.DepartmentDAO;
 import model.DepartmentDTO;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
+import model.EmployeeTypeDAO;
 import model.OvertimeDAO;
 
 /**
@@ -113,9 +114,9 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
         }
         DepartmentDTO demp = null;
         for (EmployeeDTO list : listemp) {
-            demp = new DepartmentDAO().getDepartmentById(list.getDepartmentID());
+            demp = new DepartmentDAO().getDepartmentById(list.getDepartmentID());                      
             out.print("<tr>\n"
-                    + "                                                                    <td><img src=\"https://bootdey.com/img/Content/avatar/avatar1.png\" alt=\"\" class=\"avatar-sm rounded-circle me-2\" /><a href=\"#\" class=\"text-body\">" + list.getLastName() + " " + list.getMiddleName() + " " + list.getFirstName() + "</a></td>\n"
+                    + "                                                                    <td class=\"name-column\" ><img src=\"https://bootdey.com/img/Content/avatar/avatar1.png\" alt=\"\" class=\"avatar-sm rounded-circle me-2\" /><a href=\"#\" class=\"text-body\">" + list.getLastName() + " " + list.getMiddleName() + " " + list.getFirstName() + "</a></td>\n"
                     + "                                                                    <td><span class=\"badge badge-soft-success mb-0\">" + demp.getName() + "</span></td>\n"
                     + "                                                                    <td>" + list.getEmail() + "</td>\n"
                     + "                                                                    <td>" + list.getEmployeeId() + "</td>\n"

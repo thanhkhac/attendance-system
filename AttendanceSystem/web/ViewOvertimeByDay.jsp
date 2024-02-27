@@ -230,6 +230,10 @@
                 background-color: black;
                 transform: translateY(-10px);
             }
+            .name-column {
+    display: flex;
+    align-items: center;
+}
         </style>
     </head>
     <body>
@@ -274,8 +278,8 @@
                          ArrayList<EmployeeDTO> listEmployee = new ArrayList();
                         if(list.size()>0){                                              
                         for(OvertimeDTO overtime : list){
-                       listEmployee = new EmployeeDAO().getEmployeeInfoByOvertime(Day,overtime.getStartTime().toString(),overtime.getEndTime().toString());
-                    %>
+                       listEmployee = new EmployeeDAO().getEmployeeInfoByOvertime(Day,overtime.getStartTime().toString(),overtime.getEndTime().toString());                        
+%>
 
                     <div class="col-lg-3 col-sm-6 my-3 wow fadeInUp" data-wow-duration="0.3s" data-wow-delay="0.3s" style="visibility: visible; animation-duration: 0.3s; animation-delay: 0.3s; animation-name: fadeInUp;">
                         <div class="hover-top-in text-center">
@@ -350,9 +354,10 @@
                                                                    for(EmployeeDTO listemp : listEmployee){
                                                                     
                                                                     demp = new DepartmentDAO().getDepartmentById(listemp.getDepartmentID());
+                            
                                                                 %>
                                                                 <tr>
-                                                                    <td><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar-sm rounded-circle me-2" /><a href="#" class="text-body"><%=listemp.getLastName()%> <%=listemp.getMiddleName()%> <%=listemp.getFirstName()%></a></td>
+                                                                    <td class="name-column"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar-sm rounded-circle me-2" /><a href="#" class="text-body"><%=listemp.getLastName()%> <%=listemp.getMiddleName()%> <%=listemp.getFirstName()%></a></td>
                                                                     <td><span class="badge badge-soft-success mb-0"><%=demp.getName() %></span></td>
                                                                     <td><%=listemp.getEmail()%></td>
                                                                     <td><%=listemp.getEmployeeId()%></td>

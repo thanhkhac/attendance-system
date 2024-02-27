@@ -125,8 +125,10 @@
                                   if(list.size()>0){
                                   DepartmentDTO departEmp = new DepartmentDTO();
                                    int count =0;
+                                   String TypeName="";
                                   for(EmployeeDTO emp :list){
                                   departEmp = new DepartmentDAO().getDepartmentById(emp.getDepartmentID());
+                                  TypeName = new EmployeeTypeDAO().getEmployeeTypeIDByID(emp.getEmployeeTypeID());
                                 %>
                            
                                 <tr>
@@ -135,7 +137,7 @@
                                     <td><%=emp.getLastName()%> <%=emp.getMiddleName()%> <%=emp.getFirstName()%></td>
                                     <td><%=emp.getCccd()%></td>
                                     <td><%=emp.getEmail()%></td>
-                                    <td><%=emp.getEmployeeTypeID()%></td>
+                                    <td><%=TypeName%></td>
                                     <td><%=departEmp.getName()%></td>
                                 </tr>
                                 <%
@@ -180,6 +182,17 @@
 
 
         <script>
+            
+            function areAllCheckboxesChecked() {
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (!checkboxes[i].checked) {
+            return false;
+        }
+    }
+    return true;
+}
+
             
             var selectedEmployeeIDs = "";// Biến lưu trữ chuỗi employeeID của các ô được chọn
        $(document).ready(function () {
@@ -246,7 +259,7 @@
                 function searchByName(param) {
                 var checkBox = document.getElementById("checkall");
                 var CheckALL = "";                
-                if(checkBox.checked){
+                if(checkBox.checked&&areAllCheckboxesChecked()){
                     CheckALL = "daCheck";
                 }
                 else{
@@ -354,7 +367,7 @@ $(document).ready(function () {
 
 
 $(document).on("click", "#checkall", function () {
-       
+       if(areAllCheckboxesChecked()){
        var PageNow = $(this).closest(".table-responsive").find(".pageNow");
         var checkBox = document.getElementById("checkall");
                 var CheckALL = "";                
@@ -457,6 +470,7 @@ $(document).ready(function () {
                         console.log("Error:", xhr);
                     }
                 });
+            }
     });
 
            

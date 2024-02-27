@@ -64,5 +64,31 @@ public class EmployeeTypeDAO extends DAOBase {
         }
         return id;
     }
+    public String getEmployeeTypeIDByID(int TypeID) {
+        connect();
+        String name = "";
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        int id = 0;
+        if (connection != null) {
+            try {
+                String sql = "SELECT Name \n" +
+                         "FROM EmployeeTypes \n" +
+                         "WHERE EmployeeTypeID = ? ";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, TypeID);
+                rs = stm.executeQuery();
+
+                if (rs.next()) {
+                    name = rs.getString("Name");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                close();
+            }
+        }
+        return name;
+    }
 
 }
