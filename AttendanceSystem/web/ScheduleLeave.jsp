@@ -180,7 +180,7 @@
                     </div>
                 </div>
                 <!--<div class="confirm-button-container col-md-5">-->
-                <form action="" class="confirm-button-container">
+                <form action="ScheduleLeaveForRequestServlet" method="Post" class="confirm-button-container">
                     <input type="hidden" name="requestID" value="${leave.getLeaveRequestID()}">
                     <input class="btn btn-success confirm-button" type="submit" name="" value="Chấp Nhận Đơn Nghỉ Phép">
                 </form> 

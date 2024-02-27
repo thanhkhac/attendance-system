@@ -11,17 +11,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import model.*;
-import model.request.*;
+import jakarta.servlet.http.HttpSession;
+import model.EmployeeDTO;
+import model.EmployeeGeneral;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "ScheduleLeaveRequestServlet", urlPatterns = {"/ScheduleLeaveRequestServlet"})
-public class ScheduleLeaveRequestServlet extends HttpServlet {
+@WebServlet(name = "ScheduleLeaveForRequestServlet", urlPatterns = {"/ScheduleLeaveForRequestServlet"})
+public class ScheduleLeaveForRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,6 +33,7 @@ public class ScheduleLeaveRequestServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        response.setContentType("text/html;charset=UTF-8");
         doPost(request, response);
     }
 
@@ -63,31 +63,30 @@ public class ScheduleLeaveRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String requestID = request.getParameter("requestID");
-        TimesheetDAO timeDAO = new TimesheetDAO();
-        OvertimeDAO overtimeDAO = new OvertimeDAO();
-        LeaveRequestDAO leaveDAO = new LeaveRequestDAO();
-        EmployeeDAO emDAO = new EmployeeDAO();
-        ArrayList<TimesheetDTO> listTimeSheet = new ArrayList<>();
-        ArrayList<OvertimeDTO> listOverTime = new ArrayList<>();
+        HttpSession session = request.getSession();
+        EmployeeDTO employee = (EmployeeDTO) session.getAttribute("ACCOUNT");
+        String txt_requestID = request.getParameter("requestID");
+        LeaveRequestDAO lrDAO = new LeaveRequestDAO();
         LeaveRequestDTO leave = new LeaveRequestDTO();
-        EmployeeGeneral employee = new EmployeeGeneral();
+        int requestID = 0;
+        String URL = "Error.jsp";
         try {
-            int id = Integer.parseInt(requestID);
-            leave = leaveDAO.getRequestById(id);
-            employee = emDAO.getEmployeeGeneral(leave.getEmployeeID());
-            listTimeSheet = timeDAO.getTimesheetInRange(leave.getEmployeeID(), leave.getStartDate(), leave.getEndDate());
-            listOverTime = overtimeDAO.getOverTimeByRange(leave.getEmployeeID(), leave.getStartDate(), leave.getEndDate());
-
+            int leaveID = leave.getLeaveRequestID();
+            requestID = Integer.parseInt(txt_requestID);
+            leave = lrDAO.getRequestById(requestID);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        request.setAttribute("employee", employee);
-        request.setAttribute("leave", leave);
-        request.setAttribute("listTimeSheet", listTimeSheet);
-        request.setAttribute("listOverTime", listOverTime);
-        request.getRequestDispatcher("ScheduleLeave.jsp").forward(request, response);
+        boolean rs1 = lrDAO.scheduleLeaveForRequest(leave, employee.getEmployeeID());
+        if (rs1) {
+            boolean rs2 = lrDAO.updateRequestStatus(requestID);
+            if (rs2) {
+                URL = "Success.jsp";
+            }
+        }
+        request.getRequestDispatcher(URL).forward(request, response);
+
     }
 
     /**
