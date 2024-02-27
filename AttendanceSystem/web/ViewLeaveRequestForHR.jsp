@@ -159,14 +159,16 @@
                                 </td>
                                 <td class="text-center">
                                     <%
-                                        if(lr.getManagerApprove() != null && lr.getHrApprove() != null){
+                                        if( lr.getHrApprove() != null && lr.getHrApprove()){
+                                            if(!lr.getStatus()){
                                     %>
                                     <form action="DispatchController" method="Post">
                                         <input type="hidden" name="requestID" value="<%=lr.getLeaveRequestID()%>">
                                         <button type="submit" name="btAction" class="btn btn-primary" value="Schedule">Xếp Lịch</button>  
                                     </form>
-                                    <% 
-                                        }else{
+                                    <%
+                                            }
+                                        }else if(lr.getHrApprove()==null){
                                     %>
                                     <button onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
                                         <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
@@ -212,9 +214,7 @@
                 }
                 event.preventDefault();
             }
-//            function schedule(leaveRequestID) {
-//                window.location.href = "ScheduleLeaveRequestServlet?requestID=" + leaveRequestID;
-//            }
+
         </script>
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
