@@ -36,6 +36,7 @@ public class OverTimeByDay extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String Day = request.getParameter("Day");
+        String Check = request.getParameter("Check");
         OvertimeDAO dao = new OvertimeDAO();
         LocalDate date = LocalDate.parse(Day);
         ArrayList<OvertimeDTO> list = dao.getOverTimeDTOByDay(date);
@@ -57,6 +58,7 @@ public class OverTimeByDay extends HttpServlet {
         }
         request.setAttribute("LISTOVERTIME", list2);
         request.setAttribute("DAY", Day);
+        request.setAttribute("DAQUA", Check);
         request.getRequestDispatcher("ViewOvertimeByDay.jsp").forward(request, response);
     } 
 
