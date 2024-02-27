@@ -46,27 +46,20 @@
         EmployeeDTO managerDTO = new EmployeeDTO();
         EmployeeDTO hrDTO = new EmployeeDTO();
         
-        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequest();
+        ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequestForHR(1);
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
     %>
     <body>
         <div>
-            <%--<%@include file="Sidebar.jsp" %>--%>
             <div class="right">
                 <div class="content-redirect">
                     <p><a href="ThanhCong.html">Home</a> | Process Request For HR </p>
                 </div>
                 <div class="text-center">
                     <h1 style="margin: 30px">Danh sách đơn (HR)</h1>
-                    <!--                    <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
-                                            <i class="bi bi-arrow-left"></i> Trở lại
-                                    </a>-->
                 </div>
                 <div>
                     <form action="DispatchController" method="POST">
-                        <%
-                            if(acc.getRoleID() == 2){
-                        %>
                         <table class="table">
                             <tr style="background-color: #CFE2FF">
                                 <th class="text-center">Mã đơn</th>
@@ -86,7 +79,6 @@
                                     emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
                                     managerDTO = dao.getEmployeeDTO(lr.getManagerID());
                                     hrDTO = dao.getEmployeeDTO(lr.getHrID());
-                                    if(lr.getManagerApprove() != null && lr.getManagerApprove()){
                             %>
                             <tr class="employee-row">
                                 <td class="text-center"><%=lr.getLeaveRequestID()%></td>
@@ -166,7 +158,7 @@
                                         <input type="hidden" name="requestID" value="<%=lr.getLeaveRequestID()%>">
                                         <button type="submit" name="btAction" class="btn btn-primary" value="Schedule">Xếp Lịch</button>  
                                     </form>
-                                    <%
+                                    <% 
                                             }
                                         }else if(lr.getHrApprove()==null){
                                     %>
@@ -178,20 +170,12 @@
                                     </button>
                                     <%  
                                                 }
-                                            }
                                         }
                                     %>
                                 </td>
 
                             </tr>
                         </table>
-                        <%
-                        }else{
-                        %>
-                        <p class="text-center">Tài khoản này không phải Quản lí nhân sự</p>
-                        <%
-                        }
-                        %>
                     </form>
                 </div>
             </div>
@@ -214,7 +198,9 @@
                 }
                 event.preventDefault();
             }
-
+//            function schedule(leaveRequestID) {
+//                window.location.href = "ScheduleLeaveRequestServlet?requestID=" + leaveRequestID;
+//            }
         </script>
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
