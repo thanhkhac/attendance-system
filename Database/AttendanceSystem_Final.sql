@@ -196,7 +196,7 @@ CREATE TABLE News(
 	NewsID int PRIMARY KEY IDENTITY(1,1),
 	Title nvarchar(50),
 	Content nvarchar(max),
-	[FilePath] nvarchar(100),
+	[FilePath] nvarchar(max),
 	[DateTime] datetime,
 	CreatedBy int,
 	FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID)
