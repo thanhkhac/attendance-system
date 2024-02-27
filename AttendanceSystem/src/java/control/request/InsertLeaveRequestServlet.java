@@ -28,10 +28,10 @@ import model.request.SendRequestError;
         maxRequestSize = 1024 * 1024 * 50)
 @WebServlet(name = "InsertLeaveRequestServlet", urlPatterns = {"/InsertLeaveRequestServlet"})
 public class InsertLeaveRequestServlet extends HttpServlet {
-    
+
     private static final long serialVersionUID = 1L;
     public static final String SAVE_DIRECTORY = "Leave-Request-AttachedFiles";
-    
+
     public InsertLeaveRequestServlet() {
         super();
     }
@@ -64,12 +64,12 @@ public class InsertLeaveRequestServlet extends HttpServlet {
         }
         return null;
     }
-    
+
     private LocalDate timeAfterNMonths(LocalDate time, int monthToAdd) {
         LocalDate afterNMonth = time.plusMonths(monthToAdd);
         return afterNMonth;
     }
-    
+
     private boolean isAcceptableDate(LocalDate startDate, LocalDate endDate) {
         LocalDate current = LocalDate.now();
         if (startDate.isEqual(endDate) || startDate.isBefore(endDate)) {
@@ -89,7 +89,7 @@ public class InsertLeaveRequestServlet extends HttpServlet {
         }
         return false;
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doPost(request, response);
@@ -121,13 +121,13 @@ public class InsertLeaveRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String fullSavePath = null;
         try {
             //Duong dan tuyet doi toi thu muc chua webapp
             String appPath = request.getServletContext().getRealPath("");
             appPath = appPath.replace("\\", "/");
 
             //Thu muc de save file tai len
-            String fullSavePath = null;
             if (appPath.endsWith("/")) {
                 fullSavePath = appPath + SAVE_DIRECTORY;
             } else {
@@ -176,16 +176,16 @@ public class InsertLeaveRequestServlet extends HttpServlet {
             isErr = true;
             err.setReasonLength_error("Lý Do [1-250] kí tự");
         }
-        
+
         if (!isErr) {
-            boolean rs = dao.InsertLeaveRequest(account, sentDate, startDate, endDate, reason);
+            boolean rs = dao.InsertLeaveRequest(account, sentDate, startDate, endDate, reason, fullSavePath);
             if (rs) {
                 URL = "Success.jsp";
             } else {
                 URL = "Error.jsp";
             }
         } else {
-            request.setAttribute("msg","Gửi Yêu Cầu Thất Bại !");
+            request.setAttribute("msg", "Gửi Yêu Cầu Thất Bại !");
             request.setAttribute("error", err);
             request.setAttribute("startDate", startDate);
             request.setAttribute("endDate", endDate);

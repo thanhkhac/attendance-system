@@ -14,11 +14,11 @@ import model.EmployeeDTO;
 public class ResignationRequestDAO extends dbhelper.DAOBase {
 
     public boolean insertResignationRequest(EmployeeDTO e, LocalDate sentDate, LocalDate extendDate, String reason) {
-        if (con != null) {
+        if (connection != null) {
             try {
                 String sql = "INSERT INTO ResignationRequests(EmployeeID, SentDate, StartDateContract, EndDateContract, ExtendDate, reason) "
                         + "VALUES (?, ?, ?, ?, ? ,?)";
-                ps = con.prepareStatement(sql);
+                ps = connection.prepareStatement(sql);
                 ps.setInt(1, e.getEmployeeID());
                 ps.setString(2, sentDate.toString());
                 ps.setString(3, e.getStartDate().toString());

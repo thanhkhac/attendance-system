@@ -23,7 +23,7 @@ public class NewsDAO extends dbhelper.DBContext {
         try ( PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setString(2, content);
-            ps.setString(3, filePath);
+            ps.setNString(3, filePath);
             ps.setTimestamp(4, dateTime);
             ps.setInt(5, createdBy);
 
