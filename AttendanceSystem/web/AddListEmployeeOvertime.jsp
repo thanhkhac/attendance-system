@@ -100,13 +100,14 @@
                             <input type="hidden" id="startHidden" name="start" value="<%=startTime%>">
                             <input type="hidden" id="endHidden" name="end" value="<%=endTime%>">
                             <input type="hidden" id="listEmployeeAdd"  name="listEmployeeAdd">
+                            
                        </form>
 
                         <table id="mytable" class="table table-bordred table-striped">
 
                             <thead>
 
-                            <th><input onclick="searchByName(this)" type="checkbox" id="checkall" /></th>
+                            <th><input  type="checkbox" id="checkall" /></th>
                             <th>EmployeeID</th>
                             <th>Full name</th>   
                             <th>CCCD</th>                   
@@ -179,7 +180,7 @@
 
 
         <script>
-            var checkBox = document.getElementById("checkall");
+            
             var selectedEmployeeIDs = "";// Biến lưu trữ chuỗi employeeID của các ô được chọn
        $(document).ready(function () {
      
@@ -243,10 +244,15 @@
 
 
             function searchByName(param) {
+                var checkBox = document.getElementById("checkall");
                 var CheckALL = "";                
-                if(checkBox.checked == true){
+                if(checkBox.checked){
                     CheckALL = "daCheck";
                 }
+                else{
+                    CheckALL = "";
+                }
+                console.log(CheckALL);
                 var txtSearch = $("#txtSearch").val();
                 var startx = $("#startHidden").val();
                 var endx = $("#endHidden").val();                
@@ -299,6 +305,7 @@ $(document).ready(function () {
                     selectedEmployeeIDs += employeeID + "|";
                     
                 }
+                searchByName("");
                 });
                 checkAllClicked = true;
             }
@@ -344,7 +351,8 @@ $(document).ready(function () {
 
   document.getElementById("MyForm").submit();
 }
-            
+
+           
         </script>
     </body>
 </html>

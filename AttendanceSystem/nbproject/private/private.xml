@@ -52,9 +52,8 @@
         </group>
         <group name="SWP391"/>
         <group name="java_web">
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/AddListEmployeeOvertime.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/ListAddEmployeeAjax.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/AddListEmloyeeOvertime.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/AddEmployeeOvertime.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/news/InsertNews.java</file>
         </group>
     </open-files>
 </project-private>
