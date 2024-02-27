@@ -82,7 +82,7 @@ public class AddEmployeeOvertime extends HttpServlet {
         
         if(count == 0 || Add !=null ){
             EmployeeDAO dao = new EmployeeDAO();
-            ArrayList<EmployeeDTO> listEmp = dao.getListAddEmployeeOvertime(date);
+            ArrayList<EmployeeDTO> listEmp = dao.getListAddEmployeeOvertime(date,startTime,endTime);
             int countPage =dao.countEmployeeOvertime(date, "", "", "", "", "");
             int endPage = 0;
             

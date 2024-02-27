@@ -927,21 +927,27 @@ public class EmployeeDAO extends DBContext {
     
     
     
-    public ArrayList<EmployeeDTO> getListAddEmployeeOvertime(String date) {
+    public ArrayList<EmployeeDTO> getListAddEmployeeOvertime(String date,String start,String end) {
 
         PreparedStatement stm = null;
         ResultSet rs = null;
         ArrayList<EmployeeDTO> list = new ArrayList();
         if (connection != null) {
             try {
-                String sql = "SELECT * \n" +
-"FROM Employees\n" +
-"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID\n" +
-"AND Overtimes.Date = ?\n" +
-"WHERE Overtimes.EmployeeID IS NULL;";
+                String sql = "SELECT *\n" +
+"from Employees\n" +
+"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID and Overtimes.Date = ?\n" +
+"LEFT JOIN Timesheet ON Timesheet.EmployeeID = Employees.EmployeeID and Timesheet.Date = ?\n" +
+"LEFT JOIN Shifts ON Timesheet.ShiftID = Shifts.ShiftID\n" +
+"WHERE Overtimes.Date IS NULL \n" +
+"and (Shifts.StartTime is null or CONVERT(TIME,?) > Shifts.EndTime\n" +
+"or CONVERT(TIME, ?) < Shifts.StartTime)";
                 stm = connection.prepareStatement(sql);
-                stm.setString(1, date);
                 
+                stm.setString(1, date);
+                stm.setString(2, date);
+                stm.setString(3, start);
+                stm.setString(4, end);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                      int employeeId = rs.getInt("employeeId");
@@ -1004,29 +1010,92 @@ public class EmployeeDAO extends DBContext {
         return count;
     }
     
-   public ArrayList<EmployeeDTO> getListAddEmployeeOvertimeAjax(int page,String date,String DepartID, String EmployID, String firstname, String LastName,String MidName ) {
+    public ArrayList<EmployeeDTO> getAllAddEmployeeOvertime(String start,String end,String date,String DepartID, String EmployID, String firstname, String LastName,String MidName ) {
 
         PreparedStatement stm = null;
         ResultSet rs = null;
         ArrayList<EmployeeDTO> list = new ArrayList();
         if (connection != null) {
             try {
-                String sql = "SELECT * \n" +
-"FROM Employees\n" +
-"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID\n" +
-"AND Overtimes.Date = ?\n" +
-"WHERE  Overtimes.EmployeeID IS NULL and Employees.DepartmentID like ? and Employees.EmployeeTypeID like ?\n" +
-"and Employees.FirstName like ? and Employees.LastName like ? and Employees.MiddleName like ?\n Order by Employees.EmployeeID\n" +
-"Offset ? rows fetch next 10 rows only" +
-";";
+                String sql = "SELECT *\n" +
+"from Employees\n" +
+"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID and Overtimes.Date = ?\n" +
+"LEFT JOIN Timesheet ON Timesheet.EmployeeID = Employees.EmployeeID and Timesheet.Date = ?\n" +
+"LEFT JOIN Shifts ON Timesheet.ShiftID = Shifts.ShiftID\n" +
+"WHERE Overtimes.Date IS NULL \n" +
+"and (Shifts.StartTime is null or CONVERT(TIME,?) > Shifts.EndTime\n" +
+"or CONVERT(TIME, ?) < Shifts.StartTime) and Employees.DepartmentID like ? and Employees.EmployeeTypeID like ?\n" +
+"and Employees.FirstName like ? and Employees.LastName like ? and Employees.MiddleName like ?\n" +
+"\n" +
+"";
                 stm = connection.prepareStatement(sql);
                 stm.setString(1, date);
-                stm.setString(2, "%"+DepartID+"%");
-                stm.setString(3, "%"+EmployID+"%");
-                stm.setNString(4, "%"+firstname+"%");
-                stm.setNString(5, "%"+LastName+"%");
-                stm.setNString(6, "%"+MidName+"%");
-                stm.setInt(7, (page-1)*10);
+                stm.setString(2, date);
+                stm.setString(3,start );
+                stm.setString(4,end );
+                stm.setNString(5,"%"+DepartID+"%" );
+                stm.setNString(6,"%"+EmployID+"%" );
+                stm.setNString(7,"%"+firstname+"%" );
+                stm.setNString(8,"%"+LastName+"%" );
+                stm.setNString(9,"%"+MidName+"%" );
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                     int employeeId = rs.getInt("employeeId");
+                    String firstName = rs.getNString("firstName");
+                    String middleName = rs.getNString("middleName");
+                    String lastName = rs.getNString("lastName");
+                    Date birthDate = rs.getDate("birthDate");
+                    Boolean gender = rs.getBoolean("gender");
+                    String email = rs.getNString("email");
+                    String password = rs.getNString("password");
+                    String cccd = rs.getString("cccd");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    int employeeTypeID = rs.getInt("employeeTypeID");
+                    int departmentID = rs.getInt("departmentID");
+                    int roleID = rs.getInt("roleID");
+                    Date startDate = rs.getDate("startDate");
+                    Date endDate = rs.getDate("endDate");
+                    boolean isActived = rs.getBoolean("isActive");
+                    EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+                    list.add(e);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println(e.getMessage());
+            }
+        }
+        return list;
+    }
+    
+   public ArrayList<EmployeeDTO> getListAddEmployeeOvertimeAjax(String start,String end,int page,String date,String DepartID, String EmployID, String firstname, String LastName,String MidName ) {
+
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList();
+        if (connection != null) {
+            try {
+                String sql = "SELECT *\n" +
+"from Employees\n" +
+"LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID and Overtimes.Date = ?\n" +
+"LEFT JOIN Timesheet ON Timesheet.EmployeeID = Employees.EmployeeID and Timesheet.Date = ?\n" +
+"LEFT JOIN Shifts ON Timesheet.ShiftID = Shifts.ShiftID\n" +
+"WHERE Overtimes.Date IS NULL \n" +
+"and (Shifts.StartTime is null or CONVERT(TIME,?) > Shifts.EndTime\n" +
+"or CONVERT(TIME, ?) < Shifts.StartTime) and Employees.DepartmentID like ? and Employees.EmployeeTypeID like ?\n" +
+"and Employees.FirstName like ? and Employees.LastName like ? and Employees.MiddleName like ?\n" +
+"Order by Employees.EmployeeID\n" +
+"Offset ? rows fetch next 10 rows only";
+                stm = connection.prepareStatement(sql);
+                stm.setString(1, date);
+                stm.setString(2, date);
+                stm.setString(3,start );
+                stm.setString(4,end );
+                stm.setNString(5,"%"+DepartID+"%" );
+                stm.setNString(6,"%"+EmployID+"%" );
+                stm.setNString(7,"%"+firstname+"%" );
+                stm.setNString(8,"%"+LastName+"%" );
+                stm.setNString(9,"%"+MidName+"%" );
+                stm.setInt(10, (page-1)*10);
                 rs = stm.executeQuery();
                 while (rs.next()) {
                      int employeeId = rs.getInt("employeeId");

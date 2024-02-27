@@ -629,6 +629,7 @@
             success: function (data) {
                 //listEmployee.html(data);
                 window.location.reload();
+                
             },
             error: function (xhr) {
                 console.log("Error:", xhr);
@@ -638,6 +639,7 @@
         
     }
     });
+    
     $(document).on("click", ".deleteEmp", function () {
         // Hiển thị hộp thoại xác nhận
         if (confirm("Bạn có chắc chắn muốn xóa không?")) {
@@ -655,7 +657,7 @@
             var dataIndex = $(this).find("a").attr("data-index");
 
             var listEmployee = $(this).closest(".overlay").find(".listEmployee");
-            console.log(startEnd);
+            console.log(DeleteID);
             $.ajax({
                 url: "/AttendanceSystem/listEmployeeOvertimeAjax",
                 type: "get",
@@ -682,6 +684,8 @@
             // Nếu người dùng chọn "no" hoặc hủy bỏ, không làm gì cả hoặc thực hiện các hành động khác tùy ý
         }
     });
+    
+    
 
 //    var startEnd;
 //    var showDivLinks = document.querySelectorAll(".linkOvertime");
