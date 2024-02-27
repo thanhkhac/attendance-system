@@ -74,3 +74,12 @@ SELECT  EmployeeID,
 		SET EndDate ='02/25/2024'
 		WHERE EmployeeID = 3
 
+		SELECT * FROM LeaveRequests
+
+		SELECT * FROM Timesheet
+		WHERE EmployeeID = 3
+		AND [Date] between '2024-02-26' and '2024-03-2'
+		
+		SELECT * FROM Overtimes
+		W
+		WHERE [Date] between '2024-02-15' and '2024-02-23'

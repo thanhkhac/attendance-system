@@ -15,7 +15,7 @@ public class LeaveDAO extends DAOBase {
                 + "	EmployeeID = ? \n"
                 + "	AND ? Between [StartDate] AND [EndDate] ";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             ps.setString(2, xDate);
             rs = ps.executeQuery();

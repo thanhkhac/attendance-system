@@ -17,10 +17,10 @@ public class RoleDAO extends DAOBase {
 
     public ArrayList<RoleDTO> getRoleList() {
         ArrayList<RoleDTO> list = new ArrayList<>();
-        if (con != null) {
+        if (connection != null) {
             try {
                 query = "SELECT * FROM Roles ";
-                ps = con.prepareStatement(query);
+                ps = connection.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     int roleId = rs.getInt("RoleID");

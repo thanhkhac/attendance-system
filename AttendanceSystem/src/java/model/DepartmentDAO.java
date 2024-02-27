@@ -70,7 +70,7 @@ public class DepartmentDAO extends DBContext {
     public DepartmentDTO getDepartmentById(int departmentID) {
         PreparedStatement stm = null;
         ResultSet rs = null;
-        if (connection != null) {
+//        if (connection != null) {
             try {
                 String sql = "SELECT *\r\n"
                         + //
@@ -91,7 +91,7 @@ public class DepartmentDAO extends DBContext {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             }
-        }
+//        }
         return null;
     }
 

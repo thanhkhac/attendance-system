@@ -15,11 +15,11 @@ import model.EmployeeDTO;
 public class OverTimeRequestDAO extends dbhelper.DAOBase {
 
     public boolean insertOverTimeRequest(EmployeeDTO e, LocalDate sentDate, LocalDate date, Time startTime, Time endTime, int createdBy) {
-        if (con != null) {
+        if (connection != null) {
             try {
                 String sql = "INSERT INTO OvertimeRequests(Date, EmployeeID, SentDate, StartTime , EndTime, CreatedBy) "
                         + "VALUES (?,?,?,?,?,?)";
-                ps = con.prepareStatement(sql);
+                ps = connection.prepareStatement(sql);
                 ps.setString(1, date.toString());
                 ps.setInt(2, e.getEmployeeID());
                 ps.setString(3, sentDate.toString());

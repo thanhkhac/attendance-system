@@ -33,7 +33,7 @@ public class TimesheetDAO extends DAOBase {
                 "WHERE \n" +
                 "TimesheetID = ?";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, sTimesheetID);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -52,11 +52,11 @@ public class TimesheetDAO extends DAOBase {
 
         query = "SELECT * FROM\n" +
                 "Timesheet\n" +
-                "WHERE\n" +
+                "WHERE \n" +
                 "EmployeeID = ? \n" +
                 "AND [Date] Between ? and ?";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             ps.setString(2, start.toString());
             ps.setString(3, end.toString());
@@ -80,7 +80,7 @@ public class TimesheetDAO extends DAOBase {
                 "EmployeeID = ? \n" +
                 "AND [Date]  = ?";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeID);
             ps.setString(2, xDate.toString());
             rs = ps.executeQuery();
@@ -100,8 +100,8 @@ public class TimesheetDAO extends DAOBase {
 
         try {
             super.connect();
-            con.setAutoCommit(false);
-            ps = con.prepareStatement(query);
+            connection.setAutoCommit(false);
+            ps = connection.prepareStatement(query);
             for (String rawShift : rawShifts) {
                 String[] shiftInfo = rawShift.split("#");
                 int shiftID = Integer.parseInt(shiftInfo[1]);
@@ -118,7 +118,7 @@ public class TimesheetDAO extends DAOBase {
             }
 
             int[] result = ps.executeBatch();
-            con.commit();
+            connection.commit();
 
             // Check if all batches were successfully executed
             for (int res : result) {
@@ -130,14 +130,14 @@ public class TimesheetDAO extends DAOBase {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-                con.rollback();
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
             return false;
         } finally {
             try {
-                con.setAutoCommit(true);
+                connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
@@ -150,8 +150,8 @@ public class TimesheetDAO extends DAOBase {
 
         try {
             super.connect();
-            con.setAutoCommit(false);
-            ps = con.prepareStatement(query);
+            connection.setAutoCommit(false);
+            ps = connection.prepareStatement(query);
 
             for (String rawEmployeeID : rawEmployeeIDs) {
                 int employeeID = Integer.parseInt(rawEmployeeID);
@@ -162,7 +162,7 @@ public class TimesheetDAO extends DAOBase {
             }
 
             int[] result = ps.executeBatch();
-            con.commit();
+            connection.commit();
 
             // Check if all batches were successfully executed
             for (int res : result) {
@@ -174,14 +174,14 @@ public class TimesheetDAO extends DAOBase {
         } catch (SQLException e) {
             e.printStackTrace();
             try {
-                con.rollback();
+                connection.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
             return false;
         } finally {
             try {
-                con.setAutoCommit(true);
+                connection.setAutoCommit(true);
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
