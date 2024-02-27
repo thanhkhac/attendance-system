@@ -23,7 +23,7 @@ public class NewsDAO extends dbhelper.DBContext {
         try ( PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setString(2, content);
-            ps.setNString(3, filePath);
+            ps.setString(3, filePath);
             ps.setTimestamp(4, dateTime);
             ps.setInt(5, createdBy);
 
@@ -246,24 +246,17 @@ public class NewsDAO extends dbhelper.DBContext {
 
         StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM News WHERE 1=1");
 
-        if (fromDate != null && !fromDate.isEmpty()) {
-            sqlBuilder.append(" AND DateTime >= ?");
-        }
-
-        if (toDate != null && !toDate.isEmpty()) {
-            sqlBuilder.append(" AND DateTime <= ?");
+        if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
         }
 
         sqlBuilder.append(" ORDER BY NewsID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         try ( PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
-            // Set parameters based on conditions
+            // Set parameters
             int parameterIndex = 1;
-            if (fromDate != null && !fromDate.isEmpty()) {
+            if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
                 ps.setString(parameterIndex++, fromDate);
-            }
-
-            if (toDate != null && !toDate.isEmpty()) {
                 ps.setString(parameterIndex++, toDate);
             }
 
@@ -293,23 +286,17 @@ public class NewsDAO extends dbhelper.DBContext {
     public int getTotalNewsCount1(String fromDate, String toDate) {
         StringBuilder sqlBuilder = new StringBuilder("SELECT COUNT(*) FROM News WHERE 1=1");
 
-        if (fromDate != null && !fromDate.isEmpty()) {
-            sqlBuilder.append(" AND DateTime >= ?");
-        }
-
-        if (toDate != null && !toDate.isEmpty()) {
-            sqlBuilder.append(" AND DateTime <= ?");
+        if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
         }
 
         String sql = sqlBuilder.toString();
 
         try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            // Set parameters
             int parameterIndex = 1;
-            if (fromDate != null && !fromDate.isEmpty()) {
+            if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
                 ps.setString(parameterIndex++, fromDate);
-            }
-
-            if (toDate != null && !toDate.isEmpty()) {
                 ps.setString(parameterIndex++, toDate);
             }
 
@@ -407,7 +394,7 @@ public class NewsDAO extends dbhelper.DBContext {
         return newsList;
     }
 
-    public List<NewsDTO> getNewsByEmployeeAndSortOrder(String employee, String sortOrder) {
+public List<NewsDTO> getNewsByEmployeeAndSortOrder(String employee, String sortOrder) {
         List<NewsDTO> newsList = new ArrayList<>();
         NewsDAO n = new NewsDAO();
 
@@ -511,6 +498,10 @@ public class NewsDAO extends dbhelper.DBContext {
     public int getTotalSearchNewsCount(String id, String title, String content, String filePath, String fromDate, String toDate) {
         StringBuilder sqlBuilder = new StringBuilder("SELECT COUNT(*) FROM News WHERE 1=1");
 
+        if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
+        }
+
         if (id != null && !id.isEmpty()) {
             sqlBuilder.append(" AND NewsID = ?");
         }
@@ -527,22 +518,13 @@ public class NewsDAO extends dbhelper.DBContext {
             sqlBuilder.append(" AND FilePath LIKE ?");
         }
 
-        if (!fromDate.isEmpty()) {
-            sqlBuilder.append(" AND DateTime >= ?");
-        }
-
-        if (!toDate.isEmpty()) {
-            if (!fromDate.isEmpty()) {
-                sqlBuilder.append(" AND DateTime <= ?");
-            } else {
-                sqlBuilder.append(" AND DateTime <= ?");
-            }
-        }
-
-        String sql = sqlBuilder.toString();
-
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try ( PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
             int parameterIndex = 1;
+
+            if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+                ps.setString(parameterIndex++, fromDate);
+                ps.setString(parameterIndex++, toDate);
+            }
 
             if (id != null && !id.isEmpty()) {
                 ps.setString(parameterIndex++, id);
@@ -558,14 +540,6 @@ public class NewsDAO extends dbhelper.DBContext {
 
             if (filePath != null && !filePath.isEmpty()) {
                 ps.setString(parameterIndex++, "%" + filePath + "%");
-            }
-
-            if (!fromDate.isEmpty()) {
-                ps.setString(parameterIndex++, fromDate);
-            }
-
-            if (!toDate.isEmpty()) {
-                ps.setString(parameterIndex++, toDate);
             }
 
             try ( ResultSet rs = ps.executeQuery()) {
@@ -584,42 +558,26 @@ public class NewsDAO extends dbhelper.DBContext {
         List<NewsDTO> newsList = new ArrayList<>();
         NewsDAO n = new NewsDAO();
 
-        String baseSql = "SELECT * FROM News";
-        StringBuilder sqlBuilder = new StringBuilder(baseSql);
+        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM News WHERE 1=1");
 
-        if (!fromDate.isEmpty() || !toDate.isEmpty()) {
-            sqlBuilder.append(" WHERE");
-            if (!fromDate.isEmpty()) {
-                sqlBuilder.append(" DateTime >= ?");
-            }
-
-            if (!toDate.isEmpty()) {
-                if (!fromDate.isEmpty()) {
-                    sqlBuilder.append(" AND DateTime <= ?");
-                } else {
-                    sqlBuilder.append(" DateTime <= ?");
-                }
-            }
+        if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
         }
 
         if (!id.isEmpty()) {
-            if (sqlBuilder.toString().contains("WHERE")) {
-                sqlBuilder.append(" AND NewsID = ?");
-            } else {
-                sqlBuilder.append(" WHERE NewsID = ?");
-            }
+            sqlBuilder.append(" AND NewsID = ?");
         } else {
-            if (!sqlBuilder.toString().contains("WHERE")) {
-                sqlBuilder.append(" WHERE 1=1");
-            }
+            sqlBuilder.append(" AND 1=1");
         }
 
         if (!title.isEmpty()) {
             sqlBuilder.append(" AND Title LIKE ?");
         }
+
         if (!content.isEmpty()) {
             sqlBuilder.append(" AND Content LIKE ?");
         }
+
         if (!filePath.isEmpty()) {
             sqlBuilder.append(" AND FilePath LIKE ?");
         }
@@ -629,23 +587,23 @@ public class NewsDAO extends dbhelper.DBContext {
         try ( PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
             int parameterIndex = 1;
 
-            if (!fromDate.isEmpty()) {
+            if (!fromDate.isEmpty() && !toDate.isEmpty()) {
                 ps.setString(parameterIndex++, fromDate);
-            }
-
-            if (!toDate.isEmpty()) {
                 ps.setString(parameterIndex++, toDate);
             }
 
             if (!id.isEmpty()) {
                 ps.setString(parameterIndex++, id);
             }
+
             if (!title.isEmpty()) {
                 ps.setString(parameterIndex++, "%" + title + "%");
             }
+
             if (!content.isEmpty()) {
                 ps.setString(parameterIndex++, "%" + content + "%");
             }
+
             if (!filePath.isEmpty()) {
                 ps.setString(parameterIndex++, "%" + filePath + "%");
             }
@@ -663,6 +621,7 @@ public class NewsDAO extends dbhelper.DBContext {
                     news.setFilePath(rs.getString("FilePath"));
                     news.setDateTime(rs.getTimestamp("DateTime"));
                     news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
                     newsList.add(news);
                 }
             }
@@ -747,48 +706,5 @@ public class NewsDAO extends dbhelper.DBContext {
     }
 
     public static void main(String[] args) {
-        String id = "";
-        String title = "Sample News Title";
-        String content = "";
-        String filePath = "";
-        String fromDate = "";
-        String toDate = "";
-
-        // Create an instance of NewsDAO
-        NewsDAO newsDAO = new NewsDAO();
-
-        // Test getTotalSearchNewsCount
-        int totalNewsCount = newsDAO.getTotalSearchNewsCount(id, title, content, filePath, fromDate, toDate);
-        System.out.println("Total News Count: " + totalNewsCount);
-
-        int pageNumber = 1;
-        int newsPerPage = 5;
-        List<NewsDTO> newsList = newsDAO.getNewsByPageWithSearch(pageNumber, newsPerPage, id, title, content, filePath, fromDate, toDate);
-
-        // Display the result
-        System.out.println("News List:");
-        for (NewsDTO news : newsList) {
-            System.out.println(news.toString());
-        }
-    }
-
-    private static void testGetNewsByPageWithOrderAndEmployee() {
-        // Kết nối đến cơ sở dữ liệu
-        NewsDAO newsDAO = new NewsDAO();
-        // Gọi phương thức getNewsByPageWithOrderAndEmployee
-        List<NewsDTO> newsList = newsDAO.getNewsByPageWithOrderAndEmployee(1, 5, "", "asc");
-        // In thông tin tin tức
-        for (NewsDTO news : newsList) {
-            System.out.println(news);
-        }
-    }
-
-    private static void testGetTotalNewsCountByEmployeeAndOrder() {
-        // Kết nối đến cơ sở dữ liệu
-        NewsDAO newsDAO = new NewsDAO();
-        // Gọi phương thức getTotalNewsCountByEmployeeAndOrder
-        int totalNewsCount = newsDAO.getTotalNewsCountByEmployeeAndOrder("Thành", "asc");
-        // In tổng số tin tức
-        System.out.println("Total News Count: " + totalNewsCount);
     }
 }
