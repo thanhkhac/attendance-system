@@ -105,6 +105,7 @@ public class ListAddEmployeeAjax extends HttpServlet {
                 + "                            <input type=\"hidden\" id=\"endHidden\" name=\"end\" value=\"" + endx + "\">\n"
                 + "                            <input type=\"hidden\" id=\"listEmployeeAdd\" value=\"" + listEmpp + "\" name=\"listEmployeeAdd\">\n"
                 + "                       </form>");
+        
         out.print(""
                 + "<table id=\"mytable\" class=\"table table-bordred table-striped\">\n"
                 + "\n"
@@ -129,6 +130,7 @@ public class ListAddEmployeeAjax extends HttpServlet {
         DepartmentDTO departEmp = new DepartmentDTO();
         int countCheckBox = 0;
         String TypeName ="";
+        
         for (EmployeeDTO listemp : list) {
             countCheckBox = 0;
             departEmp = new DepartmentDAO().getDepartmentById(listemp.getDepartmentID());
