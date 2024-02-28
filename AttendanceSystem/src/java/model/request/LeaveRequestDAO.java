@@ -38,6 +38,38 @@ public class LeaveRequestDAO extends DAOBase {
         return boo;
     }
 
+    public ArrayList<LeaveRequestDTO> getLeaveRequestByEmployeeID(int emplID) {
+        ArrayList<LeaveRequestDTO> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM LeaveRequests\n"
+                    + "WHERE EmployeeID = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, emplID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int leaveRequestID = rs.getInt("LeaveRequestID");
+                int employeeID = rs.getInt("EmployeeID");
+                LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
+                LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
+                LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
+                String filePath = rs.getNString("FilePath");
+                String reason = rs.getNString("Reason");
+                Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
+                Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
+                int managerID = rs.getInt("ManagerID");
+                int hrID = rs.getInt("HrID");
+                Boolean status = parseBoolean(rs.getString("Status"));
+
+                LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, filePath, reason, managerApprove, hrApprove, managerID, hrID, status);
+                list.add(lr);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        return list;
+    }
+
     public ArrayList<LeaveRequestDTO> getLeaveRequestByDepartment(int deID) {
         ArrayList<LeaveRequestDTO> list = new ArrayList<>();
         PreparedStatement stm = null;
@@ -93,54 +125,54 @@ public class LeaveRequestDAO extends DAOBase {
     public ArrayList<LeaveRequestDTO> getLeaveRequestForHR(int approve) {
         ArrayList<LeaveRequestDTO> list = new ArrayList<>();
 //        if (connection != null) {
-            try {
-                String sql = "SELECT LeaveRequestID ,\n"
-                        + "		l.EmployeeID,\n"
-                        + "		SentDate,\n"
-                        + "		l.StartDate,\n"
-                        + "		l.EndDate,\n"
-                        + "		FilePath,\n"
-                        + "		Reason,\n"
-                        + "		ManagerApprove,\n"
-                        + "		HrApprove,\n"
-                        + "		ManagerID,\n"
-                        + "		HrID,\n"
-                        + "		[Status],\n"
-                        + "		e.DepartmentID\n"
-                        + "FROM LeaveRequests l\n"
-                        + "JOIN Employees e ON l.EmployeeID = e.EmployeeID\n"
-                        + "WHERE l.ManagerApprove like '%" + approve + "%'\n"
-                        + "ORDER BY  HrApprove ASC , LeaveRequestID ASC";
-                ps = connection.prepareStatement(sql);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    int leaveRequestID = rs.getInt("LeaveRequestID");
-                    int employeeID = rs.getInt("EmployeeID");
-                    int departmentID = rs.getInt("DepartmentID");
-                    LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
-                    LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
-                    LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
-                    String filePath = rs.getString("FilePath");
-                    String reason = rs.getNString("Reason");
-                    Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
-                    Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
-                    int managerID = rs.getInt("ManagerID");
-                    int hrID = rs.getInt("HrID");
-                    Boolean status = parseBoolean(rs.getString("Status"));
+        try {
+            String sql = "SELECT LeaveRequestID ,\n"
+                    + "		l.EmployeeID,\n"
+                    + "		SentDate,\n"
+                    + "		l.StartDate,\n"
+                    + "		l.EndDate,\n"
+                    + "		FilePath,\n"
+                    + "		Reason,\n"
+                    + "		ManagerApprove,\n"
+                    + "		HrApprove,\n"
+                    + "		ManagerID,\n"
+                    + "		HrID,\n"
+                    + "		[Status],\n"
+                    + "		e.DepartmentID\n"
+                    + "FROM LeaveRequests l\n"
+                    + "JOIN Employees e ON l.EmployeeID = e.EmployeeID\n"
+                    + "WHERE l.ManagerApprove like '%" + approve + "%'\n"
+                    + "ORDER BY  HrApprove ASC , LeaveRequestID ASC";
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                int leaveRequestID = rs.getInt("LeaveRequestID");
+                int employeeID = rs.getInt("EmployeeID");
+                int departmentID = rs.getInt("DepartmentID");
+                LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
+                LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
+                LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
+                String filePath = rs.getString("FilePath");
+                String reason = rs.getNString("Reason");
+                Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
+                Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
+                int managerID = rs.getInt("ManagerID");
+                int hrID = rs.getInt("HrID");
+                Boolean status = parseBoolean(rs.getString("Status"));
 
-                    LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, departmentID, sentDate, startDate, endDate, filePath, reason, managerApprove, hrApprove, managerID, hrID, status);
-                    list.add(lr);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e);
-            } finally {
-                closeAll();
+                LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, departmentID, sentDate, startDate, endDate, filePath, reason, managerApprove, hrApprove, managerID, hrID, status);
+                list.add(lr);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        } finally {
+            closeAll();
+        }
 //        }
         return list;
     }
-    
+
     public boolean approvalOfApplicationByManager(int status, int managerID, int requestID) {
         if (connection != null) {
             try {
@@ -307,16 +339,18 @@ public class LeaveRequestDAO extends DAOBase {
         EmployeeDTO emDTO = new EmployeeDTO();
         EmployeeDTO managerDTO = new EmployeeDTO();
 //        ArrayList<LeaveRequestDTO> list1 = dao.getLeaveRequestByDepartment(2);
-        ArrayList<LeaveRequestDTO> list2 = dao.getLeaveRequestForHR(1);
+//        ArrayList<LeaveRequestDTO> list2 = dao.getLeaveRequestForHR(1);
+        ArrayList<LeaveRequestDTO> list3 = dao.getLeaveRequestByEmployeeID(3);
 //        System.out.println("List size (by departmentID): " + list1.size() + "\n");
-        System.out.println("List size (by HR): " + list2.size() + "\n");
+//        System.out.println("List size (by HR): " + list2.size() + "\n");
+        System.out.println("List size : " + list3.size());
 
-        for (LeaveRequestDTO leaveRequestDTO : list2) {
+//        for (LeaveRequestDTO leaveRequestDTO : list2) {
 //            if (leaveRequestDTO.getManagerApprove() != null && leaveRequestDTO.getManagerApprove()) {
 //                System.out.println("true");
 //            }
-            leaveRequestDTO.getStatus();
-        }
+//            leaveRequestDTO.getStatus();
+//        }
 //        for (LeaveRequestDTO lr : list) {
 //            System.out.println(lr.getLeaveRequestID());
 //            System.out.println(lr.getEmployeeID());
