@@ -262,6 +262,7 @@
            String DAQUA = (String) request.getAttribute("DAQUA");
            ArrayList<OvertimeDTO> list = (ArrayList<OvertimeDTO>) request.getAttribute("LISTOVERTIME"); 
         %>
+        <input type="hidden" id="QUA" name="name" value="<%=DAQUA%>">
         <input type="hidden" id="date" value="<%=Day%>">
         <section id="team" class="section bg-gray-100">
             <div class="container">
@@ -539,6 +540,8 @@
     $(".txtSearch").on("input", function () {
         var txtSearch = $(this).val();
         var Date = $("#date").val();
+        var DaQUA = $("#QUA").val();
+        console.log(DaQUA);
         var startEnd = $(this).closest(".overlay").find(".startTime").val();
         var endTime = $(this).closest(".overlay").find(".endTime").val();
         var chonPhong = $(this).closest(".overlay").find(".form-select").val();
@@ -547,6 +550,7 @@
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
             data: {
+                QUA:DaQUA,
                 txt: txtSearch,
                 date: Date,
                 StartEnd: startEnd,
@@ -565,6 +569,7 @@
     $(".form-select").change(function () {
         var txtSearch = $(".txtSearch").val();
         var Date = $("#date").val();
+        var DaQUA = $("#QUA").val();
         var overlay = $(this).closest(".overlay");
         var startEnd = overlay.find(".startTime").val();
         var endTime = overlay.find(".endTime").val();
@@ -574,6 +579,7 @@
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
             data: {
+                QUA:DaQUA,
                 txt: txtSearch,
                 date: Date,
                 StartEnd: startEnd,
@@ -592,6 +598,7 @@
     $(document).on("click", ".page-item", function () {
         var txtSearch = $(".txtSearch").val();
         var Date = $("#date").val();
+        var DaQUA = $("#QUA").val();
         var startEnd = $(this).closest(".overlay").find(".startTime").val();
         var endTime = $(this).closest(".overlay").find(".endTime").val();
         var chonPhong = $(this).closest(".overlay").find(".form-select").val();
@@ -604,6 +611,7 @@
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
             data: {
+                QUA:DaQUA,
                 txt: txtSearch,
                 date: Date,
                 StartEnd: startEnd,
