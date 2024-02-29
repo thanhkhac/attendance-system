@@ -115,7 +115,7 @@ public class OverTimeRequestDAO extends DAOBase {
                 int overTimeRequestID = rs.getInt("OvertimeRequestID");
                 LocalDateTime date = rs.getTimestamp("Date").toLocalDateTime();
                 int employeeID = rs.getInt("EmployeeID");
-                LocalDateTime sentDate = rs.getTimestamp("SentDate").toLocalDateTime();
+                LocalDateTime sentDate = DATE_UTIL.parseSqlDateTime(rs.getTimestamp("SentDate"));
                 LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
                 LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("EndTime"));
                 Boolean managerApprove = LR.parseBoolean(rs.getString("ManagerApprove"));
@@ -205,7 +205,7 @@ public class OverTimeRequestDAO extends DAOBase {
                 int overTimeRequestID = rs.getInt("OvertimeRequestID");
                 LocalDateTime date = rs.getTimestamp("Date").toLocalDateTime();
                 int employeeID = rs.getInt("EmployeeID");
-                LocalDateTime sentDate = rs.getTimestamp("SentDate").toLocalDateTime();
+                LocalDateTime sentDate = DATE_UTIL.parseSqlDateTime(rs.getTimestamp("SentDate"));
                 LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
                 LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("EndTime"));
                 Boolean managerApprove = LR.parseBoolean(rs.getString("ManagerApprove"));

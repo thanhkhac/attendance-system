@@ -2,7 +2,9 @@ package ultility.datetimeutil;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -37,6 +39,19 @@ public class DateTimeUtil {
         return localTime;
     }
 
+    public LocalDateTime parseSqlDateTime(Timestamp date) {
+        LocalDateTime localDate = null;
+        try {
+            if (date == null) {
+                return null;
+            }
+            localDate = date.toLocalDateTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return localDate;
+    }
+    
     public LocalDate getVNLocalDateNow() {
         return LocalDate.now(ZONE_ID_VIETNAM);
     }
