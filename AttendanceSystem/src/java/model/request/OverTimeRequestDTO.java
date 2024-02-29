@@ -6,6 +6,8 @@ package model.request;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  *
@@ -14,34 +16,34 @@ import java.time.LocalDate;
 public class OverTimeRequestDTO {
 
     private int overTimeRequestID;
+    private LocalDateTime date;
     private int employeeID;
-    private LocalDate sentDate;
-    private LocalDate date;
-    private Time startTime;
-    private Time endTime;
+    private LocalDateTime sentDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private Boolean managerApprove;
     private Boolean hrApprove;
     private int managerID;
     private int hrID;
-    private Boolean status;
     private int createdBy;
+    private Boolean status;
 
     public OverTimeRequestDTO() {
     }
 
-    public OverTimeRequestDTO(int overTimeRequestID, int employeeID, LocalDate sentDate, LocalDate date, Time startTime, Time endTime, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status, int createdBy) {
+    public OverTimeRequestDTO(int overTimeRequestID, LocalDateTime date, int employeeID, LocalDateTime sentDate, LocalTime startTime, LocalTime endTime, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, int createdBy, Boolean status) {
         this.overTimeRequestID = overTimeRequestID;
+        this.date = date;
         this.employeeID = employeeID;
         this.sentDate = sentDate;
-        this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.managerApprove = managerApprove;
         this.hrApprove = hrApprove;
         this.managerID = managerID;
         this.hrID = hrID;
-        this.status = status;
         this.createdBy = createdBy;
+        this.status = status;
     }
 
     public int getOverTimeRequestID() {
@@ -60,35 +62,35 @@ public class OverTimeRequestDTO {
         this.employeeID = employeeID;
     }
 
-    public LocalDate getSentDate() {
+    public LocalDateTime getSentDate() {
         return sentDate;
     }
 
-    public void setSentDate(LocalDate sentDate) {
+    public void setSentDate(LocalDateTime sentDate) {
         this.sentDate = sentDate;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public Time getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 

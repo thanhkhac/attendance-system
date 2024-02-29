@@ -171,6 +171,7 @@ CREATE TABLE Overtimes(
 );
 
 CREATE TABLE OvertimeRequests(
+	OvertimeRequestID int PRIMARY KEY IDENTITY(1,1),
 	[Date] date,
 	[EmployeeID] int,
 	[SentDate] datetime,
@@ -182,8 +183,6 @@ CREATE TABLE OvertimeRequests(
 	HrID int,
 	CreatedBy int not null,
 	[Status] bit default(0),
-	
-	PRIMARY KEY([Date], [EmployeeID]),
 	CHECK(StartTime < EndTime),
 
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID),
