@@ -1,6 +1,7 @@
 package control.workday;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
 import model.LeaveDAO;
@@ -16,7 +17,7 @@ public class WorkDayDetails {
 
     public int employeeID;
     public LocalDate date;
-    public TimesheetDTO timesheet;
+    public ArrayList<TimesheetDTO> timesheet;
     public LeaveDTO leave;
     public OvertimeDTO overtime;
     public ShiftDTO shift;
@@ -28,12 +29,7 @@ public class WorkDayDetails {
         timesheet = new TimesheetDAO().getTimesheetByDate(employeeID, date);
         leave = new LeaveDAO().getLeaveDTO(employeeID, date.toString());
         overtime = new OvertimeDAO().getOverTimeDTO(date, employeeID);
-        shift = (timesheet == null) ? null : new ShiftDAO().getShiftDTO(timesheet.getShiftID());
         leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getCreatedBy());
-    }
-
-    public EmployeeDTO getLeaveResponed() {
-        return leaveResponed;
     }
 
     public int getEmployeeID() {
@@ -52,11 +48,11 @@ public class WorkDayDetails {
         this.date = date;
     }
 
-    public TimesheetDTO getTimesheet() {
+    public ArrayList<TimesheetDTO> getTimesheet() {
         return timesheet;
     }
 
-    public void setTimesheet(TimesheetDTO timesheet) {
+    public void setTimesheet(ArrayList<TimesheetDTO> timesheet) {
         this.timesheet = timesheet;
     }
 
@@ -80,9 +76,23 @@ public class WorkDayDetails {
         return shift;
     }
 
+    public void setShift(ShiftDTO shift) {
+        this.shift = shift;
+    }
+
+    public EmployeeDTO getLeaveResponed() {
+        return leaveResponed;
+    }
+
+    public void setLeaveResponed(EmployeeDTO leaveResponed) {
+        this.leaveResponed = leaveResponed;
+    }
+
     @Override
     public String toString() {
-        return "WorkingDay{" + "employeeID=" + employeeID + ", date=" + date + ", timesheet=" + timesheet + ", leave=" + leave + ", overtime=" + overtime + ", shift=" + shift + '}';
+        return "WorkDayDetails{" + "employeeID=" + employeeID + ", date=" + date + ", timesheet=" + timesheet + ", leave=" + leave + ", overtime=" + overtime + ", shift=" + shift + ", leaveResponed=" + leaveResponed + '}';
     }
+    
+    
 
 }

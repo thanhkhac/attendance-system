@@ -2,7 +2,9 @@ package ultility.datetimeutil;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -18,6 +20,19 @@ public class DateTimeUtil {
                 return null;
             }
             localDate = LocalDate.parse(date.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return localDate;
+    }
+
+    public LocalDateTime parseSqlDateTime(Timestamp date) {
+        LocalDateTime localDate = null;
+        try {
+            if (date == null) {
+                return null;
+            }
+            localDate = LocalDateTime.parse(date.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,7 +71,7 @@ public class DateTimeUtil {
         }
         return list;
     }
-    
+
     public static void main(String[] args) {
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
         int year = dateTimeUtil.getVNLocalDateNow().getYear();

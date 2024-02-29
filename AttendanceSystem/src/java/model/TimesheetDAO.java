@@ -74,8 +74,10 @@ public class TimesheetDAO extends DAOBase {
         return list;
     }
 
-    public TimesheetDTO getTimesheetByDate(int xEmployeeID, LocalDate xDate) {
+
+    public ArrayList<TimesheetDTO> getTimesheetByDate(int xEmployeeID, LocalDate xDate) {
         connect();
+        ArrayList<TimesheetDTO> timesheetDTOs = new ArrayList<>();
         query = "SELECT * FROM\n" +
                 "Timesheet\n" +
                 "WHERE\n" +
@@ -87,14 +89,14 @@ public class TimesheetDAO extends DAOBase {
             ps.setString(2, xDate.toString());
             rs = ps.executeQuery();
             while (rs.next()) {
-                return getTimesheetDTO(rs);
+                timesheetDTOs.add(getTimesheetDTO(rs));
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             closeAll();
         }
-        return null;
+        return timesheetDTOs;
     }
 
     public TimesheetDTO getCurrentTimesheet(int xEmployeeID) {
