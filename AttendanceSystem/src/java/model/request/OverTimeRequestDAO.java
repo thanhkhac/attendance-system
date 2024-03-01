@@ -50,6 +50,7 @@ public class OverTimeRequestDAO extends DAOBase {
     }
 
     public ArrayList<OverTimeRequestExtendDTO> getOverTimeListByDepartment(int departID) {
+        connect();
         ArrayList<OverTimeRequestExtendDTO> list = new ArrayList<>();
         try {
             String sql = "SELECT\n"
@@ -113,7 +114,7 @@ public class OverTimeRequestDAO extends DAOBase {
             rs = ps.executeQuery();
             while (rs.next()) {
                 int overTimeRequestID = rs.getInt("OvertimeRequestID");
-                LocalDateTime date = rs.getTimestamp("Date").toLocalDateTime();
+                LocalDate date = DATE_UTIL.parseSqlDate(rs.getDate("Date"));
                 int employeeID = rs.getInt("EmployeeID");
                 LocalDateTime sentDate = DATE_UTIL.parseSqlDateTime(rs.getTimestamp("SentDate"));
                 LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
@@ -140,6 +141,7 @@ public class OverTimeRequestDAO extends DAOBase {
     }
 
     public ArrayList<OverTimeRequestExtendDTO> getOverTimeListForHR(int approve) {
+        connect();
         ArrayList<OverTimeRequestExtendDTO> list = new ArrayList<>();
         try {
             String sql = "SELECT\n"
@@ -203,7 +205,7 @@ public class OverTimeRequestDAO extends DAOBase {
             rs = ps.executeQuery();
             while (rs.next()) {
                 int overTimeRequestID = rs.getInt("OvertimeRequestID");
-                LocalDateTime date = rs.getTimestamp("Date").toLocalDateTime();
+                LocalDate date = DATE_UTIL.parseSqlDate(rs.getDate("Date"));
                 int employeeID = rs.getInt("EmployeeID");
                 LocalDateTime sentDate = DATE_UTIL.parseSqlDateTime(rs.getTimestamp("SentDate"));
                 LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
@@ -230,6 +232,7 @@ public class OverTimeRequestDAO extends DAOBase {
     }
 
     public boolean overtimeRequestApproveByManager(int managerApprove, int managerID, int overTimeRequestID) {
+        connect();
         try {
             String sql = "UPDATE OvertimeRequests\n"
                     + "	SET ManagerApprove = ? , ManagerID = ?\n"
@@ -245,11 +248,48 @@ public class OverTimeRequestDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
+        }finally{
+            closeAll();
         }
         return false;
     }
 
+    public OverTimeRequestDTO getOverTimeRequestByID(int requestID) {
+        connect();
+        OverTimeRequestDTO request = new OverTimeRequestDTO();
+        try {
+            String sql = "SELECT * FROM OvertimeRequests \n"
+                    + "WHERE OvertimeRequestID = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, requestID);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                int overTimeRequestID = rs.getInt("OvertimeRequestID");
+                LocalDate date = DATE_UTIL.parseSqlDate(rs.getDate("Date"));
+                int employeeID = rs.getInt("EmployeeID");
+                LocalDateTime sentDate = DATE_UTIL.parseSqlDateTime(rs.getTimestamp("SentDate"));
+                LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
+                LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("EndTime"));
+                Boolean managerApprove = LR.parseBoolean(rs.getString("ManagerApprove"));
+                Boolean hrApprove = LR.parseBoolean(rs.getString("HrApprove"));
+                int managerID = rs.getInt("ManagerID");
+                int hrID = rs.getInt("HrID");
+                int createdBy = rs.getInt("CreatedBy");
+                Boolean status = LR.parseBoolean(rs.getString("Status"));
+                request = new OverTimeRequestDTO(overTimeRequestID, date, employeeID, sentDate, startTime, endTime, managerApprove, hrApprove, managerID, hrID, createdBy, status);
+                return request;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }finally{
+            closeAll();
+        }
+        return null;
+    }
+
     public boolean overtimeRequestApproveByHr(int hrApprove, int hrID, int overTimeRequestID) {
+        connect();
         try {
             String sql = "UPDATE OvertimeRequests\n"
                     + "	SET HrApprove = ? , HrID = ?\n"
@@ -265,6 +305,8 @@ public class OverTimeRequestDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
+        }finally{
+            closeAll();
         }
         return false;
     }
@@ -274,9 +316,9 @@ public class OverTimeRequestDAO extends DAOBase {
         ArrayList<OverTimeRequestExtendDTO> list = new ArrayList<>();
 //        list = otDAO.getOverTimeListByDepartment(2);
         list = otDAO.getOverTimeListForHR(1);
-        System.out.println("List size : " + list.size());
-//        System.out.println("Manager approve : " + dao.overtimeRequestApproveByManager(1, 4, 65));
-//        System.out.println("HR approve : " + dao.overtimeRequestApproveByHr(1, 2, 65));
+        System.out.println("1 List size : " + list.size());
+        System.out.println("2 Manager approve : " + otDAO.overtimeRequestApproveByManager(1, 4, 65));
+        System.out.println("3 HR approve : " + otDAO.overtimeRequestApproveByHr(1, 2, 65));
 /*
         for (OverTimeRequestExtendDTO otrq : list) {
             System.out.println(otrq.getOverTimeRequestID());
@@ -287,6 +329,10 @@ public class OverTimeRequestDAO extends DAOBase {
             System.out.println(otrq.getManagerApprove());
             System.out.println(otrq.getDepartmentID());
         }
-*/
+         */
+
+         OverTimeRequestDTO otDTO = new OverTimeRequestDTO();
+         otDTO = otDAO.getOverTimeRequestByID(1);
+         System.out.println("4 " + otDTO);
     }
 }

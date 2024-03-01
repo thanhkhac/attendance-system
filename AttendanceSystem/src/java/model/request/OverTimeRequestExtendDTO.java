@@ -24,7 +24,7 @@ public class OverTimeRequestExtendDTO extends OverTimeRequestDTO{
         this.conflict = conflict;
     }
 
-    public OverTimeRequestExtendDTO(int overTimeRequestID, LocalDateTime date, int employeeID, LocalDateTime sentDate, LocalTime startTime, LocalTime endTime, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, int createdBy, Boolean status, int departmentID, String conflict) {
+    public OverTimeRequestExtendDTO(int overTimeRequestID, LocalDate date, int employeeID, LocalDateTime sentDate, LocalTime startTime, LocalTime endTime, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, int createdBy, Boolean status, int departmentID, String conflict) {
         super(overTimeRequestID, date, employeeID, sentDate, startTime, endTime, managerApprove, hrApprove, managerID, hrID, createdBy, status);
         this.departmentID = departmentID;
         this.conflict = conflict;

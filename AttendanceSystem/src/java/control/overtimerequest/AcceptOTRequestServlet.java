@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalTime;
 import model.*;
 import model.request.*;
 
@@ -42,31 +43,55 @@ public class AcceptOTRequestServlet extends HttpServlet {
         int overTimeRequestID_raw = Integer.parseInt(overTimeRequestID);
         out.println(" || 1 Leave request ID: " + overTimeRequestID_raw);
 
-        OverTimeRequestDAO otDAO = new OverTimeRequestDAO();
+        OverTimeRequestDAO otrqDAO = new OverTimeRequestDAO();
+        OverTimeRequestDTO otrqDTO = new OverTimeRequestDTO();
+        OvertimeDTO otDTO = new OvertimeDTO();
+        OvertimeDAO otDAO = new OvertimeDAO();
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
+        
+        otrqDTO = otrqDAO.getOverTimeRequestByID(overTimeRequestID_raw);
+        String DateOT = otrqDTO.getDate().toString();
+        int employeeID_OT = otrqDTO.getEmployeeID();
+        LocalTime startTimeOT = otrqDTO.getStartTime();
+        LocalTime endTimeOT = otrqDTO.getEndTime();
+        
+        LocalTime Open = startTimeOT.minusMinutes(30);
+        LocalTime Close = endTimeOT.plusMinutes(30);
+        
+        if(Close.isAfter(LocalTime.parse("23:29"))){
+            Close = LocalTime.parse("23:59");
+        }
+        if(Open.isBefore(LocalTime.parse("00:30"))){
+            Open = LocalTime.parse("00:00");
+        }
         
         out.println("|| 2 Role ID : " + acc.getRoleID());
         out.println("|| 3 Employee ID logged in: " + acc.getEmployeeID());
         out.println("|| 4 Button value : " + button_value);
+        out.println("|| Ngay OT: " + DateOT);
+        out.println("|| employeeID OT: " + employeeID_OT);
+        out.println("|| OT Start Time : " + startTimeOT);
+        out.println("|| OT End Time : " + endTimeOT);
         
         if (button_value.startsWith("Accept")) {
             if (acc.getRoleID() == 4) { // role id = 4 : Quan li
                 out.println("|| RoleID-4(Quan li) : " + acc.getRoleID());
                 // Duyet don theo role quan li
-                if (otDAO.overtimeRequestApproveByManager(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
+                if (otrqDAO.overtimeRequestApproveByManager(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
+                    otDAO.insertOvertime(DateOT, employeeID_OT, startTimeOT.toString(), endTimeOT.toString(), Open.toString(), Close.toString(), null, null, acc.getEmployeeID());
+                    out.println("Insert into OverTime successful");
                     response.sendRedirect("ViewOverTimeRequestForManager.jsp");
                 }
             }else if(acc.getRoleID() == 2){ // role id = 2 : Quan li nhan su
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
-                if (otDAO.overtimeRequestApproveByHr(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
+                if (otrqDAO.overtimeRequestApproveByHr(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
                     response.sendRedirect("ViewOverTimeRequestForHR.jsp");
                 }
             }
         } else {
             out.println("Button value != Accept");
         }
-
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

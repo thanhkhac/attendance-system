@@ -16,7 +16,7 @@ import java.time.LocalTime;
 public class OverTimeRequestDTO {
 
     private int overTimeRequestID;
-    private LocalDateTime date;
+    private LocalDate date;
     private int employeeID;
     private LocalDateTime sentDate;
     private LocalTime startTime;
@@ -31,7 +31,7 @@ public class OverTimeRequestDTO {
     public OverTimeRequestDTO() {
     }
 
-    public OverTimeRequestDTO(int overTimeRequestID, LocalDateTime date, int employeeID, LocalDateTime sentDate, LocalTime startTime, LocalTime endTime, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, int createdBy, Boolean status) {
+    public OverTimeRequestDTO(int overTimeRequestID, LocalDate date, int employeeID, LocalDateTime sentDate, LocalTime startTime, LocalTime endTime, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, int createdBy, Boolean status) {
         this.overTimeRequestID = overTimeRequestID;
         this.date = date;
         this.employeeID = employeeID;
@@ -70,11 +70,11 @@ public class OverTimeRequestDTO {
         this.sentDate = sentDate;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -130,10 +130,6 @@ public class OverTimeRequestDTO {
         return status;
     }
 
-//    public void setStatus(Boolean status) {
-//        this.status = status;
-//    }
-
     public int getCreatedBy() {
         return createdBy;
     }
@@ -142,7 +138,9 @@ public class OverTimeRequestDTO {
         this.createdBy = createdBy;
     }
 
-    
-    
-    
+    @Override
+    public String toString() {
+        return "OverTimeRequestDTO{" + "overTimeRequestID=" + overTimeRequestID + ", Date=" + date + ", employeeID=" + employeeID + ", sentDate=" + sentDate + ", startTime=" + startTime + ", endTime=" + endTime + ", managerApprove=" + managerApprove + ", hrApprove=" + hrApprove + ", managerID=" + managerID + ", hrID=" + hrID + ", createBy=" + createdBy + ", status=" + status + '}';
+    }
+
 }

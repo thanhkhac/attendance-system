@@ -15,6 +15,9 @@ public class OvertimeDTO {
     LocalTime checkOut;
     int createdBy;
 
+    public OvertimeDTO() {
+    }
+
     public OvertimeDTO(LocalDate date, int employeeID, LocalTime startTime, LocalTime endTime, LocalTime openAt, LocalTime closeAt, LocalTime checkIn, LocalTime checkOut, int createdBy) {
         this.date = date;
         this.employeeID = employeeID;
