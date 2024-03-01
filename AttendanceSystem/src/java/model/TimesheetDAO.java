@@ -120,7 +120,6 @@ public class TimesheetDAO extends DAOBase {
             int[] result = ps.executeBatch();
             connection.commit();
 
-            // Check if all batches were successfully executed
             for (int res : result) {
                 if (res == Statement.EXECUTE_FAILED) {
                     return false;
@@ -164,7 +163,6 @@ public class TimesheetDAO extends DAOBase {
             int[] result = ps.executeBatch();
             connection.commit();
 
-            // Check if all batches were successfully executed
             for (int res : result) {
                 if (res == Statement.EXECUTE_FAILED) {
                     return false;

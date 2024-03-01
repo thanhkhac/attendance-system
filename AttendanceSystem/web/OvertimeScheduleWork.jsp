@@ -33,6 +33,9 @@
         color: black;
         margin-top: 17px;   
 }
+.notyet {
+    background-color: black;
+}
 
         </style>
     </head>
@@ -111,15 +114,17 @@
                                         </c:if>
                                     </div>
                                     <div class="shift-block">
-                                        <c:if test = "${wkday > requestScope.today and wkday.getMonthValue() == month}">
+                                        <c:if test = "${ wkday.getMonthValue() == month}">
                                          
+                                            <c:if test = "${wkday > requestScope.today}">
+                                            
                                             <c:set var="count" value="${0}"/>
                                          <c:forEach var="list" items="${requestScope.listOvertime}">   
                                              <c:if test = "${wkday.compareTo(list)==0}">
                                                  <a href="overtimeByDay?Day=${wkday}" class="box">
                                            <div class="shift notyet text-center">
                                                         <div class="shift__title">
-                                                            Có tăng ca <br>
+                                                               Tăng ca <br>
                                                             (Chưa diễn ra)
                                                         </div>                                                      
                                            </div>
@@ -135,6 +140,24 @@
                                                 </a>
                                                      </div>
                                             
+                                           </c:if>
+                                         </c:if>
+                                           <c:if test = "${wkday <= requestScope.today}">
+                                               
+                                         <c:forEach var="list" items="${requestScope.listOvertime}">   
+                                             <c:if test = "${wkday.compareTo(list)==0}">
+                                                 <a href="overtimeByDay?Day=${wkday}&&Check=DAQUA" class="box">
+                                           <div style="background-color: #353535  !important;" class="shift notyet text-center">
+                                                        <div class="shift__title">
+                                                              Tăng ca <br>
+                                                            (Đã diễn ra)
+                                                        </div>                                                      
+                                           </div>
+                                                     </a>
+                                           <c:set var="count" value="${1}"/>
+                                           </c:if>                                            
+                                           </c:forEach>
+                                         
                                            </c:if>
                                         </c:if>
                                     </div>

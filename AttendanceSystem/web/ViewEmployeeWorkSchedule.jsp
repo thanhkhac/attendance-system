@@ -78,21 +78,73 @@
         </script>
         <script>
 
+            function ReloadStyle() {
+                // Get all shift elements
+                let shifts = document.querySelectorAll('.shift');
+
+                shifts.forEach(function (shift) {
+
+                    let date = shift.querySelector('.date').textContent.trim();
+                    let startTimeString = shift.querySelector('.startTime').textContent.trim();
+                    let checkInString = shift.querySelector('.checkIn').textContent.trim();
+                    let checkOutString = shift.querySelector('.checkOut').textContent.trim();
+                    let shiftDate = new Date(date + ' ' + startTimeString);
+                    let currentDate = new Date();
+                    if (shift.querySelector('.leave')) {
+                        shift.querySelectorAll('.shift-status').forEach(function (element) {
+                            element.textContent = 'Nghỉ';
+                        });
+                        shift.classList.add('leave');
+                    } else {
+                        if (shiftDate > currentDate) {
+
+                            shift.querySelectorAll('.shift-status').forEach(function (element) {
+                                element.textContent = 'Chưa diễn ra';
+                            });
+                            shift.classList.add('notyet');
+                        } else if (checkInString) {
+
+                            if (checkOutString) {
+                                shift.querySelectorAll('.shift-status').forEach(function (element) {
+                                    element.textContent = 'Đã chấm công';
+                                });
+                                shift.classList.add('attended');
+                            } else {
+                                shift.querySelectorAll('.shift-status').forEach(function (element) {
+                                    element.textContent = 'Đã chấm công vào';
+                                });
+                                shift.classList.add('onlycheckin');
+                            }
+                        } else {
+
+                            shift.querySelectorAll('.shift-status').forEach(function (element) {
+                                element.textContent = 'Vắng';
+                            });
+                            shift.classList.add('absent');
+                        }
+                    }
+
+                }
+                );
+            }
+
+
+            ReloadStyle();
+
             $(document).ready(function () {
                 $("#month, #year").change(function () {
                     var selectedMonth = $("#month").val();
                     var selectedYear = $("#year").val();
-                    var selectedEmployeeID = $("#employeeID").val();
                     $.ajax({
                         type: "POST",
-                        url: "Include_EmployeeWorkSchedule.jsp",
+                        url: "ViewCalendar.jsp",
                         data: {
                             month: selectedMonth,
-                            year: selectedYear,
-                            employeeID: selectedEmployeeID
+                            year: selectedYear
                         },
                         success: function (response) {
                             $("#result").html(response);
+                            ReloadStyle();
                         },
                         error: function () {
                             $("#result").html("Error occurred.");
@@ -111,7 +163,7 @@
                 function changeMonthYear(change) {
                     var selectedMonth = $("#month").val();
                     var selectedYear = $("#year").val();
-                    var selectedEmployeeID = $("#employeeID").val();
+
                     var newMonth = parseInt(selectedMonth) + change;
                     if (newMonth < 1) {
                         newMonth = 12;
@@ -130,17 +182,16 @@
                 function updateCalendar() {
                     var selectedMonth = $("#month").val();
                     var selectedYear = $("#year").val();
-                    var selectedEmployeeID = $("#employeeID").val();
                     $.ajax({
                         type: "POST",
-                        url: "Include_EmployeeWorkSchedule.jsp",
+                        url: "ViewCalendar.jsp",
                         data: {
                             month: selectedMonth,
-                            year: selectedYear,
-                            employeeID: selectedEmployeeID
+                            year: selectedYear
                         },
                         success: function (response) {
                             $("#result").html(response);
+                            ReloadStyle();
                         },
                         error: function () {
                             $("#result").html("Error occurred.");
@@ -148,6 +199,7 @@
                     });
                 }
             });
+
 
         </script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>

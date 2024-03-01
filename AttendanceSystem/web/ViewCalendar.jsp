@@ -76,79 +76,87 @@
                         </c:if>
                         <td class="mytable-td">
                             <div class="date-block">
-                                <div class="date">
-                                    ${wkday.date}
-                                </div>
+                                <c:if test = "${wkday.date eq today}">
+                                    <div class="date text-danger" >
+                                        Hôm nay
+                                    </div>
+                                </c:if>
+                                <c:if test = "${wkday.date ne today}">
+                                    <div class="date">
+                                        ${wkday.date}
+                                    </div>
+                                </c:if>
                             </div>
                             <div class="shift-block">
                                 <c:if test = "${not empty wkday.timesheet}">
-                                    <div class="button-modal" 
-                                         data-bs-toggle="modal" data-bs-target="#ModalBtn${index}">
-                                        <div class="shift text-center bg-primary" >
+                                    <div class="shift text-center bg-primary" >
+                                        <div class="button-modal" 
+                                             data-bs-toggle="modal" data-bs-target="#ModalBtn${index}">
                                             <div class="shift__title">
                                                 <div class="shift-name">${wkday.shift.name}</div>
                                                 <div class="shift-status"></div>
                                                 <div class="date d-none">${wkday.date}</div>
                                                 <c:if test = "${not empty wkday.leave}">
                                                     <div class="leave">
-
                                                     </div>
                                                 </c:if>
                                             </div>
-                                            <div>
+                                            <div class="shift-time">
                                                 ${wkday.shift.startTime} - ${wkday.shift.endTime}
                                             </div>
-                                            <div class="modal fade text-dark text-start" id="ModalBtn${index}" tabindex="-1"
-                                                 aria-labelledby="modalPopUp" style="display: none;"
-                                                 aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" >${wkday.shift.name}</h5>
-                                                            <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <table>
-                                                                <tbody>
+                                        </div>
+                                        <div class="modal fade text-dark text-start" id="ModalBtn${index}" tabindex="-1"
+                                             aria-labelledby="staticBackdropLabel" style="display: none;"
+                                             aria-hidden="true"
+                                             data-bs-backdrop="static">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" >${wkday.shift.name}</h5>
+                                                        <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Tình trạng </td>  
+                                                                    <td class="shift-status"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Giờ vào:</td>
+                                                                    <td class="startTime"> ${wkday.shift.startTime}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Giờ ra: </td>
+                                                                    <td class="endTime">${wkday.shift.endTime}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Chấm công vào: </td>
+                                                                    <td class="checkIn">
+                                                                        ${wkday.timesheet.checkin}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Chấm công ra: </td>
+                                                                    <td class="checkOut">
+                                                                        ${wkday.timesheet.checkout}
+                                                                    </td>
+                                                                </tr>
+                                                                <c:if test = "${not empty wkday.leave}">
                                                                     <tr>
-                                                                        <td>Tình trạng </td>  
-                                                                        <td class="shift-status"></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Giờ vào:</td>
-                                                                        <td class="startTime"> ${wkday.shift.startTime}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Giờ ra: </td>
-                                                                        <td class="endTime">${wkday.shift.endTime}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Chấm công vào: </td>
-                                                                        <td class="checkIn">
-                                                                            ${wkday.timesheet.checkin}
+                                                                        <td>Người tạo:
                                                                         </td>
+                                                                        <td>${wkday.leaveResponed.lastName} ${wkday.leaveResponed.middleName} ${wkday.leaveResponed.firstName}</td>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td>Chấm công ra: </td>
-                                                                        <td class="checkOut">
-                                                                            ${wkday.timesheet.checkout}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <c:if test = "${not empty wkday.leave}">
-                                                                        <tr>
-                                                                            <td>Người tạo:
-                                                                            </td>
-                                                                            <td>${wkday.leaveResponed.lastName} ${wkday.leaveResponed.middleName} ${wkday.leaveResponed.firstName}</td>
-                                                                        </tr>
-                                                                    </c:if>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-                                                        </div>
+                                                                </c:if>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary">Chấm công</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -158,72 +166,79 @@
                                 </c:if>
                                 <c:if test = "${not empty wkday.overtime}">
                                     <%--1. Tất cả các ngày: checkIn not null, checkout null: Màu cam, đã chấm công vào--%>
-                                    <div class="button-modal" data-bs-toggle="modal" data-bs-target="#ModalBtn${index}">
-                                        <div class="shift overtime text-center">
+                                    <div class="shift overtime text-center">
+                                        <div class="button-modal" data-bs-toggle="modal" data-bs-target="#ModalBtn${index}">
                                             <div class="shift__title">
                                                 Tăng ca
                                             </div>
                                             <div>
                                                 ${wkday.overtime.startTime} - ${wkday.overtime.endTime}
                                             </div>
-                                            <div class="date d-none">${wkday.date}</div>
-                                            <div class="modal fade text-dark text-start" id="ModalBtn${index}" tabindex="-1"
-                                                 aria-labelledby="modalPopUp" style="display: none;"
-                                                 aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Tăng ca</h5>
-                                                            <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <table>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Tình trạng </td>           
-                                                                        <td class="shift-status"></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Giờ vào:</td>
-                                                                        <td class="startTime"> ${wkday.overtime.startTime}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Giờ ra: </td>
-                                                                        <td class="endTime">${wkday.overtime.endTime}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Chấm công vào: </td>
-                                                                        <td class="checkIn">
-                                                                            ${wkday.overtime.checkIn}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Chấm công ra: </td>
-                                                                        <td class="checkOut">
-                                                                            ${wkday.overtime.checkOut}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Cổng chấm công mở trước: </td>
-                                                                        <td class="opentAt">
-                                                                            ${wkday.overtime.openAt}
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Cổng chấm công đóng sau: </td>
-                                                                        <td class="closeAt">
-                                                                            ${wkday.overtime.closeAt}
-                                                                        </td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Close</button>
-
-                                                        </div>
+                                        </div>
+                                        <div class="date d-none">${wkday.date}</div>
+                                        <div class="modal fade text-dark text-start" id="ModalBtn${index}" tabindex="-1"
+                                             aria-labelledby="staticBackdropLabel" style="display: none;"
+                                             aria-hidden="true"
+                                             data-bs-backdrop="static">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Tăng ca</h5>
+                                                        <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Tình trạng </td>           
+                                                                    <td class="shift-status"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Giờ vào:</td>
+                                                                    <td class="startTime"> ${wkday.overtime.startTime}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Giờ ra: </td>
+                                                                    <td class="endTime">${wkday.overtime.endTime}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Chấm công vào: </td>
+                                                                    <td class="checkIn">
+                                                                        ${wkday.overtime.checkIn}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Chấm công ra: </td>
+                                                                    <td class="checkOut">
+                                                                        ${wkday.overtime.checkOut}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Cổng chấm công mở trước: </td>
+                                                                    <td class="opentAt">
+                                                                        ${wkday.overtime.openAt}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Cổng chấm công đóng sau: </td>
+                                                                    <td class="closeAt">
+                                                                        ${wkday.overtime.closeAt}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <c:if test = "${wkday.date eq today}">
+                                                            <a href="TakeAttendanceOvertime">
+                                                                <button type="button" class="btn btn-primary">
+                                                                    Chấm công
+                                                                </button>
+                                                            </a>
+                                                        </c:if>
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -240,56 +255,6 @@
             </table>
         </div>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                // Get all shift elements
-                let shifts = document.querySelectorAll('.shift');
-
-                shifts.forEach(function (shift) {
-
-                    let date = shift.querySelector('.date').textContent.trim();
-                    let startTimeString = shift.querySelector('.startTime').textContent.trim();
-                    let endTimeString = shift.querySelector('.endTime').textContent.trim();
-                    let checkInString = shift.querySelector('.checkIn').textContent.trim();
-                    let checkOutString = shift.querySelector('.checkOut').textContent.trim();
-                    let shiftDate = new Date(date + ' ' + startTimeString);
-                    let currentDate = new Date();
-                    if (shift.querySelector('.leave')) {
-                        shift.querySelectorAll('.shift-status').forEach(function (element) {
-                            element.textContent = 'Nghỉ';
-                        });
-                        shift.classList.add('leave');
-                    } else {
-                        if (shiftDate > currentDate) {
-
-                            shift.querySelectorAll('.shift-status').forEach(function (element) {
-                                element.textContent = 'Chưa diễn ra';
-                            });
-                            shift.classList.add('notyet');
-                        } else if (checkInString) {
-
-                            if (checkOutString) {
-                                shift.querySelectorAll('.shift-status').forEach(function (element) {
-                                    element.textContent = 'Đã chấm công';
-                                });
-                                shift.classList.add('attended');
-                            } else {
-                                shift.querySelectorAll('.shift-status').forEach(function (element) {
-                                    element.textContent = 'Đã chấm công vào';
-                                });
-                                shift.classList.add('onlycheckin');
-                            }
-                        } else {
-
-                            shift.querySelectorAll('.shift-status').forEach(function (element) {
-                                element.textContent = 'Vắng';
-                            });
-                            shift.classList.add('absent');
-                        }
-                    }
-
-                }
-                );
-            });
 
 
         </script>

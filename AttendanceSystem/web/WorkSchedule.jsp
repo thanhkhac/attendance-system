@@ -65,10 +65,25 @@
                     </c:import>
                 </div>
             </div>
-
+            <div style="position: fixed; bottom: 20px; right: 20px;">
+                <button onclick="scrollToday()" type="button" name="gotoToday" class="btn btn-primary">Go to Today</button>
+            </div>
         </div>
-
         <script src="assets/js/workschedule.js"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                scrollToday();
+            });
+
+            function scrollToday() {
+                var todaySection = document.querySelector('.text-danger');
+                if (todaySection) {
+                    var yOffset = todaySection.getBoundingClientRect().top - window.innerHeight / 2 + todaySection.offsetHeight / 2;
+                    window.scrollTo({top: yOffset, behavior: 'smooth'});
+                }
+            }
+
+        </script>
     </body>
 </html>

@@ -113,7 +113,18 @@ public class DepartmentController extends HttpServlet {
         String name = request.getParameter("departmentName");
         DepartmentDTO dto = new DepartmentDTO();
         dto.setName(name);
-        boolean isAddSuccess = departmentDAO.addDepartment(dto);
+
+        List<DepartmentDTO> list = departmentDAO.getListDepartment();
+        boolean isDuplicateName = list.stream().anyMatch(depart -> depart.getName().equals(name));
+
+        if (isDuplicateName) {
+
+            request.setAttribute("duplicateName", true);
+        } else {
+
+            boolean isAddSuccess = departmentDAO.addDepartment(dto);
+        }
+
         return departmentDAO.getListDepartment();
     }
 

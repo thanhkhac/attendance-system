@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.nio.file.AccessDeniedException;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.NewsDAO;
@@ -63,14 +64,14 @@ public class InsertNews extends HttpServlet {
                         uploadDir.mkdir();
                     }
 
-                    // Process the single file part
                     String fileName = getFileName(filePart);
-                    InputStream fileContent = filePart.getInputStream();
-                    Files.copy(fileContent, new File(uploadPath + File.separator + fileName).toPath(),
-                            StandardCopyOption.REPLACE_EXISTING);
+                    String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+                    String extension = fileName.substring(fileName.lastIndexOf('.'));
+                    String uniqueFileName = getUniqueFileName(uploadPath, baseName, extension);
+                    Path targetPath = new File(uploadPath + File.separator + uniqueFileName).toPath();
 
-                    response.getWriter().println("File uploaded successfully!");
-                    response.getWriter().println(uploadPath);
+                    InputStream fileContent = filePart.getInputStream();
+                    Files.copy(fileContent, targetPath, StandardCopyOption.REPLACE_EXISTING);
 
                     String htmlPath = "/htmlfile/";
                     String uploadHtmlPath = rootPath + File.separator + htmlPath;
@@ -80,12 +81,12 @@ public class InsertNews extends HttpServlet {
                     }
 
                     // Process the single file part for HTML conversion
-                    Document doc = new Document(uploadPath + File.separator + fileName);
+                    Document doc = new Document(uploadPath + File.separator + uniqueFileName);
                     HtmlSaveOptions saveOptions = new HtmlSaveOptions();
                     saveOptions.setExportImagesAsBase64(true);
-                    doc.save(uploadHtmlPath + File.separator + fileName.replaceFirst("[.][^.]+$", "") + ".html", saveOptions);
+                    doc.save(uploadHtmlPath + File.separator + uniqueFileName.replaceFirst("[.][^.]+$", "") + ".html", saveOptions);
 
-                    String finalpath = uploadHtmlPath + File.separator + fileName.replaceFirst("[.][^.]+$", "") + ".html";
+                    String finalpath = uploadHtmlPath + File.separator + uniqueFileName.replaceFirst("[.][^.]+$", "") + ".html";
                     System.out.println(finalpath);
                     pathToGet = finalpath;
                     System.out.println("path:" + pathToGet);
@@ -114,7 +115,6 @@ public class InsertNews extends HttpServlet {
             return;
         }
 
-
         int employId = news.findEmployeeIdByFirstName(employeeName);
         boolean insertionResult = news.insertNews(title, content, pathToGet, dateTime, employId);
         String redirectURL = request.getContextPath() + "/GetAllNewsByHR";
@@ -135,6 +135,20 @@ public class InsertNews extends HttpServlet {
             }
         }
         return null;
+    }
+
+    public static String getUniqueFileName(String directory, String baseFileName, String fileExtension) {
+        String uniqueFileName = baseFileName + fileExtension;
+        int count = 1;
+
+        File file = new File(directory, uniqueFileName);
+        while (file.exists()) {
+            uniqueFileName = baseFileName + "_" + count + fileExtension;
+            file = new File(directory, uniqueFileName);
+            count++;
+        }
+
+        return uniqueFileName;
     }
 
     @Override

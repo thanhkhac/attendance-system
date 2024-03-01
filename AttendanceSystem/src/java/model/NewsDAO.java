@@ -23,7 +23,7 @@ public class NewsDAO extends dbhelper.DBContext {
         try ( PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, title);
             ps.setString(2, content);
-            ps.setNString(3, filePath);
+            ps.setString(3, filePath);
             ps.setTimestamp(4, dateTime);
             ps.setInt(5, createdBy);
 
@@ -240,6 +240,78 @@ public class NewsDAO extends dbhelper.DBContext {
         return newsList;
     }
 
+    public List<NewsDTO> getNewsByPageWithDate(int pageNumber, int newsPerPage, String fromDate, String toDate) {
+        List<NewsDTO> newsList = new ArrayList<>();
+        NewsDAO n = new NewsDAO();
+
+        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM News WHERE 1=1");
+
+        if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
+        }
+
+        sqlBuilder.append(" ORDER BY NewsID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try ( PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
+            // Set parameters
+            int parameterIndex = 1;
+            if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+                ps.setString(parameterIndex++, fromDate);
+                ps.setString(parameterIndex++, toDate);
+            }
+
+            int offset = (pageNumber - 1) * newsPerPage;
+            ps.setInt(parameterIndex++, offset);
+            ps.setInt(parameterIndex++, newsPerPage);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NewsDTO news = new NewsDTO();
+                    news.setNewId(rs.getInt("NewsID"));
+                    news.setTitle(rs.getString("Title"));
+                    news.setContent(rs.getString("Content"));
+                    news.setFilePath(rs.getString("FilePath"));
+                    news.setDateTime(rs.getTimestamp("DateTime"));
+                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
+
+    public int getTotalNewsCount1(String fromDate, String toDate) {
+        StringBuilder sqlBuilder = new StringBuilder("SELECT COUNT(*) FROM News WHERE 1=1");
+
+        if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
+        }
+
+        String sql = sqlBuilder.toString();
+
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            // Set parameters
+            int parameterIndex = 1;
+            if (fromDate != null && toDate != null && !fromDate.isEmpty() && !toDate.isEmpty()) {
+                ps.setString(parameterIndex++, fromDate);
+                ps.setString(parameterIndex++, toDate);
+            }
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
     public int getTotalNewsCount() {
         String sql = "SELECT COUNT(*) FROM News";
 
@@ -274,66 +346,365 @@ public class NewsDAO extends dbhelper.DBContext {
 
         return false;
     }
-    
+
     public boolean isTitleDuplicateExcludeId(String title, int newsId) {
-    String sql = "SELECT COUNT(*) FROM News WHERE Title = ? AND NewsID != ?";
+        String sql = "SELECT COUNT(*) FROM News WHERE Title = ? AND NewsID != ?";
 
-    try (PreparedStatement ps = connection.prepareStatement(sql)) {
-        ps.setString(1, title);
-        ps.setInt(2, newsId);
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, title);
+            ps.setInt(2, newsId);
 
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                int count = rs.getInt(1);
-                return count > 0;
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        return false;
     }
 
-    return false;
-}
+    public List<NewsDTO> getNewsByDate(Timestamp date) {
+        List<NewsDTO> newsList = new ArrayList<>();
+        NewsDAO n = new NewsDAO();
+        String sql = "SELECT * FROM News WHERE CAST(DateTime AS DATE) = CAST(? AS DATE) ORDER BY NewsID DESC";
 
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setTimestamp(1, date);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NewsDTO news = new NewsDTO();
+                    news.setNewId(rs.getInt("NewsID"));
+                    news.setTitle(rs.getString("Title"));
+                    news.setContent(rs.getString("Content"));
+                    news.setFilePath(rs.getString("FilePath"));
+                    news.setDateTime(rs.getTimestamp("DateTime"));
+                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
+
+public List<NewsDTO> getNewsByEmployeeAndSortOrder(String employee, String sortOrder) {
+        List<NewsDTO> newsList = new ArrayList<>();
+        NewsDAO n = new NewsDAO();
+
+        String baseSql = "SELECT * FROM News WHERE 1=1";
+
+        if (employee != null && !employee.isEmpty()) {
+            baseSql += " AND CreatedBy = ?";
+        }
+
+        baseSql += " ORDER BY NewsID " + (sortOrder != null && sortOrder.equalsIgnoreCase("asc") ? "ASC" : "DESC");
+
+        try ( PreparedStatement ps = connection.prepareStatement(baseSql)) {
+            int parameterIndex = 1;
+
+            if (employee != null && !employee.isEmpty()) {
+                int creatorId = n.findEmployeeIdByFirstName(employee);
+                ps.setInt(parameterIndex++, creatorId);
+            }
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NewsDTO news = new NewsDTO();
+                    news.setNewId(rs.getInt("NewsID"));
+                    news.setTitle(rs.getString("Title"));
+                    news.setContent(rs.getString("Content"));
+                    news.setFilePath(rs.getString("FilePath"));
+                    news.setDateTime(rs.getTimestamp("DateTime"));
+                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
+
+    public List<NewsDTO> searchNews(String id, String title, String content, String filePath) {
+        List<NewsDTO> newsList = new ArrayList<>();
+        NewsDAO n = new NewsDAO();
+
+        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM News WHERE 1=1");
+
+        if (id != null && !id.isEmpty()) {
+            sqlBuilder.append(" AND NewsID = ?");
+        }
+
+        if (title != null && !title.isEmpty()) {
+            sqlBuilder.append(" AND Title LIKE ?");
+        }
+
+        if (content != null && !content.isEmpty()) {
+            sqlBuilder.append(" AND Content LIKE ?");
+        }
+
+        if (filePath != null && !filePath.isEmpty()) {
+            sqlBuilder.append(" AND FilePath LIKE ?");
+        }
+
+        String sql = sqlBuilder.toString();
+
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            int parameterIndex = 1;
+
+            if (id != null && !id.isEmpty()) {
+                ps.setString(parameterIndex++, id);
+            }
+
+            if (title != null && !title.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + title + "%");
+            }
+
+            if (content != null && !content.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + content + "%");
+            }
+
+            if (filePath != null && !filePath.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + filePath + "%");
+            }
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NewsDTO news = new NewsDTO();
+                    news.setNewId(rs.getInt("NewsID"));
+                    news.setTitle(rs.getString("Title"));
+                    news.setContent(rs.getString("Content"));
+                    news.setFilePath(rs.getString("FilePath"));
+                    news.setDateTime(rs.getTimestamp("DateTime"));
+                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
+
+    public int getTotalSearchNewsCount(String id, String title, String content, String filePath, String fromDate, String toDate) {
+        StringBuilder sqlBuilder = new StringBuilder("SELECT COUNT(*) FROM News WHERE 1=1");
+
+        if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
+        }
+
+        if (id != null && !id.isEmpty()) {
+            sqlBuilder.append(" AND NewsID = ?");
+        }
+
+        if (title != null && !title.isEmpty()) {
+            sqlBuilder.append(" AND Title LIKE ?");
+        }
+
+        if (content != null && !content.isEmpty()) {
+            sqlBuilder.append(" AND Content LIKE ?");
+        }
+
+        if (filePath != null && !filePath.isEmpty()) {
+            sqlBuilder.append(" AND FilePath LIKE ?");
+        }
+
+        try ( PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
+            int parameterIndex = 1;
+
+            if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+                ps.setString(parameterIndex++, fromDate);
+                ps.setString(parameterIndex++, toDate);
+            }
+
+            if (id != null && !id.isEmpty()) {
+                ps.setString(parameterIndex++, id);
+            }
+
+            if (title != null && !title.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + title + "%");
+            }
+
+            if (content != null && !content.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + content + "%");
+            }
+
+            if (filePath != null && !filePath.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + filePath + "%");
+            }
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public List<NewsDTO> getNewsByPageWithSearch(int pageNumber, int newsPerPage, String id, String title, String content, String filePath, String fromDate, String toDate) {
+        List<NewsDTO> newsList = new ArrayList<>();
+        NewsDAO n = new NewsDAO();
+
+        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM News WHERE 1=1");
+
+        if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+            sqlBuilder.append(" AND DateTime >= ? AND DateTime < DATEADD(DAY, 1, ?)");
+        }
+
+        if (!id.isEmpty()) {
+            sqlBuilder.append(" AND NewsID = ?");
+        } else {
+            sqlBuilder.append(" AND 1=1");
+        }
+
+        if (!title.isEmpty()) {
+            sqlBuilder.append(" AND Title LIKE ?");
+        }
+
+        if (!content.isEmpty()) {
+            sqlBuilder.append(" AND Content LIKE ?");
+        }
+
+        if (!filePath.isEmpty()) {
+            sqlBuilder.append(" AND FilePath LIKE ?");
+        }
+
+        sqlBuilder.append(" ORDER BY NewsID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+
+        try ( PreparedStatement ps = connection.prepareStatement(sqlBuilder.toString())) {
+            int parameterIndex = 1;
+
+            if (!fromDate.isEmpty() && !toDate.isEmpty()) {
+                ps.setString(parameterIndex++, fromDate);
+                ps.setString(parameterIndex++, toDate);
+            }
+
+            if (!id.isEmpty()) {
+                ps.setString(parameterIndex++, id);
+            }
+
+            if (!title.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + title + "%");
+            }
+
+            if (!content.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + content + "%");
+            }
+
+            if (!filePath.isEmpty()) {
+                ps.setString(parameterIndex++, "%" + filePath + "%");
+            }
+
+            int offset = (pageNumber - 1) * newsPerPage;
+            ps.setInt(parameterIndex++, offset);
+            ps.setInt(parameterIndex++, newsPerPage);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NewsDTO news = new NewsDTO();
+                    news.setNewId(rs.getInt("NewsID"));
+                    news.setTitle(rs.getString("Title"));
+                    news.setContent(rs.getString("Content"));
+                    news.setFilePath(rs.getString("FilePath"));
+                    news.setDateTime(rs.getTimestamp("DateTime"));
+                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
+                    newsList.add(news);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
+
+    public List<NewsDTO> getNewsByPageWithOrderAndEmployee(int pageNumber, int newsPerPage, String employee, String sortOrder) {
+        List<NewsDTO> newsList = new ArrayList<>();
+        NewsDAO n = new NewsDAO();
+
+        String baseSql = "SELECT * FROM News WHERE 1=1";
+
+        if (employee != null && !employee.isEmpty()) {
+            baseSql += " AND CreatedBy = ?";
+        }
+
+        baseSql += " ORDER BY NewsID " + (sortOrder != null && sortOrder.equalsIgnoreCase("asc") ? "ASC" : "DESC");
+        baseSql += " OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try ( PreparedStatement ps = connection.prepareStatement(baseSql)) {
+            int parameterIndex = 1;
+
+            if (employee != null && !employee.isEmpty()) {
+                int creatorId = n.findEmployeeIdByFirstName(employee);
+                ps.setInt(parameterIndex++, creatorId);
+            }
+
+            int offset = (pageNumber - 1) * newsPerPage;
+            ps.setInt(parameterIndex++, offset);
+            ps.setInt(parameterIndex++, newsPerPage);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NewsDTO news = new NewsDTO();
+                    news.setNewId(rs.getInt("NewsID"));
+                    news.setTitle(rs.getString("Title"));
+                    news.setContent(rs.getString("Content"));
+                    news.setFilePath(rs.getString("FilePath"));
+                    news.setDateTime(rs.getTimestamp("DateTime"));
+                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
+
+    public int getTotalNewsCountByEmployeeAndOrder(String employee, String sortOrder) {
+        String baseSql = "SELECT COUNT(*) FROM News WHERE 1=1";
+
+        if (employee != null && !employee.isEmpty()) {
+            baseSql += " AND CreatedBy = ?";
+        }
+
+        String sql = baseSql;
+
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            int parameterIndex = 1;
+
+            if (employee != null && !employee.isEmpty()) {
+                int creatorId = findEmployeeIdByFirstName(employee);
+                ps.setInt(parameterIndex++, creatorId);
+            }
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 
     public static void main(String[] args) {
-        NewsDAO newsDAO = new NewsDAO();
-        String title = "Sample News Title";
-        String content = "This is a sample news content.";
-        String filePath = "C:\\Users\\ADMIN-PC\\Desktop\\swp jsp\\news sp\\attendance-system\\AttendanceSystem\\docxfile\\Report.docx";
-        Timestamp dateTime = new Timestamp(System.currentTimeMillis());
-        String createdBy = "Thành"; // Assuming employee ID for the creator
-        int id = newsDAO.findEmployeeIdByFirstName(createdBy);
-        System.out.println("ten cua to: " + id);
-        // Insert a new news record
-        boolean insertionResult = newsDAO.insertNews(title, content, filePath, dateTime, id);
-
-        if (insertionResult) {
-            System.out.println("News inserted successfully!");
-        } else {
-            System.out.println("Failed to insert news.");
-        }
-        List<EmployeeDTO> e = newsDAO.findAllEmployees();
-        for (EmployeeDTO e1 : e) {
-            System.out.println(e1.getEmployeeID());
-
-        }
-
-//        int pageNumber = 1;
-//        int newsPerPage = 5;
-//
-//        List<NewsDTO> newsList = newsDAO.getNewsByPage(pageNumber, newsPerPage);
-//
-//        // In ra danh sách tin tức
-//        System.out.println("News on Page " + pageNumber + ":");
-//        for (NewsDTO news : newsList) {
-//            System.out.println("Title: " + news.getTitle());
-//            System.out.println("Content: " + news.getContent());
-//            System.out.println("File Path: " + news.getFilePath());
-//            System.out.println("DateTime: " + news.getDateTime());
-//            System.out.println("Created By: " + news.getCreateBy());
-//            System.out.println("----------");
-//        }
     }
-
 }

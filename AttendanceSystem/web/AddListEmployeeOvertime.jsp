@@ -158,7 +158,7 @@
                                          
                  if(i==1){
                 %>
-                <li class="page-item"><a style="background-color: #cfd5da96;" class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
+                <li class="page-item"><a style="background-color: #cfd5da96;" class="page-link page pageNow" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
                     <%}else{%>
 
                 <li class="page-item"><a  class="page-link page" data-index="<%=i%>" onclick="searchByName(this)" href="#"><%=i%></a><li>
@@ -243,7 +243,7 @@
 
 
 
-            function searchByName(param) {
+                function searchByName(param) {
                 var checkBox = document.getElementById("checkall");
                 var CheckALL = "";                
                 if(checkBox.checked){
@@ -252,11 +252,12 @@
                 else{
                     CheckALL = "";
                 }
-                console.log(CheckALL);
+                
                 var txtSearch = $("#txtSearch").val();
                 var startx = $("#startHidden").val();
                 var endx = $("#endHidden").val();                
-                var Page = param.dataset.index;
+                var Page = param.dataset.index ;
+                console.log(Page);
                 var phongBan = $("#phongBan").val();
                 var Date = $("#Date").val();
                 var empID = $("#empID").val();
@@ -305,7 +306,6 @@ $(document).ready(function () {
                     selectedEmployeeIDs += employeeID + "|";
                     
                 }
-                searchByName("");
                 });
                 checkAllClicked = true;
             }
@@ -351,6 +351,113 @@ $(document).ready(function () {
 
   document.getElementById("MyForm").submit();
 }
+
+
+$(document).on("click", "#checkall", function () {
+       
+       var PageNow = $(this).closest(".table-responsive").find(".pageNow");
+        var checkBox = document.getElementById("checkall");
+                var CheckALL = "";                
+                if(checkBox.checked){
+                    CheckALL = "daCheck";
+                }
+                else{
+                    CheckALL = "";
+                }
+                
+                var txtSearch = $("#txtSearch").val();
+                var startx = $("#startHidden").val();
+                var endx = $("#endHidden").val();                
+                var Page = PageNow.attr("data-index") ;
+                console.log(Page);
+                var phongBan = $("#phongBan").val();
+                var Date = $("#Date").val();
+                var empID = $("#empID").val();
+                
+                $.ajax({
+                    url: "/AttendanceSystem/listAddEmployeeAjax",
+                    type: "get",
+                    data: {
+                        Check:CheckALL,
+                        Startx:startx,
+                        Endx:endx,
+                        listEmpp:selectedEmployeeIDs,                       
+                        txt: txtSearch,
+                        phong: phongBan,
+                        EmpID: empID,
+                        Page: Page,
+                        date:Date
+                        
+                    },
+                    success: function (data) {                       
+                        var row = $("#listEmployee");
+                        row.html(data);
+                        selectedEmployeeIDs = document.getElementById("listEmployeeAdd").value;
+$(document).ready(function () {
+     
+    var checkAllClicked = false; // Biến đánh dấu xem nút "Chọn tất cả" đã được click hay chưa
+
+    // Xử lý sự kiện khi ô "#checkall" được chọn/deselect
+    $("#mytable #checkall").click(function () {
+        if ($(this).is(':checked')) {
+             // Nếu ô "#checkall" bị deselect, deselect tất cả các ô khác
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+                var employeeID = $(this).closest("tr").find("td:eq(1)").text();
+                selectedEmployeeIDs = "";
+            });
+            checkAllClicked = false;
+            
+            
+            // Nếu ô "#checkall" được chọn, chọn tất cả các ô khác
+            if (!checkAllClicked) {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", true);
+                    if($(this).attr("id") !== "checkall"){
+                    var employeeID = $(this).closest("tr").find("td:eq(1)").text();
+                    selectedEmployeeIDs += employeeID + "|";
+                    
+                }
+                });
+                checkAllClicked = true;
+            }
+        } else {
+            
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+                var employeeID = $(this).closest("tr").find("td:eq(1)").text();
+                selectedEmployeeIDs = "";
+                
+            });
+            checkAllClicked = false;
+        }
+       
+        console.log(selectedEmployeeIDs);
+    });
+
+    // Xử lý sự kiện khi mỗi ô checkbox được chọn/deselect
+    $("#mytable input[type=checkbox]").click(function() {
+        var employeeID = $(this).closest("tr").find("td:eq(1)").text();
+        if ($(this).is(":checked")&&$(this).attr("id") !== "checkall") {
+            selectedEmployeeIDs += employeeID + "|";
+        } else {
+            if($(this).attr("id") !== "checkall"){
+            selectedEmployeeIDs = selectedEmployeeIDs.replace(employeeID + "|", "");}
+        }
+        console.log(selectedEmployeeIDs);
+    });
+
+    $("[data-toggle=tooltip]").tooltip();
+});
+
+                        // Gọi lại sự kiện hoặc hàm JS bạn muốn chạy vi khi dung ajax lay du lieu tu serverlet se mat ket noi
+                        //initializeYourFunctions();
+                    },
+                    error: function (xhr) {
+                        console.log("Error:", xhr);
+                    }
+                });
+    });
 
            
         </script>
