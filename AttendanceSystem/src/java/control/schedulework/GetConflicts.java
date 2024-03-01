@@ -31,6 +31,7 @@ public class GetConflicts extends HttpServlet {
                 }
             }
         }
+        overtimeDAO.close();
         
         request.setAttribute("conflicts", conflicts);
         request.getRequestDispatcher("ScheduleWorkConflicts.jsp").forward(request, response);

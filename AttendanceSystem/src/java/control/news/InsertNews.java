@@ -84,11 +84,11 @@ public class InsertNews extends HttpServlet {
                     Document doc = new Document(uploadPath + File.separator + uniqueFileName);
                     HtmlSaveOptions saveOptions = new HtmlSaveOptions();
                     saveOptions.setExportImagesAsBase64(true);
-                    doc.save(uploadHtmlPath + File.separator + uniqueFileName.replaceFirst("[.][^.]+$", "") + ".html", saveOptions);
+                    doc.save(uploadHtmlPath + File.separator + uniqueFileName.replaceAll("[.][^.]+$", "") + ".html", saveOptions);
 
-                    String finalpath = uploadHtmlPath + File.separator + uniqueFileName.replaceFirst("[.][^.]+$", "") + ".html";
+                    String finalpath = uploadHtmlPath + File.separator + uniqueFileName.replaceAll("[.][^.]+$", "") + ".html";
                     System.out.println(finalpath);
-                    pathToGet = finalpath;
+                    pathToGet = htmlPath + uniqueFileName.replaceAll("[.][^.]+$", "") + ".html";
                     System.out.println("path:" + pathToGet);
                 } catch (AccessDeniedException e) {
                     e.getMessage();

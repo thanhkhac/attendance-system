@@ -43,7 +43,7 @@ public class GetDetailNew extends HttpServlet {
                 NewsDAO newdao = new NewsDAO();
                 NewsDTO newdto = newdao.getNewsById(newId);
                 List<NewsDTO> othernew = newdao.getOtherNews(newId);
-                String filePath = newdto.getFilePath();
+                String filePath = getServletContext().getRealPath("") + newdto.getFilePath();
                 try ( BufferedReader reader = Files.newBufferedReader(Paths.get(filePath), StandardCharsets.UTF_8)) {
                     StringBuilder htmlContent = new StringBuilder();
                     String line;

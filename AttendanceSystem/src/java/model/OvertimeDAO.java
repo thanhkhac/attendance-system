@@ -213,7 +213,6 @@ public class OvertimeDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            closeAll();
         }
         return null;
     }
