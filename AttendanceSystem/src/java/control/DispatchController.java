@@ -73,7 +73,7 @@ public class DispatchController extends HttpServlet {
             } else if (button.equals("GetConflicts")) {
                 URL = "GetConflicts";
             } else if (button.equals("Schedule")) {
-                URL = "ScheduleLeaveRequestServlet";
+                URL = "PrepareScheduleLeaveRequestServlet";
             }
 //            else if (button.equals("Gửi")) {
 //                URL = "InsertLeaveRequestServlet";

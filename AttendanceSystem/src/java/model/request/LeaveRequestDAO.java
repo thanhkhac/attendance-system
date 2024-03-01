@@ -149,39 +149,88 @@ public class LeaveRequestDAO extends DAOBase {
     }
 
     public LeaveRequestDTO getRequestById(int requestID) {
-        if (connection != null) {
-            try {
-                String sql = "SELECT * FROM LeaveRequests "
-                        + "WHERE LeaveRequestID = ? ";
-                ps = connection.prepareStatement(sql);
-                ps.setInt(1, requestID);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    int leaveRequestID = rs.getInt("LeaveRequestID");
-                    int employeeID = rs.getInt("EmployeeID");
-                    LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
-                    LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
-                    LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
-                    String reason = rs.getNString("Reason");
-                    String filePath = rs.getNString("filePath");
-                    Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
-                    Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
-                    int managerID = rs.getInt("ManagerID");
-                    int hrID = rs.getInt("HrID");
-                    Boolean status = parseBoolean(rs.getString("Status"));
-                    LeaveRequestDTO request = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, reason, reason, managerApprove, hrApprove, managerID, hrID, status);
-                    if (request != null) {
-                        return request;
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            } finally {
-                closeAll();
+        LeaveRequestDTO request = new LeaveRequestDTO();
+
+        try {
+            String sql = "SELECT * FROM LeaveRequests "
+                    + "WHERE LeaveRequestID = ? ";
+            connect();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, requestID);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                int leaveRequestID = rs.getInt("LeaveRequestID");
+                int employeeID = rs.getInt("EmployeeID");
+                LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
+                LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
+                LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
+                String reason = rs.getNString("Reason");
+                String filePath = rs.getNString("filePath");
+                Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
+                Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
+                int managerID = rs.getInt("ManagerID");
+                int hrID = rs.getInt("HrID");
+                Boolean status = parseBoolean(rs.getString("Status"));
+                request = new LeaveRequestDTO(leaveRequestID, employeeID, sentDate, startDate, endDate, reason, reason, managerApprove, hrApprove, managerID, hrID, status);
+//                    if (request != null) {
+//                        return request;
+//                    }
+                return request;
             }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeAll();
         }
         return null;
+    }
+
+    public boolean updateRequestStatus(int requestID) {
+        try {
+            String sql = "UPDATE LeaveRequests "
+                    + "SET Status = 1 "
+                    + "WHERE LeaveRequestID = ? ";
+            connect();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, requestID);
+            int rs = ps.executeUpdate();
+            if (rs > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return false;
+    }
+
+    public boolean scheduleLeaveForRequest(LeaveRequestDTO request, int id) {
+        try {
+            String sql = "INSERT INTO Leaves(EmployeeID, StartDate, EndDate, FilePath, Reason, CreatedDate, CreatedBy) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            connect();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, request.getEmployeeID());
+            ps.setString(2, request.getStartDate().toString());
+            ps.setString(3, request.getEndDate().toString());
+            ps.setNString(4, request.getFilePath());
+            ps.setNString(5, request.getReason());
+            ps.setString(6, LocalDate.now().toString());
+            ps.setInt(7, id);
+            int rs = ps.executeUpdate();
+            if (rs > 0) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return false;
     }
 
     public static void main(String[] args) {
