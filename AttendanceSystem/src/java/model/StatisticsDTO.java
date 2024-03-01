@@ -161,4 +161,9 @@ public class StatisticsDTO {
         this.totalDay = totalDay;
     }
 
+    @Override
+    public String toString() {
+        return "StatisticsDTO{" + "employeeID=" + employeeID + ", date=" + date + ", shiftName=" + shiftName + ", startTime=" + startTime + ", endTime=" + endTime + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", shiftHours=" + shiftHours + ", otStartTime=" + otStartTime + ", otEndTime=" + otEndTime + ", otCheckIn=" + otCheckIn + ", otCheckOut=" + otCheckOut + ", otHours=" + otHours + ", totalDay=" + totalDay + '}';
+    }
+
 }
