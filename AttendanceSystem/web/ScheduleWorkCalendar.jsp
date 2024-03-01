@@ -94,6 +94,18 @@
                             <th>FRI</th>
                             <th>SAT</th>
                         </tr>
+                        <tr>
+                            <c:forEach var="dto" begin="1" end="7">
+                                <th>
+                                    <select class="form-select col-select" name="shift" onchange="selectcol(this)">
+                                        <option value="">Chọn ca</option>
+                                        <c:forEach var="shift" items="${shiftList}" varStatus="counter">
+                                            <option value="${shift.shiftID}">${shift.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </th>
+                            </c:forEach>
+                        </tr>
                     </thead>
                     <c:set var="index" value="${0}"/>
                     <c:forEach var="wkday" items="${requestScope.calendar}" varStatus="counter">
@@ -151,7 +163,7 @@
         <script>
             function selfDelete(button) {
                 var selectedOption = button.closest('.selected-option');
-                    selectedOption.remove();
+                selectedOption.remove();
             }
 
             function validateForm() {
@@ -204,6 +216,26 @@
                 deleteButton.onclick = function () {
                     divElement.remove();
                 };
+            }
+
+        </script>
+
+        <script>
+            function selectcol(colSelect) {
+                // Lấy index của cột đã chọn
+                var columnIndex = colSelect.parentNode.cellIndex;
+
+                // Lấy giá trị đã chọn trong col-select
+                var selectedValue = colSelect.selectedIndex;
+
+                // Lấy tất cả các ô select trong cùng cột
+                var selectsInColumn = document.querySelectorAll('.mytable tr td:nth-child(' + (columnIndex + 1) + ') select');
+
+                // Đặt giá trị của tất cả các ô select trong cùng cột
+                selectsInColumn.forEach(function (select) {
+                    select.selectedIndex = selectedValue;
+                    newSelect(select);
+                });
             }
         </script>
     </body>
