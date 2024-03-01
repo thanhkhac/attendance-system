@@ -192,9 +192,9 @@
         function confirmation(){
             var cf = confirm("Bạn có chắc chắn thực hiện hành động này ?");
             if(cf){
-                alert("Xong !");
+                alert("Hành động được xác nhận !");
             }else{
-                alert("Hủy !");
+                alert("Hủy hành động !");
             }
         }
     </script>
