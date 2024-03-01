@@ -22,7 +22,11 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
         <style>
-
+            .KoCa{
+                margin-bottom: 10em;
+                margin-top: 10em;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
@@ -125,7 +129,7 @@
                                   if(list.size()>0){
                                   DepartmentDTO departEmp = new DepartmentDTO();
                                    int count =0;
-                                   String TypeName="";
+                                   String TypeName="";                                   
                                   for(EmployeeDTO emp :list){
                                   departEmp = new DepartmentDAO().getDepartmentById(emp.getDepartmentID());
                                   TypeName = new EmployeeTypeDAO().getEmployeeTypeIDByID(emp.getEmployeeTypeID());
@@ -144,8 +148,10 @@
                                     count++;
                                     if(count==10)
                                     break;
-                                    }}%>
-
+                                    }}else{
+                                %>
+                            
+                            <%}%>
                             </tbody>
 
                         </table>

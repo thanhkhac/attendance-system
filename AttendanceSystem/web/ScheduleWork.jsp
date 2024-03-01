@@ -62,6 +62,7 @@
             //            Hiển thị ra dropdown của tháng, nếu là tháng hiện tại => Selected         
             var monthDropdown = document.getElementById("month");
             var currentMonth = new Date().getMonth();
+
             console.log(currentYear);
 
             for (var i = 0; i < 12; i++) {
@@ -143,6 +144,36 @@
                 }
             });
 
+        </script>
+        <script>
+            // Function to get URL parameters by name
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+
+            // Function to set selected values in dropdowns based on URL parameters
+            function setSelectedValuesFromUrl() {
+                var urlMonth = getUrlParameter('month');
+                var urlYear = getUrlParameter('year');
+
+                // Set selected month in dropdown
+                if (urlMonth !== '') {
+                    $("#month").val(urlMonth);
+                }
+
+                // Set selected year in dropdown
+                if (urlYear !== '') {
+                    $("#year").val(urlYear);
+                }
+            }
+
+            // Call the function to set selected values from URL when the page loads
+            $(document).ready(function () {
+                setSelectedValuesFromUrl();
+            });
         </script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>

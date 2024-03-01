@@ -45,6 +45,7 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
         String QUA = request.getParameter("daQUA");
         String DeleteID = request.getParameter("deleteID");
         String DeleteAll = request.getParameter("deleteAll");
+        String QUA = request.getParameter("QUA");
         if (DeleteStart != null && DeleteEnd != null && DeleteDate != null && DeleteID != null) {
             int id = Integer.parseInt(DeleteID);
             boolean check = new OvertimeDAO().deleteOvertime(DeleteDate, DeleteStart, DeleteEnd, id);
@@ -121,8 +122,9 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
                     + "                                                                    <td><span class=\"badge badge-soft-success mb-0\">" + demp.getName() + "</span></td>\n"
                     + "                                                                    <td>" + list.getEmail() + "</td>\n"
                     + "                                                                    <td>" + list.getEmployeeId() + "</td>\n");
-           
-                    out.print("                                                                    <td>\n"
+            if(QUA==null){
+                out.print(
+                    "                                                                    <td>\n"
                     + "                                                                        "
                     + "<ul class=\"list-inline mb-0\">\n"
                     + "  <li class=\"list-inline-item\">                                                                          \n"
@@ -131,8 +133,10 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
                     + "                                                                            \n"
                     + "\n"
                     + "                                                                        </ul>\n"
-                    + "                                                                    </td>\n");
-           
+                    + "                                                                    </td>\n");}
+            else{
+                out.print("<td></td>");
+            }
             out.print("<input type=\"hidden\" class=\"deleteStart\" value=\""+startTime+"\">\n"
                     + "                                                            <input type=\"hidden\" class=\"deleteEnd\" value=\""+endTime+"\">\n"
                     + "                                                            <input type=\"hidden\" class=\"deleteDate\" value=\""+Date+"\">\n"
@@ -141,8 +145,8 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
         }
         out.print("</tbody>\n"
                 + "                                                        </table>");
-
-        out.print("<a href=\"#\" style=\"position: absolute;left:22px;    background-color: #d61a1a;\" class=\"btn btn-primary deleteAll\">Xóa ca</a>");
+        if(QUA==null){
+        out.print("<a href=\"#\" style=\"position: absolute;left:22px;    background-color: #d61a1a;\" class=\"btn btn-primary deleteAll\">Xóa ca</a>");}
         out.print("<ul class=\"pagination\" style=\"\n"
                 + "                justify-content: end;\n"
                 + "                \">");

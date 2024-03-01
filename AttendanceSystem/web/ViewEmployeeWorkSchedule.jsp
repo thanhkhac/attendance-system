@@ -135,12 +135,14 @@
                 $("#month, #year").change(function () {
                     var selectedMonth = $("#month").val();
                     var selectedYear = $("#year").val();
+                    var employeeID = $("#employeeID").val();
                     $.ajax({
                         type: "POST",
-                        url: "ViewCalendar.jsp",
+                        url: "Include_EmployeeWorkSchedule.jsp",
                         data: {
                             month: selectedMonth,
-                            year: selectedYear
+                            year: selectedYear,
+                            employeeID: employeeID
                         },
                         success: function (response) {
                             $("#result").html(response);
@@ -182,12 +184,14 @@
                 function updateCalendar() {
                     var selectedMonth = $("#month").val();
                     var selectedYear = $("#year").val();
+                    var employeeID = $("#employeeID").val();
                     $.ajax({
                         type: "POST",
-                        url: "ViewCalendar.jsp",
+                        url: "Include_EmployeeWorkSchedule.jsp",
                         data: {
                             month: selectedMonth,
-                            year: selectedYear
+                            year: selectedYear,
+                            employeeID:employeeID
                         },
                         success: function (response) {
                             $("#result").html(response);

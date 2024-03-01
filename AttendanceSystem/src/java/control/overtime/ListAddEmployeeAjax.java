@@ -105,6 +105,7 @@ public class ListAddEmployeeAjax extends HttpServlet {
                 + "                            <input type=\"hidden\" id=\"endHidden\" name=\"end\" value=\"" + endx + "\">\n"
                 + "                            <input type=\"hidden\" id=\"listEmployeeAdd\" value=\"" + listEmpp + "\" name=\"listEmployeeAdd\">\n"
                 + "                       </form>");
+        
         out.print(""
                 + "<table id=\"mytable\" class=\"table table-bordred table-striped\">\n"
                 + "\n"
