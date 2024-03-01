@@ -52,16 +52,8 @@
         </group>
         <group name="SWP391"/>
         <group name="java_web">
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/OvertimeDTO.java</file>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/AddEmployeeOvertime.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/OvertimeSuccess.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/AddListEmloyeeOvertime.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/ViewOvertimeByDay.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/AddListEmployeeOvertime.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/ListEmployeeOvertimeAjax.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/ThanhCong.html</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/OverTimeByDay.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/OvertimeDAO.java</file>
+            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/news/InsertNews.java</file>
         </group>
         <group>
             <file>file:/C:/Users/admin/OneDrive/Desktop/Clone/attendance-system/AttendanceSystem/web/ViewLeaveRequestForHR.jsp</file>

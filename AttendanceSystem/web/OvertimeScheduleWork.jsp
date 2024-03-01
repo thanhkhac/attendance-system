@@ -131,7 +131,7 @@
                                              
                                                  <div style="display:flex;justify-content: center">
                                              <a class="box shift__title" href="overtimeByDay?Day=${wkday}">
-                                                 <p class="paragraph">Chưa có tăng ca</p>
+                                                 <p class="paragraph">Trống</p>
                                                 </a>
                                                      </div>
                                             
@@ -167,7 +167,7 @@ links.forEach(function(link) {
 
     link.addEventListener('mouseleave', function() {
         const paragraph = this.querySelector('.paragraph');
-        paragraph.textContent = 'Chưa có tăng ca';
+        paragraph.textContent = 'Trống';
     });
 });
             
