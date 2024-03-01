@@ -17,9 +17,10 @@ public class EmployeeTypeDAO extends DAOBase {
 
     public ArrayList<EmployeeTypeDTO> getEmployeeTypeList() {
         ArrayList<EmployeeTypeDTO> list = new ArrayList<>();
-        if (connection != null) {
+//        if (connection != null) {
             try {
                 query = "SELECT * FROM EmployeeTypes ";
+                connect();
                 ps = connection.prepareStatement(query);
                 rs = ps.executeQuery();
                 while (rs.next()) {
@@ -32,9 +33,9 @@ public class EmployeeTypeDAO extends DAOBase {
                 e.printStackTrace();
                 System.out.println(e.getMessage());
             } finally {
-                closeResource();
+                closeAll();
             }
-        }
+//        }
         return list;
     }
 
@@ -42,11 +43,12 @@ public class EmployeeTypeDAO extends DAOBase {
         PreparedStatement stm = null;
         ResultSet rs = null;
         int id = 0;
-        if (connection != null) {
+//        if (connection != null) {
             try {
                 String sql = "SELECT EmployeeTypeID \n"
                         + "FROM EmployeeTypes \n"
                         + "WHERE [Name] = ? ";
+                connect();
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, employeeTypeName);
                 rs = stm.executeQuery();
@@ -57,8 +59,10 @@ public class EmployeeTypeDAO extends DAOBase {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
+            }finally{
+                closeAll();
             }
-        }
+//        }
         return id;
     }
 
