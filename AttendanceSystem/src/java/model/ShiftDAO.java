@@ -14,7 +14,7 @@ public class ShiftDAO extends DAOBase {
         query = "SELECT * FROM Shifts\n"
                 + "WHERE ShiftID = ?";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             ps.setInt(1, xShiftID);
             rs = ps.executeQuery();
             while (rs.next()) {
@@ -40,7 +40,7 @@ public class ShiftDAO extends DAOBase {
         ArrayList<ShiftDTO> list = new ArrayList<ShiftDTO>();
         query = "SELECT * FROM Shifts\n";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
                 int shiftID = rs.getInt("ShiftID");
@@ -66,7 +66,7 @@ public class ShiftDAO extends DAOBase {
         query = "SELECT * FROM Shifts " +
                 "WHERE IsActive = 1 \n";
         try {
-            ps = con.prepareStatement(query);
+            ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
             while (rs.next()) {
                 int shiftID = rs.getInt("ShiftID");
