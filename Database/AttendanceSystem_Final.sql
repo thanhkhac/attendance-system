@@ -48,6 +48,7 @@ CREATE TABLE Employees(
 	[RoleID] int DEFAULT 1,
 	[StartDate] date,
 	[EndDate] date ,
+	[Avatar] nvarchar(max),
 	[IsActive] bit DEFAULT 1
 
 	FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID),
@@ -146,7 +147,6 @@ CREATE TABLE ResignationRequests(
 
 
 CREATE TABLE Overtimes(
-	OvertimeID int PRIMARY KEY IDENTITY (1,1),
 	[Date] date,
 	[EmployeeID] int,
 	[StartTime] time not null,
@@ -163,6 +163,8 @@ CREATE TABLE Overtimes(
 	CHECK(CheckIn < CheckOut),
 	CHECK(CheckIn >= OpenAt),
 	CHECK(CheckOut <= CloseAt),
+
+	PRIMARY KEY([Date], EmployeeID),
 
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID),
