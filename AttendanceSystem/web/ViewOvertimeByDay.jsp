@@ -262,6 +262,7 @@
            String DAQUA = (String) request.getAttribute("DAQUA");
            ArrayList<OvertimeDTO> list = (ArrayList<OvertimeDTO>) request.getAttribute("LISTOVERTIME"); 
         %>
+        <input type="hidden" id="QUA" value="<%=DAQUA%>" name="name">
         <input type="hidden" id="date" value="<%=Day%>">
         <section id="team" class="section bg-gray-100">
             <div class="container">
@@ -539,6 +540,8 @@
     $(".txtSearch").on("input", function () {
         var txtSearch = $(this).val();
         var Date = $("#date").val();
+        var QUA = $("#QUA").val();
+        console.log(QUA);
         var startEnd = $(this).closest(".overlay").find(".startTime").val();
         var endTime = $(this).closest(".overlay").find(".endTime").val();
         var chonPhong = $(this).closest(".overlay").find(".form-select").val();
@@ -547,6 +550,7 @@
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
             data: {
+                daQUA:QUA,
                 txt: txtSearch,
                 date: Date,
                 StartEnd: startEnd,
@@ -565,6 +569,7 @@
     $(".form-select").change(function () {
         var txtSearch = $(".txtSearch").val();
         var Date = $("#date").val();
+        var QUA = $("#QUA").val();
         var overlay = $(this).closest(".overlay");
         var startEnd = overlay.find(".startTime").val();
         var endTime = overlay.find(".endTime").val();
@@ -574,6 +579,7 @@
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
             data: {
+                daQUA:QUA,
                 txt: txtSearch,
                 date: Date,
                 StartEnd: startEnd,
@@ -595,7 +601,7 @@
         var startEnd = $(this).closest(".overlay").find(".startTime").val();
         var endTime = $(this).closest(".overlay").find(".endTime").val();
         var chonPhong = $(this).closest(".overlay").find(".form-select").val();
-
+var QUA = $("#QUA").val();
         // Lấy giá trị của thuộc tính data-index từ phần tử <a> con
         var dataIndex = $(this).find("a").attr("data-index");
 
@@ -604,6 +610,7 @@
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
             data: {
+                daQUA:QUA,
                 txt: txtSearch,
                 date: Date,
                 StartEnd: startEnd,

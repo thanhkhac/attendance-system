@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package model.request;
+package control.request;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,16 +11,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.EmployeeDTO;
-import model.EmployeeGeneral;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import model.*;
+import model.request.*;
+import model.request.LeaveRequestDAO;
+import model.request.LeaveRequestDTO;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "ScheduleLeaveForRequestServlet", urlPatterns = {"/ScheduleLeaveForRequestServlet"})
-public class ScheduleLeaveForRequestServlet extends HttpServlet {
+@WebServlet(name = "PrepareScheduleLeaveRequestServlet", urlPatterns = {"/PrepareScheduleLeaveRequestServlet"})
+public class PrepareScheduleLeaveRequestServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,7 +36,6 @@ public class ScheduleLeaveForRequestServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        response.setContentType("text/html;charset=UTF-8");
         doPost(request, response);
     }
 
@@ -63,30 +65,31 @@ public class ScheduleLeaveForRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        EmployeeDTO employee = (EmployeeDTO) session.getAttribute("ACCOUNT");
-        String txt_requestID = request.getParameter("requestID");
-        LeaveRequestDAO lrDAO = new LeaveRequestDAO();
+        String requestID = request.getParameter("requestID");
+        TimesheetDAO timeDAO = new TimesheetDAO();
+        OvertimeDAO overtimeDAO = new OvertimeDAO();
+        LeaveRequestDAO leaveDAO = new LeaveRequestDAO();
+        EmployeeDAO emDAO = new EmployeeDAO();
+        ArrayList<TimesheetDTO> listTimeSheet = new ArrayList<>();
+        ArrayList<OvertimeDTO> listOverTime = new ArrayList<>();
         LeaveRequestDTO leave = new LeaveRequestDTO();
-        int requestID = 0;
-        String URL = "Error.jsp";
+        EmployeeGeneral employee = new EmployeeGeneral();
         try {
-            int leaveID = leave.getLeaveRequestID();
-            requestID = Integer.parseInt(txt_requestID);
-            leave = lrDAO.getRequestById(requestID);
+            int id = Integer.parseInt(requestID);
+            leave = leaveDAO.getRequestById(id);
+            employee = emDAO.getEmployeeGeneral(leave.getEmployeeID());
+            listTimeSheet = timeDAO.getTimesheetInRange(leave.getEmployeeID(), leave.getStartDate(), leave.getEndDate());
+            listOverTime = overtimeDAO.getOverTimeByRange(leave.getEmployeeID(), leave.getStartDate(), leave.getEndDate());
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        boolean rs1 = lrDAO.scheduleLeaveForRequest(leave, employee.getEmployeeID());
-        if (rs1) {
-            boolean rs2 = lrDAO.updateRequestStatus(requestID);
-            if (rs2) {
-                URL = "Success.jsp";
-            }
-        }
-        request.getRequestDispatcher(URL).forward(request, response);
-
+        request.setAttribute("employee", employee);
+        request.setAttribute("leave", leave);
+        request.setAttribute("listTimeSheet", listTimeSheet);
+        request.setAttribute("listOverTime", listOverTime);
+        request.getRequestDispatcher("ScheduleLeave.jsp").forward(request, response);
     }
 
     /**

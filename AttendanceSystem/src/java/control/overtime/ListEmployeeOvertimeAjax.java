@@ -42,6 +42,7 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
         String DeleteStart = request.getParameter("deleteStart");
         String DeleteEnd = request.getParameter("deleteEnd");
         String DeleteDate = request.getParameter("deleteDate");
+        String QUA = request.getParameter("daQUA");
         String DeleteID = request.getParameter("deleteID");
         String DeleteAll = request.getParameter("deleteAll");
         if (DeleteStart != null && DeleteEnd != null && DeleteDate != null && DeleteID != null) {
@@ -119,8 +120,9 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
                     + "                                                                    <td class=\"name-column\" ><img src=\"https://bootdey.com/img/Content/avatar/avatar1.png\" alt=\"\" class=\"avatar-sm rounded-circle me-2\" /><a href=\"#\" class=\"text-body\">" + list.getLastName() + " " + list.getMiddleName() + " " + list.getFirstName() + "</a></td>\n"
                     + "                                                                    <td><span class=\"badge badge-soft-success mb-0\">" + demp.getName() + "</span></td>\n"
                     + "                                                                    <td>" + list.getEmail() + "</td>\n"
-                    + "                                                                    <td>" + list.getEmployeeId() + "</td>\n"
-                    + "                                                                    <td>\n"
+                    + "                                                                    <td>" + list.getEmployeeId() + "</td>\n");
+           
+                    out.print("                                                                    <td>\n"
                     + "                                                                        "
                     + "<ul class=\"list-inline mb-0\">\n"
                     + "  <li class=\"list-inline-item\">                                                                          \n"
@@ -130,6 +132,7 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
                     + "\n"
                     + "                                                                        </ul>\n"
                     + "                                                                    </td>\n");
+           
             out.print("<input type=\"hidden\" class=\"deleteStart\" value=\""+startTime+"\">\n"
                     + "                                                            <input type=\"hidden\" class=\"deleteEnd\" value=\""+endTime+"\">\n"
                     + "                                                            <input type=\"hidden\" class=\"deleteDate\" value=\""+Date+"\">\n"
@@ -138,6 +141,7 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
         }
         out.print("</tbody>\n"
                 + "                                                        </table>");
+
         out.print("<a href=\"#\" style=\"position: absolute;left:22px;    background-color: #d61a1a;\" class=\"btn btn-primary deleteAll\">Xóa ca</a>");
         out.print("<ul class=\"pagination\" style=\"\n"
                 + "                justify-content: end;\n"
