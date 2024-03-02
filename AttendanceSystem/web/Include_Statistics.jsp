@@ -230,6 +230,7 @@
             var currentPage = 1; // Trang hiện tại
 
             function showPage(page) {
+                event.preventDefault();
                 var rows = document.getElementsByClassName('statistics-row');
                 var pageCount = Math.ceil(rows.length / pageSize);
 

@@ -62,10 +62,42 @@
                             background-color: #fff;
                             z-index: 1;
                         }*/
-            .form-statistic{
-                display: flex;
-                justify-content: space-evenly;
+            #statisticsForm {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 10px;
+                background-color: #f5f5f5;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
+
+            .form-statistic {
+                display: flex;
+                gap: 20px;
+                align-items: center;
+                justify-content: space-around;
+            }
+
+            .form-statistic label {
+                font-weight: 600;
+                min-width: 250px;
+                display: inline;
+            }
+
+            .form-statistic input {
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                min-width: 250px;
+            }
+
+            @media (max-width: 768px) {
+                .form-statistic {
+                    flex-direction: column;
+                }
+            }
+
         </style>
     </head>
     <body>
@@ -77,14 +109,14 @@
         <c:set var="startDate" value="${requestScope.startDate}" />
         <c:set var="endDate" value="${requestScope.endDate}" />
         <div class="content">
-            <!--            <h1 class="text-center">View Statistics</h1>
-                        <div class="content-redirect">
-                            <p><a href="ThanhCong.html">Home</a> | View Statistics</p>
-                        </div>
-                        <div class="employee-infor">
-                            <p>Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
-                            <p>Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
-                        </div>-->
+            <h1 class="text-center">View Statistics</h1>
+            <div class="content-redirect">
+                <p><a href="ThanhCong.html">Home</a> | View Statistics</p>
+            </div>
+            <div class="employee-infor">
+                <p>Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
+                <p>Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
+            </div>
 
             <form id="statisticsForm" action="GetEmployeeStatisticsServlet" method="Post">
                 <div class="form-statistic">
