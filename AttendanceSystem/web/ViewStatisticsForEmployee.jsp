@@ -74,26 +74,41 @@
         %>
         <c:set var="statistics" value="${requestScope.statistics}" />
         <c:set var="employee" value="${sessionScope.ACCOUNT}" />
-        <c:set var="endPage" value="${requestScope.endPage}" />
+        <c:set var="startDate" value="${requestScope.startDate}" />
+        <c:set var="endDate" value="${requestScope.endDate}" />
         <div class="content">
-            <h1 class="text-center">View Statistics</h1>
-            <div class="content-redirect">
-                <p><a href="ThanhCong.html">Home</a> | View Statistics</p>
-            </div>
-            <div class="employee-infor">
-                <p>Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
-                <p>Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
-            </div>
+            <!--            <h1 class="text-center">View Statistics</h1>
+                        <div class="content-redirect">
+                            <p><a href="ThanhCong.html">Home</a> | View Statistics</p>
+                        </div>
+                        <div class="employee-infor">
+                            <p>Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
+                            <p>Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
+                        </div>-->
 
-            <form action="GetEmployeeStatisticsServlet" onchange="searchByDay(this)">
-                <div class="form-statistic" >
+            <form id="statisticsForm" action="GetEmployeeStatisticsServlet" method="Post">
+                <div class="form-statistic">
                     <div class="statistic-items">
                         <label for="startDate">Ngày Bắt Đầu: </label>
-                        <input type="date" name="startDate" id="startDate" value="${employee.getStartDate()}">
+                        <input type="date" name="startDate" id="startDate" 
+                               <c:if test="${startDate != null}">
+                                   value="${startDate}"
+                               </c:if>
+                               <c:if test="${startDate == null}">
+                                   value="${employee.getStartDate()}"
+                               </c:if>
+                               >
                     </div>
                     <div class="statistic-items">
                         <label for="endDate">Đến: </label>
-                        <input type="date" name="endDate"  id="endDate" value="${requestScope.current}">
+                        <input type="date" name="endDate" id="endDate" 
+                               <c:if test="${endDate != null}">
+                                   value="${endDate}"
+                               </c:if>
+                               <c:if test="${endDate == null}">
+                                   value="${requestScope.current}"
+                               </c:if>
+                               >
                     </div>
                 </div>
             </form>
@@ -106,33 +121,16 @@
     </body>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const currentDate = new Date();
-            const formattedDate = currentDate.toISOString().split('T')[0];
-            document.getElementById('endDate').value = formattedDate;
+            var form = document.getElementById('statisticsForm');
+            var startDateInput = document.getElementById('startDate');
+            var endDateInput = document.getElementById('endDate');
+
+            startDateInput.addEventListener('change', function () {
+                form.submit();
+            });
+            endDateInput.addEventListener('change', function () {
+                form.submit();
+            });
         });
-
-//        function searchByDay(param) {
-//            var startDate_raw = document.getElementById("startDate").value;
-//            var endDate_raw = document.getElementById("startDate").value;
-//            var Page = param.dataset.index;
-//            $.ajax({
-//                url: "/AttendanceSystem/GetStatisticsByAJAXServlet",
-//                type: "get",
-//                data: {
-//                    startDate: startDate_raw,
-//                    endDate: endDate_raw,
-//                    Page: Page
-//                },
-//                success: function (data) {
-//                    var tbody = $("#table-container");
-//                        tbody.html(data) ;
-//                    console.log("success");
-//                },
-//                error: function (xhr, error) {
-//                    console.log("Error: ", error);
-//                }
-//            });
-//        }
-
     </script>
 </html>

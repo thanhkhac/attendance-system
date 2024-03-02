@@ -42,18 +42,32 @@ public class GetEmployeeStatisticsServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         EmployeeDTO employee = (EmployeeDTO) session.getAttribute("ACCOUNT");
+        String startDate_txt = request.getParameter("startDate");
+        String endDate_txt = request.getParameter("endDate");
         LocalDate startDate = DATE_UTIL.parseSqlDate(employee.getStartDate());
         LocalDate endDate = DATE_UTIL.getVNLocalDateNow();
+        
         ArrayList<StatisticsDTO> statistics = new ArrayList<>();
         StatisticsDAO staDAO = new StatisticsDAO();
         try {
-            statistics = staDAO.getStatisticInRangeByAJAX(employee.getEmployeeID(), startDate, endDate, 1);
+            if (startDate_txt == null) {
+                startDate = DATE_UTIL.parseSqlDate(employee.getStartDate());
+            } else {
+                startDate = LocalDate.parse(request.getParameter("startDate"));
+            }
+            if (endDate_txt == null) {
+                endDate = DATE_UTIL.getVNLocalDateNow();
+            } else {
+                endDate = LocalDate.parse(request.getParameter("endDate"));
+            }
+            statistics = staDAO.getStatistics(employee.getEmployeeID(), startDate, endDate);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        int endPage = statistics.size() / 5;
-        request.setAttribute("endPage", endPage);
+        request.setAttribute("startDate",startDate);
+        request.setAttribute("endDate",endDate);
+        request.setAttribute("current",DATE_UTIL.getVNLocalDateNow());
         request.setAttribute("statistics", statistics);
         request.getRequestDispatcher("ViewStatisticsForEmployee.jsp").forward(request, response);
     }

@@ -40,32 +40,35 @@ public class GetStatisticsByAJAXServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+//        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
         HttpSession session = request.getSession();
+        String startDate_txt = request.getParameter("startDate");
+        String endDate_txt = request.getParameter("endDate");
         EmployeeDTO employee = (EmployeeDTO) session.getAttribute("ACCOUNT");
         LocalDate startDate = DATE_UTIL.parseSqlDate(employee.getStartDate());
         LocalDate endDate = DATE_UTIL.getVNLocalDateNow();
-        int page = 1;
-        String page_txt = request.getParameter("Page");
+//        int page = 1;
+//        String page_txt = request.getParameter("Page");
         ArrayList<StatisticsDTO> statistics = new ArrayList<>();
         StatisticsDAO staDAO = new StatisticsDAO();
-
         try {
-            if (request.getParameter("startDate").length() <= 0) {
+            if (startDate_txt == null) {
                 startDate = DATE_UTIL.parseSqlDate(employee.getStartDate());
             } else {
                 startDate = LocalDate.parse(request.getParameter("startDate"));
             }
-            if (request.getParameter("endDate").length() <= 0) {
+            if (endDate_txt == null) {
                 endDate = DATE_UTIL.getVNLocalDateNow();
             } else {
                 endDate = LocalDate.parse(request.getParameter("endDate"));
             }
-            if (page_txt != null || page_txt.length() > 0) {
-                page = Integer.parseInt(page_txt);
-            }
-            statistics = staDAO.getStatisticInRangeByAJAX(employee.getEmployeeID(), startDate, endDate, page);
+//            if (page_txt != null || page_txt.length() > 0) {
+//                page = Integer.parseInt(page_txt);
+//            }
+            statistics = staDAO.getStatistics(employee.getEmployeeID(), startDate, endDate);
             out.print("<p>" + startDate + "</p>");
             out.print("<p>" + endDate + "</p>");
 
@@ -105,74 +108,68 @@ public class GetStatisticsByAJAXServlet extends HttpServlet {
                 + "                <tbody>\n"
                 + "                <div class=\"table-container\">\n");
         for (StatisticsDTO s : statistics) {
-            out.print("                        <tr class=\"text-center\">\n"
+            out.print("                        <tr class=\"text-center statistics-row\">\n"
                     + "                            <td>" + s.getDate() + "</td>\n"
                     + "                            <td>" + s.getShiftName() + "</td>\n"
-                    + "                            <td>\n"
-                    + "                                <c:if test= \"${" + s.getStartTime() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"" + s.getStartTime() + " != null}\">\n"
-                    + "                                    " + s.getStartTime() + "\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td>\n"
-                    + "                                <c:if test= \"" + s.getEndTime() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"" + s.getEndTime() + " != null}\">\n"
-                    + "                                    " + s.getEndTime() + "\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td>\n"
-                    + "                                <c:if test= \"" + s.getCheckIn() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"" + s.getCheckIn() + " != null}\">\n"
-                    + "                                    " + s.getCheckIn() + "}\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td>\n"
-                    + "                                <c:if test= \"${" + s.getCheckOut() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"${" + s.getCheckOut() + " != null}\">\n"
-                    + "                                    " + s.getCheckOut() + "\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td>\n"
-                    + "                                <c:if test= \"${" + s.getOtStartTime() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"${" + s.getOtStartTime() + " != null}\">\n"
-                    + "                                    " + s.getOtStartTime() + "\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td><c:if test= \"${" + s.getOtEndTime() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"${" + s.getOtEndTime() + " != null}\">\n"
-                    + "                                   " + s.getOtEndTime() + "\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td><c:if test= \"${" + s.getOtCheckIn() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"${" + s.getOtCheckIn() + " != null}\">\n"
-                    + "                                    " + s.getOtCheckIn() + "\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td>\n"
-                    + "                                <c:if test= \"${" + s.getOtCheckOut() + " == null}\">\n"
-                    + "                                    <p>--</p>\n"
-                    + "                                </c:if>\n"
-                    + "                                <c:if test= \"${" + s.getOtCheckOut() + " != null}\">\n"
-                    + "                                    " + s.getOtCheckOut() + "}\n"
-                    + "                                </c:if>\n"
-                    + "                            </td>\n"
-                    + "                            <td>\n"
-                    + "                                ${String.format(\"%.2f\", " + s.getTotalDay().toMinutes() / 60 + "}\n"
-                    + "                            </td>\n"
+                    + "                            <td>\n");
+            if (s.getStartTime() != null) {
+                out.print(s.getStartTime());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>\n");
+            if (s.getEndTime() != null) {
+                out.print(s.getEndTime());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>\n");
+            if (s.getCheckIn() != null) {
+                out.print(s.getCheckIn());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>\n");
+            if (s.getCheckOut() != null) {
+                out.print(s.getCheckOut());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>\n");
+            if (s.getOtStartTime() != null) {
+                out.print(s.getOtStartTime());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>");
+            if (s.getOtEndTime() != null) {
+                out.print(s.getOtEndTime());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>");
+            if (s.getOtCheckIn() != null) {
+                out.print(s.getOtCheckIn());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>\n");
+            if (s.getOtCheckOut() != null) {
+                out.print(s.getOtCheckOut());
+            } else {
+                out.print("--");
+            }
+            out.print("                            </td>\n"
+                    + "                            <td>\n");
+            out.print(String.format("%.2f", (double) s.getTotalDay().toMinutes() / 60));
+            out.print("                            </td>\n"
                     + "                        </tr>\n ");
         }
 
@@ -180,36 +177,39 @@ public class GetStatisticsByAJAXServlet extends HttpServlet {
         out.print("</div>\n"
                 + "                </tbody>\n"
                 + "            </table>\n");
-        int endPage = 0;
-        int countPage = staDAO.getCountStatistics(employee.getEmployeeID(), startDate, endDate);
-        if (countPage % 10 == 0) {
-            endPage = countPage / 10;
-        } else {
-            endPage = countPage / 10 + 1;
-        }
-        out.print("            <div class=\"text-center container\" >\n");
-        if (page == 1) {
-            out.print("                <ul class=\"pagination\" style=\"justify-content: end;\">\n"
-                    + "                    <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Trước</a></li>\n");
-        } else {
-            out.print("                <ul class=\"pagination\" style=\"justify-content: end;\">\n"
-                    + "                <li class=\"page-item\"><a data-index=\"" + (page - 1) + "\" onclick=\"searchByDay(this)\" class=\"page-link\" href=\"#\">Trước</a></li>");
-        }
-        for (int i = 0; i <= endPage; i++) {
-            if (i == page) {
-                out.print("<li class=\"page-item\"\"><a style=\"background-color: #cfd5da96;\" class=\"page-link page pageNow\" data-index=\"" + i + "\" onclick=\"searchByDay(this)\" href=\"#\">" + i + "</a><li>");
-            } else {
-                out.print("<li class=\"page-item\"><a  class=\"page-link page\" data-index=\"" + i + "\" onclick=\"searchByDay(this)\" href=\"#\">" + i + "</a><li>");
-            }
-        }
-        if (page == endPage) {
-            out.print("<li class=\"page-item\"><a  class=\"page-link\" href=\"#\">Sau</a></li>");
-
-        } else {
-            out.print("<li class=\"page-item\"><a data-index=\"" + (page + 1) + "\" onclick=\"searchByDay(this)\" class=\"page-link\" href=\"#\">Sau</a></li>");
-        }
-        out.print("                </ul>\n"
+        out.print("<div id=\"pagination-container\">\n"
+                + "                <ul id=\"pagination\" class=\"pagination justify-content-center\"></ul>\n"
                 + "            </div>");
+//        int endPage = 0;
+//        int countPage = staDAO.getCountStatistics(employee.getEmployeeID(), startDate, endDate);
+//        if (countPage % 10 == 0) {
+//            endPage = countPage / 10;
+//        } else {
+//            endPage = countPage / 10 + 1;
+//        }
+//        out.print("            <div class=\"text-center container\" >\n");
+//        if (page == 1) {
+//            out.print("                <ul class=\"pagination\" style=\"justify-content: end;\">\n"
+//                    + "                    <li class=\"page-item\"><a class=\"page-link\" href=\"#\">Trước</a></li>\n");
+//        } else {
+//            out.print("                <ul class=\"pagination\" style=\"justify-content: end;\">\n"
+//                    + "                <li class=\"page-item\"><a data-index=\"" + (page - 1) + "\" onclick=\"searchByDay(this)\" class=\"page-link\" href=\"#\">Trước</a></li>");
+//        }
+//        for (int i = 0; i <= endPage; i++) {
+//            if (i == page) {
+//                out.print("<li class=\"page-item\"\"><a style=\"background-color: #cfd5da96;\" class=\"page-link page pageNow\" data-index=\"" + i + "\" onclick=\"searchByDay(this)\" href=\"#\">" + i + "</a><li>");
+//            } else {
+//                out.print("<li class=\"page-item\"><a  class=\"page-link page\" data-index=\"" + i + "\" onclick=\"searchByDay(this)\" href=\"#\">" + i + "</a><li>");
+//            }
+//        }
+//        if (page == endPage) {
+//            out.print("<li class=\"page-item\"><a  class=\"page-link\" href=\"#\">Sau</a></li>");
+//
+//        } else {
+//            out.print("<li class=\"page-item\"><a data-index=\"" + (page + 1) + "\" onclick=\"searchByDay(this)\" class=\"page-link\" href=\"#\">Sau</a></li>");
+//        }
+//        out.print("                </ul>\n"
+//        out.print("            </div>");
 
     }
 

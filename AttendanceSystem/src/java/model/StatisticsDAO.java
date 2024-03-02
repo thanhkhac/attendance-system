@@ -317,7 +317,7 @@ public class StatisticsDAO extends dbhelper.DAOBase {
                     for (int month = 1; month <= endMonth; month++) {
                         LocalDate firstDayOfMonth = LocalDate.of(iterYear, month, 1);
                         int daysInMonth = firstDayOfMonth.lengthOfMonth();
-                        for (int day = 1; day <= endDay; day++) {
+                        for (int day = 1; day <= daysInMonth; day++) {
                             LocalDate current = LocalDate.of(iterYear, month, day);
                             listDay.add(current);
                         }
