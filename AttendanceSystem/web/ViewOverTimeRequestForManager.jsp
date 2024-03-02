@@ -128,7 +128,7 @@
                         %>
                         <tr class="employee-row">
                             <td class="text-center"><%=otrq.getOverTimeRequestID()%></td>
-                            <td class="tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
+                            <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
                             <td class="text-center"><%=otrq.getSentDate()%></td>
                             <td class="text-center"><%=otrq.getDate()%></td>
                             <td class="text-center"><%=otrq.getStartTime()%></td>     

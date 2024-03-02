@@ -107,7 +107,7 @@
                         <table class="table">
                             <tr style="background-color: #CFE2FF">
                                 <th class="text-center">Mã đơn</th>
-                                <th class="text-center">Mã nhân viên</th>
+                                <th class="text-center">Họ và tên</th>
                                 <th class="text-center">Ngày gửi</th>
                                 <th class="text-center">Ngày bắt đầu</th>
                                 <th class="text-center">Ngày kết thúc</th>
@@ -124,7 +124,7 @@
                             %>
                             <tr class="employee-row">
                                 <td class="text-center"><%=lr.getLeaveRequestID()%></td>
-                                <td class="tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
+                                <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
                                 <td class="text-center"><%=lr.getSentDate()%></td>
                                 <td class="text-center"><%=lr.getStartDate()%></td>     
                                 <td class="text-center"><%=lr.getEndDate()%></td>

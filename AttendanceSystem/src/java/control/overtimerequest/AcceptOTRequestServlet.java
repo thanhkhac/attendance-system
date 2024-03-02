@@ -78,14 +78,14 @@ public class AcceptOTRequestServlet extends HttpServlet {
                 out.println("|| RoleID-4(Quan li) : " + acc.getRoleID());
                 // Duyet don theo role quan li
                 if (otrqDAO.overtimeRequestApproveByManager(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
-                    otDAO.insertOvertime(DateOT, employeeID_OT, startTimeOT.toString(), endTimeOT.toString(), Open.toString(), Close.toString(), null, null, acc.getEmployeeID());
-                    out.println("Insert into OverTime successful");
                     response.sendRedirect("ViewOverTimeRequestForManager.jsp");
                 }
             }else if(acc.getRoleID() == 2){ // role id = 2 : Quan li nhan su
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
                 if (otrqDAO.overtimeRequestApproveByHr(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
+                    otDAO.insertOvertime(DateOT, employeeID_OT, startTimeOT.toString(), endTimeOT.toString(), Open.toString(), Close.toString(), null, null, acc.getEmployeeID());
+                    out.println("Insert into OverTime successful");
                     response.sendRedirect("ViewOverTimeRequestForHR.jsp");
                 }
             }

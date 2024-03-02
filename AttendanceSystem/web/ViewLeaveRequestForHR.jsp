@@ -10,6 +10,7 @@
 <%@page import="java.time.*" %>
 <%@page import="model.*" %>
 <%@page import="model.request.*" %>
+<%@page import="model.request.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -80,6 +81,8 @@
         EmployeeDTO emDTO = new EmployeeDTO();
         EmployeeDTO managerDTO = new EmployeeDTO();
         EmployeeDTO hrDTO = new EmployeeDTO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        DepartmentDTO deDTO = new DepartmentDTO();
         
         ArrayList<LeaveRequestDTO> list = lrDao.getLeaveRequestForHR(1);
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
@@ -98,7 +101,8 @@
                         <table class="table">
                             <tr style="background-color: #CFE2FF">
                                 <th class="text-center">Mã đơn</th>
-                                <th class="text-center">Mã nhân viên</th>
+                                <th class="text-center">Phòng ban</th>
+                                <th class="text-center">Họ và tên</th>
                                 <th class="text-center">Ngày gửi</th>
                                 <th class="text-center">Ngày bắt đầu</th>
                                 <th class="text-center">Ngày kết thúc</th>
@@ -114,10 +118,14 @@
                                     emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
                                     managerDTO = dao.getEmployeeDTO(lr.getManagerID());
                                     hrDTO = dao.getEmployeeDTO(lr.getHrID());
+                                    
+                                    int departmentID = lr.getDepartmentID();
+                                    deDTO = deDao.getDepartmentById(departmentID);
                             %>
                             <tr class="employee-row">
                                 <td class="text-center"><%=lr.getLeaveRequestID()%></td>
-                                <td class="tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
+                                <td class="text-center"><%=deDTO.getName()%></td>
+                                <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
                                 <td class="text-center"><%=lr.getSentDate()%></td>
                                 <td class="text-center"><%=lr.getStartDate()%></td>     
                                 <td class="text-center"><%=lr.getEndDate()%></td>
