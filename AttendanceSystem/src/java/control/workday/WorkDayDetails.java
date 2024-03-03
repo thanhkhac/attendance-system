@@ -21,7 +21,6 @@ public class WorkDayDetails {
     public LeaveDTO leave;
     public OvertimeDTO overtime;
     public ShiftDTO shift;
-    public EmployeeDTO leaveResponed;
 
     public WorkDayDetails(LocalDate date, int employeeID) {
         this.date = date;
@@ -29,7 +28,6 @@ public class WorkDayDetails {
         timesheet = new TimesheetDAO().getTimesheetByDate(employeeID, date);
         leave = new LeaveDAO().getLeaveDTO(employeeID, date.toString());
         overtime = new OvertimeDAO().getOverTimeDTO(date, employeeID);
-        leaveResponed = (leave == null) ? null : new EmployeeDAO().getEmployeeDTO(leave.getCreatedBy());
     }
 
     public int getEmployeeID() {
@@ -80,17 +78,9 @@ public class WorkDayDetails {
         this.shift = shift;
     }
 
-    public EmployeeDTO getLeaveResponed() {
-        return leaveResponed;
-    }
-
-    public void setLeaveResponed(EmployeeDTO leaveResponed) {
-        this.leaveResponed = leaveResponed;
-    }
-
     @Override
     public String toString() {
-        return "WorkDayDetails{" + "employeeID=" + employeeID + ", date=" + date + ", timesheet=" + timesheet + ", leave=" + leave + ", overtime=" + overtime + ", shift=" + shift + ", leaveResponed=" + leaveResponed + '}';
+        return "WorkDayDetails{" + "employeeID=" + employeeID + ", date=" + date + ", timesheet=" + timesheet + ", leave=" + leave + ", overtime=" + overtime + ", shift=" + shift + '}';
     }
     
     

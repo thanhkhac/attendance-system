@@ -26,18 +26,6 @@ public class DateTimeUtil {
         return localDate;
     }
 
-    public LocalDateTime parseSqlDateTime(Timestamp date) {
-        LocalDateTime localDate = null;
-        try {
-            if (date == null) {
-                return null;
-            }
-            localDate = LocalDateTime.parse(date.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return localDate;
-    }
 
     public LocalTime parseSQLTime(Time time) {
         LocalTime localTime = null;
@@ -52,6 +40,19 @@ public class DateTimeUtil {
         return localTime;
     }
 
+    public LocalDateTime parseSqlDateTime(Timestamp date) {
+        LocalDateTime localDate = null;
+        try {
+            if (date == null) {
+                return null;
+            }
+            localDate = date.toLocalDateTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return localDate;
+    }
+    
     public LocalDate getVNLocalDateNow() {
         return LocalDate.now(ZONE_ID_VIETNAM);
     }
