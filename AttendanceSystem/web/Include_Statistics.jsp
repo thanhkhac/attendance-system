@@ -175,57 +175,14 @@
                 </div>
                 </tbody>
             </table>
-            <div id="pagination-container">
-                <ul id="pagination" class="pagination-ul"></ul>
-            </div>
-            <!--            <div class="text-center container" >
-                            <ul class="pagination" id="pagination" style="justify-content: end;">
-                                <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-            <c:forEach begin="1" end="${endPage}" var="i">
-                <c:if test="${i==1}">
-                <li class="page-item"><a style="background-color: #cfd5da96;" class="page-link page pageNow" data-index="${i}" onclick="searchByDay(this)" href="#">${i}</a><li>
-                </c:if>
-                <c:if test="${i>1 || i<1}">
-                <li class="page-item"><a  class="page-link page" data-index="${i}" onclick="searchByDay(this)" href="#">${i}</a><li>
-                </c:if>
-            </c:forEach>
-            <c:if test="${endPage>1}">
-            <li class="page-item"><a data-index="<%=2%>" onclick="searchByDay(this)" class="page-link" href="#">Sau</a></li>
-            </c:if>
-            <c:if test="${endPage<=1}">
-            <li class="page-item"><a data-index="<%=1%>" onclick="searchByDay(this)" class="page-link" href="#">Sau</a></li>
-            </c:if>
-    </ul>
-</div>-->
+        </div>
+        <div id="pagination-container">
+            <ul id="pagination" class="pagination-ul"></ul>
         </div>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"></script>
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script>
-            function searchByDay(param) {
-//                var pageNow = $(this).closest(".content-table").find(".pageNow");
-                var startDate_raw = document.getElementById("startDate").value;
-                var endDate_raw = document.getElementById("endDate").value;
-                var Page = param.dataset.index;
-//                console.log(Page);
-                $.ajax({
-                    url: "/AttendanceSystem/GetStatisticsByAJAXServlet",
-                    type: "get",
-                    data: {
-                        startDate: startDate_raw,
-                        endDate: endDate_raw
-//                        Page: Page
-                    },
-                    success: function (data) {
-                        var tbody = $("#content-table");
-                        tbody.html(data);
-                        console.log("success");
-                    },
-                    error: function (xhr, error) {
-                        console.log("Error: ", error);
-                    }
-                });
-            }
             var pageSize = 10; // Số lượng dòng mỗi trang
             var currentPage = 1; // Trang hiện tại
 
@@ -314,7 +271,7 @@
                 paginationElement.appendChild(nextLi);
             }
 
-// Hiển thị trang đầu tiên khi trang được tải
+            // Hiển thị trang đầu tiên khi trang được tải
             document.addEventListener('DOMContentLoaded', function () {
                 showPage(currentPage);
             });

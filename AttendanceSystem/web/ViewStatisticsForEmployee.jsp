@@ -37,31 +37,27 @@
                 font-size: large;
             }
             .employee-infor {
-                margin-top: 20px;
             }
             .employee-infor p{
                 margin: 0;
             }
             .content-table{
                 margin-top: 10px;
+            }
+            .menu{
+                margin-top: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px;
+            }
+            .exportButton input{
 
             }
-            /*            .content-table {
-                            display: block;
-                            height: 600px;
-                            overflow: auto;
-                            border: 1px solid #ccc;
-                            box-sizing: border-box;
-                        }
-            
-                        .content-table thead{
-                            width: 100%;
-                            table-layout: fixed;
-                            position: sticky;
-                            top: 0;
-                            background-color: #fff;
-                            z-index: 1;
-                        }*/
+            .fa-download{
+                font-size: large;
+                margin-left: 10px;
+            }
             #statisticsForm {
                 max-width: 800px;
                 margin: 20px auto;
@@ -70,20 +66,17 @@
                 border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             }
-
             .form-statistic {
                 display: flex;
                 gap: 20px;
                 align-items: center;
                 justify-content: space-around;
             }
-
             .form-statistic label {
                 font-weight: 600;
                 min-width: 250px;
                 display: inline;
             }
-
             .form-statistic input {
                 padding: 8px;
                 border: 1px solid #ccc;
@@ -91,10 +84,17 @@
                 box-sizing: border-box;
                 min-width: 250px;
             }
-
             @media (max-width: 768px) {
                 .form-statistic {
                     flex-direction: column;
+                }
+                .form-statistic label{
+                    margin-right: 100px;
+                    min-width: 250px;
+                }
+                .form-statistic input{
+                    margin-right: 100px;
+                    min-width: 250px;
                 }
             }
 
@@ -113,9 +113,16 @@
             <div class="content-redirect">
                 <p><a href="ThanhCong.html">Home</a> | View Statistics</p>
             </div>
-            <div class="employee-infor">
-                <p>Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
-                <p>Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
+            <div class="menu">
+                <div class="employee-infor">
+                    <p>Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
+                    <p>Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
+                </div>
+                <div class="exportButton">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Export To Excel
+                    </button>
+                </div>
             </div>
 
             <form id="statisticsForm" action="GetEmployeeStatisticsServlet" method="Post">
@@ -150,6 +157,47 @@
             <%@include  file="Include_Statistics.jsp" %>
 
         </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1"
+             aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Export To Excel</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="export-form" action="ExportExcelFileServlet" class="row g-3">
+                            <div class="col-md-6">
+                                <label for="startDate" class="form-label">Start Date</label>
+                                <input type="date" name="startDate" class="form-control" id="startDate" 
+                                       <c:if test="${startDate != null}">
+                                           value="${startDate}"
+                                       </c:if>
+                                       <c:if test="${startDate == null}">
+                                           value="${employee.getStartDate()}"
+                                       </c:if>
+                                       >
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" name="endDate" class="form-control" id="endDate"
+                                       <c:if test="${endDate != null}">
+                                           value="${endDate}"
+                                       </c:if>
+                                       <c:if test="${endDate == null}">
+                                           value="${requestScope.current}"
+                                       </c:if>
+                                       >
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="showConfirm()" id="confirmation" type="button" class="btn btn-outline-primary ">Confirm</button>
+                        <button style="display: none" onclick="submitForm()" id="dowload-file" type="button" class="btn btn-success"> Dowload File <i class="fa-solid fa-download "></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -164,5 +212,27 @@
                 form.submit();
             });
         });
+        function openPopup() {
+            document.getElementById("popupContainer").style.display = "flex";
+        }
+
+        function closePopup() {
+            document.getElementById("popupContainer").style.display = "none";
+        }
+        function showConfirm() {
+            console.log("hello");
+            var cfm_btn = document.getElementById("confirmation");
+            var dowload_btn = document.getElementById("dowload-file");
+            if (confirm("Are you sure !")) {
+                dowload_btn.style.display = 'block';
+                cfm_btn.style.display = 'none';
+            } else {
+                alert("Action Cancelled !");
+            }
+        }
+        function submitForm() {
+            var form = document.getElementById("export-form");
+            form.submit();
+        }
     </script>
 </html>

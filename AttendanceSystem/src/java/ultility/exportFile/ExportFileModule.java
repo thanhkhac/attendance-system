@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -185,9 +186,12 @@ public class ExportFileModule {
             cellStyleFormatNumber = workbook.createCellStyle();
             cellStyleFormatNumber.setDataFormat(format);
         }
+        Sheet sheet = row.getSheet();
+        CellStyle cellStyle = createStyleForBody(sheet);
 
         Cell cell = row.createCell(COLUMN_INDEX_DATE);
         cell.setCellValue(s.getDate().toString());
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_SHIFT_NAME);
         if (s.getShiftName().length() > 0 || s.getShiftName() != null) {
@@ -195,6 +199,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_START_TIME);
         if (s.getStartTime() != null) {
@@ -202,6 +207,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_END_TIME);
         if (s.getEndTime() != null) {
@@ -209,6 +215,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_CHECK_IN);
         if (s.getCheckIn() != null) {
@@ -216,6 +223,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_CHECK_OUT);
         if (s.getCheckOut() != null) {
@@ -223,6 +231,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_TOTAL_SHIFT);
         if (s.getShiftHours() != null) {
@@ -230,6 +239,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue(0);
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_OT_START_TIME);
         if (s.getOtStartTime() != null) {
@@ -237,6 +247,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_OT_END_TIME);
         if (s.getOtEndTime() != null) {
@@ -244,6 +255,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_OT_CHECK_IN);
         if (s.getOtCheckIn() != null) {
@@ -251,6 +263,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_OT_CHECK_OUT);
         if (s.getOtCheckOut() != null) {
@@ -258,6 +271,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue("--");
         }
+        cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_TOTAL_OT);
         if (s.getOtHours() != null) {
@@ -265,6 +279,7 @@ public class ExportFileModule {
         } else {
             cell.setCellValue(0);
         }
+        cell.setCellStyle(cellStyle);
 
 //        cell = row.createCell(COLUMN_INDEX_TOTAL_HOURS);
         // Create cell formula
@@ -275,6 +290,7 @@ public class ExportFileModule {
         String columnTotalShift = CellReference.convertNumToColString(COLUMN_INDEX_TOTAL_SHIFT);
         String columnTotalOT = CellReference.convertNumToColString(COLUMN_INDEX_TOTAL_OT);
         cell.setCellFormula("ROUND((" + columnTotalShift + currentRow + "+" + columnTotalOT + currentRow + "),2)");
+        cell.setCellStyle(cellStyle);
     }
     // Write footer
 
@@ -306,13 +322,20 @@ public class ExportFileModule {
         // Create CellStyle
         CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setFont(font);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
         cellStyle.setFillForegroundColor(IndexedColors.BLUE_GREY.getIndex());
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         cellStyle.setBorderBottom(BorderStyle.THIN);
         return cellStyle;
     }
-    // Auto resize column width
 
+    private static CellStyle createStyleForBody(Sheet sheet) {
+        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        return cellStyle;
+    }
+
+    // Auto resize column width
     private static void autosizeColumn(Sheet sheet, int lastColumn) {
         for (int columnIndex = 0; columnIndex < lastColumn; columnIndex++) {
             sheet.autoSizeColumn(columnIndex);
@@ -320,7 +343,7 @@ public class ExportFileModule {
     }
 
     // Create output file
-    private static void createOutputFile(Workbook workbook, String excelFilePath) throws IOException {
+    public static void createOutputFile(Workbook workbook, String excelFilePath) throws IOException {
         try ( OutputStream os = new FileOutputStream(excelFilePath)) {
             workbook.write(os);
         }
