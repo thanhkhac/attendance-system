@@ -13,15 +13,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import model.EmployeeDTO;
 import model.StatisticsDAO;
 import model.StatisticsDTO;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -53,13 +56,13 @@ public class ExportExcelFileServlet extends HttpServlet {
         ServletContext context = getServletContext();
         String relativePath = "";
         String absolutePath = context.getRealPath(relativePath);
-        String excelFilePath = absolutePath + "\\Statistics.xlsx";
+        String excelFilePath = absolutePath + "Statistics.xlsx";
         System.out.println(excelFilePath);
         return excelFilePath;
     }
 
     public static void main(String[] args) {
-        
+
     }
 
     private final DateTimeUtil DATE_UTIL = new DateTimeUtil();
@@ -76,7 +79,10 @@ public class ExportExcelFileServlet extends HttpServlet {
         LocalDate startDate = DATE_UTIL.parseSqlDate(employee.getStartDate());
         LocalDate endDate = DATE_UTIL.getVNLocalDateNow();
         final String excelFilePath = getFilePath(); //get LocalFile path to store temp excel file
-        Workbook localWorkbook = new XSSFWorkbook();
+        
+        // Adjust the minimum inflate ratio before reading the Excel file
+        ZipSecureFile.setMinInflateRatio(0.0005);// Lowering the minimum inflate ratio
+
         try {
             if (startDate_txt.length() > 0) {
                 startDate = LocalDate.parse(startDate_txt);
@@ -87,7 +93,9 @@ public class ExportExcelFileServlet extends HttpServlet {
             statistics = staDAO.getStatistics(employee.getEmployeeID(), startDate, endDate);
             ExportFileModule.writeExcel(statistics, excelFilePath); //write to LocalFile
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             System.out.println("Error - Write LocalFile");
+            e.printStackTrace();
         }
         //read from localFile and write to response 
         try ( FileInputStream fis = new FileInputStream(new File(excelFilePath)); //generate file input
@@ -98,11 +106,14 @@ public class ExportExcelFileServlet extends HttpServlet {
             // Write the workbook content to the response output stream
             workbook.write(response.getOutputStream());
 
-            workbook.close();
+            workbook.close();  //try - auto close resource when end try block
             fis.close();
         } catch (Exception e) {
             System.out.println("Error Generate File !");
             e.printStackTrace();
+        } finally {
+            // Reset the minimum inflate ratio to the default value after processing the file
+            ZipSecureFile.setMinInflateRatio(0.01);   // Reset to the default value
         }
 
     }

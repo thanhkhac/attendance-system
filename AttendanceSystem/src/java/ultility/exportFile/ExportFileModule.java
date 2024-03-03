@@ -26,6 +26,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ultility.datetimeutil.DateTimeUtil;
 
@@ -54,7 +55,7 @@ public class ExportFileModule {
 
     public static void main(String[] args) throws IOException {
         StatisticsDAO staDAO = new StatisticsDAO();
-        LocalDate startDate = LocalDate.parse("2024-02-01");
+        LocalDate startDate = LocalDate.parse("2012-02-01");
         LocalDate endDate = LocalDate.parse("2024-03-01");
 
         final ArrayList<StatisticsDTO> statistics = staDAO.getStatistics(3, startDate, endDate);
@@ -175,6 +176,7 @@ public class ExportFileModule {
 
     // Write data
     private static void writeBook(StatisticsDTO s, Row row) {
+        cellStyleFormatNumber = null;
         if (cellStyleFormatNumber == null) {
             // Format number
             short format = (short) BuiltinFormats.getBuiltinFormat("#,##0");
