@@ -62,13 +62,12 @@ ADD CONSTRAINT FK_Departments_Employees FOREIGN KEY([ManagerID]) REFERENCES Empl
 
 
 
+
 CREATE TABLE Shifts(
 	[ShiftID] int IDENTITY(1,1) PRIMARY KEY,
 	[Name] nvarchar(50),
 	[StartTime] time,
 	[EndTime] time,
-	[BreakStartTime] time,
-	[BreakEndTime] time,
 	[OpenAt] time,
 	[CloseAt] time,
 	
@@ -85,7 +84,7 @@ CREATE TABLE Timesheet(
 	CreatedBy int,
 	CHECK(CheckIn < CheckOut),
 
-	UNIQUE([Date], [EmployeeID]),
+	UNIQUE([Date], [EmployeeID], [ShiftID]),
 
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY ([ShiftID]) REFERENCES Shifts(ShiftID),
@@ -147,6 +146,7 @@ CREATE TABLE ResignationRequests(
 
 
 CREATE TABLE Overtimes(
+	OvertimeID int PRIMARY KEY IDENTITY (1,1),
 	[Date] date,
 	[EmployeeID] int,
 	[StartTime] time not null,
@@ -164,13 +164,12 @@ CREATE TABLE Overtimes(
 	CHECK(CheckIn >= OpenAt),
 	CHECK(CheckOut <= CloseAt),
 
-	PRIMARY KEY([Date], [EmployeeID]),
-
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID),
 );
 
 CREATE TABLE OvertimeRequests(
+	OvertimeRequestID int PRIMARY KEY IDENTITY(1,1),
 	[Date] date,
 	[EmployeeID] int,
 	[SentDate] datetime,
@@ -182,8 +181,6 @@ CREATE TABLE OvertimeRequests(
 	HrID int,
 	CreatedBy int not null,
 	[Status] bit default(0),
-	
-	PRIMARY KEY([Date], [EmployeeID]),
 	CHECK(StartTime < EndTime),
 
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID),
@@ -313,12 +310,10 @@ VALUES
 ('2024-02-24', 2, '15:00:00', '17:30:00', '14:30:00', '18:00:00', NULL, NULL, 1)
 
 
-INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
-(N'Ca hành chính', '7:30', '17:30', '11:00', '13:30', '7:15', '17:45', 1)
-INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
-(N'Ca sáng', '7:30', '11:30', NULL, NULL, '7:15', '11:45', 1)
-INSERT INTO Shifts ([Name], [StartTime], [EndTime], [BreakStartTime], [BreakEndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
-(N'Ca chiều', '13:30', '17:30', NULL, NULL, '13:15', '17:45', 1)
+INSERT INTO Shifts ([Name], [StartTime], [EndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
+(N'Ca sáng', '7:30', '11:30', '7:15', '11:45', 1)
+INSERT INTO Shifts ([Name], [StartTime], [EndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
+(N'Ca chiều', '13:30', '17:30','13:15', '17:45', 1)
 
 INSERT INTO RequestsType([Name])
 VALUES (N'OverTime Request (Yêu Cầu Tăng Ca)')

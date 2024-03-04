@@ -30,10 +30,18 @@
             <div class="right">
                 <div class="text-center pt-3" style="font-family: sans-serif; font-weight: 900">
                     <h2>Danh sách nhân viên</h2>
-                    <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
-                        <i class="bi bi-arrow-left"></i> Trở lại
-                    </a>
-
+                    <form action="ScheduleWork.jsp?">
+                        <input type="hidden" name="month" value="${param.month}">
+                        <input type="hidden" name="year" value="${param.year}">
+                        <c:forEach var="dto" items="${paramValues.shift}" varStatus="counter">
+                            <c:if test = "${dto ne ''}">
+                                <input type="hidden" name="shift" value="${dto}">
+                            </c:if>
+                        </c:forEach>
+                        <button class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
+                            <i class="bi bi-arrow-left"></i> Trở lại
+                        </button>
+                    </form>
                 </div>
                 <div class="d-flex justify-content-around px-3 py-3 align-middle">
                     <table class="table table-primary">
@@ -96,7 +104,12 @@
                                         <input type="checkbox" class="rowCheckbox" name="chkEmployeeID" value="${employee.employeeId}">
                                     </td>
                                     <td>${employee.employeeId}</td>
-                                    <td class="employee-name">${employee.lastName} ${employee.middleName} ${employee.firstName}</td>
+                                    <td class="employee-name">
+                                        <a href="ViewEmployeeWorkSchedule.jsp?employeeID=${employee.employeeId}" target="_blank">
+                                            ${employee.lastName} ${employee.middleName} ${employee.firstName}
+                                        </a>
+
+                                    </td>
                                     <td>${employee.cccd}</td>
                                     <td>
                                         <c:forEach var="dto" items="${listDepartment}" varStatus="counter">
@@ -128,7 +141,7 @@
                         </div>
                         <div>
                             <c:forEach var="dto" items="${paramValues.shift}" varStatus="counter">
-                                <c:if test = "${dto ne 'no'}">
+                                <c:if test = "${dto ne ''}">
                                     <input type="hidden" name="shift" value="${dto}">
                                 </c:if>
                             </c:forEach>

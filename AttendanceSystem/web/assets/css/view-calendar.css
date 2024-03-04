@@ -1,6 +1,5 @@
 .mytable-td {
     border-radius: 3px;
-    height: 15em;
     background-color: white !important;
 }
 
@@ -40,7 +39,7 @@
     font-weight: bold;
 }
 
-.shift-block div:first-child{
+.shift-block div {
     margin-bottom: 5px;
 }
 

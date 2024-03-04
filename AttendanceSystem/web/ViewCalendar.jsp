@@ -4,7 +4,7 @@
 <%@page import="java.util.*" %>
 <%@page import="java.time.*"%>
 <%@page import="model.TimesheetDAO"%>
-<%@page import="model.EmployeeDTO"%>
+<%@page import="model.*"%>
 <%@page import="control.workday.*"%>
 <%@page import="ultility.datetimeutil.DateTimeUtil"%>
 <html lang="en">
@@ -51,9 +51,12 @@
         for (LocalDate localDate : calendar) {
             workingdays.add(new WorkDayDetails(localDate, employeeDTO.getEmployeeID()));
         }
+        
+        HashMap<Integer, ShiftDTO> shiftMap = new ShiftDAO().getAllShiftHashMap();
         LocalDate today = dateTimeUtil.getVNLocalDateNow();
         request.setAttribute("workingdays", workingdays);
         request.setAttribute("today", today);
+        request.setAttribute("shiftMap", shiftMap);
     %>
     <body>
         <div class="container">
@@ -88,12 +91,12 @@
                                 </c:if>
                             </div>
                             <div class="shift-block">
-                                <c:if test = "${not empty wkday.timesheet}">
+                                <c:forEach var="timesheet" items="${wkday.timesheet}" varStatus="counter">
                                     <div class="shift text-center bg-primary" >
                                         <div class="button-modal" 
                                              data-bs-toggle="modal" data-bs-target="#ModalBtn${index}">
                                             <div class="shift__title">
-                                                <div class="shift-name">${wkday.shift.name}</div>
+                                                <div class="shift-name">${shiftMap[timesheet.shiftID].name}</div>
                                                 <div class="shift-status"></div>
                                                 <div class="date d-none">${wkday.date}</div>
                                                 <c:if test = "${not empty wkday.leave}">
@@ -102,7 +105,7 @@
                                                 </c:if>
                                             </div>
                                             <div class="shift-time">
-                                                ${wkday.shift.startTime} - ${wkday.shift.endTime}
+                                                ${shiftMap[timesheet.shiftID].startTime} - ${shiftMap[timesheet.shiftID].endTime}
                                             </div>
                                         </div>
                                         <div class="modal fade text-dark text-start" id="ModalBtn${index}" tabindex="-1"
@@ -112,7 +115,7 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" >${wkday.shift.name}</h5>
+                                                        <h5 class="modal-title" >${shiftMap[timesheet.shiftID].name}</h5>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
@@ -125,36 +128,28 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Giờ vào:</td>
-                                                                    <td class="startTime"> ${wkday.shift.startTime}</td>
+                                                                    <td class="startTime"> ${requestScope.shiftMap[timesheet.shiftID].startTime}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Giờ ra: </td>
-                                                                    <td class="endTime">${wkday.shift.endTime}</td>
+                                                                    <td class="endTime">${requestScope.shiftMap[timesheet.shiftID].endTime}</td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Chấm công vào: </td>
                                                                     <td class="checkIn">
-                                                                        ${wkday.timesheet.checkin}
+                                                                        ${timesheet.checkin}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Chấm công ra: </td>
                                                                     <td class="checkOut">
-                                                                        ${wkday.timesheet.checkout}
+                                                                        ${timesheet.checkout}
                                                                     </td>
                                                                 </tr>
-                                                                <c:if test = "${not empty wkday.leave}">
-                                                                    <tr>
-                                                                        <td>Người tạo:
-                                                                        </td>
-                                                                        <td>${wkday.leaveResponed.lastName} ${wkday.leaveResponed.middleName} ${wkday.leaveResponed.firstName}</td>
-                                                                    </tr>
-                                                                </c:if>
                                                             </tbody>
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary">Chấm công</button>
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
                                                     </div>
@@ -163,7 +158,8 @@
                                         </div>
                                     </div>
                                     <c:set var="index" value="${index + 1}"/>
-                                </c:if>
+                                </c:forEach>
+
                                 <c:if test = "${not empty wkday.overtime}">
                                     <%--1. Tất cả các ngày: checkIn not null, checkout null: Màu cam, đã chấm công vào--%>
                                     <div class="shift overtime text-center">
@@ -230,13 +226,6 @@
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <c:if test = "${wkday.date eq today}">
-                                                            <a href="TakeAttendanceOvertime">
-                                                                <button type="button" class="btn btn-primary">
-                                                                    Chấm công
-                                                                </button>
-                                                            </a>
-                                                        </c:if>
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
                                                     </div>
