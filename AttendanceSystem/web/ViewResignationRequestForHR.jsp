@@ -272,7 +272,7 @@
                 for (var i = 1; i <= pageCount; i++) {
                     var li = document.createElement('li');
                     var a = document.createElement('a');
-                    a.href = '#';
+                    a.href = '';
                     a.innerHTML = i;
                     a.addEventListener('click', function (e) {
                         currentPage = parseInt(e.target.innerHTML);

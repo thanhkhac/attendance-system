@@ -602,7 +602,7 @@
         var startEnd = $(this).closest(".overlay").find(".startTime").val();
         var endTime = $(this).closest(".overlay").find(".endTime").val();
         var chonPhong = $(this).closest(".overlay").find(".form-select").val();
-
+var QUA = $("#QUA").val();
         // Lấy giá trị của thuộc tính data-index từ phần tử <a> con
         var dataIndex = $(this).find("a").attr("data-index");
 

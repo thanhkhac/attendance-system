@@ -42,9 +42,9 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
         String DeleteStart = request.getParameter("deleteStart");
         String DeleteEnd = request.getParameter("deleteEnd");
         String DeleteDate = request.getParameter("deleteDate");
+        String QUA = request.getParameter("daQUA");
         String DeleteID = request.getParameter("deleteID");
         String DeleteAll = request.getParameter("deleteAll");
-        String QUA = request.getParameter("QUA");
         if (DeleteStart != null && DeleteEnd != null && DeleteDate != null && DeleteID != null) {
             int id = Integer.parseInt(DeleteID);
             boolean check = new OvertimeDAO().deleteOvertime(DeleteDate, DeleteStart, DeleteEnd, id);
@@ -122,8 +122,7 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
                     + "                                                                    <td>" + list.getEmail() + "</td>\n"
                     + "                                                                    <td>" + list.getEmployeeId() + "</td>\n");
             if(QUA==null){
-                out.print(
-                    "                                                                    <td>\n"
+                    out.print("                                                                    <td>\n"
                     + "                                                                        "
                     + "<ul class=\"list-inline mb-0\">\n"
                     + "  <li class=\"list-inline-item\">                                                                          \n"
