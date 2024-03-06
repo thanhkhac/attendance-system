@@ -10,6 +10,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -41,14 +43,14 @@ public class GetDetailNew extends HttpServlet {
                 NewsDAO newdao = new NewsDAO();
                 NewsDTO newdto = newdao.getNewsById(newId);
                 List<NewsDTO> othernew = newdao.getOtherNews(newId);
-
-                try {
-                    String filePath = newdto.getFilePath();
-                    byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
-                    if (fileBytes.length > 0) {
-                        String htmlContent = new String(fileBytes);
-                        request.setAttribute("htmlContent", htmlContent);
+                String filePath = getServletContext().getRealPath("") + newdto.getFilePath();
+                try ( BufferedReader reader = Files.newBufferedReader(Paths.get(filePath), StandardCharsets.UTF_8)) {
+                    StringBuilder htmlContent = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        htmlContent.append(line);
                     }
+                    request.setAttribute("htmlContent", htmlContent.toString());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

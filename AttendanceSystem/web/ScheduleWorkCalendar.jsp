@@ -97,7 +97,7 @@
                         <tr>
                             <c:forEach var="dto" begin="1" end="7">
                                 <th>
-                                    <select class="form-select col-select" name="shift" onchange="selectcol(this)">
+                                    <select class="form-select col-select" onchange="selectcol(this)">
                                         <option value="">Chọn ca</option>
                                         <c:forEach var="shift" items="${shiftList}" varStatus="counter">
                                             <option value="${shift.shiftID}">${shift.name}</option>
