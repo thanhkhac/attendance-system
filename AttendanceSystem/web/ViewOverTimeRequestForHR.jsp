@@ -99,14 +99,15 @@
                 <h1>Thông Báo</h1>
                 <div class="content-redirect">
                     <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Trở Lại</a> | Result</p>
-                </div>  
+                </div> 
+                <div class="text-center">
+                    <h1 style="margin: 30px">Danh sách đơn đăng kí làm ngoài (HR)</h1>
+                </div>
             </div>
-            <div class="text-center">
-                <h1 style="margin: 30px">Danh sách đơn đăng kí làm ngoài (HR)</h1>
-            </div>
+
             <div>
                 <form action="DispatchController" method="POST">
-                    <table class="table mx-auto">
+                    <table class="table" style="width: 95%; margin: auto;">
                         <tr style="background-color: #CFE2FF">
                             <th class="text-center">Mã đơn</th>
                             <th class="text-center">Phòng ban</th>
@@ -221,7 +222,7 @@
                     <div id="pagination-container">
                         <ul id="pagination" class="pagination justify-content-center"></ul>
                     </div>
-                    
+
                 </form>
             </div>
 

@@ -108,7 +108,7 @@
             </div>
             <div>
                 <form action="DispatchController" method="POST">
-                    <table class="table mx-auto">
+                    <table class="table" style="width: 95%; margin: auto;">
                         <tr style="background-color: #CFE2FF">
                             <th class="text-center">Mã đơn</th>
                             <th class="text-center">Họ và tên</th>
