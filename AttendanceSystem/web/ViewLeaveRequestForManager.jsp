@@ -28,6 +28,13 @@
                 word-break: break-word;
                 max-width: 150px;
             }
+            .content{
+                background-color: white;
+                max-width: 65%;
+                margin: auto;
+                padding: 20px;
+                margin-top: 10px;
+            }
             .content-redirect{
                 background-color: #F5F5F5;
                 border-radius: 5px;
@@ -37,7 +44,7 @@
                 margin: 0px;
                 font-size: large;
             }
-            
+
             #pagination-container {
                 margin-top: 20px;
                 text-align: right;
@@ -91,98 +98,95 @@
     %>
     <body>
         <div>
-            <%--<%@include file="Sidebar.jsp" %>--%>
-            <div class="right">
+            <div class="content">
+                <h1>Thông Báo</h1>
                 <div class="content-redirect">
                     <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Trở Lại</a> | Process Request For Manager</p>
                 </div>
                 <div class="text-center">
                     <h1 style="margin: 30px">Danh sách đơn (Manager)</h1>
-                    <!--                    <a href="javascript:history.back()" class="btn btn-outline-secondary" style="position: absolute; left: 15px; top: 15px;">
-                                            <i class="bi bi-arrow-left"></i> Trở lại
-                                        </a>-->
                 </div>
-                <div>
-                    <form action="DispatchController" method="POST">
-                        <table class="table">
-                            <tr style="background-color: #CFE2FF">
-                                <th class="text-center">Mã đơn</th>
-                                <th class="text-center">Mã nhân viên</th>
-                                <th class="text-center">Ngày gửi</th>
-                                <th class="text-center">Ngày bắt đầu</th>
-                                <th class="text-center">Ngày kết thúc</th>
-                                <th class="text-center">Lí do</th>
-                                <th class="text-center">Trạng thái <br> (Manager)</th>  
-                                <th class="text-center">Người phê duyệt <br> (Manager)</th>
-                                <th class="text-center">Check</th>
-                            </tr>
-                            <%
-                                for (LeaveRequestDTO lr : list) {
-                                    emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
-                                    managerDTO = dao.getEmployeeDTO(lr.getManagerID());
-                                    hrDTO = dao.getEmployeeDTO(lr.getHrID());
-                            %>
-                            <tr class="employee-row">
-                                <td class="text-center"><%=lr.getLeaveRequestID()%></td>
-                                <td class="tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
-                                <td class="text-center"><%=lr.getSentDate()%></td>
-                                <td class="text-center"><%=lr.getStartDate()%></td>     
-                                <td class="text-center"><%=lr.getEndDate()%></td>
-                                <td class="tdbreak"><%=lr.getReason()%></td>
-                                <td class="text-center">
-                                    <%
-                                        Boolean managerApprove = lr.getManagerApprove();
-                                        if(managerApprove == null){
-                                    %>
-                                    <p class="fw-bold">Pending</p>
-                                    <%
-                                        }else if (managerApprove == true){
-                                    %>
-                                    <p class="text-success fw-bold" >Accepted</p>
-                                    <%
-                                        }else if (managerApprove == false){
-                                    %>
-                                    <p class="text-danger fw-bold">Denied</p>
-                                    <%
-                                        }
-                                    %>
-                                </td>
-                                <td class="text-center tdbreak">
-                                    <%
-                                        if(managerDTO != null){
-                                    %>
-                                    <%= managerDTO.getLastName() + " " + managerDTO.getMiddleName() + " " + managerDTO.getFirstName() %>
-                                    <%
-                                        }else{
-                                    %>
-                                    <p class="text-center fw-bold">Pending</p>
-                                    <%
-                                        }
-                                    %>
-                                </td>
-                                <td class="text-center">
-                                    <%
-                                        if(lr.getManagerApprove() != null){
-                                        }else{
-                                    %>
-                                    <button onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
-                                        <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
-                                    </button>
-                                    <button onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-danger" type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
-                                        <i class="fa-solid fa-x" style="color: #FFFFFF"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <%
+            </div>    
+            <div>
+                <form action="DispatchController" method="POST">
+                    <table class="table" style="width: 95%; margin: auto;">
+                        <tr style="background-color: #CFE2FF">
+                            <th class="text-center">Mã đơn</th>
+                            <th class="text-center">Họ và tên</th>
+                            <th class="text-center">Ngày gửi</th>
+                            <th class="text-center">Ngày bắt đầu</th>
+                            <th class="text-center">Ngày kết thúc</th>
+                            <th class="text-center">Lí do</th>
+                            <th class="text-center">Trạng thái <br> (Manager)</th>  
+                            <th class="text-center">Người phê duyệt <br> (Manager)</th>
+                            <th class="text-center">Check</th>
+                        </tr>
+                        <%
+                            for (LeaveRequestDTO lr : list) {
+                                emDTO = dao.getEmployeeDTO(lr.getEmployeeID());
+                                managerDTO = dao.getEmployeeDTO(lr.getManagerID());
+                                hrDTO = dao.getEmployeeDTO(lr.getHrID());
+                        %>
+                        <tr class="employee-row">
+                            <td class="text-center"><%=lr.getLeaveRequestID()%></td>
+                            <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
+                            <td class="text-center"><%=lr.getSentDate()%></td>
+                            <td class="text-center"><%=lr.getStartDate()%></td>     
+                            <td class="text-center"><%=lr.getEndDate()%></td>
+                            <td class="tdbreak"><%=lr.getReason()%></td>
+                            <td class="text-center">
+                                <%
+                                    Boolean managerApprove = lr.getManagerApprove();
+                                    if(managerApprove == null){
+                                %>
+                                <p class="fw-bold">Pending</p>
+                                <%
+                                    }else if (managerApprove == true){
+                                %>
+                                <p class="text-success fw-bold" >Accepted</p>
+                                <%
+                                    }else if (managerApprove == false){
+                                %>
+                                <p class="text-danger fw-bold">Denied</p>
+                                <%
                                     }
+                                %>
+                            </td>
+                            <td class="text-center tdbreak">
+                                <%
+                                    if(managerDTO != null){
+                                %>
+                                <%= managerDTO.getLastName() + " " + managerDTO.getMiddleName() + " " + managerDTO.getFirstName() %>
+                                <%
+                                    }else{
+                                %>
+                                <p class="text-center fw-bold">Pending</p>
+                                <%
+                                    }
+                                %>
+                            </td>
+                            <td class="text-center">
+                                <%
+                                    if(lr.getManagerApprove() != null){
+                                    }else{
+                                %>
+                                <button onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
+                                    <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
+                                </button>
+                                <button onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-danger" type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
+                                    <i class="fa-solid fa-x" style="color: #FFFFFF"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <%
                                 }
-                            %>
-                        </table>
-                        <div id="pagination-container">
-                            <ul id="pagination" class="pagination justify-content-center"></ul>
-                        </div>
-                    </form>
-                </div>
+                            }
+                        %>
+                    </table>
+                    <div id="pagination-container">
+                        <ul id="pagination" class="pagination justify-content-center"></ul>
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -204,7 +208,7 @@
                 event.preventDefault();
             }
         </script>
-        
+
         <script>
             var pageSize = 3; // Số lượng dòng mỗi trang
             var currentPage = 1; // Trang hiện tại

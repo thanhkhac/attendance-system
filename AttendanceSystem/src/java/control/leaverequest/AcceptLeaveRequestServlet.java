@@ -11,8 +11,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import model.EmployeeDTO;
+import model.LeaveDAO;
 import model.request.LeaveRequestDAO;
+import model.request.LeaveRequestDTO;
 
 /**
  *
@@ -42,24 +45,45 @@ public class AcceptLeaveRequestServlet extends HttpServlet {
         int leaveRequestID_raw = Integer.parseInt(leaveRequestID);
         out.println(" || 1 Leave request ID: " + leaveRequestID_raw);
 
-        LeaveRequestDAO lrDao = new LeaveRequestDAO();
+        LeaveRequestDAO lrDAO = new LeaveRequestDAO();
+        LeaveRequestDTO lrDTO = new LeaveRequestDTO();
+        LeaveDAO lDAO = new LeaveDAO();
+        
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
 
+        lrDTO = lrDAO.getRequestById(leaveRequestID_raw);
+        int employeeID = lrDTO.getEmployeeID();
+        LocalDate startDate = lrDTO.getStartDate();
+        LocalDate endDate = lrDTO.getEndDate();
+        String filePath = lrDTO.getFilePath();
+        String reason = lrDTO.getReason();
+        LocalDate createdDate = lrDTO.getSentDate();
+        int createdBy = lrDTO.getCreatedBy();
+        
         out.println("|| 2 Role ID : " + acc.getRoleID());
         out.println("|| 3 Employee ID logged in: " + acc.getEmployeeID());
         out.println("|| 4 Button value : " + button_value);
+        out.println("|| EmployeeID Leave : " + employeeID);
+        out.println("|| StarDate : " + startDate);
+        out.println("|| EndDate : " + endDate);
+        out.println("|| FilePath : " + filePath);
+        out.println("|| Reason : " + reason);
+        out.println("|| CreatedDate : " + createdDate);
+        out.println("|| CreatedBy : " + createdBy);
         
         if (button_value.startsWith("Accept")) {
             if (acc.getRoleID() == 4) { // role id = 4 : Quan li
                 out.println("|| RoleID-4(Quan li) : " + acc.getRoleID());
                 // Duyet don theo role quan li
-                if (lrDao.approvalOfApplicationByManager(1, acc.getEmployeeID(), leaveRequestID_raw)) {
+                if (lrDAO.approvalOfApplicationByManager(1, acc.getEmployeeID(), leaveRequestID_raw)) {
                     response.sendRedirect("ViewLeaveRequestForManager.jsp");
                 }
             }else if(acc.getRoleID() == 2){ // role id = 2 : Quan li nhan su
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
-                if (lrDao.approvalOfApplicationByHr(1, acc.getEmployeeID(), leaveRequestID_raw)) {
+                if (lrDAO.approvalOfApplicationByHr(1, acc.getEmployeeID(), leaveRequestID_raw)) {
+                    // import Leave khi HR Approve
+                    lDAO.insertLeave(employeeID, startDate.toString(), endDate.toString(), filePath, reason, createdDate.toString(), createdBy);
                     response.sendRedirect("ViewLeaveRequestForHR.jsp");
                 }
             }

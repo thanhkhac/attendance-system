@@ -108,7 +108,7 @@
             </div>
             <div>
                 <form action="DispatchController" method="POST">
-                    <table class="table mx-auto">
+                    <table class="table" style="width: 95%; margin: auto;">
                         <tr style="background-color: #CFE2FF">
                             <th class="text-center">Mã đơn</th>
                             <th class="text-center">Họ và tên</th>
@@ -128,7 +128,7 @@
                         %>
                         <tr class="employee-row">
                             <td class="text-center"><%=otrq.getOverTimeRequestID()%></td>
-                            <td class="tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
+                            <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
                             <td class="text-center"><%=otrq.getSentDate()%></td>
                             <td class="text-center"><%=otrq.getDate()%></td>
                             <td class="text-center"><%=otrq.getStartTime()%></td>     
