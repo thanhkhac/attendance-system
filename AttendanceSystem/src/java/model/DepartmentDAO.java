@@ -75,9 +75,11 @@ public class DepartmentDAO extends DBContext {
         ResultSet rs = null;
 //        if (connection != null) {
         try {
-            String sql = "SELECT *\r\n" + //
-                    "  FROM [Attendance_DB].[dbo].[Departments]\r\n" + //
-                    "  where DepartmentID = ?";
+            String sql = "  Select * from Departments " +
+             "      WHERE DepartmentID = ? ";
+            
+                
+                    
             stm = connection.prepareStatement(sql);
             stm.setInt(1, departmentID);
             rs = stm.executeQuery();
