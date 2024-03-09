@@ -24,9 +24,26 @@ public class LeaveRequestDTO {
     private Boolean hrApprove;
     private int managerID;
     private int hrID;
+    private int createdBy;
     private Boolean status;
 
     public LeaveRequestDTO() {
+    }
+
+    public LeaveRequestDTO(int leaveRequestID, int employeeID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String filePath, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, int createdBy, Boolean status) {
+        this.leaveRequestID = leaveRequestID;
+        this.employeeID = employeeID;
+        this.sentDate = sentDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.filePath = filePath;
+        this.reason = reason;
+        this.managerApprove = managerApprove;
+        this.hrApprove = hrApprove;
+        this.managerID = managerID;
+        this.hrID = hrID;
+        this.createdBy = createdBy;
+        this.status = status;
     }
 
     public LeaveRequestDTO(int leaveRequestID, int employeeID, int departmentID, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String filePath, String reason, Boolean managerApprove, Boolean hrApprove, int managerID, int hrID, Boolean status) {
@@ -164,6 +181,14 @@ public class LeaveRequestDTO {
 
     public void setHrID(int hrID) {
         this.hrID = hrID;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Boolean getStatus() {
