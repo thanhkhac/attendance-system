@@ -167,6 +167,10 @@
                             <td class="text-center">
                                 <%
                                     if(otrq.getManagerApprove() != null){
+                                    }else if(otrq.getConflict() != null && otrq.getConflict().equalsIgnoreCase("conflict")){
+                                %>
+                                <p class="text-danger" title="Conflicts with existing work shifts"><i class="fa-solid fa-triangle-exclamation"></i></p>
+                                <%
                                     }else{
                                 %>
                                 <button onclick="xacNhan('Accept', '<%= otrq.getOverTimeRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= otrq.getOverTimeRequestID() %>">
