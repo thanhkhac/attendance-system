@@ -175,6 +175,6 @@
                 setSelectedValuesFromUrl();
             });
         </script>
-        <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
+        <!--<script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>-->
     </body>
 </html>

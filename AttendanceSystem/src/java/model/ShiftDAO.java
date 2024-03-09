@@ -98,6 +98,83 @@ public class ShiftDAO extends DAOBase {
         return list;
     }
 
+    public int insertShift(ShiftDTO shift) {
+        connect();
+        query = "INSERT INTO Shifts (Name, StartTime, EndTime, OpenAt, CloseAt) VALUES\n" +
+                "(?, ?, ?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setNString(1, shift.getName());
+            ps.setString(2, shift.getStartTime().toString());
+            ps.setString(3, shift.getEndTime().toString());
+            ps.setString(4, shift.getOpenAt().toString());
+            ps.setString(5, shift.getCloseAt().toString());
+
+            int result = ps.executeUpdate();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return 0;
+    }
+
+    public int deleteShift(int ID) {
+        connect();
+        query = "	UPDATE Shifts\n" +
+                "	SET IsActive = 0" +
+                "	WHERE ShiftID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, ID);
+            int result = ps.executeUpdate();
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return 0;
+    }
+
+    public int checkConflict(ShiftDTO shift) {
+        connect();
+        query = "DECLARE @StartTime Time = ?\n" +
+                "DECLARE @EndTIme Time = ?\n" +
+                "\n" +
+                "SELECT * \n" +
+                "FROM \n" +
+                "	Shifts S\n" +
+                "WHERE\n" +
+                "	IsActive = 1\n" +
+                "	AND (\n" +
+                "	(@StartTime  BETWEEN S.StartTime AND S.EndTIme)\n" +
+                "	OR\n" +
+                "	(@EndTIme BETWEEN S.StartTime AND S.EndTIme)\n" +
+                "	OR\n" +
+                "	(S.StartTime BETWEEN @StartTime AND @EndTIme)\n" +
+                "	OR\n" +
+                "	(S.EndTime BETWEEN @StartTime AND @EndTIme)\n" +
+                "	)";
+        try {
+            int result = 0;
+            ps = connection.prepareStatement(query);
+            ps.setString(1, shift.getStartTime().toString());
+            ps.setString(2, shift.getEndTime().toString());
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                result++;
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         ShiftDAO shiftDAO = new ShiftDAO();
         ArrayList<ShiftDTO> shifts = new ShiftDAO().getAllShiftDTO();

@@ -112,7 +112,7 @@
                         <c:if test="${counter.index % 7 == 0}">
                             <tr>
                             </c:if>
-                            <td class="mytable-td" style="height: 5rem">
+                            <td class="mytable-td" style="height: auto">
                                 <div class="date-block" style="border-bottom: 0px">
                                     <c:if test = "${wkday eq requestScope.today}">
                                         <div class="date text-danger" id="today">
@@ -126,7 +126,7 @@
                                     </c:if>
                                 </div>
                                 <div class="shift-block">
-                                    <c:if test = "${wkday > requestScope.today and wkday.getMonthValue() == month}">
+                                    <c:if test = "${wkday >= requestScope.today and wkday.getMonthValue() == month}">
                                         <select class="form-select shift--select" name="shift" id="shift" onchange="newSelect(this)">
                                             <option value="">Chọn ca</option>
                                             <c:forEach var="shift" items="${shiftList}" varStatus="counter">

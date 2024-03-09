@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class RequestTypeDAO extends DAOBase {
 
     public ArrayList<RequestTypeDTO> getRequestTypeList() {
+        connect();
         ArrayList<RequestTypeDTO> list = new ArrayList<>();
         if (connection != null) {
             try {
@@ -22,7 +23,7 @@ public class RequestTypeDAO extends DAOBase {
                 rs = ps.executeQuery();
                 while (rs.next()) {
                     int id = rs.getInt("TypeID");
-                    String name = rs.getString("Name");
+                    String name = rs.getNString("Name");
 
                     list.add(new RequestTypeDTO(id, name));
                 }
@@ -31,7 +32,14 @@ public class RequestTypeDAO extends DAOBase {
                 System.out.println(e.getMessage());
             }
         }
-
+        closeAll();
         return list;
+    }
+    public static void main(String[] args) {
+        ArrayList<RequestTypeDTO> requestTypeDTOs = new RequestTypeDAO().getRequestTypeList();
+        requestTypeDTOs.forEach( (t) -> {
+            System.out.println(t.getRequestTypeID());
+             System.out.println(t.getRequestTypeName());
+        });
     }
 }
