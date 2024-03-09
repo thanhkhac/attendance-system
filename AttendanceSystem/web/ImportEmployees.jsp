@@ -45,6 +45,9 @@
             .information-items input{
                 min-width: 200px;
             }
+            .information-items select{
+                min-width: 200px;
+            }
             .modal-label{
                 margin-top: 15px;
             }
@@ -55,6 +58,10 @@
         <c:set var="employee" value="${sessionScope.employees}" />
         <c:set var="isError" value="${sessionScope.isError}" />
         <c:set var="isAcceptable" value="${sessionScope.isAcceptable}" />
+        <c:set var="departments" value="${requestScope.departments}" />
+        <c:set var="types" value="${requestScope.types}" />
+        <c:set var="roles" value="${requestScope.roles}" />
+
         <div class="content">
             <h1 class="text-center">Import Employee </h1>
             <div class="content-redirect">
@@ -144,14 +151,45 @@
                                                         <label class="modal-label">Phone</label><input type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">Gender</label><input type="text" name="Gender" value="${e.getGender()?"Male":"Female"}"><br>
+                                                        <label class="modal-label">Gender</label>
+                                                        <!--<input type="text" name="Gender" value="${e.getGender()?"Male":"Female"}">-->
+                                                        <select name="Gender">
+                                                            <option ${e.getGender() == true?'selected':''} value="${e.getGender()}">Nam</option>
+                                                            <option ${e.getGender() == false?'selected':''}value="${e.getGender()}">Nữ</option>
+                                                        </select>
+
+                                                        <br>
                                                         <label class="modal-label">BirthDate</label><input type="text" name="BirthDate" value="${e.getBirthDate()}"><br>
                                                         <label class="modal-label">Password</label><input type="text" name="Password" value="${e.getPassword()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">TypeID</label><input type="text" name="EmployeeType" value="${e.getEmployeeTypeID()}"><br>
-                                                        <label class="modal-label">DepartmentID</label><input type="text" name="Department" value="${e.getDepartmentID()}"><br>
-                                                        <label class="modal-label">RoleID</label><input type="text" name="Role" value="${e.getRoleID()}"><br>
+                                                        <label class="modal-label">EmployeType</label>
+                                                        <select name="EmployeeType">
+                                                            <c:forEach items="${types}" var="t">
+                                                                <option 
+                                                                    <c:if test="${e.getEmployeeTypeID() eq t.getEmployeeTypeID()}">selected=""</c:if>
+                                                                    value="${t.getEmployeeTypeID()}">${t.getName()}</option>                                                          
+                                                            </c:forEach>
+                                                        </select>
+                                                        <br>
+                                                        <label class="modal-label">Department</label>
+                                                        <select name="Department">
+                                                            <c:forEach items="${departments}" var="d">
+                                                                <option 
+                                                                    <c:if test="${e.getDepartmentID() eq d.getDepartmentID()}">selected=""</c:if>
+                                                                    value="${d.getDepartmentID()}">${d.getName()}</option>                                                          
+                                                            </c:forEach>
+                                                        </select>
+                                                        <br>
+                                                        <label class="modal-label">Role</label>
+                                                        <select name="Role">
+                                                            <c:forEach items="${roles}" var="r">
+                                                                <option 
+                                                                    <c:if test="${e.getRoleID() eq r.getRoleID()}">selected</c:if>
+                                                                    value="${r.getRoleID()}">${r.getName()}</option>                                                          
+                                                            </c:forEach>
+                                                        </select>
+                                                        <br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
                                                         <label class="modal-label">StartDate</label><input type="text" name="StartDate" value="${e.getStartDate()}"><br>
@@ -211,14 +249,43 @@
                                                         <label class="modal-label">Phone</label><input type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">Gender</label><input type="text" name="Gender" value="${e.getGender()?"Male":"Female"}"><br>
+                                                        <label class="modal-label">Gender</label>
+                                                        <select name="Gender">
+                                                            <option ${e.getGender() == true?'selected':''} value="${e.getGender()}">Nam</option>
+                                                            <option ${e.getGender() == false?'selected':''}value="${e.getGender()}">Nữ</option>
+                                                        </select>
+                                                        <br>
                                                         <label class="modal-label">BirthDate</label><input type="text" name="BirthDate" value="${e.getBirthDate()}"><br>
                                                         <label class="modal-label">Password</label><input type="text" name="Password" value="${e.getPassword()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">TypeID</label><input type="text" name="EmployeeType" value="${e.getEmployeeTypeID()}"><br>
-                                                        <label class="modal-label">DepartmentID</label><input type="text" name="Department" value="${e.getDepartmentID()}"><br>
-                                                        <label class="modal-label">RoleID</label><input type="text" name="Role" value="${e.getRoleID()}"><br>
+                                                        <label class="modal-label">EmployeeType</label>
+                                                        <select name="EmployeeType">
+                                                            <c:forEach items="${types}" var="t">
+                                                                <option 
+                                                                    <c:if test="${e.getEmployeeTypeID() eq t.getEmployeeTypeID()}">selected=""</c:if>
+                                                                    value="${t.getEmployeeTypeID()}">${t.getName()}</option>                                                          
+                                                            </c:forEach>
+                                                        </select>
+                                                        <br>
+                                                        <label class="modal-label">Department</label>
+                                                        <select name="Department">
+                                                            <c:forEach items="${departments}" var="d">
+                                                                <option 
+                                                                    <c:if test="${e.getDepartmentID() eq d.getDepartmentID()}">selected=""</c:if>
+                                                                    value="${d.getDepartmentID()}">${d.getName()}</option>                                                          
+                                                            </c:forEach>
+                                                        </select>
+                                                        <br>
+                                                        <label class="modal-label">Role</label>
+                                                        <select name="Role">
+                                                            <c:forEach items="${roles}" var="r">
+                                                                <option 
+                                                                    <c:if test="${e.getRoleID() eq r.getRoleID()}">selected</c:if>
+                                                                    value="${r.getRoleID()}">${r.getName()}</option>                                                          
+                                                            </c:forEach>
+                                                        </select>
+                                                        <br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
                                                         <label class="modal-label">StartDate</label><input type="text" name="StartDate" value="${e.getStartDate()}"><br>
@@ -266,7 +333,7 @@
             for (var i = 0; i < error_rows.length; i++) {
                 error_rows[i].style.display = 'none';
             }
-            
+
         });
 
 
@@ -295,7 +362,7 @@
             }
         }
 
-       
+
         function submitForm(button) {
             var ID = button.id;
             console.log("update-forms-" + ID);
@@ -309,5 +376,33 @@
                 openPopup();
             }
         });
+        
+        function searchByChange(event) {
+                            event.preventDefault();
+                            var txt_Search = document.getElementById("txtSearchValue").value;
+                            var txt_Department = document.getElementById("txtDepartment").value;
+                            var txt_Type = document.getElementById("txtType").value;
+                            var txt_Order = document.getElementById("txtOrder").value;
+                            console.log("Value: " + txt_Search + ", " + txt_Department + ", " + txt_Type + ", " + txt_Order);
+                            $.ajax({
+                                url: "/AttendanceSystem/ViewAllEmployeeAjax",
+                                type: "get", //send it through get method
+                                data: {
+                                    txtSearchValue: txt_Search,
+                                    txtDepartment: txt_Department,
+                                    txtType: txt_Type,
+                                    txtOrder: txt_Order
+                                },
+                                success: function (data) {
+                                    var tbody = document.getElementById("table-container");
+                                    tbody.innerHTML = data;
+                                    console.log("Success ! ");
+                                    initializePopup();
+                                },
+                                error: function (xhr, error) {
+                                    console.log("Error: ", error);
+                                }
+                            });
+                        }
     </script>
 </html>

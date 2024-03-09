@@ -17,7 +17,7 @@ import jakarta.servlet.http.Part;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import model.EmployeeDTO;
+import model.*;
 import model.UpdateInfoError;
 import ultility.ImportFile.ReadFileModule;
 
@@ -131,11 +131,22 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
+
+        DepartmentDAO deDAO = new DepartmentDAO();
+        EmployeeTypeDAO emDAO = new EmployeeTypeDAO();
+        RoleDAO roleDAO = new RoleDAO();
+
         ArrayList<EmployeeDTO> employees = new ArrayList<>();
         ArrayList<EmployeeDTO> isAcceptable = new ArrayList<>();
         ArrayList<EmployeeDTO> isError = new ArrayList<>();
+        ArrayList<DepartmentDTO> department = deDAO.getListDepartment();
+        ArrayList<EmployeeTypeDTO> employeeType = emDAO.getEmployeeTypeList();
+        ArrayList<RoleDTO> roles = roleDAO.getRoleList();
+
         ReadFileModule readFileModule = new ReadFileModule();
         HttpSession session = request.getSession();
+
+
         try {
             //get file from request
             Part file = request.getPart("file");
@@ -161,6 +172,10 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
         session.setAttribute("employees", employees);
         session.setAttribute("isAcceptable", isAcceptable);
         session.setAttribute("isError", isError);
+        request.setAttribute("departments", department);
+        request.setAttribute("types", employeeType);
+        request.setAttribute("roles", roles);
+
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
     }
 
