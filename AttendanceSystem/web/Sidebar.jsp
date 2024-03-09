@@ -16,11 +16,18 @@
                 background-color: #498CB6;
                 float: left;
             }
+            
+            .closebutton{
+                display: none;
+            }
 
             @media screen and (max-width: 768px) {
                 .xSidebar {
                     display: none;
                     width: 50% !important;
+                }
+                .closebutton{
+                    display: block;
                 }
             }
         </style>
@@ -42,9 +49,9 @@
                                     Nguyễn Khắc Thành
                                 </div>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Tài khoản</a></li>
+                                    <li><a class="dropdown-item" href="UpdateEmployeeProfile.jsp">Tài khoản</a></li>
                                     <li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
-                                    <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                                    <li><a class="dropdown-item" href="logout">Đăng xuất</a></li>
                                 </ul>
                             </div>
                         </div>
