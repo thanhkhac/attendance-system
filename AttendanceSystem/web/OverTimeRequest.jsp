@@ -211,7 +211,7 @@
                         <div id="overtime-request">
                             <div class="request-policy">
                                 <p>Quy định ngày nghỉ : </p>
-                                <p>Năm: xử lý tối đa trong 1 năm tới.</p>
+                                <!--<p>Năm: xử lý tối đa trong 1 năm tới.</p>-->
                                 <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
                                 <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
                             </div>

@@ -248,7 +248,7 @@ public class OverTimeRequestDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
-        }finally{
+        } finally {
             closeAll();
         }
         return false;
@@ -263,7 +263,7 @@ public class OverTimeRequestDAO extends DAOBase {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, requestID);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 int overTimeRequestID = rs.getInt("OvertimeRequestID");
                 LocalDate date = DATE_UTIL.parseSqlDate(rs.getDate("Date"));
                 int employeeID = rs.getInt("EmployeeID");
@@ -282,7 +282,7 @@ public class OverTimeRequestDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
-        }finally{
+        } finally {
             closeAll();
         }
         return null;
@@ -305,7 +305,7 @@ public class OverTimeRequestDAO extends DAOBase {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
-        }finally{
+        } finally {
             closeAll();
         }
         return false;
@@ -319,7 +319,7 @@ public class OverTimeRequestDAO extends DAOBase {
         System.out.println("1 List size : " + list.size());
         System.out.println("2 Manager approve : " + otDAO.overtimeRequestApproveByManager(1, 4, 65));
         System.out.println("3 HR approve : " + otDAO.overtimeRequestApproveByHr(1, 2, 65));
-/*
+        /*
         for (OverTimeRequestExtendDTO otrq : list) {
             System.out.println(otrq.getOverTimeRequestID());
             System.out.println(otrq.getSentDate());
@@ -331,8 +331,8 @@ public class OverTimeRequestDAO extends DAOBase {
         }
          */
 
-         OverTimeRequestDTO otDTO = new OverTimeRequestDTO();
-         otDTO = otDAO.getOverTimeRequestByID(1);
-         System.out.println("4 " + otDTO);
+        OverTimeRequestDTO otDTO = new OverTimeRequestDTO();
+        otDTO = otDAO.getOverTimeRequestByID(1);
+        System.out.println("4 " + otDTO);
     }
 }

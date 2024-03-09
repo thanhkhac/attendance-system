@@ -41,10 +41,10 @@ public class ListAddEmployeeAjax extends HttpServlet {
         String txtSearch = request.getParameter("txt");
         String listEmpp = request.getParameter("listEmpp");
         String checkAll = request.getParameter("Check");
-        
+
         String[] listID = new String[0];
         int listIDInt[] = new int[0];
-        
+
         if (listEmpp != null && listEmpp.length() > 0) {
             listID = listEmpp.split("\\|");
             listIDInt = new int[listID.length];
@@ -89,9 +89,9 @@ public class ListAddEmployeeAjax extends HttpServlet {
             Page = Integer.parseInt(page);
         }
         EmployeeDAO dao = new EmployeeDAO();
-        ArrayList<EmployeeDTO> list = dao.getListAddEmployeeOvertimeAjax(startx,endx,Page, Date, phongBan, empID, firstName, lastName, Middname);
+        ArrayList<EmployeeDTO> list = dao.getListAddEmployeeOvertimeAjax(startx, endx, Page, Date, phongBan, empID, firstName, lastName, Middname);
         if (checkAll != null && checkAll.length() > 0) {
-                    ArrayList<EmployeeDTO> listAll = dao.getAllAddEmployeeOvertime(startx,endx, Date, phongBan, empID, firstName, lastName, Middname);
+            ArrayList<EmployeeDTO> listAll = dao.getAllAddEmployeeOvertime(startx, endx, Date, phongBan, empID, firstName, lastName, Middname);
 
             listEmpp = "";
             for (EmployeeDTO listemp : listAll) {
@@ -129,8 +129,7 @@ public class ListAddEmployeeAjax extends HttpServlet {
 
         DepartmentDTO departEmp = new DepartmentDTO();
         int countCheckBox = 0;
-        String TypeName ="";
-        
+        String TypeName = "";
         for (EmployeeDTO listemp : list) {
             countCheckBox = 0;
             departEmp = new DepartmentDAO().getDepartmentById(listemp.getDepartmentID());

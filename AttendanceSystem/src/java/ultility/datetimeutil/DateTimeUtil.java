@@ -26,7 +26,6 @@ public class DateTimeUtil {
         return localDate;
     }
 
-
     public LocalTime parseSQLTime(Time time) {
         LocalTime localTime = null;
         try {
@@ -52,7 +51,17 @@ public class DateTimeUtil {
         }
         return localDate;
     }
-    
+
+    public LocalDate parseUtilDate(java.util.Date Utildate) {
+        LocalDate date = Utildate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return date;
+    }
+
+    public java.sql.Date parseUtilToSqlDate(java.util.Date Utildate) {
+        java.sql.Date sqlDate = new java.sql.Date(Utildate.getTime());
+        return sqlDate;
+    }
+
     public LocalDate getVNLocalDateNow() {
         return LocalDate.now(ZONE_ID_VIETNAM);
     }

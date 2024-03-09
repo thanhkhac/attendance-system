@@ -5,6 +5,7 @@
 
 package control.overtimerequest;
 
+import authorization.RoleConstants;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -50,13 +51,13 @@ public class DenyOTRequestServlet extends HttpServlet {
         out.println("|| 4 Button value : " + button_value);
         
         if (button_value.startsWith("Deny")) {
-            if (acc.getRoleID() == 4) { // role id = 4 : Quan li
+            if (acc.getRoleID() == RoleConstants.MANAGER) { // role id = 4 : Quan li
                 out.println("|| RoleID-4(Quan li) : " + acc.getRoleID());
                 // Duyet don theo role quan li
                 if (otDAO.overtimeRequestApproveByManager(0, acc.getEmployeeID(), overTimeRequestID_raw)) {
                     response.sendRedirect("ViewOverTimeRequestForManager.jsp");
                 }
-            }else if(acc.getRoleID() == 2){ // role id = 2 : Quan li nhan su
+            }else if(acc.getRoleID() == RoleConstants.HR){ // role id = 2 : Quan li nhan su
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
                 if (otDAO.overtimeRequestApproveByHr(0, acc.getEmployeeID(), overTimeRequestID_raw)) {
