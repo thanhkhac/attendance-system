@@ -58,9 +58,9 @@
         <c:set var="employee" value="${sessionScope.employees}" />
         <c:set var="isError" value="${sessionScope.isError}" />
         <c:set var="isAcceptable" value="${sessionScope.isAcceptable}" />
-        <c:set var="departments" value="${requestScope.departments}" />
-        <c:set var="types" value="${requestScope.types}" />
-        <c:set var="roles" value="${requestScope.roles}" />
+        <c:set var="departments" value="${sessionScope.departments}" />
+        <c:set var="types" value="${sessionScope.types}" />
+        <c:set var="roles" value="${sessionScope.roles}" />
 
         <div class="content">
             <h1 class="text-center">Import Employee </h1>
@@ -121,9 +121,9 @@
                                     <td>${e.getCccd()}</td>
                                     <td>${e.getGender()?"Male":"Female"}</td>
                                     <td>
-                                        <button  data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
-                                                 class="btn btn-primary"
-                                                 >Update</button>
+                                        <button id="${e.getEmployeeID()}" data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
+                                                class="btn btn-primary"
+                                                >Update</button>
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="popupModal-${e.getEmployeeID()}" tabindex="-1"
@@ -134,37 +134,37 @@
                                                 <h5 class="modal-title" id="exampleModalLabel">Employee #${e.getEmployeeID()} Information <span style="color: green">Acceptable</span> </h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body d-flex p-3">
-                                                <form action="UpdateTempEmployeeServlet"
+                                            <div  class="modal-body d-flex p-3">
+                                                <form onchange="check()"
+                                                      action="UpdateTempEmployeeServlet"
                                                       id="update-form-${e.getEmployeeID()}"
                                                       class="update-forms"
                                                       class="row g-3">
                                                     <div class="information-items" style="max-width: 350px; margin-left: 10px">
                                                         <input type="hidden" name="tmpID" value="${e.getEmployeeID()}">
-                                                        <label class="modal-label">Last Name</label><input type="text" name="lastName" value="${e.getLastName()}"><br>
-                                                        <label class="modal-label">Middle Name</label><input type="text" name="middleName" value="${e.getMiddleName()}"><br>
-                                                        <label class="modal-label">First Name</label><input type="text" name="firstName" value="${e.getFirstName()}"><br>
+                                                        <label class="modal-label">Last Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="lastName-${e.getEmployeeID()}" type="text" name="lastName" value="${e.getLastName()}"><br>
+                                                        <label class="modal-label">Middle Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="middleName-${e.getEmployeeID()}" type="text" name="middleName" value="${e.getMiddleName()}"><br>
+                                                        <label class="modal-label">First Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="firstName-${e.getEmployeeID()}" type="text" name="firstName" value="${e.getFirstName()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">Email</label><input type="text" name="Email" value="${e.getEmail()}"><br>
-                                                        <label class="modal-label">CCCD</label><input type="text" name="CCCD" value="${e.getCccd()}"><br>
-                                                        <label class="modal-label">Phone</label><input type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
+                                                        <label class="modal-label">Email</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="email-${e.getEmployeeID()}" type="text" name="Email" value="${e.getEmail()}"><br>
+                                                        <label class="modal-label">CCCD</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="cccd-${e.getEmployeeID()}" type="text" name="CCCD" value="${e.getCccd()}"><br>
+                                                        <label class="modal-label">Phone</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="phone-${e.getEmployeeID()}" type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
                                                         <label class="modal-label">Gender</label>
-                                                        <!--<input type="text" name="Gender" value="${e.getGender()?"Male":"Female"}">-->
-                                                        <select name="Gender">
-                                                            <option ${e.getGender() == true?'selected':''} value="${e.getGender()}">Nam</option>
-                                                            <option ${e.getGender() == false?'selected':''}value="${e.getGender()}">Nữ</option>
+                                                        <select onchange="checkByChange(event,${e.getEmployeeID()})" name="Gender" id="gender-${e.getEmployeeID()}">
+                                                            <option ${e.getGender() == true?'selected':''} value="true">Nam</option>
+                                                            <option ${e.getGender() == false?'selected':''}value="false">Nữ</option>
                                                         </select>
 
                                                         <br>
-                                                        <label class="modal-label">BirthDate</label><input type="text" name="BirthDate" value="${e.getBirthDate()}"><br>
-                                                        <label class="modal-label">Password</label><input type="text" name="Password" value="${e.getPassword()}"><br>
+                                                        <label class="modal-label">BirthDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="birthDate-${e.getEmployeeID()}" type="date" name="BirthDate" value="${e.getBirthDate()}"><br>
+                                                        <label class="modal-label">Password</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="password-${e.getEmployeeID()}" type="text" name="Password" value="${e.getPassword()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
                                                         <label class="modal-label">EmployeType</label>
-                                                        <select name="EmployeeType">
+                                                        <select onchange="checkByChange(event,${e.getEmployeeID()})"  name="EmployeeType" id="type-${e.getEmployeeID()}">
                                                             <c:forEach items="${types}" var="t">
                                                                 <option 
                                                                     <c:if test="${e.getEmployeeTypeID() eq t.getEmployeeTypeID()}">selected=""</c:if>
@@ -173,7 +173,7 @@
                                                         </select>
                                                         <br>
                                                         <label class="modal-label">Department</label>
-                                                        <select name="Department">
+                                                        <select onchange="checkByChange(event,${e.getEmployeeID()})"  name="Department" id="department-${e.getEmployeeID()}">
                                                             <c:forEach items="${departments}" var="d">
                                                                 <option 
                                                                     <c:if test="${e.getDepartmentID() eq d.getDepartmentID()}">selected=""</c:if>
@@ -182,7 +182,7 @@
                                                         </select>
                                                         <br>
                                                         <label class="modal-label">Role</label>
-                                                        <select name="Role">
+                                                        <select onchange="checkByChange(event,${e.getEmployeeID()})"  name="Role" id="role-${e.getEmployeeID()}">
                                                             <c:forEach items="${roles}" var="r">
                                                                 <option 
                                                                     <c:if test="${e.getRoleID() eq r.getRoleID()}">selected</c:if>
@@ -192,16 +192,13 @@
                                                         <br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">StartDate</label><input type="text" name="StartDate" value="${e.getStartDate()}"><br>
-                                                        <label class="modal-label">EndDate</label><input type="text" name="EndDate" value="${e.getEndDate()}"><br>
+                                                        <label class="modal-label">StartDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="startDate-${e.getEmployeeID()}" type="date" name="StartDate" value="${e.getStartDate()}"><br>
+                                                        <label class="modal-label">EndDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="endDate-${e.getEmployeeID()}" type="date" name="EndDate" value="${e.getEndDate()}"><br>
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button onclick="submitForm(this)"
-                                                        id="${e.getEmployeeID()}"
-                                                        class="btn btn-success"
-                                                        >Save Change</button>
+                                            <div id="body-ajax-${e.getEmployeeID()}">
+
                                             </div>
                                         </div>
                                     </div>
@@ -219,7 +216,7 @@
                                     <td>${e.getCccd()}</td>
                                     <td>${e.getGender()?"Male":"Female"}</td>
                                     <td>
-                                        <button  data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
+                                        <button  id="${e.getEmployeeID()}" data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
                                                  class="btn btn-primary"
                                                  >Update</button>
                                     </td>
@@ -232,35 +229,36 @@
                                                 <h5 class="modal-title" id="exampleModalLabel">Employee #${e.getEmployeeID()} Information <span style="color: red">ERROR</span></h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body d-flex p-3">
-                                                <form action="UpdateTempEmployeeServlet"
-                                                      id="update-form-${e.getEmployeeID()}"
-                                                      class="update-forms"
-                                                      class="row g-3">
+                                            <div  class="modal-body d-flex p-3">
+                                                <form 
+                                                    action="UpdateTempEmployeeServlet"
+                                                    id="update-form-${e.getEmployeeID()}"
+                                                    class="update-forms"
+                                                    class="row g-3">
                                                     <div class="information-items" style="max-width: 350px; margin-left: 10px">
                                                         <input type="hidden" name="tmpID" value="${e.getEmployeeID()}">
-                                                        <label class="modal-label">Last Name</label><input type="text" name="lastName" value="${e.getLastName()}"><br>
-                                                        <label class="modal-label">Middle Name</label><input type="text" name="middleName" value="${e.getMiddleName()}"><br>
-                                                        <label class="modal-label">First Name</label><input type="text" name="firstName" value="${e.getFirstName()}"><br>
+                                                        <label class="modal-label">Last Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})" id="lastName-${e.getEmployeeID()}" type="text" name="lastName" value="${e.getLastName()}"><br>
+                                                        <label class="modal-label">Middle Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="middleName-${e.getEmployeeID()}" type="text" name="middleName" value="${e.getMiddleName()}"><br>
+                                                        <label class="modal-label">First Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="firstName-${e.getEmployeeID()}" type="text" name="firstName" value="${e.getFirstName()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">Email</label><input type="text" name="Email" value="${e.getEmail()}"><br>
-                                                        <label class="modal-label">CCCD</label><input type="text" name="CCCD" value="${e.getCccd()}"><br>
-                                                        <label class="modal-label">Phone</label><input type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
+                                                        <label class="modal-label">Email</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="email-${e.getEmployeeID()}" type="text" name="Email" value="${e.getEmail()}"><br>
+                                                        <label class="modal-label">CCCD</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="cccd-${e.getEmployeeID()}" type="text" name="CCCD" value="${e.getCccd()}"><br>
+                                                        <label class="modal-label">Phone</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="phone-${e.getEmployeeID()}" type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
                                                         <label class="modal-label">Gender</label>
-                                                        <select name="Gender">
-                                                            <option ${e.getGender() == true?'selected':''} value="${e.getGender()}">Nam</option>
-                                                            <option ${e.getGender() == false?'selected':''}value="${e.getGender()}">Nữ</option>
+                                                        <select onchange="checkByChange(event, ${e.getEmployeeID()})" name="Gender" id="gender-${e.getEmployeeID()}">
+                                                            <option ${e.getGender() == true?'selected':''} value="true">Nam</option>
+                                                            <option ${e.getGender() == false?'selected':''}value="false">Nữ</option>
                                                         </select>
                                                         <br>
-                                                        <label class="modal-label">BirthDate</label><input type="text" name="BirthDate" value="${e.getBirthDate()}"><br>
-                                                        <label class="modal-label">Password</label><input type="text" name="Password" value="${e.getPassword()}"><br>
+                                                        <label class="modal-label">BirthDate</label><input  oninput="checkByChange(event,${e.getEmployeeID()})"  id="birthDate-${e.getEmployeeID()}" type="date" name="BirthDate" value="${e.getBirthDate()}"><br>
+                                                        <label class="modal-label">Password</label><input  oninput="checkByChange(event,${e.getEmployeeID()})"  id="password-${e.getEmployeeID()}" type="text" name="Password" value="${e.getPassword()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">EmployeeType</label>
-                                                        <select name="EmployeeType">
+                                                        <label class="modal-label">EmployeType</label>
+                                                        <select onchange="checkByChange(event, ${e.getEmployeeID()})"  name="EmployeeType" id="type-${e.getEmployeeID()}">
                                                             <c:forEach items="${types}" var="t">
                                                                 <option 
                                                                     <c:if test="${e.getEmployeeTypeID() eq t.getEmployeeTypeID()}">selected=""</c:if>
@@ -269,7 +267,7 @@
                                                         </select>
                                                         <br>
                                                         <label class="modal-label">Department</label>
-                                                        <select name="Department">
+                                                        <select onchange="checkByChange(event, ${e.getEmployeeID()})"  name="Department" id="department-${e.getEmployeeID()}">
                                                             <c:forEach items="${departments}" var="d">
                                                                 <option 
                                                                     <c:if test="${e.getDepartmentID() eq d.getDepartmentID()}">selected=""</c:if>
@@ -278,7 +276,7 @@
                                                         </select>
                                                         <br>
                                                         <label class="modal-label">Role</label>
-                                                        <select name="Role">
+                                                        <select onchange="checkByChange(event, ${e.getEmployeeID()})"  name="Role" id="role-${e.getEmployeeID()}">
                                                             <c:forEach items="${roles}" var="r">
                                                                 <option 
                                                                     <c:if test="${e.getRoleID() eq r.getRoleID()}">selected</c:if>
@@ -288,16 +286,14 @@
                                                         <br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">StartDate</label><input type="text" name="StartDate" value="${e.getStartDate()}"><br>
-                                                        <label class="modal-label">EndDate</label><input type="text" name="EndDate" value="${e.getEndDate()}"><br>
+                                                        <label class="modal-label">StartDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="startDate-${e.getEmployeeID()}" type="date" name="StartDate" value="${e.getStartDate()}"><br>
+                                                        <label class="modal-label">EndDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="endDate-${e.getEmployeeID()}" type="date" name="EndDate" value="${e.getEndDate()}"><br>
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button onclick="submitForm(this)"
-                                                        id="${e.getEmployeeID()}"
-                                                        class="btn btn-success"
-                                                        >Save Change</button>
+                                            <div id="body-ajax-${e.getEmployeeID()}"
+                                                 class="border-1 border-success" >
+
                                             </div>
                                         </div>
                                     </div>
@@ -333,7 +329,6 @@
             for (var i = 0; i < error_rows.length; i++) {
                 error_rows[i].style.display = 'none';
             }
-
         });
 
 
@@ -366,43 +361,82 @@
         function submitForm(button) {
             var ID = button.id;
             console.log("update-forms-" + ID);
-            var update_form = document.getElementById("update-form-" + ID);
-            update_form.submit();
-            // Set a flag in localStorage to indicate that the popup has been displayed
-            localStorage.setItem('popupDisplayed', 'true');
-        }
-        window.addEventListener('DOMContentLoaded', function () {
-            if (localStorage.getItem('popupDisplayed') !== 'true') {
-                openPopup();
+            if (confirm("Save change ? ")) {
+                var update_form = document.getElementById("update-form-" + ID);
+                update_form.submit();
             }
-        });
-        
-        function searchByChange(event) {
-                            event.preventDefault();
-                            var txt_Search = document.getElementById("txtSearchValue").value;
-                            var txt_Department = document.getElementById("txtDepartment").value;
-                            var txt_Type = document.getElementById("txtType").value;
-                            var txt_Order = document.getElementById("txtOrder").value;
-                            console.log("Value: " + txt_Search + ", " + txt_Department + ", " + txt_Type + ", " + txt_Order);
-                            $.ajax({
-                                url: "/AttendanceSystem/ViewAllEmployeeAjax",
-                                type: "get", //send it through get method
-                                data: {
-                                    txtSearchValue: txt_Search,
-                                    txtDepartment: txt_Department,
-                                    txtType: txt_Type,
-                                    txtOrder: txt_Order
-                                },
-                                success: function (data) {
-                                    var tbody = document.getElementById("table-container");
-                                    tbody.innerHTML = data;
-                                    console.log("Success ! ");
-                                    initializePopup();
-                                },
-                                error: function (xhr, error) {
-                                    console.log("Error: ", error);
-                                }
-                            });
-                        }
+
+        }
+
+        function check() {
+            console.log("Hello");
+        }
+
+        function checkByChange(event, ID) {
+            event.preventDefault();
+            console.log("employee-" + ID);
+            var txt_firstName = document.getElementById("firstName-" + ID).value;
+            var txt_middleName = document.getElementById("middleName-" + ID).value;
+            var txt_lastName = document.getElementById("lastName-" + ID).value;
+            var txt_email = document.getElementById("email-" + ID).value;
+            var txt_cccd = document.getElementById("cccd-" + ID).value;
+            var txt_phone = document.getElementById("phone-" + ID).value;
+            var txt_password = document.getElementById("password-" + ID).value;
+            var txt_gender = document.getElementById("gender-" + ID).value;
+            var txt_birthDate = document.getElementById("birthDate-" + ID).value;
+            var txt_departmentID = document.getElementById("department-" + ID).value;
+            var txt_typeID = document.getElementById("type-" + ID).value;
+            var txt_roleID = document.getElementById("role-" + ID).value;
+            var txt_startDate = document.getElementById("startDate-" + ID).value;
+            var txt_endDate = document.getElementById("endDate-" + ID).value;
+            var txt_id = ID;
+
+            console.log(txt_id);
+            console.log(txt_firstName);
+            console.log(txt_middleName);
+            console.log(txt_lastName);
+            console.log(txt_email);
+            console.log(txt_cccd);
+            console.log(txt_phone);
+            console.log(txt_password);
+            console.log(txt_gender);
+            console.log(txt_birthDate);
+            console.log(txt_departmentID);
+            console.log(txt_typeID);
+            console.log(txt_roleID);
+            console.log(txt_startDate);
+            console.log(txt_endDate);
+
+
+            $.ajax({
+                url: "/AttendanceSystem/HandleTempEmployeeAJAX",
+                type: "get", //send it through get method
+                data: {
+                    firstName: txt_firstName,
+                    middleName: txt_middleName,
+                    lastName: txt_lastName,
+                    Gender: txt_gender,
+                    CCCD: txt_cccd,
+                    Email: txt_email,
+                    Password: txt_password,
+                    Phone: txt_phone,
+                    BirthDate: txt_birthDate,
+                    Department: txt_departmentID,
+                    EmployeeType: txt_typeID,
+                    Role: txt_roleID,
+                    StartDate: txt_startDate,
+                    EndDate: txt_endDate,
+                    tmpID: ID
+                },
+                success: function (data) {
+                    var abody = document.getElementById("body-ajax-" + ID);
+                    abody.innerHTML = data;
+                    console.log("Success ! ");
+                },
+                error: function (xhr, error) {
+                    console.log("Error: ", error);
+                }
+            });
+        }
     </script>
 </html>

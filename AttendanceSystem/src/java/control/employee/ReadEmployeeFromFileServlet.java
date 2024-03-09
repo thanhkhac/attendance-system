@@ -172,9 +172,9 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
         session.setAttribute("employees", employees);
         session.setAttribute("isAcceptable", isAcceptable);
         session.setAttribute("isError", isError);
-        request.setAttribute("departments", department);
-        request.setAttribute("types", employeeType);
-        request.setAttribute("roles", roles);
+        session.setAttribute("departments", department);
+        session.setAttribute("types", employeeType);
+        session.setAttribute("roles", roles);
 
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
     }
