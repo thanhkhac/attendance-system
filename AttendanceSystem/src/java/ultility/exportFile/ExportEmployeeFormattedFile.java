@@ -23,6 +23,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import model.*;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.DataValidation;
 import org.apache.poi.ss.usermodel.DataValidationConstraint;
 import org.apache.poi.ss.usermodel.DataValidationHelper;
@@ -50,6 +52,8 @@ public class ExportEmployeeFormattedFile {
     public static final int COLUMN_INDEX_END_DATE = 13;
 //    public static final int COLUMN_INDEX_IS_ACTIVED = 15;
     private static CellStyle cellStyleFormatNumber = null;
+    private static CellStyle cellStyleFormatText = null;
+    private static CellStyle cellStyleFormatDate = null;
 
     public static void main(String[] args) throws IOException {
         final String excelFilePath = "C:\\Demo\\Employee.xlsx";
@@ -59,6 +63,10 @@ public class ExportEmployeeFormattedFile {
         String[] de = ex.getDepartments();
         String[] ty = ex.getEmployeeTypes();
         String[] ro = ex.getRoles();
+
+        for (String s : de) {
+            System.out.println(s);
+        }
 
     }
 
@@ -177,7 +185,7 @@ public class ExportEmployeeFormattedFile {
         String[] departmentName = new String[departments.size()];
         int i = 0;
         for (DepartmentDTO d : departments) {
-            departmentName[i] = d.getName();
+            departmentName[i] = d.getDepartmentID() + "-" + d.getName();
             i++;
         }
         return departmentName;
@@ -189,7 +197,7 @@ public class ExportEmployeeFormattedFile {
         String[] typeName = new String[types.size()];
         int i = 0;
         for (EmployeeTypeDTO et : types) {
-            typeName[i] = et.getName();
+            typeName[i] = et.getEmployeeTypeID() + "-" + et.getName();
             i++;
         }
         return typeName;
@@ -201,10 +209,17 @@ public class ExportEmployeeFormattedFile {
         String[] roleName = new String[roles.size()];
         int i = 0;
         for (RoleDTO r : roles) {
-            roleName[i] = r.getName();
+            roleName[i] = r.getRoleID() + "-" + r.getName();
             i++;
         }
         return roleName;
+    }
+
+    private String[] getGender() {
+        String[] gender = new String[2];
+        gender[0] = "Female";
+        gender[1] = "Male";
+        return gender;
     }
 
     private static void applyDropdownValidation(Sheet sheet, int columnIndex, String[] items) {
@@ -223,6 +238,8 @@ public class ExportEmployeeFormattedFile {
 
     private static void WriteBody(Row row) {
         cellStyleFormatNumber = null;
+        cellStyleFormatText = null;
+        cellStyleFormatDate = null;
         if (cellStyleFormatNumber == null) {
             // Format number
             short format = (short) BuiltinFormats.getBuiltinFormat("#,##0");
@@ -234,59 +251,65 @@ public class ExportEmployeeFormattedFile {
             cellStyleFormatNumber = workbook.createCellStyle();
             cellStyleFormatNumber.setDataFormat(format);
         }
+
         ExportEmployeeFormattedFile importFile = new ExportEmployeeFormattedFile();
         String[] departments = importFile.getDepartments();
         String[] types = importFile.getEmployeeTypes();
         String[] roles = importFile.getRoles();
-
+        String[] gender = importFile.getGender();
         Sheet sheet = row.getSheet();
         CellStyle cellStyle = createStyleForBody(sheet);
         Cell cell = row.createCell(COLUMN_INDEX_LAST_NAME);
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
 
         cell = row.createCell(COLUMN_INDEX_MIDDLE_NAME);
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
 
         cell = row.createCell(COLUMN_INDEX_FIRST_NAME);
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
 
         cell = row.createCell(COLUMN_INDEX_BIRTH_DATE);
+//        cell.setCellStyle(createStyleForBody(sheet, "date"));
         cell.setCellStyle(cellStyle);
 
         cell = row.createCell(COLUMN_INDEX_GENDER);
-        cell.setCellStyle(cellStyle);
+        for (String g : gender) {
+            cell.setCellValue(g);
+        }
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
+        applyDropdownValidation(sheet, COLUMN_INDEX_GENDER, gender);
 
         cell = row.createCell(COLUMN_INDEX_EMAIL);
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
 
         cell = row.createCell(COLUMN_INDEX_PASSWORD);
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
 
         cell = row.createCell(COLUMN_INDEX_CCCD);
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
 
         cell = row.createCell(COLUMN_INDEX_PHONE_NUMBER);
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
 
         cell = row.createCell(COLUMN_INDEX_EMPLOYEE_TYPE);
         for (String t : types) {
             cell.setCellValue(t);
         }
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
         applyDropdownValidation(sheet, COLUMN_INDEX_EMPLOYEE_TYPE, types);
 
         cell = row.createCell(COLUMN_INDEX_DEPARTMENT);
         for (String d : departments) {
             cell.setCellValue(d);
         }
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
         applyDropdownValidation(sheet, COLUMN_INDEX_DEPARTMENT, departments);
 
         cell = row.createCell(COLUMN_INDEX_ROLE);
         for (String r : roles) {
             cell.setCellValue(r);
         }
-        cell.setCellStyle(cellStyle);
+        cell.setCellStyle(createStyleForBody(sheet, "text"));
         applyDropdownValidation(sheet, COLUMN_INDEX_ROLE, roles);
 
         cell = row.createCell(COLUMN_INDEX_START_DATE);
@@ -294,6 +317,7 @@ public class ExportEmployeeFormattedFile {
 
         cell = row.createCell(COLUMN_INDEX_END_DATE);
         cell.setCellStyle(cellStyle);
+
 
     }
 
@@ -315,9 +339,36 @@ public class ExportEmployeeFormattedFile {
         return cellStyle;
     }
 
+    private static CellStyle createStyleForBody(Sheet sheet, String type) {
+        CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        Workbook workbook = sheet.getWorkbook();
+        DataFormat format = workbook.createDataFormat();
+        CreationHelper createHelper = workbook.getCreationHelper();
+        switch (type) {
+            case "text": {
+                cellStyle.setDataFormat(format.getFormat("@"));
+                break;
+            }
+            case "date": {
+                cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-yyyy"));
+                break;
+            }
+            case "number": {
+                cellStyle.setDataFormat(format.getFormat("0"));
+                break;
+            }
+            default:
+                throw new AssertionError();
+        }
+        return cellStyle;
+    }
+
     private static CellStyle createStyleForBody(Sheet sheet) {
         CellStyle cellStyle = sheet.getWorkbook().createCellStyle();
         cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        Workbook workbook = sheet.getWorkbook();
+
         return cellStyle;
     }
 

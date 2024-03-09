@@ -4,7 +4,11 @@
     Author     : admin
 --%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.*" %>
+<%@page import="model.*" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,20 +35,279 @@
                 margin: 0px;
                 font-size: large;
             }
+            .modal-custom-size{
+                min-width: 1200px;
+                height: auto;
+            }
+            .information-items label{
+                min-width: 100px;
+            }
+            .information-items input{
+                min-width: 200px;
+            }
+            .modal-label{
+                margin-top: 15px;
+            }
         </style>
     </head>
     <body>
+
+        <c:set var="employee" value="${sessionScope.employees}" />
+        <c:set var="isError" value="${sessionScope.isError}" />
+        <c:set var="isAcceptable" value="${sessionScope.isAcceptable}" />
         <div class="content">
             <h1 class="text-center">Import Employee </h1>
             <div class="content-redirect">
                 <p><a href="ThanhCong.html">Home</a> | Import From Excel</p>
             </div>
-            
-            <div class="content-header">
-                <form action="SendEmployeeFormattedFileServlet">
-                    <input class="btn btn-success" type="submit" name="btAction" value="Dowload Formatted File Excel">
-                </form>
+            <div class="content-file d-flex mt-5 justify-content-end justify-content-between flex-wrap">
+                <div class="content-file-upload mt-2">
+                    <form action="ReadEmployeeFromFileServlet" method="post" enctype="multipart/form-data">
+                        <input class="mt-2" type="file" name="file">
+                        <input class="btn btn-primary" type="submit" name="btAction" value="Upload">
+                    </form>
+                </div>
+                <div class="content-file-dowload mt-2">
+                    <form action="SendEmployeeFormattedFileServlet">
+                        <input class="btn btn-success" type="submit" name="btAction"  value="Dowload Formatted File Excel">
+                    </form>
+                </div>
             </div>
+
+            <c:if test="${not empty employees}">
+                <div class="table-type-btns mt-5">
+                    <h5 style="color: green"><i class="fa-regular fa-circle-check"></i> There are ${employees.size()} employee(s) loaded successfully !</h5>
+                    <button onclick="Accept_Table()"
+                            class="btn btn-success"
+                            id="acceptable-table-btn"
+                            >Acceptable Data Rows (${isAcceptable.size()})
+                    </button>
+                    <button onclick="Error_Table()"
+                            class="btn btn-danger"
+                            id="error-table-btn"
+                            >Error Data Rows (${isError.size()})
+                    </button>
+                </div>
+                <div class="content-table mt-3">
+                    <table border="1" class="table table-hover table-responsive-md table-bordered">
+                        <thead>
+                            <tr id="table-header">
+                                <th>Last Name</th>
+                                <th>Middle Name</th>
+                                <th>First Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>CCCD</th>
+                                <th>Gender</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <div id="table-isAcceptable">
+                            <c:forEach items="${isAcceptable}" var="e">
+                                <tr class="accept-rows table-success">
+                                    <td>${e.getLastName()}</td>
+                                    <td>${e.getMiddleName()}</td>
+                                    <td>${e.getFirstName()}</td>
+                                    <td>${e.getPhoneNumber()}</td>
+                                    <td>${e.getEmail()}</td>
+                                    <td>${e.getCccd()}</td>
+                                    <td>${e.getGender()?"Male":"Female"}</td>
+                                    <td>
+                                        <button  data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
+                                                 class="btn btn-primary"
+                                                 >Update</button>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="popupModal-${e.getEmployeeID()}" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                                    <div class="modal-dialog modal-custom-size modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Employee #${e.getEmployeeID()} Information <span style="color: green">Acceptable</span> </h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex p-3">
+                                                <form action="UpdateTempEmployeeServlet"
+                                                      id="update-form-${e.getEmployeeID()}"
+                                                      class="update-forms"
+                                                      class="row g-3">
+                                                    <div class="information-items" style="max-width: 350px; margin-left: 10px">
+                                                        <input type="hidden" name="tmpID" value="${e.getEmployeeID()}">
+                                                        <label class="modal-label">Last Name</label><input type="text" name="lastName" value="${e.getLastName()}"><br>
+                                                        <label class="modal-label">Middle Name</label><input type="text" name="middleName" value="${e.getMiddleName()}"><br>
+                                                        <label class="modal-label">First Name</label><input type="text" name="firstName" value="${e.getFirstName()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">Email</label><input type="text" name="Email" value="${e.getEmail()}"><br>
+                                                        <label class="modal-label">CCCD</label><input type="text" name="CCCD" value="${e.getCccd()}"><br>
+                                                        <label class="modal-label">Phone</label><input type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">Gender</label><input type="text" name="Gender" value="${e.getGender()?"Male":"Female"}"><br>
+                                                        <label class="modal-label">BirthDate</label><input type="text" name="BirthDate" value="${e.getBirthDate()}"><br>
+                                                        <label class="modal-label">Password</label><input type="text" name="Password" value="${e.getPassword()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">TypeID</label><input type="text" name="EmployeeType" value="${e.getEmployeeTypeID()}"><br>
+                                                        <label class="modal-label">DepartmentID</label><input type="text" name="Department" value="${e.getDepartmentID()}"><br>
+                                                        <label class="modal-label">RoleID</label><input type="text" name="Role" value="${e.getRoleID()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">StartDate</label><input type="text" name="StartDate" value="${e.getStartDate()}"><br>
+                                                        <label class="modal-label">EndDate</label><input type="text" name="EndDate" value="${e.getEndDate()}"><br>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button onclick="submitForm(this)"
+                                                        id="${e.getEmployeeID()}"
+                                                        class="btn btn-success"
+                                                        >Save Change</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        <div>
+                            <c:forEach items="${isError}" var="e">
+                                <tr class="error-rows table-danger">
+                                    <td>${e.getLastName()}</td>
+                                    <td>${e.getMiddleName()}</td>
+                                    <td>${e.getFirstName()}</td>
+                                    <td>${e.getPhoneNumber()}</td>
+                                    <td>${e.getEmail()}</td>
+                                    <td>${e.getCccd()}</td>
+                                    <td>${e.getGender()?"Male":"Female"}</td>
+                                    <td>
+                                        <button  data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
+                                                 class="btn btn-primary"
+                                                 >Update</button>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="popupModal-${e.getEmployeeID()}" tabindex="-1"
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                                    <div class="modal-dialog modal-custom-size modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Employee #${e.getEmployeeID()} Information <span style="color: red">ERROR</span></h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body d-flex p-3">
+                                                <form action="UpdateTempEmployeeServlet"
+                                                      id="update-form-${e.getEmployeeID()}"
+                                                      class="update-forms"
+                                                      class="row g-3">
+                                                    <div class="information-items" style="max-width: 350px; margin-left: 10px">
+                                                        <input type="hidden" name="tmpID" value="${e.getEmployeeID()}">
+                                                        <label class="modal-label">Last Name</label><input type="text" name="lastName" value="${e.getLastName()}"><br>
+                                                        <label class="modal-label">Middle Name</label><input type="text" name="middleName" value="${e.getMiddleName()}"><br>
+                                                        <label class="modal-label">First Name</label><input type="text" name="firstName" value="${e.getFirstName()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">Email</label><input type="text" name="Email" value="${e.getEmail()}"><br>
+                                                        <label class="modal-label">CCCD</label><input type="text" name="CCCD" value="${e.getCccd()}"><br>
+                                                        <label class="modal-label">Phone</label><input type="text" name="Phone" value="${e.getPhoneNumber()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">Gender</label><input type="text" name="Gender" value="${e.getGender()?"Male":"Female"}"><br>
+                                                        <label class="modal-label">BirthDate</label><input type="text" name="BirthDate" value="${e.getBirthDate()}"><br>
+                                                        <label class="modal-label">Password</label><input type="text" name="Password" value="${e.getPassword()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">TypeID</label><input type="text" name="EmployeeType" value="${e.getEmployeeTypeID()}"><br>
+                                                        <label class="modal-label">DepartmentID</label><input type="text" name="Department" value="${e.getDepartmentID()}"><br>
+                                                        <label class="modal-label">RoleID</label><input type="text" name="Role" value="${e.getRoleID()}"><br>
+                                                    </div>
+                                                    <div class="information-items"  style="max-width: 350px;">
+                                                        <label class="modal-label">StartDate</label><input type="text" name="StartDate" value="${e.getStartDate()}"><br>
+                                                        <label class="modal-label">EndDate</label><input type="text" name="EndDate" value="${e.getEndDate()}"><br>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button onclick="submitForm(this)"
+                                                        id="${e.getEmployeeID()}"
+                                                        class="btn btn-success"
+                                                        >Save Change</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
+            <c:if test="${empty employees}">
+                <div class="text-center mt-5">
+                    <h2>  There is no employee data is loaded !</h2>
+                    <h5  style="color: red"><i class="fa-solid fa-triangle-exclamation"></i> Make sure using formatted file to upload data !</h5>
+                </div>
+            </c:if>
         </div>
+
     </body>
+
+    <script>
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var error_rows = document.getElementsByClassName("error-rows");
+            var acceptable_rows = document.getElementsByClassName("accept-rows");
+            var table_head = document.getElementById("table-header");
+            table_head.style.display = 'none';
+            for (var i = 0; i < acceptable_rows.length; i++) {
+                acceptable_rows[i].style.display = 'none';
+            }
+            for (var i = 0; i < error_rows.length; i++) {
+                error_rows[i].style.display = 'none';
+            }
+            
+        });
+
+
+        function Accept_Table() {
+            var error_rows = document.getElementsByClassName("error-rows");
+            var acceptable_rows = document.getElementsByClassName("accept-rows");
+            var table_head = document.getElementById("table-header");
+            table_head.style.display = 'table-row';
+            for (var i = 0; i < acceptable_rows.length; i++) {
+                acceptable_rows[i].style.display = 'table-row';
+            }
+            for (var i = 0; i < error_rows.length; i++) {
+                error_rows[i].style.display = 'none';
+            }
+        }
+        function Error_Table() {
+            var error_rows = document.getElementsByClassName("error-rows");
+            var acceptable_rows = document.getElementsByClassName("accept-rows");
+            var table_head = document.getElementById("table-header");
+            table_head.style.display = 'table-row';
+            for (var i = 0; i < acceptable_rows.length; i++) {
+                acceptable_rows[i].style.display = 'none';
+            }
+            for (var i = 0; i < error_rows.length; i++) {
+                error_rows[i].style.display = 'table-row';
+            }
+        }
+
+       
+        function submitForm(button) {
+            var ID = button.id;
+            console.log("update-forms-" + ID);
+            var update_form = document.getElementById("update-form-" + ID);
+            update_form.submit();
+            // Set a flag in localStorage to indicate that the popup has been displayed
+            localStorage.setItem('popupDisplayed', 'true');
+        }
+        window.addEventListener('DOMContentLoaded', function () {
+            if (localStorage.getItem('popupDisplayed') !== 'true') {
+                openPopup();
+            }
+        });
+    </script>
 </html>

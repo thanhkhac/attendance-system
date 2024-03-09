@@ -58,15 +58,15 @@ public class SendEmployeeFormattedFileServlet extends HttpServlet {
             System.out.println("Error - Write LocalFile");
             e.printStackTrace();
         }
-        
+
         // Adjust the minimum inflate ratio before reading the Excel file
         ZipSecureFile.setMinInflateRatio(0.0005);// Lowering the minimum inflate ratio
-        
+
         try ( FileInputStream fis = new FileInputStream(new File(excelFilePath)); //generate file input
                   Workbook workbook = new XSSFWorkbook(fis)) { //generate file to send through response
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            response.setCharacterEncoding("UTF-8");
             response.setHeader("Content-Disposition", "attachment; filename=Employees.xlsx");
-
             // Write the workbook content to the response output stream
             workbook.write(response.getOutputStream());
 
