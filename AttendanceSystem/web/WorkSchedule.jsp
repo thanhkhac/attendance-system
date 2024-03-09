@@ -70,7 +70,7 @@
             </div>
         </div>
         <script src="assets/js/workschedule.js"></script>
-        <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
+        <!--<script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>-->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 scrollToday();

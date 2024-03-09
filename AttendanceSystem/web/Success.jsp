@@ -56,6 +56,7 @@
     </head>
 
     <body>
+        
         <div class="content">
             <h1>Thông Báo</h1>
             <div class="content-redirect">
