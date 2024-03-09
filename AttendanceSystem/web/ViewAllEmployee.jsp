@@ -243,6 +243,7 @@
 
             .add-button{
                 margin-top: 20px;
+                margin-right: 20px;
             }
             .add-button button{
                 width: 200px;
@@ -259,6 +260,29 @@
                 border: 3px solid #0072bb;
                 color: #0072bb;
             }
+
+            .import-btn{
+                margin-top: 20px;
+                margin-right: 20px;
+                width: 180px;
+                height: 40px;
+                border: none;
+                background-color: #16B14B;
+                color: white;
+                font-size: larger;
+                font-weight: 600;
+                border-radius: 5px;
+                padding: 5px 10px;
+            }
+
+            .import-btn a{
+                text-decoration: none;
+                color: white;
+            }
+            .import-btn:hover{
+                background-color: #0072bb;
+            }
+
 
             @media screen and (orientation: portrait) {
 
@@ -432,11 +456,17 @@
                 </table>
             </div>
 
-            <form action="DispatchController" method="Post">
-                <div class="add-button">
-                    <button name="btAction" value="InsertEmployee" type="submit">+ Add Employee ...</button>
+            <div class="d-flex ">
+                <form action="DispatchController" method="Post">
+                    <div class="add-button">
+                        <button name="btAction" value="InsertEmployee" type="submit">+ Add Employee ...</button>
+                    </div>
+                </form>
+                <div class="import-btn ">
+                    <a  href="ImportEmployees.jsp">Import From Excel</a>
                 </div>
-            </form>
+            </div>
+
             <div id="popup" class="popup">
                 <div id="popupContent" class="popup-content">
                     <button class="btn-danger close" onclick="closePopup()">X</button>
