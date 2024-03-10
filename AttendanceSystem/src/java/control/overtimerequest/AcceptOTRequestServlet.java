@@ -90,15 +90,6 @@ public class AcceptOTRequestServlet extends HttpServlet {
                     out.println("Insert into OverTime successful");
                     response.sendRedirect("ViewOverTimeRequestForHR.jsp");
                 }
-            } else if (acc.getRoleID() == RoleConstants.MANAGER_HR) { //role id = 5 : quan li kiem quan li nhan su
-                out.println("|| RoleID-5(HR_Manager)");
-                if (otrqDAO.overtimeRequestApproveByManager(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
-                    response.sendRedirect("ViewOverTimeRequestForManager.jsp");
-                } else if (otrqDAO.overtimeRequestApproveByHr(1, acc.getEmployeeID(), overTimeRequestID_raw)) {
-                    otDAO.insertOvertime(DateOT, employeeID_OT, startTimeOT.toString(), endTimeOT.toString(), Open.toString(), Close.toString(), null, null, acc.getEmployeeID());
-                    out.println("Insert into OverTime successful");
-                    response.sendRedirect("ViewOverTimeRequestForHR.jsp");
-                }
             }
         } else {
             out.println("Button value != Accept");

@@ -1,5 +1,9 @@
 ﻿USE master
 
+ALTER DATABASE [Attendance_DB_Final] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
+ALTER DATABASE [Attendance_DB_Final] SET MULTI_USER;
+
 GO
 IF EXISTS (SELECT name from master.dbo.sysdatabases WHERE name = 'Attendance_DB_Final')
 DROP DATABASE Attendance_DB_Final;
@@ -119,6 +123,7 @@ CREATE TABLE LeaveRequests(
 	HrApprove bit,
 	ManagerID int,
 	HrID int,
+	[CreatedBy] int,
 	[Status] bit default(0),
 	CHECK(StartDate <= EndDate),
 

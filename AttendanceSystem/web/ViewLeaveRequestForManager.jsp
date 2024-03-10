@@ -80,6 +80,41 @@
                 background-color: #007bff;
                 border-color: #007bff;
             }
+            
+            /* CSS cho modal */
+            .modal {
+                display: none; /* Ẩn modal ban đầu */
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.4);
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+            }
+
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
         </style>
     </head>
     <%
@@ -113,10 +148,10 @@
                         <tr style="background-color: #CFE2FF">
                             <th class="text-center">Mã đơn</th>
                             <th class="text-center">Họ và tên</th>
-                            <th class="text-center">Ngày gửi</th>
-                            <th class="text-center">Ngày bắt đầu</th>
-                            <th class="text-center">Ngày kết thúc</th>
-                            <th class="text-center">Lí do</th>
+                            <th style="display: none" class="text-center">Ngày gửi</th>
+                            <th style="display: none" class="text-center">Ngày bắt đầu</th>
+                            <th style="display: none" class="text-center">Ngày kết thúc</th>
+                            <th style="display: none" class="text-center">Lí do</th>
                             <th class="text-center">Trạng thái <br> (Manager)</th>  
                             <th class="text-center">Người phê duyệt <br> (Manager)</th>
                             <th class="text-center">Check</th>
@@ -127,13 +162,13 @@
                                 managerDTO = dao.getEmployeeDTO(lr.getManagerID());
                                 hrDTO = dao.getEmployeeDTO(lr.getHrID());
                         %>
-                        <tr class="employee-row">
+                        <tr class="employee-row" onclick="showDetailPopup(this)">
                             <td class="text-center"><%=lr.getLeaveRequestID()%></td>
                             <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
-                            <td class="text-center"><%=lr.getSentDate()%></td>
-                            <td class="text-center"><%=lr.getStartDate()%></td>     
-                            <td class="text-center"><%=lr.getEndDate()%></td>
-                            <td class="tdbreak"><%=lr.getReason()%></td>
+                            <td style="display: none" class="text-center"><%=lr.getSentDate()%></td>
+                            <td style="display: none" class="text-center"><%=lr.getStartDate()%></td>     
+                            <td style="display: none" class="text-center"><%=lr.getEndDate()%></td>
+                            <td style="display: none" class="tdbreak"><%=lr.getReason()%></td>
                             <td class="text-center">
                                 <%
                                     Boolean managerApprove = lr.getManagerApprove();
@@ -183,8 +218,19 @@
                             }
                         %>
                     </table>
+                    <!-- Pagination -->
                     <div id="pagination-container">
                         <ul id="pagination" class="pagination justify-content-center"></ul>
+                    </div>
+                    <!-- Modal -->
+                    <div id="myModal" class="modal">
+                        <!-- Nội dung modal -->
+                        <div class="modal-content" style="width: 30%">
+                            <!--<span class="close" onclick="closeModal()">&times;</span>-->
+                            <div id="modal-body">
+                                <!-- Nội dung chi tiết sẽ được cập nhật bằng JavaScript -->
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -210,7 +256,7 @@
         </script>
 
         <script>
-            var pageSize = 3; // Số lượng dòng mỗi trang
+            var pageSize = 10; // Số lượng dòng mỗi trang
             var currentPage = 1; // Trang hiện tại
 
             function showPage(page) {
@@ -251,6 +297,76 @@
                 showPage(currentPage);
             });
         </script>
+        
+        <script>
+        function showDetailPopup(row) {
+                var modal = document.getElementById("myModal");
+                var modalBody = document.getElementById("modal-body");
+                // Lấy dữ liệu từ các ô trong hàng
+                var leaveRequestID = row.cells[0].innerHTML; // Mã đơn
+                var employeeName = row.cells[1].innerHTML; // Họ và tên nhân viên
+                var sentDate = row.cells[2].innerHTML; // Ngày gửi
+                var startDate = row.cells[3].innerHTML; // Ngày bắt đầu
+                var endDate = row.cells[4].innerHTML; // Ngày kết thúc
+                var reason = row.cells[5].innerHTML; // Lí do
+                var managerStatus = row.cells[6].innerText; // Trạng thái (Manager)
+                var managerName = row.cells[7].innerText; // Người phê duyệt (Manager)
+
+                // Cập nhật nội dung của modal với dữ liệu từ hàng
+                modalBody.innerHTML = `
+                    <h2 style="border-bottom: 1px solid black;" >Chi Tiết Đơn Nghỉ Phép</h2>
+                        <div class="details">
+                            <div class="detail-row">
+                                <span class="label">Mã Đơn:</span>
+                                <span class="value">\${leaveRequestID}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Họ và tên:</span>
+                                <span class="value">\${employeeName}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Ngày gửi: </span>
+                                <span class="value">\${sentDate}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Quản lí phê duyệt: </span>
+                                <span class="value">\${managerName}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Lí do: </span>
+                                <span class="value">\${reason}</span>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-md-6">
+                                    <span class="label">Ngày bắt đầu: </span>
+                                    <span class="value">\${startDate}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="label">Ngày kết thúc: </span>
+                                    <span class="value">\${endDate}</span>
+                                </div>
+                            </div>
+                        </div>
+                `;
+                // Hiển thị modal
+                modal.style.display = "block";
+            }
+
+            // Hàm đóng modal
+            function closeModal() {
+                var modal = document.getElementById("myModal");
+                modal.style.display = "none";
+            }
+
+            // Đóng modal khi người dùng click bên ngoài modal
+            window.onclick = function (event) {
+                var modal = document.getElementById("myModal");
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+        
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>
