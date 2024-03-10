@@ -77,6 +77,40 @@
                 background-color: #007bff;
                 border-color: #007bff;
             }
+            /* CSS cho modal */
+            .modal {
+                display: none; /* Ẩn modal ban đầu */
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.4);
+            }
+
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+            }
+
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
         </style>
 
     </head>
@@ -112,10 +146,10 @@
                         <tr style="background-color: #CFE2FF">
                             <th class="text-center">Mã đơn</th>
                             <th class="text-center">Họ và tên</th>
-                            <th class="text-center">Ngày gửi</th>
-                            <th class="text-center">Ngày OT</th>
-                            <th class="text-center">Giờ bắt đầu</th>
-                            <th class="text-center">Giờ kết thúc</th>
+                            <th style="display: none" class="text-center">Ngày gửi</th>
+                            <th style="display: none" class="text-center">Ngày OT</th>
+                            <th style="display: none" class="text-center">Giờ bắt đầu</th>
+                            <th style="display: none" class="text-center">Giờ kết thúc</th>
                             <th class="text-center">Trạng thái <br> (Manager)</th>  
                             <th class="text-center">Người phê duyệt <br> (Manager)</th>
                             <th class="text-center">check</th>
@@ -126,13 +160,13 @@
                                 managerDTO = dao.getEmployeeDTO(otrq.getManagerID());
                                 hrDTO = dao.getEmployeeDTO(otrq.getHrID());
                         %>
-                        <tr class="employee-row">
+                        <tr class="employee-row" onclick="showDetailPopup(this)">
                             <td class="text-center"><%=otrq.getOverTimeRequestID()%></td>
                             <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
-                            <td class="text-center"><%=otrq.getSentDate()%></td>
-                            <td class="text-center"><%=otrq.getDate()%></td>
-                            <td class="text-center"><%=otrq.getStartTime()%></td>     
-                            <td class="text-center"><%=otrq.getEndTime()%></td>
+                            <td style="display: none" class="text-center"><%=otrq.getSentDate()%></td>
+                            <td style="display: none" class="text-center"><%=otrq.getDate()%></td>
+                            <td style="display: none" class="text-center"><%=otrq.getStartTime()%></td>     
+                            <td style="display: none" class="text-center"><%=otrq.getEndTime()%></td>
                             <td class="text-center">
                                 <%
                                     Boolean managerApprove = otrq.getManagerApprove();
@@ -186,10 +220,20 @@
                             }
                         %>
                     </table>
+                    <!-- Pagination -->
                     <div id="pagination-container">
                         <ul id="pagination" class="pagination justify-content-center"></ul>
                     </div>
-                    
+                    <!-- Modal -->
+                    <div id="myModal" class="modal">
+                        <!-- Nội dung modal -->
+                        <div class="modal-content" style="width: 25%">
+                            <!--<span class="close" onclick="closeModal()">&times;</span>-->
+                            <div id="modal-body">
+                                <!-- Nội dung chi tiết sẽ được cập nhật bằng JavaScript -->
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
 
@@ -256,6 +300,72 @@
             });
         </script>
 
+        <script>
+            // Hàm hiển thị dữ liệu từ hàng được chọn trong modal
+            function showDetailPopup(row) {
+                var modal = document.getElementById("myModal");
+                var modalBody = document.getElementById("modal-body");
+                // Lấy dữ liệu từ các ô trong hàng
+                var overtimeRequestID = row.cells[0].innerHTML; // Mã đơn
+                var employeeName = row.cells[1].innerHTML; // Họ và tên nhân viên
+                var sentDate = row.cells[2].innerHTML; // Ngày gửi
+                var date = row.cells[3].innerHTML; // Ngày OT
+                var startTime = row.cells[4].innerHTML; // Giờ bắt đầu
+                var endTime = row.cells[5].innerHTML; // Giờ kết thúc
+                var managerStatus = row.cells[6].innerText; // Trạng thái (Manager)
+                var managerName = row.cells[7].innerText; // Người phê duyệt (Manager)
+
+                // Cập nhật nội dung của modal với dữ liệu từ hàng
+                modalBody.innerHTML = `
+                    <h2 style="border-bottom: 1px solid black;" >Chi Tiết Đơn Ngoài Giờ</h2>
+                        <div class="details">
+                            <div class="detail-row">
+                                <span class="label">Mã Đơn:</span>
+                                <span class="value">\${overtimeRequestID}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Họ và tên:</span>
+                                <span class="value">\${employeeName}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Ngày gửi: </span>
+                                <span class="value">\${sentDate}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="label">Ngày làm: </span>
+                                <span class="value">\${date}</span>
+                            </div>
+                            <div class="row detail-row">
+                                <div class="col-md-6">
+                                    <span class="label">Giờ bắt đầu: </span>
+                                    <span class="value">\${startTime}</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="label">Giờ kết thúc: </span>
+                                    <span class="value">\${endTime}</span>
+                                </div>
+                            </div>
+                        </div>
+                `;
+                // Hiển thị modal
+                modal.style.display = "block";
+            }
+
+            // Hàm đóng modal
+            function closeModal() {
+                var modal = document.getElementById("myModal");
+                modal.style.display = "none";
+            }
+
+            // Đóng modal khi người dùng click bên ngoài modal
+            window.onclick = function (event) {
+                var modal = document.getElementById("myModal");
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+        
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>
