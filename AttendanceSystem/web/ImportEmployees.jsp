@@ -211,12 +211,16 @@
                                 </c:if>
                                 </br>
 
-                                <form action="InsertImportedEmployeesServlet" method="post">
+                                <form id="insert_form" action="InsertImportedEmployeesServlet" method="post">
                                     <input 
                                         <c:if test="${isAcceptable.size()<=0}">
                                             disabled=""
                                         </c:if>
-                                        id="insert-btn" type="submit" class="btn btn-success d-none mb-3" value="Insert into Database">
+                                        onclick="insertForm()"
+                                        id="insert-btn"
+                                        type="submit"
+                                        class="btn btn-success d-none mb-3"
+                                        value="Insert into Database">
                                 </form>
 
                             </div>
@@ -323,12 +327,16 @@
                                     <h6 id="delete-btn"  style="color: green "><i class="fa-regular fa-circle-check"></i> ${ErrorMsg}</h6>
                                 </c:if>
                                 </br>
-                                <form action="DeleteTempEmployeesServlet" method="post">
+                                <form id="delete_form" action="DeleteTempEmployeesServlet" method="post">
                                     <input
                                         <c:if test="${isError.size()<=0}">
                                             disabled=""
                                         </c:if>
-                                        id="delete-btn" type="submit" class="btn btn-danger d-none mb-3" value="Delete All">
+                                        onclick="deleteForm()"
+                                        id="delete-btn"
+                                        type="submit"
+                                        class="btn btn-danger d-none mb-3"
+                                        value="Delete All">
                                 </form>
                             </div>
                         </div>
@@ -418,6 +426,21 @@
                 update_form.submit();
             }
         }
+
+        function deleteForm() {
+            if (confirm("Delete all current data rows ?")) {
+                var delete_form = document.getElementById("delete_form");
+                delete_form.submit();
+            }
+        }
+
+        function insertForm() {
+            if (confirm("Insert all acceptable data rows ?")) {
+                var insertform = document.getElementById("insert_form");
+                insert_form.submit();
+            }
+        }
+
 
         function check() {
             console.log("Hello");
