@@ -12,10 +12,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import model.DepartmentDAO;
+import model.DepartmentDTO;
 import model.EmployeeDAO;
 import model.EmployeeDTO;
+import model.EmployeeTypeDAO;
+import model.EmployeeTypeDTO;
+import model.RoleDAO;
+import model.RoleDTO;
 import model.UpdateInfoError;
 
 /**
@@ -43,8 +50,23 @@ public class UpdateTempEmployeeServlet extends HttpServlet {
         return null;
     }
 
+    private boolean isExit(ArrayList<EmployeeDTO> employee, int id) {
+        for (EmployeeDTO e : employee) {
+            if (e.getEmployeeID() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private LocalDate timeAfterNMonths(LocalDate time, int monthToAdd) {
+        LocalDate afterNMonth = time.plusMonths(monthToAdd);
+        return afterNMonth;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         String txt_firstName = request.getParameter("firstName").trim();
         String txt_middleName = request.getParameter("middleName").trim();
@@ -61,107 +83,117 @@ public class UpdateTempEmployeeServlet extends HttpServlet {
         String txt_employeeID = request.getParameter("tmpID");
         String txt_startDate = request.getParameter("StartDate");
         String txt_endDate = request.getParameter("EndDate");
+
         ArrayList<EmployeeDTO> employees = (ArrayList<EmployeeDTO>) session.getAttribute("employees");
         ArrayList<EmployeeDTO> isAcceptable = (ArrayList<EmployeeDTO>) session.getAttribute("isAcceptable");
         ArrayList<EmployeeDTO> isError = (ArrayList<EmployeeDTO>) session.getAttribute("isError");
+
         UpdateInfoError err = new UpdateInfoError();
         LocalDate birthDay = LocalDate.now();
-        EmployeeDAO dao = new EmployeeDAO();
-        String msg = "";
+        LocalDate startDate = null;
+        LocalDate endDate = null;
+
+        DepartmentDAO deDAO = new DepartmentDAO();
+        EmployeeTypeDAO emDAO = new EmployeeTypeDAO();
+        RoleDAO roleDAO = new RoleDAO();
+
+        ArrayList<DepartmentDTO> department = deDAO.getListDepartment();
+        ArrayList<EmployeeTypeDTO> employeeType = emDAO.getEmployeeTypeList();
+        ArrayList<RoleDTO> roles = roleDAO.getRoleList();
+
         int departmentID = 0;
         int typeID = 0;
         int roleID = 0;
-        int employeeID = 0;
-        Boolean gender = null;
+        boolean gender = false;
+
         boolean isErr = false;
         String regexName = "^[^\\d\\p{Punct}]+$";
         String messageNameError = "Thành phần của Tên ko được chứa số hay kí tự đặc biệt !";
+        EmployeeDTO e = new EmployeeDTO();
         try {
+            int id = Integer.parseInt(txt_employeeID);
             birthDay = LocalDate.parse(txt_birthday);
+            e = getEmployeeByTmpID(employees, id);
+            startDate = LocalDate.parse(txt_startDate);
+            endDate = LocalDate.parse(txt_endDate);
+
             departmentID = Integer.parseInt(txt_departmentID);
             typeID = Integer.parseInt(txt_typeID);
             roleID = Integer.parseInt(txt_roleID);
+
             gender = Boolean.parseBoolean(txt_gender);
-            employeeID = Integer.parseInt(txt_employeeID);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
+            e.setGender(gender);
+
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
         }
 
         if (txt_firstName.length() <= 0) {
             err.setNull_error("Điền đầy đủ các thành phần của Tên !");
             isErr = true;
-            txt_firstName = "Null";
-            request.setAttribute("txt_firstName", txt_firstName);
-
         } else if (!txt_firstName.matches(regexName)) {
             err.setName_format_error(messageNameError);
             isErr = true;
-            request.setAttribute("txt_firstName", txt_firstName);
-        } else { //isTrue
-            request.setAttribute("txt_firstName", txt_firstName);
+        } else {
+            e.setFirstName(txt_firstName);
         }
-
         if (txt_middleName.length() <= 0) {
             err.setNull_error("Điền đầy đủ các thành phần của Tên !");
             isErr = true;
-            txt_middleName = "Null";
-            request.setAttribute("txt_middleName", txt_middleName);
         } else if (!txt_middleName.matches(regexName)) {
             err.setName_format_error(messageNameError);
             isErr = true;
-            request.setAttribute("txt_middleName", txt_middleName);
-        } else { //isTrue
-            request.setAttribute("txt_middleName", txt_middleName);
+        } else {
+            e.setMiddleName(txt_middleName);
         }
-
         if (txt_lastName.length() <= 0) {
             err.setNull_error("Điền đầy đủ các thành phần của Tên !");
             isErr = true;
-            txt_lastName = "Null";
-            request.setAttribute("txt_lastName", txt_lastName);
-
         } else if (!txt_lastName.matches(regexName)) {
             err.setName_format_error(messageNameError);
             isErr = true;
-            request.setAttribute("txt_lastName", txt_lastName);
-        } else { //isTrue
-            request.setAttribute("txt_lastName", txt_lastName);
+        } else {
+            e.setLastName(txt_lastName);
         }
-
         if (!txt_cccd.matches("^0\\d{11}$")) {
             err.setCccd_format_error("Định dạng căn cước công dân không hợp lệ !");
             isErr = true;
-            request.setAttribute("txt_cccd", txt_cccd);
+        } else {
+            e.setCccd(txt_cccd);
         }
         if (!txt_phoneNumber.matches("^0\\d{9}$")) {
             err.setPhone_format_error("Định dạng SĐT không hợp lệ !");
             isErr = true;
-            request.setAttribute("txt_phoneNumber", txt_phoneNumber);
-
+        } else {
+            e.setPhoneNumber(txt_phoneNumber);
         }
         if (!txt_email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             err.setEmail_format_error("Định dạng Email không hợp lệ !");
             isErr = true;
-            request.setAttribute("txt_email", txt_email);
-
-        }
-        if (!txt_password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d\\s])[A-Za-z\\d@$!%*?&.,]{6,16}$")) {
-            err.setPassword_format_error("Mật khẩu [6-16] kí tự , chứa 1 chữ cái in hoa và 1 kí tự ('@', '$', '%', '.', ',', '?', '&')");
-            isErr = true;
-            request.setAttribute("txt_password", txt_password);
-
+        } else {
+            e.setEmail(txt_email);
         }
         if ((LocalDate.now().getYear() - birthDay.getYear() < 18) || LocalDate.now().getYear() - birthDay.getYear() < 0) {
             isErr = true;
             err.setDate_invalid("Ngày sinh không hợp lệ [ " + LocalDate.now().getYear() + " - năm sinh ] >= 18 !");
-            request.setAttribute("txt_birthDate", txt_birthday);
+        } else {
+            e.setBirthDate(Date.valueOf(txt_birthday));
+        }
 
+        if (!isErr) {
+            if (!isExit(isAcceptable, e.getEmployeeID())) {
+                isAcceptable.add(e);
+            }
+            isError.remove(e);
         }
-        if (txt_typeID.equals("3") && !txt_roleID.equals("1")) {
-            msg = "Vai trò hiện tại không thể giao cho nhân viên Intern !";
-            isErr = true;
-        }
+
+        session.setAttribute("employees", employees);
+        session.setAttribute("isAcceptable", isAcceptable);
+        session.setAttribute("isError", isError);
+        session.setAttribute("departments", department);
+        session.setAttribute("types", employeeType);
+        session.setAttribute("roles", roles);
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
 
     }
