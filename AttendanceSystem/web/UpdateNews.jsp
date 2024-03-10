@@ -11,11 +11,12 @@
         <title>Update News</title>
     </head>
     <body>
+          <%@include file="Sidebar.jsp" %>
     <c:set var="createByOptions" value="${requestScope.createByOptions}" />
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2">
-                <%@include file="Sidebar.jsp" %>
+              
             </div>
             <div class="col-md-10">
                 <h2 class="mb-4">Update News</h2>
@@ -38,14 +39,10 @@
                             <label for="updateFilePath" class="form-label">File Path</label>
                             <input type="file" class="form-control" id="updateFilePath" name="filePath">
                         </div>
-                        <div class="mb-3">
-                            <label for="updateCreateBy" class="form-label">Create By</label>
-                            <select class="form-select" id="updateCreateBy" name="updateCreateBy">
-                                <c:forEach var="employee" items="${employees}">
-                                    <option value="${employee.firstName}" <c:if test="${employee.firstName eq newsupdate.createBy}">selected</c:if>>${employee.firstName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                       <div class="mb-3">
+                                <label for="updateCreateBy" class="form-label">Create By</label>
+                                <input type="text" class="form-control" id="updateCreateBy" name="updateCreateBy" value="${sessionScope.ACCOUNT.firstName}" readonly="">
+                            </div>
                     </c:if>
 
                     <button type="submit" class="btn btn-primary" onclick="confirmUpdate()">Update</button>

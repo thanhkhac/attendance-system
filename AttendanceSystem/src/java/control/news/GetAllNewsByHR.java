@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.EmployeeDTO;
 import model.NewsDAO;
@@ -42,7 +43,9 @@ public class GetAllNewsByHR extends HttpServlet {
         } else if (errorMessage != null) {
             request.setAttribute("errorMessage", errorMessage);
         }
-
+         HttpSession session = request.getSession();
+        EmployeeDTO employee = (EmployeeDTO) session.getAttribute("ACCOUNT");
+        request.setAttribute("curentEmployee", employee.getFirstName());
         NewsDAO newsdao = new NewsDAO();
         List<EmployeeDTO> optionCreateBy = newsdao.findAllEmployees();
         request.setAttribute("employees", optionCreateBy);
