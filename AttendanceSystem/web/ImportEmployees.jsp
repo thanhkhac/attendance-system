@@ -65,7 +65,7 @@
         <div class="content">
             <h1 class="text-center">Import Employee </h1>
             <div class="content-redirect">
-                <p><a href="ThanhCong.html">Home</a> | Import From Excel</p>
+                <p><a href="ThanhCong.html">Home</a> | <a href="DispatchController?btAction=ViewEmployee">View All Employee</a> | Import From Excel</p>
             </div>
             <div class="content-file d-flex mt-5 justify-content-end justify-content-between flex-wrap">
                 <div class="content-file-upload mt-2">
@@ -205,9 +205,20 @@
                                 </div>
                             </c:forEach>
                             <div class="d-flex justify-content-end" style="width: 100%">
-                                <form action="" >
-                                    <input id="insert-btn" type="submit" class="btn btn-success d-none mb-3" value="Insert into Database">
+                                <c:set var="msg" value="${requestScope.SuccessMSG}" />
+                                <c:if test="${not empty msg}">
+                                    <h6 id="insert-btn"  style="color: green "><i class="fa-regular fa-circle-check"></i> ${msg}</h6>
+                                </c:if>
+                                </br>
+
+                                <form action="InsertImportedEmployeesServlet" method="post">
+                                    <input 
+                                        <c:if test="${isAcceptable.size()<=0}">
+                                            disabled=""
+                                        </c:if>
+                                        id="insert-btn" type="submit" class="btn btn-success d-none mb-3" value="Insert into Database">
                                 </form>
+
                             </div>
                         </div>
                         <div>

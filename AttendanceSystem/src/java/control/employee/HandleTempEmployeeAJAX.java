@@ -90,6 +90,7 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
         DepartmentDAO deDAO = new DepartmentDAO();
         EmployeeTypeDAO emDAO = new EmployeeTypeDAO();
         RoleDAO roleDAO = new RoleDAO();
+        EmployeeDAO employeeDAO = new EmployeeDAO();
 
         ArrayList<DepartmentDTO> department = deDAO.getListDepartment();
         ArrayList<EmployeeTypeDTO> employeeType = emDAO.getEmployeeTypeList();
@@ -99,6 +100,10 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
         int typeID = 0;
         int roleID = 0;
         boolean gender = false;
+
+        boolean isEmailExist = txt_email.equals(employeeDAO.getEmail(txt_email));
+        boolean isCCCDExist = txt_cccd.equals(employeeDAO.getCCCD(txt_cccd));
+        boolean isPhoneNumberExist = txt_phoneNumber.equals(employeeDAO.getPhonenumber(txt_phoneNumber));
 
         boolean isErr = false;
         String regexName = "^[^\\d\\p{Punct}]+$";
@@ -188,14 +193,20 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
                 + "                                                        <label class=\"modal-label\">Email</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"email-" + e.getEmployeeID() + "\" type=\"text\" name=\"Email\" value=\"" + txt_email + "\"><br>\n");
         if (err.getEmail_format_error() != null) {
             out.print("<p style=\"color:red;\" >*Không đúng định dạng Email</p>");
+        } else if (isEmailExist) {
+            out.print("<p style=\"color:red;\" >*Email đã tồn tại</p>");
         }
         out.print("                                                        <label class=\"modal-label\">CCCD</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"cccd-" + e.getEmployeeID() + "\"  type=\"text\" name=\"CCCD\" value=\"" + txt_cccd + "\"><br>\n");
         if (err.getCccd_format_error() != null) {
             out.print("<p style=\"color:red;\" >*Không đúng định dạng CCCD</p>");
+        } else if (isCCCDExist) {
+            out.print("<p style=\"color:red;\" >*CCCD đã tồn tại</p>");
         }
         out.print("                                                        <label class=\"modal-label\">Phone</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"phone-" + e.getEmployeeID() + "\"  type=\"text\" name=\"Phone\" value=\"" + txt_phoneNumber + "\"><br>\n");
         if (err.getPhone_format_error() != null) {
             out.print("<p style=\"color:red;\" >*Không đúng định dạng SĐT</p>");
+        } else if (isPhoneNumberExist) {
+            out.print("<p style=\"color:red;\" >*SĐT đã tồn tại</p>");
         }
         out.print("                                                    </div>\n"
                 + "                                                    <div class=\"information-items\"  style=\"max-width: 350px;\">\n"

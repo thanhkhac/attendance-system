@@ -40,6 +40,7 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
      */
     private boolean isErrorEmployee(EmployeeDTO e) {
         boolean isErr = false;
+        EmployeeDAO emDAO = new EmployeeDAO();
         String regexName = "^[^\\d\\p{Punct}]+$";
         if (e.getFirstName() == null
                 || e.getMiddleName() == null
@@ -54,14 +55,19 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
                 || !e.getLastName().matches(regexName)) {
             isErr = true;
         }
-        if (!e.getCccd().matches("^0\\d{11}$") || e.getCccd() == null) {
+        if (!e.getCccd().matches("^0\\d{11}$")
+                || e.getCccd() == null
+                || e.getCccd().equals(emDAO.getCCCD(e.getCccd()))) {
             isErr = true;
         }
-        if (!e.getPhoneNumber().matches("^0\\d{9}$") || e.getPhoneNumber() == null) {
+        if (!e.getPhoneNumber().matches("^0\\d{9}$")
+                || e.getPhoneNumber() == null
+                || e.getPhoneNumber().equals(emDAO.getPhonenumber(e.getPhoneNumber()))) {
             isErr = true;
         }
         if (!e.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-                || e.getEmail() == null) {
+                || e.getEmail() == null
+                || e.getEmail().equals(emDAO.getEmail(e.getEmail()))) {
             isErr = true;
         }
         if (!e.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d\\s])[A-Za-z\\d@$!%*?&.,]{6,16}$")
@@ -83,10 +89,10 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
         } else {
             isErr = true;
         }
-
+        
         return isErr;
     }
-
+    
     private ArrayList<EmployeeDTO> assignTempID(ArrayList<EmployeeDTO> employees) {
         ArrayList<EmployeeDTO> newEmployees = employees;
         int i = 1;
@@ -96,7 +102,7 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
         }
         return newEmployees;
     }
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        response.setContentType("text/html;charset=UTF-8");
@@ -131,29 +137,28 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
-
+        
         DepartmentDAO deDAO = new DepartmentDAO();
         EmployeeTypeDAO emDAO = new EmployeeTypeDAO();
         RoleDAO roleDAO = new RoleDAO();
-
+        
         ArrayList<EmployeeDTO> employees = new ArrayList<>();
         ArrayList<EmployeeDTO> isAcceptable = new ArrayList<>();
         ArrayList<EmployeeDTO> isError = new ArrayList<>();
         ArrayList<DepartmentDTO> department = deDAO.getListDepartment();
         ArrayList<EmployeeTypeDTO> employeeType = emDAO.getEmployeeTypeList();
         ArrayList<RoleDTO> roles = roleDAO.getRoleList();
-
+        
         ReadFileModule readFileModule = new ReadFileModule();
         HttpSession session = request.getSession();
-
-
+        
         try {
             //get file from request
             Part file = request.getPart("file");
             //get file from input stream
             InputStream fileContent = file.getInputStream();
             employees = readFileModule.readExcel(fileContent);
-
+            
             if (employees.size() > 0) {
                 employees = assignTempID(employees);
                 for (EmployeeDTO e : employees) {
@@ -175,7 +180,7 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
         session.setAttribute("departments", department);
         session.setAttribute("types", employeeType);
         session.setAttribute("roles", roles);
-
+        
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
     }
 
