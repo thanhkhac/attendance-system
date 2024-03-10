@@ -13,33 +13,57 @@ import model.*;
 @WebServlet(name = "TakeAttendance", urlPatterns = {"/TakeAttendance"})
 public class TakeAttendance extends HttpServlet {
 
+    private static final String URL = "TakeAttendance.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        if (request.getServerPort() == PortConstants.ONLINE ) {
-            response.getWriter().write("invalidPort");
+        String modalMessage = "";
+
+        if (request.getServerPort() == PortConstants.ONLINE) {
+            modalMessage = ("Vui lòng truy cập vào trang nội bộ");
+            request.setAttribute("modalMessage", modalMessage);
+            request.getRequestDispatcher(URL).forward(request, response);
             return;
         }
 
-        int id = ((EmployeeDTO) request.getSession().getAttribute("ACCOUNT")).getEmployeeID();
-        TimesheetDAO timesheetDAO = new TimesheetDAO();
-        TimesheetDTO currentTS = timesheetDAO.getCurrentTimesheet(id);
-
-        //Khai báo biến Inserted để kiểm tra xem đã insert thành công chưa
-        boolean isInserted = false;
-        //Nếu chưa checkin => check in
-        if (currentTS != null) {
-            if (currentTS.getCheckin() == null) {
-                isInserted = timesheetDAO.UpdateCheckIn(id);
-            } else {
-                isInserted = timesheetDAO.UpdateCheckOut(id);
+        try {
+            int employeeID = ((EmployeeDTO) request.getSession().getAttribute("ACCOUNT")).getEmployeeID();
+            int shiftID = Integer.parseInt(request.getParameter("shiftID"));
+            TimesheetDAO timesheetDAO = new TimesheetDAO();
+            TimesheetDTO currentTS = timesheetDAO.getTimesheet(employeeID, shiftID);
+            if (!timesheetDAO.isValid(employeeID, shiftID)) {
+                modalMessage = ("Cổng chấm công của ca này hiện tại đang đóng");
+                request.setAttribute("modalMessage", modalMessage);
+                request.getRequestDispatcher(URL).forward(request, response);
+                return;
             }
-        }
 
-        if (isInserted) {
-            response.getWriter().write("success");
-        } else {
-            response.getWriter().write("error");
+            //Khai báo biến Inserted để kiểm tra xem đã insert thành công chưa
+            boolean isInserted = false;
+            //Nếu chưa checkin => check in
+            if (currentTS != null) {
+                if (currentTS.getCheckin() == null) {
+                    isInserted = timesheetDAO.UpdateCheckIn(employeeID, shiftID);
+                } else {
+                    isInserted = timesheetDAO.UpdateCheckOut(employeeID, shiftID);
+                }
+            }
+
+            if (isInserted) {
+                modalMessage = ("Thành công");
+                request.setAttribute("modalMessage", modalMessage);
+            } else {
+                modalMessage = ("Có lỗi xảy ra, vui lòng thử lại");
+                request.setAttribute("modalMessage", modalMessage);
+            }
+
+        } catch (Exception e) {
+            modalMessage = "Có lỗi xảy ra, vui lòng thử lại";
+            e.printStackTrace();
         }
+        request.setAttribute("modalMessage", modalMessage);
+        request.getRequestDispatcher(URL).forward(request, response);
+
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 

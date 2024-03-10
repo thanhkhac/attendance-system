@@ -61,7 +61,7 @@
                 yearDropdown.appendChild(option);
             }
 
-            //            Hiển thị ra dropdown của tháng, nếu là tháng hiện tại => Selected         
+            // Hiển thị ra dropdown của tháng, nếu là tháng hiện tại => Selected         
             var monthDropdown = document.getElementById("month");
             var currentMonth = new Date().getMonth();
             console.log(currentYear);

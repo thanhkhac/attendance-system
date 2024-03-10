@@ -137,38 +137,41 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <table class="table rounded-3 py-4" style="background-color: #88B04B" >
-                                                            <tr>
-                                                                <td colspan="1" class="fw-bold">
-                                                                    Tên ca
-                                                                </td>
-                                                                <td colspan="3">
-                                                                    <input class="form-control" type="text" value="${dto.name}">
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="fw-bold">Giờ bắt đầu</td>
-                                                                <td ><input class="form-control" type="time" value="${dto.startTime}"></td>
-                                                                <td class="fw-bold">Giờ kết thúc</td>
-                                                                <td ><input class="form-control" type="time" value="${dto.endTime}"></td>
-                                                            </tr>   
-                                                            <tr>
-                                                                <td class="fw-bold">Cổng mở</td>
-                                                                <td ><input class="form-control" type="time" value="${dto.openAt}"></td>
-                                                                <td class="fw-bold">Cổng đóng</td>
-                                                                <td ><input class="form-control" type="time"value="${dto.closeAt}"></td>
-                                                            </tr>   
-                                                            <tr>
-                                                                <td colspan="4" class="text-center">
-                                                                    <button class="btn-danger rounded-3 px-3 "onclick="return confirmDelete()">
-                                                                        <a  class="text-decoration-none text-white" href="DeleteShift?ID=${dto.shiftID}">Xóa</a>
-                                                                    </button>
-                                                                    <button class="btn-warning rounded-3 px-3">
-                                                                        Cập nhật
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        </table>
+                                                        <form action="UpdateShift">
+                                                            <table class="table rounded-3 py-4" style="background-color: #88B04B" >
+                                                                <tr>
+                                                                    <td colspan="1" class="fw-bold">
+                                                                        Tên ca
+                                                                    </td>
+                                                                    <td colspan="3">
+                                                                        <input class="form-control" name="udName" type="text" value="${dto.name}">
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="fw-bold">Giờ bắt đầu</td>
+                                                                    <td ><input class="form-control" name="udStartTime" type="time" value="${dto.startTime}"></td>
+                                                                    <td class="fw-bold">Giờ kết thúc</td>
+                                                                    <td ><input class="form-control" name="udEndTime" type="time" value="${dto.endTime}"></td>
+                                                                </tr>   
+                                                                <tr>
+                                                                    <td class="fw-bold">Cổng mở</td>
+                                                                    <td ><input class="form-control" name="udOpenAt" type="time" value="${dto.openAt}"></td>
+                                                                    <td class="fw-bold">Cổng đóng</td>
+                                                                    <td ><input class="form-control" name="udCloseAt" type="time"value="${dto.closeAt}"></td>
+                                                                </tr>   
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center">
+                                                                        <button type="button" class="btn-danger rounded-3 px-3 "onclick="return confirmDelete()">
+                                                                            <a  class="text-decoration-none text-white" href="DeleteShift?ID=${dto.shiftID}">Xóa</a>
+                                                                        </button>
+                                                                        <button type="submit" class="btn-warning rounded-3 px-3">
+                                                                            Cập nhật
+                                                                        </button>
+                                                                        <input type="hidden" name="shiftID" value="${dto.shiftID}">
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </form>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -205,7 +208,6 @@
             </div>
         </div>
         <!--<script src="assets/Bootstrap5/js/bootstrap.bundle.min.js">-->
-        </script>
         <c:if test = "${not empty requestScope.messModal}">
             <script>
                 document.addEventListener('DOMContentLoaded', function () {

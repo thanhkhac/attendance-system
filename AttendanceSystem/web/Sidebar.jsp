@@ -1,5 +1,7 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@page import="java.util.*" %>
+<%@page import="model.*"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -16,7 +18,7 @@
                 background-color: #498CB6;
                 float: left;
             }
-            
+
             .closebutton{
                 display: none;
             }
@@ -33,8 +35,13 @@
         </style>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
-    <body>
 
+    <%
+        HashMap<Integer, DepartmentDTO> departments =  new DepartmentDAO().getAllDepartment();
+        request.setAttribute("departments", departments);
+    %>
+    <body>
+         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
         <div class="w3-sidebar w3-bar-block xSidebar fs-6" id="mySidebar">
             <button class="w-100 w3-button closebutton text-white" onclick="w3_close()">&#9776;</button>
             <div  class="w3-bar-item  fw-bold text-white" style="background-color: #4096F1">
@@ -46,7 +53,8 @@
                         <div>
                             <div class="dropdown">
                                 <div style="cursor: pointer" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                                    Nguyễn Khắc Thành
+                                   
+                                    ${account.lastName} ${account.middleName} ${account.firstName}
                                 </div>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="UpdateEmployeeProfile.jsp">Tài khoản</a></li>
@@ -57,7 +65,7 @@
                         </div>
 
                         <div style="" class="fw-normal">
-                            Quản lý phòng ban
+                            ${departments[account.departmentID].name}
                         </div>
                     </div>
                 </div>

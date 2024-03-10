@@ -83,7 +83,9 @@ public class ShiftDAO extends DAOBase {
         connect();
         ArrayList<ShiftDTO> list = new ArrayList<ShiftDTO>();
         query = "SELECT * FROM Shifts " +
-                "WHERE IsActive = 1 \n";
+                "WHERE " +
+                "   IsActive = 1 \n" +
+                "ORDER BY StartTime ";
         try {
             ps = connection.prepareStatement(query);
             rs = ps.executeQuery();
@@ -148,6 +150,7 @@ public class ShiftDAO extends DAOBase {
                 "	Shifts S\n" +
                 "WHERE\n" +
                 "	IsActive = 1\n" +
+                "       AND ShiftID != ?" +
                 "	AND (\n" +
                 "	(@StartTime  BETWEEN S.StartTime AND S.EndTIme)\n" +
                 "	OR\n" +
@@ -162,6 +165,7 @@ public class ShiftDAO extends DAOBase {
             ps = connection.prepareStatement(query);
             ps.setString(1, shift.getStartTime().toString());
             ps.setString(2, shift.getEndTime().toString());
+            ps.setInt(3, shift.getShiftID());
             rs = ps.executeQuery();
             while (rs.next()) {
                 result++;

@@ -14,22 +14,32 @@ import model.OvertimeDTO;
 @WebServlet(name = "TakeAttendanceOvertime", urlPatterns = {"/TakeAttendanceOvertime"})
 public class TakeAttendanceOvertime extends HttpServlet {
 
+    private static final String URL = "TakeAttendance.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = ((EmployeeDTO) request.getSession().getAttribute("ACCOUNT")).getEmployeeID();
         OvertimeDAO overtimeDAO = new OvertimeDAO();
-        OvertimeDTO currentOT = overtimeDAO.getCurrentOvertime(id);
-        //Khai báo biến Inserted để kiểm tra xem đã insert thành công chưa
+        OvertimeDTO currentOT = overtimeDAO.getCurrentOvertimeByDay(id);
+
+        if (overtimeDAO.getCurrentOvertime(id) == null) {
+            request.setAttribute("modalMessage", "Cổng chấm công của ca này hiện tại đang đóng");
+            request.getRequestDispatcher(URL).forward(request, response);
+            return;
+        }
         boolean isInserted = false;
-        //Nếu chưa checkin => check in
         if (currentOT.getCheckIn() == null) {
             isInserted = overtimeDAO.UpdateCheckIn(id);
         } else {
             isInserted = overtimeDAO.UpdateCheckOut(id);
         }
         if (isInserted) {
-            response.getWriter().write("success");
+            request.setAttribute("modalMessage", "Thành công");
+            request.getRequestDispatcher(URL).forward(request, response);
+            return;
         } else {
-            response.getWriter().write("error");
+            request.setAttribute("modalMessage", "Không thành công");
+            request.getRequestDispatcher(URL).forward(request, response);
+            return;
         }
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

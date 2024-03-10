@@ -800,7 +800,7 @@ public class EmployeeDAO extends DBContext {
                         "WHERE \n" +
                         "	MONTH(TS.[Date]) = ?\n" +
                         "	AND YEAR (TS.[Date]) = ?\n" +
-                        "	AND TS.[Date] > GETDATE()\n" +
+                        "	AND TS.[Date] >= GETDATE()\n" +
                         ")\n" +
                         "AND IsActive = 1;";
                 stm = connection.prepareStatement(sql);
@@ -808,24 +808,7 @@ public class EmployeeDAO extends DBContext {
                 stm.setInt(2, year);
                 rs = stm.executeQuery();
                 while (rs.next()) {
-                    int employeeId = rs.getInt("employeeId");
-                    String firstName = rs.getNString("firstName");
-                    String middleName = rs.getNString("middleName");
-                    String lastName = rs.getNString("lastName");
-                    Date birthDate = rs.getDate("birthDate");
-                    Boolean gender = rs.getBoolean("gender");
-                    String email = rs.getNString("email");
-                    String password = rs.getNString("password");
-                    String cccd = rs.getString("cccd");
-                    String phoneNumber = rs.getString("phoneNumber");
-                    int employeeTypeID = rs.getInt("employeeTypeID");
-                    int departmentID = rs.getInt("departmentID");
-                    int roleID = rs.getInt("roleID");
-                    Date startDate = rs.getDate("startDate");
-                    Date endDate = rs.getDate("endDate");
-                    boolean isActived = rs.getBoolean("isActive");
-                    EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
-                    list.add(e);
+                    list.add(getEmployeeDTO(rs));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -834,6 +817,52 @@ public class EmployeeDAO extends DBContext {
             }
         }
         return list;
+    }
+
+    public ArrayList<EmployeeDTO> GetAllEmployees() {
+        connect();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        ArrayList<EmployeeDTO> list = new ArrayList<>();
+        if (connection != null) {
+            try {
+                String sql = "" +
+                        "SELECT * \n" +
+                        "FROM Employees\n" +
+                        "WHERE IsActive = 1;";
+                stm = connection.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    list.add(getEmployeeDTO(rs));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                close();
+            }
+        }
+        return list;
+    }
+
+    public EmployeeDTO getEmployeeDTO(ResultSet rs) throws SQLException {
+        int employeeId = rs.getInt("employeeId");
+        String firstName = rs.getNString("firstName");
+        String middleName = rs.getNString("middleName");
+        String lastName = rs.getNString("lastName");
+        Date birthDate = rs.getDate("birthDate");
+        Boolean gender = rs.getBoolean("gender");
+        String email = rs.getNString("email");
+        String password = rs.getNString("password");
+        String cccd = rs.getString("cccd");
+        String phoneNumber = rs.getString("phoneNumber");
+        int employeeTypeID = rs.getInt("employeeTypeID");
+        int departmentID = rs.getInt("departmentID");
+        int roleID = rs.getInt("roleID");
+        Date startDate = rs.getDate("startDate");
+        Date endDate = rs.getDate("endDate");
+        boolean isActived = rs.getBoolean("isActive");
+        EmployeeDTO e = new EmployeeDTO(employeeId, firstName, middleName, lastName, birthDate, gender, email, password, cccd, phoneNumber, employeeTypeID, departmentID, roleID, startDate, endDate, isActived);
+        return e;
     }
 
     public ArrayList<EmployeeDTO> getEmployeeInfoByOvertime(String date, String start, String ends) {
@@ -1359,7 +1388,7 @@ public class EmployeeDAO extends DBContext {
         }
         return null;
     }
-    
+
     public static void main(String[] args) {
         EmployeeDAO dao = new EmployeeDAO();
         System.out.println(dao.countEmployeeOvertimeByShift("2024-02-25", "", "", "", "", "15:00", "17:00"));
