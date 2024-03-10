@@ -31,7 +31,6 @@ public class CookieLoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         if (request.getCookies() != null) {
             Cookie arr[] = request.getCookies();
 

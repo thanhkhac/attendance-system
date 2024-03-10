@@ -39,4 +39,11 @@ public class DepartmentDTO {
         this.managerID = managerID;
     }
 
+    @Override
+    public String toString() {
+        return "DepartmentDTO{" + "departmentID=" + departmentID + ", name=" + name + ", managerID=" + managerID + '}';
+    }
+    
+    
+
 }

@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*" %>
 <%@page import="model.*"%>
@@ -52,8 +54,8 @@
         EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
         OvertimeDAO overtimeDAO = new OvertimeDAO();
         
-        OvertimeDTO overtime = new OvertimeDAO().getCurrentOvertime(employeeDTO.getEmployeeID());
-        TimesheetDTO timesheet = new TimesheetDAO().getCurrentTimesheet(employeeDTO.getEmployeeID());
+        OvertimeDTO overtime = new OvertimeDAO().getCurrentOvertimeByDay(employeeDTO.getEmployeeID());
+        ArrayList<TimesheetDTO> timesheet = new TimesheetDAO().getCurrentTimesheet(employeeDTO.getEmployeeID());
         
         ArrayList<ShiftDTO> shifts = new ShiftDAO().getAllShiftDTO();
         request.setAttribute("overtime" , overtime);
@@ -65,12 +67,17 @@
         <%@include file="Sidebar.jsp" %>
         <div class="right">
             <h1 class="text-center mt-3 mb-4">Chấm công</h1>
-            <c:if test = "${not empty requestScope.timesheet}">
+            <c:if test = "${fn:length(requestScope.timesheet) == 0 and empty requestScope.overtime}">
+                <div class="alert alert-primary fs-4 mx-4" role="alert">
+                    Hôm nay không có ca làm việc nào. Vui lòng quay lại sau
+                </div>
+            </c:if>
+            <c:forEach var="ts" items="${requestScope.timesheet}" varStatus="counter">
                 <div class="row justify-content-center mt-3">
                     <div class="takeAttendance-block col-md-5 col-8 rounded-3 p-0 " style="background-color: #34568B;">
                         <div class="col-12 text-center fs-2 text-white fw-bold">
                             <c:forEach var="dto" items="${requestScope.shifts}">
-                                <c:if test = "${dto.shiftID eq requestScope.timesheet.shiftID}">
+                                <c:if test = "${dto.shiftID eq ts.shiftID}">
                                     ${dto.name}
                                 </c:if>
                             </c:forEach>
@@ -78,10 +85,11 @@
                         <div>
                             <table class="table bg-white">
                                 <tr>
-                                    <th colspan="4" class="text-center">${requestScope.timesheet.date}</th>
+                                    <th colspan="4" class="text-center">${ts.date}</th>
                                 </tr>
+
                                 <c:forEach var="dto" items="${requestScope.shifts}">
-                                    <c:if test = "${dto.shiftID eq requestScope.timesheet.shiftID}">
+                                    <c:if test = "${dto.shiftID eq ts.shiftID}">
                                         <tr>
                                             <th class="mytitle">Bắt đầu:</th>
                                             <td>
@@ -98,28 +106,20 @@
                                             <th class="mytitle">Cổng đóng</th>
                                             <td>${dto.closeAt}</td>
                                         </tr>
-                                        <c:if test = "${not empty dto.breakStartTime}">
-                                            <tr>
-                                                <th class="mytitle">Nghỉ:</th>
-                                                <td>${dto.breakStartTime}</td>
-                                                <th class="mytitle">Kết thúc:</th>
-                                                <td>${dto.breakEndTime}</td>
-                                            </tr>
-                                        </c:if>
                                         <tr>
                                             <th class="mytitle">Chấm công vào</th>
                                             <td>
-                                                <c:if test = "${empty requestScope.timesheet.checkin}">
+                                                <c:if test = "${empty ts.checkin}">
                                                     Chưa có
                                                 </c:if>
-                                                ${requestScope.timesheet.checkin}
+                                                ${ts.checkin}
                                             </td>
                                             <th class="mytitle">Chấm công ra</th>
                                             <td>
-                                                <c:if test = "${empty requestScope.timesheet.checkout}">
+                                                <c:if test = "${empty ts.checkout}">
                                                     Chưa có
                                                 </c:if>
-                                                ${requestScope.timesheet.checkout}
+                                                ${ts.checkout}
                                             </td>
                                         </tr>
                                     </c:if>
@@ -127,13 +127,13 @@
                             </table>
                         </div>
                         <div class="col-12 text-center mb-3">
-                            <button id="takeAttendance" class="btn text-white fw-bold mybutton" style="background-color: #88B04B;">
+                            <a href="TakeAttendance?shiftID=${ts.shiftID}" class="btn text-white fw-bold mybutton" style="background-color: #88B04B;">
                                 Chấm công
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
-            </c:if>
+            </c:forEach>
             <c:if test = "${not empty requestScope.overtime}">
                 <div class="row justify-content-center mt-3">
                     <div class="takeAttendance-block col-md-5 col-8 rounded-3 p-0 " style="background-color: #34568B;">
@@ -176,72 +176,43 @@
                             </table>
                         </div>
                         <div class="col-12 text-center mb-3">
-                            <button id="TakeAttendanceOvertime" class="btn text-white fw-bold mybutton" style="background-color: #88B04B;">
+                            <a href="TakeAttendanceOvertime" class="btn text-white fw-bold mybutton" style="background-color: #88B04B;">
                                 Chấm công
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
             </c:if>
         </div>
 
-        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal fade" id="modalMessage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Thành công</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Thành công
+                        ${requestScope.modalMessage}
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-info" type="button" onclick="location.reload();">
+                        <button class="btn btn-info" type="button" data-bs-dismiss="modal" aria-label="Close">
                             Đóng
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!--<script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>-->
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-        <script>
-                            $(document).ready(function () {
-                                $("#takeAttendance").click(function (event) {
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "TakeAttendance",
-                                        success: function (result) {
-                                            if (result === "success") {
-                                                $("#successModal").modal('show');
-                                            } else {
-                                                alert("Có lỗi xảy ra. Vui lòng thử lại.");
-                                            }
-                                        },
-                                        error: function () {
-                                            alert("Có lỗi xảy ra. Vui lòng thử lại.");
-                                        }
-                                    });
-                                });
 
-                                $("#TakeAttendanceOvertime").click(function (event) {
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "TakeAttendanceOvertime",
-                                        success: function (result) {
-                                            if (result === "success") {
-                                                $("#successModal").modal('show');
-                                            } else {
-                                                alert("Có lỗi xảy ra. Vui lòng thử lại.");
-                                            }
-                                        },
-                                        error: function () {
-                                            alert("Có lỗi xảy ra. Vui lòng thử lại.");
-                                        }
-                                    });
-                                });
-                            });
-        </script>
+        <c:if test = "${not empty requestScope.modalMessage}">
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    var myModal = new bootstrap.Modal(document.getElementById('modalMessage'));
+                    myModal.show();
+                });
+            </script>
+        </c:if>
+
     </body>
 </html>

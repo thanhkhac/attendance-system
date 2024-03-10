@@ -8,6 +8,7 @@ import dbhelper.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -39,6 +40,30 @@ public class DepartmentDAO extends DBContext {
             } finally {
                 close();
             }
+        }
+        return list;
+    }
+
+    public HashMap<Integer, DepartmentDTO> getAllDepartment() {
+        connect();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        HashMap<Integer, DepartmentDTO> list = new HashMap<>();
+        try {
+            String sql = "SELECT * FROM Departments ";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int departmentID = rs.getInt("DepartmentID");
+                String name = rs.getString("Name");
+                int managerID = rs.getInt("ManagerID");
+                DepartmentDTO de = new DepartmentDTO(departmentID, name, managerID);
+                list.put(de.getDepartmentID(), de);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close();
         }
         return list;
     }
@@ -76,10 +101,8 @@ public class DepartmentDAO extends DBContext {
 //        if (connection != null) {
         try {
             String sql = "  Select * from Departments " +
-             "      WHERE DepartmentID = ? ";
-            
-                
-                    
+                    "      WHERE DepartmentID = ? ";
+
             stm = connection.prepareStatement(sql);
             stm.setInt(1, departmentID);
             rs = stm.executeQuery();
@@ -229,7 +252,8 @@ public class DepartmentDAO extends DBContext {
     public static void main(String[] args) {
         DepartmentDAO deDao = new DepartmentDAO();
         int a = deDao.getDepartmentIDByName("Phòng nhân sự");
-        System.out.println(a);
+        
+        System.out.println(a);  
     }
 
 }

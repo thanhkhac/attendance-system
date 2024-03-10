@@ -15,7 +15,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     </head>
 </head>
-<title>News List</title>
 <style>
     body {
         background-color: #f8f9fa;
@@ -130,7 +129,7 @@
     }
 </style>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid ps-0">
         <div class="row">
             <div class="col-md-2">
                 <%@include file="Sidebar.jsp" %>

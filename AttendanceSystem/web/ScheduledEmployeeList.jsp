@@ -119,7 +119,7 @@
                     </table>
 
                 </div>
-                <div>
+                <div class="px-3">
                     <form action="DeleteTimesheetForEmployees" method="POST">
                         <table class="table">
                             <tr>

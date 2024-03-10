@@ -167,6 +167,7 @@
                                             <div class="shift__title">
                                                 Tăng ca
                                             </div>
+                                            <div class="shift-status"></div>
                                             <div>
                                                 ${wkday.overtime.startTime} - ${wkday.overtime.endTime}
                                             </div>
