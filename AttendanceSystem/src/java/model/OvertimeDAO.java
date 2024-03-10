@@ -26,8 +26,8 @@ public class OvertimeDAO extends DAOBase {
     }
 
     public boolean insertOvertime(String Date, int EmployeeID, String StartTime, String EndTime, String open, String Close, String CheckIn, String CheckOut, int CreateID) {
-       connect();  
-      query = "INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)\n" +
+        connect();
+        query = "INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)\n" +
                 "VALUES\n" +
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -55,7 +55,7 @@ public class OvertimeDAO extends DAOBase {
     }
 
     public boolean deleteOvertime(String Date, String start, String End, int ID) {
- connect();
+        connect();
         query = "delete from Overtimes\n" +
                 "where Date = ? and StartTime = ? and EndTime = ? and EmployeeID = ?";
         try {
@@ -130,8 +130,8 @@ public class OvertimeDAO extends DAOBase {
         connect();
         ArrayList<OvertimeDTO> list = new ArrayList<>();
         query = "SELECT * FROM Overtimes\n" +
-                 "WHERE\n" +
-                 "	[Date] = ? ";
+                "WHERE\n" +
+                "	[Date] = ? ";
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, xDate.toString());
@@ -159,39 +159,39 @@ public class OvertimeDAO extends DAOBase {
     public OvertimeDTO getConflicts(int xEmployeeid, String xDate, int xShiftID) {
         connect();
         query = "DECLARE @EmployeeID INT = ? \n" +
-                 "DECLARE @Date DATE = ? \n" +
-                 "DECLARE @ShiftID INT = ? \n" +
-                 "\n" +
-                 "SELECT \n" +
-                 "	OT.Date,\n" +
-                 "	OT.EmployeeID,\n" +
-                 "	OT.StartTime,\n" +
-                 "	OT.EndTime,\n" +
-                 "	OT.OpenAt,\n" +
-                 "	OT.CloseAt,\n" +
-                 "	OT.CheckIn,\n" +
-                 "	OT.CheckOut,\n" +
-                 "	OT.CreatedBy\n" +
-                 "FROM \n" +
-                 "    Overtimes OT\n" +
-                 "    JOIN Shifts S ON OT.Date = @Date\n" +
-                 "WHERE \n" +
-                 "    ShiftID = @ShiftID\n" +
-                 "	AND EmployeeID = @EmployeeID\n" +
-                 "    AND \n" +
-                 "    (   \n" +
-                 "        (OT.StartTime > S.StartTime AND OT.StartTime < S.EndTime)\n" +
-                 "        OR\n" +
-                 "        (OT.EndTime > S.StartTime AND OT.EndTime < S.EndTime)\n" +
-                 "        OR \n" +
-                 "        (S.StartTime > OT.StartTime AND S.StartTime < OT.EndTime)\n" +
-                 "        OR\n" +
-                 "        (S.EndTime > OT.StartTime AND S.EndTime < OT.EndTime)\n" +
-                 "		OR\n" +
-                 "		(S.StartTime = OT.StartTime)\n" +
-                 "		OR \n" +
-                 "		(S.EndTime = OT.EndTime)\n" +
-                 "    )";
+                "DECLARE @Date DATE = ? \n" +
+                "DECLARE @ShiftID INT = ? \n" +
+                "\n" +
+                "SELECT \n" +
+                "	OT.Date,\n" +
+                "	OT.EmployeeID,\n" +
+                "	OT.StartTime,\n" +
+                "	OT.EndTime,\n" +
+                "	OT.OpenAt,\n" +
+                "	OT.CloseAt,\n" +
+                "	OT.CheckIn,\n" +
+                "	OT.CheckOut,\n" +
+                "	OT.CreatedBy\n" +
+                "FROM \n" +
+                "    Overtimes OT\n" +
+                "    JOIN Shifts S ON OT.Date = @Date\n" +
+                "WHERE \n" +
+                "    ShiftID = @ShiftID\n" +
+                "	AND EmployeeID = @EmployeeID\n" +
+                "    AND \n" +
+                "    (   \n" +
+                "        (OT.StartTime > S.StartTime AND OT.StartTime < S.EndTime)\n" +
+                "        OR\n" +
+                "        (OT.EndTime > S.StartTime AND OT.EndTime < S.EndTime)\n" +
+                "        OR \n" +
+                "        (S.StartTime > OT.StartTime AND S.StartTime < OT.EndTime)\n" +
+                "        OR\n" +
+                "        (S.EndTime > OT.StartTime AND S.EndTime < OT.EndTime)\n" +
+                "		OR\n" +
+                "		(S.StartTime = OT.StartTime)\n" +
+                "		OR \n" +
+                "		(S.EndTime = OT.EndTime)\n" +
+                "    )";
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, xEmployeeid);
@@ -296,14 +296,39 @@ public class OvertimeDAO extends DAOBase {
         return null;
     }
 
+    public OvertimeDTO getCurrentOvertimeByDay(int xEmployeeID) {
+        connect();
+        query = "" +
+                "SELECT * \n" +
+                "FROM\n" +
+                "	Overtimes OT\n" +
+                "WHERE \n" +
+                "	CONVERT(date, OT.Date) = CONVERT(date, GETDATE()) \n" +
+                "	AND EmployeeID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, xEmployeeID);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return getOvertimeDTO(rs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //Đóng PrepareStatement, ResultSet, Connection
+            super.closeAll();
+        }
+        return null;
+    }
+
     public ArrayList<OvertimeDTO> getOverTimeByRange(int id, LocalDate startDate, LocalDate endDate) {
         connect();
         ArrayList<OvertimeDTO> list = new ArrayList<>();
         if (connection != null) {
             try {
                 String sql = "SELECT * FROM Overtimes " +
-                         "WHERE EmployeeID = ? " +
-                         "AND [Date] BETWEEN ? AND ? ";
+                        "WHERE EmployeeID = ? " +
+                        "AND [Date] BETWEEN ? AND ? ";
                 ps = connection.prepareStatement(sql);
                 ps.setInt(1, id);
                 ps.setString(2, startDate.toString());

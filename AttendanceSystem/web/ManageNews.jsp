@@ -15,7 +15,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     </head>
 </head>
-<title>News List</title>
 <style>
     body {
         background-color: #f8f9fa;
@@ -130,7 +129,7 @@
     }
 </style>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid ps-0">
         <div class="row">
             <div class="col-md-2">
                 <%@include file="Sidebar.jsp" %>
@@ -249,16 +248,10 @@
                                         <label for="filePath" class="form-label">File Path</label>
                                         <input type="file" class="form-control" id="filePath" name="filePath">
                                     </div>
-                                    <div class="col-md-2 mb-3">
+                                <div class="col-md-2 mb-3">
                                         <label for="createBy" class="form-label">Create By</label>
-                                        <select name="employee" id="employeeSelect" class="form-select" onchange="submitForm()">
-                                            <option value="" selected disabled>Select an employee</option>
-                                            <c:forEach var="employee" items="${employees}">
-                                                <option value="${employee.firstName}">${employee.firstName}</option>
-                                            </c:forEach>
-                                        </select>
+                                        <input type="text" class="form-control" id="employeeSelect" name="employee" value="${sessionScope.ACCOUNT.firstName}" readonly="">
                                     </div>
-
                                     <button type="submit" class="btn btn-primary" onclick="confirmInsert()">Submit</button>
                                 </form>
                             </div>

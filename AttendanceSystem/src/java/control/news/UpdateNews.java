@@ -6,6 +6,7 @@ package control.news;
 
 import com.aspose.words.Document;
 import com.aspose.words.HtmlSaveOptions;
+import static control.news.InsertNews.getUniqueFileName;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -32,9 +34,9 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
  * @author ADMIN-PC
  */
 @MultipartConfig(
-        fileSizeThreshold = 1024 * 1024, // 1 MB
-        maxFileSize = 10 * 1024 * 1024, // 10 MB
-        maxRequestSize = 50 * 1024 * 1024 // 50 MB
+        fileSizeThreshold = 1024 * 1024 * 100, // 1 MB
+        maxFileSize = 100 * 1024 * 1024, // 10 MB
+        maxRequestSize = 500 * 1024 * 1024 // 50 MB
 )
 @WebServlet(name = "UpdateNews", urlPatterns = {"/updatenews"})
 public class UpdateNews extends HttpServlet {
@@ -52,7 +54,6 @@ public class UpdateNews extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -114,14 +115,14 @@ public class UpdateNews extends HttpServlet {
                             uploadDir.mkdir();
                         }
 
-                        // Process the single file part
                         String fileName = getFileName(filePart);
-                        InputStream fileContent = filePart.getInputStream();
-                        Files.copy(fileContent, new File(uploadPath + File.separator + fileName).toPath(),
-                                StandardCopyOption.REPLACE_EXISTING);
+                        String baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+                        String extension = fileName.substring(fileName.lastIndexOf('.'));
+                        String uniqueFileName = getUniqueFileName(uploadPath, baseName, extension);
+                        Path targetPath = new File(uploadPath + File.separator + uniqueFileName).toPath();
 
-                        response.getWriter().println("File uploaded successfully!");
-                        response.getWriter().println(uploadPath);
+                        InputStream fileContent = filePart.getInputStream();
+                        Files.copy(fileContent, targetPath, StandardCopyOption.REPLACE_EXISTING);
 
                         String htmlPath = "/htmlfile/";
                         String uploadHtmlPath = rootPath + File.separator + htmlPath;
@@ -131,14 +132,14 @@ public class UpdateNews extends HttpServlet {
                         }
 
                         // Process the single file part for HTML conversion
-                        Document doc = new Document(uploadPath + File.separator + fileName);
+                        Document doc = new Document(uploadPath + File.separator + uniqueFileName);
                         HtmlSaveOptions saveOptions = new HtmlSaveOptions();
                         saveOptions.setExportImagesAsBase64(true);
-                        doc.save(uploadHtmlPath + File.separator + fileName.replaceFirst("[.][^.]+$", "") + ".html", saveOptions);
+                        doc.save(uploadHtmlPath + File.separator + uniqueFileName.replaceAll("[.][^.]+$", "") + ".html", saveOptions);
 
-                        String finalpath = uploadHtmlPath + File.separator + fileName.replaceFirst("[.][^.]+$", "") + ".html";
+                        String finalpath = uploadHtmlPath + File.separator + uniqueFileName.replaceAll("[.][^.]+$", "") + ".html";
                         System.out.println(finalpath);
-                        pathToGet = finalpath;
+                        pathToGet = htmlPath + uniqueFileName.replaceAll("[.][^.]+$", "") + ".html";
                         System.out.println("path:" + pathToGet);
                     } catch (AccessDeniedException e) {
                         e.getMessage();
