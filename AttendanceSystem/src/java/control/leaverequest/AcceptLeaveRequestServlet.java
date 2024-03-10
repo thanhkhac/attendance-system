@@ -4,6 +4,7 @@
  */
 package control.leaverequest;
 
+import authorization.RoleConstants;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -72,13 +73,13 @@ public class AcceptLeaveRequestServlet extends HttpServlet {
         out.println("|| CreatedBy : " + createdBy);
         
         if (button_value.startsWith("Accept")) {
-            if (acc.getRoleID() == 4) { // role id = 4 : Quan li
+            if (acc.getRoleID() == RoleConstants.MANAGER) { // role id = 4 : Quan li
                 out.println("|| RoleID-4(Quan li) : " + acc.getRoleID());
                 // Duyet don theo role quan li
                 if (lrDAO.approvalOfApplicationByManager(1, acc.getEmployeeID(), leaveRequestID_raw)) {
                     response.sendRedirect("ViewLeaveRequestForManager.jsp");
                 }
-            }else if(acc.getRoleID() == 2){ // role id = 2 : Quan li nhan su
+            }else if(acc.getRoleID() == RoleConstants.HR){ // role id = 2 : Quan li nhan su
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
                 if (lrDAO.approvalOfApplicationByHr(1, acc.getEmployeeID(), leaveRequestID_raw)) {

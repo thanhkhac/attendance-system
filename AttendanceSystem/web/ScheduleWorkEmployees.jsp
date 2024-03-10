@@ -15,7 +15,7 @@
 
             @media screen and (max-width: 768px) {
 
-                .calendar{
+                .right{
                     position: absolute;
                     width: 100%;
                     right: auto;

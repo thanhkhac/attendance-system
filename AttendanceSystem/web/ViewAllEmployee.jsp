@@ -479,7 +479,7 @@
             </div>
         </div>
 
-        <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
+        <!--<script src="assets/Bootstrap5/js/bootstrap.min.js"></script>-->
         <script>
                         function confirmation(employee) {
                             event.stopPropagation();

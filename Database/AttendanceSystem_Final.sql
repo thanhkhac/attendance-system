@@ -1,4 +1,7 @@
 ﻿USE master
+ALTER DATABASE Attendance_DB_Final SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
+ALTER DATABASE Attendance_DB_Final SET MULTI_USER;
 
 GO
 IF EXISTS (SELECT name from master.dbo.sysdatabases WHERE name = 'Attendance_DB_Final')
@@ -126,6 +129,7 @@ CREATE TABLE LeaveRequests(
 	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
 )
+
 CREATE TABLE ResignationRequests(
 	ResignationRequestID int PRIMARY KEY IDENTITY(1,1),
 	[EmployeeID] int,
@@ -215,6 +219,7 @@ CREATE TABLE [Requests](
 	Content nvarchar(max),
 	[FilePath] nvarchar(max),
 	[Status] bit,
+	ProcessNote nvarchar(max),
 	[ApproveDate] datetime,
 	[ResponedBy] int,
 
@@ -323,6 +328,13 @@ INSERT INTO RequestsType([Name])
 VALUES (N'Leave Request (Yêu Cầu Xin Nghỉ)')
 INSERT INTO RequestsType([Name])
 VALUES (N'Resignation Request (Yêu Cầu Gia Hạn Hợp Đồng)')
+INSERT INTO RequestsType (Name) VALUES
+(N'Xin Nghỉ Phép'),
+(N'Thay Đổi Thông Tin Cá Nhân'),
+(N'Xin Nâng Lương'),
+(N'Xin Chế Độ Làm Việc Linh Hoạt'),
+(N'Xin Thăng Tiến/Chuyển Bộ Phận'),
+(N'Xin Nghỉ Việc')
 
 DECLARE @EmployeeID INT = 1;
 DECLARE @ShiftID INT = 1;
