@@ -188,6 +188,9 @@ public class UpdateTempEmployeeServlet extends HttpServlet {
             isError.remove(e);
         }
 
+        session.setAttribute("employees", employees);
+        session.setAttribute("isAcceptable", isAcceptable);
+        session.setAttribute("isError", isError);
         session.setAttribute("departments", department);
         session.setAttribute("types", employeeType);
         session.setAttribute("roles", roles);

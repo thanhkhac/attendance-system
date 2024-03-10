@@ -159,7 +159,7 @@
                                                         </select>
 
                                                         <br>
-                                                        <label class="modal-label">BirthDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="birthDate-${e.getEmployeeID()}" type="date" name="BirthDate" value="${e.getBirthDate()}"><br>
+                                                        <label class="modal-label">BirthDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="birthDate-${e.getEmployeeID()}" type="date" name="BirthDate" value="${e.getBirthDate()}" max="2024-01-01"><br>
                                                         <label class="modal-label">Password</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="password-${e.getEmployeeID()}" type="text" name="Password" value="${e.getPassword()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
@@ -192,8 +192,8 @@
                                                         <br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">StartDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="startDate-${e.getEmployeeID()}" type="date" name="StartDate" value="${e.getStartDate()}"><br>
-                                                        <label class="modal-label">EndDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="endDate-${e.getEmployeeID()}" type="date" name="EndDate" value="${e.getEndDate()}"><br>
+                                                        <label class="modal-label">StartDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="startDate-${e.getEmployeeID()}" type="date" name="StartDate" value="${e.getStartDate()}" max="2099-01-01"><br>
+                                                        <label class="modal-label">EndDate</label><input onchange="checkByChange(event,${e.getEmployeeID()})"  id="endDate-${e.getEmployeeID()}" type="date" name="EndDate" value="${e.getEndDate()}" max="2099-01-01"><br>
                                                     </div>
                                                 </form>
                                             </div>
@@ -204,22 +204,29 @@
                                     </div>
                                 </div>
                             </c:forEach>
+                            <div class="d-flex justify-content-end" style="width: 100%">
+                                <form action="" >
+                                    <input id="insert-btn" type="submit" class="btn btn-success d-none mb-3" value="Insert into Database">
+                                </form>
+                            </div>
                         </div>
                         <div>
                             <c:forEach items="${isError}" var="e">
                                 <tr class="error-rows table-danger">
-                                    <td>${e.getLastName()}</td>
-                                    <td>${e.getMiddleName()}</td>
-                                    <td>${e.getFirstName()}</td>
-                                    <td>${e.getPhoneNumber()}</td>
-                                    <td>${e.getEmail()}</td>
-                                    <td>${e.getCccd()}</td>
-                                    <td>${e.getGender()?"Male":"Female"}</td>
-                                    <td>
-                                        <button  id="${e.getEmployeeID()}" data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
-                                                 class="btn btn-primary"
-                                                 >Update</button>
-                                    </td>
+                                    <td>${e.getLastName()}</td><form action="">
+                                    <input id="insert-btn" type="submit" class="btn btn-success d-none" value="Insert into Database">
+                                </form>
+                                <td>${e.getMiddleName()}</td>
+                                <td>${e.getFirstName()}</td>
+                                <td>${e.getPhoneNumber()}</td>
+                                <td>${e.getEmail()}</td>
+                                <td>${e.getCccd()}</td>
+                                <td>${e.getGender()?"Male":"Female"}</td>
+                                <td>
+                                    <button  id="${e.getEmployeeID()}" data-bs-toggle="modal" data-bs-target="#popupModal-${e.getEmployeeID()}"
+                                             class="btn btn-primary"
+                                             >Update</button>
+                                </td>
                                 </tr>
                                 <div class="modal fade" id="popupModal-${e.getEmployeeID()}" tabindex="-1"
                                      aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
@@ -253,7 +260,7 @@
                                                             <option ${e.getGender() == false?'selected':''}value="false">Nữ</option>
                                                         </select>
                                                         <br>
-                                                        <label class="modal-label">BirthDate</label><input  oninput="checkByChange(event,${e.getEmployeeID()})"  id="birthDate-${e.getEmployeeID()}" type="date" name="BirthDate" value="${e.getBirthDate()}"><br>
+                                                        <label class="modal-label">BirthDate</label><input  oninput="checkByChange(event,${e.getEmployeeID()})"  id="birthDate-${e.getEmployeeID()}" type="date" name="BirthDate" value="${e.getBirthDate()}" max="2024-01-01"><br>
                                                         <label class="modal-label">Password</label><input  oninput="checkByChange(event,${e.getEmployeeID()})"  id="password-${e.getEmployeeID()}" type="text" name="Password" value="${e.getPassword()}"><br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
@@ -286,8 +293,8 @@
                                                         <br>
                                                     </div>
                                                     <div class="information-items"  style="max-width: 350px;">
-                                                        <label class="modal-label">StartDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="startDate-${e.getEmployeeID()}" type="date" name="StartDate" value="${e.getStartDate()}"><br>
-                                                        <label class="modal-label">EndDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="endDate-${e.getEmployeeID()}" type="date" name="EndDate" value="${e.getEndDate()}"><br>
+                                                        <label class="modal-label">StartDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="startDate-${e.getEmployeeID()}" type="date" name="StartDate" value="${e.getStartDate()}" max="2099-01-01"><br>
+                                                        <label class="modal-label">EndDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="endDate-${e.getEmployeeID()}" type="date" name="EndDate" value="${e.getEndDate()}" max="2099-01-01"><br>
                                                     </div>
                                                 </form>
                                             </div>
@@ -299,6 +306,11 @@
                                     </div>
                                 </div>
                             </c:forEach>
+                            <div class="d-flex justify-content-end" style="width: 100%">
+                                <form action="" >
+                                    <input id="delete-btn" type="submit" class="btn btn-danger d-none mb-3" value="Delete All">
+                                </form>
+                            </div>
                         </div>
                         </tbody>
                     </table>
@@ -336,6 +348,16 @@
             var error_rows = document.getElementsByClassName("error-rows");
             var acceptable_rows = document.getElementsByClassName("accept-rows");
             var table_head = document.getElementById("table-header");
+            var insert_btn = document.getElementById("insert-btn");
+            if (insert_btn !== null) {
+                console.log(insert_btn.value);
+                insert_btn.classList.remove("d-none");
+            }
+            var delete_btn = document.getElementById("delete-btn");
+            if (delete_btn !== null) {
+                console.log(insert_btn.value);
+                delete_btn.classList.add("d-none");
+            }
             table_head.style.display = 'table-row';
             for (var i = 0; i < acceptable_rows.length; i++) {
                 acceptable_rows[i].style.display = 'table-row';
@@ -349,6 +371,16 @@
             var acceptable_rows = document.getElementsByClassName("accept-rows");
             var table_head = document.getElementById("table-header");
             table_head.style.display = 'table-row';
+            var insert_btn = document.getElementById("insert-btn");
+            if (insert_btn !== null) {
+                console.log(insert_btn.value);
+                insert_btn.classList.add("d-none");
+            }
+            var delete_btn = document.getElementById("delete-btn");
+            if (delete_btn !== null) {
+                console.log(insert_btn.value);
+                delete_btn.classList.remove("d-none");
+            }
             for (var i = 0; i < acceptable_rows.length; i++) {
                 acceptable_rows[i].style.display = 'none';
             }
@@ -365,7 +397,6 @@
                 var update_form = document.getElementById("update-form-" + ID);
                 update_form.submit();
             }
-
         }
 
         function check() {

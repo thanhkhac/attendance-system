@@ -54,6 +54,11 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
         return afterNMonth;
     }
 
+    private LocalDate timeAfterNYears(LocalDate time, int yearToAdd) {
+        LocalDate afterNYears = time.plusYears(yearToAdd);
+        return afterNYears;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -101,7 +106,9 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
         EmployeeDTO e = new EmployeeDTO();
         try {
             int id = Integer.parseInt(txt_employeeID);
-            birthDay = LocalDate.parse(txt_birthday);
+            if (txt_birthday != null && txt_birthday.length() > 0) {
+                birthDay = LocalDate.parse(txt_birthday);
+            }
             e = getEmployeeByTmpID(employees, id);
             startDate = LocalDate.parse(txt_startDate);
             endDate = LocalDate.parse(txt_endDate);
@@ -150,7 +157,10 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
             err.setEmail_format_error("Định dạng Email không hợp lệ !");
             isErr = true;
         }
-        if ((LocalDate.now().getYear() - birthDay.getYear() < 18) || LocalDate.now().getYear() - birthDay.getYear() < 0) {
+        if (LocalDate.now().isBefore(timeAfterNYears(birthDay, 19))
+                || LocalDate.now().getYear() - birthDay.getYear() >= 60
+                || birthDay.isAfter(LocalDate.now())
+                || birthDay.getYear() > LocalDate.now().getYear()) {
             isErr = true;
             err.setDate_invalid("Ngày sinh không hợp lệ [ " + LocalDate.now().getYear() + " - năm sinh ] >= 18 !");
         }
