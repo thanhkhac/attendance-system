@@ -128,7 +128,15 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
-
+        if (isEmailExist) {
+            isErr = true;
+        }
+        if (isCCCDExist) {
+            isErr = true;
+        }
+        if (isPhoneNumberExist) {
+            isErr = true;
+        }
         if (txt_firstName.length() <= 0) {
             err.setNull_error("Điền đầy đủ các thành phần của Tên !");
             isErr = true;

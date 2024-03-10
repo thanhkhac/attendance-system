@@ -318,8 +318,17 @@
                                 </div>
                             </c:forEach>
                             <div class="d-flex justify-content-end" style="width: 100%">
-                                <form action="" >
-                                    <input id="delete-btn" type="submit" class="btn btn-danger d-none mb-3" value="Delete All">
+                                <c:set var="ErrorMsg" value="${requestScope.ErrorMSG}" />
+                                <c:if test="${not empty ErrorMsg}">
+                                    <h6 id="delete-btn"  style="color: green "><i class="fa-regular fa-circle-check"></i> ${ErrorMsg}</h6>
+                                </c:if>
+                                </br>
+                                <form action="DeleteTempEmployeesServlet" method="post">
+                                    <input
+                                        <c:if test="${isError.size()<=0}">
+                                            disabled=""
+                                        </c:if>
+                                        id="delete-btn" type="submit" class="btn btn-danger d-none mb-3" value="Delete All">
                                 </form>
                             </div>
                         </div>
