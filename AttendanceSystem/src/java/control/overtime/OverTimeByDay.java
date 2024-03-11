@@ -58,7 +58,7 @@ public class OverTimeByDay extends HttpServlet {
         }
         request.setAttribute("LISTOVERTIME", list2);
         request.setAttribute("DAY", Day);
-        request.setAttribute("DAQUA", Check);
+        request.setAttribute("CHECK", Check);
         request.getRequestDispatcher("ViewOvertimeByDay.jsp").forward(request, response);
     } 
 
