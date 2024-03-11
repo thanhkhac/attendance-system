@@ -330,6 +330,40 @@ public class OverTimeRequestDAO extends DAOBase {
         return false;
     }
 
+    public ArrayList<OverTimeRequestDTO> getOTRequetsByEmployeeID(int emplID) {
+        connect();
+        ArrayList<OverTimeRequestDTO> list = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM OvertimeRequests \n"
+                    + "WHERE EmployeeID = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, emplID);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                int overTimeRequestID = rs.getInt("OvertimeRequestID");
+                LocalDate date = DATE_UTIL.parseSqlDate(rs.getDate("Date"));
+                int employeeID = rs.getInt("EmployeeID");
+                LocalDateTime sentDate = DATE_UTIL.parseSqlDateTime(rs.getTimestamp("SentDate"));
+                LocalTime startTime = DATE_UTIL.parseSQLTime(rs.getTime("StartTime"));
+                LocalTime endTime = DATE_UTIL.parseSQLTime(rs.getTime("EndTime"));
+                Boolean managerApprove = LR.parseBoolean(rs.getString("ManagerApprove"));
+                Boolean hrApprove = LR.parseBoolean(rs.getString("HrApprove"));
+                int managerID = rs.getInt("ManagerID");
+                int hrID = rs.getInt("HrID");
+                int createdBy = rs.getInt("CreatedBy");
+                Boolean status = LR.parseBoolean(rs.getString("Status"));
+                OverTimeRequestDTO request = new OverTimeRequestDTO(overTimeRequestID, date, employeeID, sentDate, startTime, endTime, managerApprove, hrApprove, managerID, hrID, createdBy, status);
+                list.add(request);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        } finally {
+            closeAll();
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         OverTimeRequestDAO otDAO = new OverTimeRequestDAO();
         ArrayList<OverTimeRequestExtendDTO> list = new ArrayList<>();
