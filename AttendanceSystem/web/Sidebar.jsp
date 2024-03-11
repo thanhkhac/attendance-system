@@ -19,9 +19,7 @@
                 float: left;
             }
 
-            .closebutton{
-                display: none;
-            }
+
 
             @media screen and (max-width: 768px) {
                 .xSidebar {
@@ -58,7 +56,7 @@
                                 </div>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="UpdateEmployeeProfile.jsp">Tài khoản</a></li>
-                                    <li><a class="dropdown-item" href="#">Đổi mật khẩu</a></li>
+                                    <li><a class="dropdown-item" href="ChangePasswordForUser.jsp">Đổi mật khẩu</a></li>
                                     <li><a class="dropdown-item" href="logout">Đăng xuất</a></li>
                                 </ul>
                             </div>
@@ -122,11 +120,12 @@
             </div>
 
             <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu6">
-                <i class="fa-solid fa-chart-simple"></i> Thống kê
+                <i class="fa-solid fa-chart-simple"></i> Khác
                 <i class="fa fa-caret-down float-end"></i>
             </a>
             <div class="collapse ps-4" id="submenu6">
-                <a href="#" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu</a>
+                <a href="GetEmployeeStatisticsServlet" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu</a>
+                 <a href="GetAllNewsByHR" class="w3-bar-item w3-button fw-bold  text-white">Quản lý tin tức</a>
             </div>
 
 
