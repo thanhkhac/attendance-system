@@ -254,6 +254,25 @@ public class OverTimeRequestDAO extends DAOBase {
         return false;
     }
 
+    public void updateStatus(int status, int requestID) {
+        connect();
+        try {
+            String sql = "update OvertimeRequests\n"
+                    + "set Status = ?\n"
+                    + "where OvertimeRequestID = ?";
+            connect();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, status);
+            ps.setInt(2, requestID);
+            int rs = ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+    }
+
     public OverTimeRequestDTO getOverTimeRequestByID(int requestID) {
         connect();
         OverTimeRequestDTO request = new OverTimeRequestDTO();

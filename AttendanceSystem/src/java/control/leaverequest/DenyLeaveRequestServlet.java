@@ -60,6 +60,7 @@ public class DenyLeaveRequestServlet extends HttpServlet {
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
                 if (lrDao.approvalOfApplicationByHr(0, acc.getEmployeeID(), leaveRequestID_raw)) {
+                    lrDao.updateStatus(0, leaveRequestID_raw);
                     response.sendRedirect("ViewLeaveRequestForHR.jsp");
                 }
             }

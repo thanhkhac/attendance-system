@@ -319,6 +319,25 @@ public class LeaveRequestDAO extends DAOBase {
         return false;
     }
 
+    public void updateStatus(int status , int requestID){
+        connect();
+        try{
+            String sql = "UPDATE LeaveRequests "
+                    + "SET Status = ? "
+                    + "WHERE LeaveRequestID = ? ";
+            connect();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, status);
+            ps.setInt(2, requestID);
+            int rs = ps.executeUpdate();
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+    }
+    
     public boolean scheduleLeaveForRequest(LeaveRequestDTO request, int id) {
         connect();
         try {
