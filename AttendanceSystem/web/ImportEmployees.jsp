@@ -51,9 +51,12 @@
             .modal-label{
                 margin-top: 15px;
             }
+
         </style>
     </head>
     <body>
+
+        <%--<%@include file="Sidebar.jsp" %>--%>
 
         <c:set var="employee" value="${sessionScope.employees}" />
         <c:set var="isError" value="${sessionScope.isError}" />
@@ -212,16 +215,17 @@
                                 </br>
 
                                 <form id="insert_form" action="InsertImportedEmployeesServlet" method="post">
-                                    <input 
-                                        <c:if test="${isAcceptable.size()<=0}">
-                                            disabled=""
-                                        </c:if>
-                                        onclick="insertForm()"
-                                        id="insert-btn"
-                                        type="submit"
-                                        class="btn btn-success d-none mb-3"
-                                        value="Insert into Database">
+
                                 </form>
+                                <input 
+                                    <c:if test="${isAcceptable.size()<=0}">
+                                        disabled=""
+                                    </c:if>
+                                    onclick="insertForm()"
+                                    id="insert-btn"
+                                    type="submit"
+                                    class="btn btn-success d-none mb-3"
+                                    value="Insert into Database">
 
                             </div>
                         </div>
@@ -328,16 +332,17 @@
                                 </c:if>
                                 </br>
                                 <form id="delete_form" action="DeleteTempEmployeesServlet" method="post">
-                                    <input
-                                        <c:if test="${isError.size()<=0}">
-                                            disabled=""
-                                        </c:if>
-                                        onclick="deleteForm()"
-                                        id="delete-btn"
-                                        type="submit"
-                                        class="btn btn-danger d-none mb-3"
-                                        value="Delete All">
+
                                 </form>
+                                <input
+                                    <c:if test="${isError.size()<=0}">
+                                        disabled=""
+                                    </c:if>
+                                    onclick="deleteForm()"
+                                    id="delete-btn"
+                                    type="submit"
+                                    class="btn btn-danger d-none mb-3"
+                                    value="Delete All">
                             </div>
                         </div>
                         </tbody>
@@ -421,22 +426,28 @@
         function submitForm(button) {
             var ID = button.id;
             console.log("update-forms-" + ID);
-            if (confirm("Save change ? ")) {
+            var update_confirm = confirm("Save change ? ");
+            console.log(update_confirm);
+            if (update_confirm) {
                 var update_form = document.getElementById("update-form-" + ID);
                 update_form.submit();
             }
         }
 
-        function deleteForm() {
-            if (confirm("Delete all current data rows ?")) {
+        function deleteForm(event) {
+            var delete_confirm = confirm("Delete all current data rows ?");
+            console.log(delete_confirm);
+            if (delete_confirm) {
                 var delete_form = document.getElementById("delete_form");
                 delete_form.submit();
             }
         }
 
         function insertForm() {
-            if (confirm("Insert all acceptable data rows ?")) {
-                var insertform = document.getElementById("insert_form");
+            var insert_confirm = confirm("Insert all acceptable data rows ?");
+            console.log(insert_confirm);
+            if (insert_confirm) {
+                var insert_form = document.getElementById("insert_form");
                 insert_form.submit();
             }
         }

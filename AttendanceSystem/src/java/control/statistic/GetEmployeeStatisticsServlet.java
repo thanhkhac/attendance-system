@@ -35,6 +35,14 @@ public class GetEmployeeStatisticsServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private double getTotalHours(ArrayList<StatisticsDTO> statistics) {
+        double total = 0;
+        for (StatisticsDTO s : statistics) {
+            total += (s.getTotalDay().toMinutes() / 60);
+        }
+        return total;
+    }
+
     private final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -46,7 +54,7 @@ public class GetEmployeeStatisticsServlet extends HttpServlet {
         String endDate_txt = request.getParameter("endDate");
         LocalDate startDate = DATE_UTIL.parseSqlDate(employee.getStartDate());
         LocalDate endDate = DATE_UTIL.getVNLocalDateNow();
-        
+
         ArrayList<StatisticsDTO> statistics = new ArrayList<>();
         StatisticsDAO staDAO = new StatisticsDAO();
         try {
@@ -65,9 +73,10 @@ public class GetEmployeeStatisticsServlet extends HttpServlet {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        request.setAttribute("startDate",startDate);
-        request.setAttribute("endDate",endDate);
-        request.setAttribute("current",DATE_UTIL.getVNLocalDateNow());
+        System.out.println(getTotalHours(statistics));
+        request.setAttribute("startDate", startDate);
+        request.setAttribute("endDate", endDate);
+        request.setAttribute("current", DATE_UTIL.getVNLocalDateNow());
         request.setAttribute("statistics", statistics);
         request.getRequestDispatcher("ViewStatisticsForEmployee.jsp").forward(request, response);
     }
