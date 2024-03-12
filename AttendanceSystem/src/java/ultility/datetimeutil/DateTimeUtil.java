@@ -69,8 +69,6 @@ public class DateTimeUtil {
     public ArrayList<LocalDate> getCalendar(int year, int month) {
         ArrayList<LocalDate> list = new ArrayList<>();
         LocalDate localDate = LocalDate.of(year, month, 1);
-        System.out.println(localDate.getDayOfWeek().getValue());
-        System.out.println(localDate.getDayOfWeek().getValue() % 7);
         localDate = localDate.minusDays(localDate.getDayOfWeek().getValue() % 7);
 
         int i = 0;

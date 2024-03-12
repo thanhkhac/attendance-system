@@ -79,7 +79,7 @@
                 </div>
             </div>
         </div>
-        <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js">
+        <!--<script src="assets/Bootstrap5/js/bootstrap.bundle.min.js">-->
         </script>
 
     </body>
