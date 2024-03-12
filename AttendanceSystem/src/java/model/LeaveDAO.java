@@ -94,18 +94,18 @@ public class LeaveDAO extends DAOBase {
             ps.setString(6, createdDate);
             ps.setInt(7, createdBy);
             int row = ps.executeUpdate();
-            if(row > 0){
+            if (row > 0) {
                 return true;
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e);
-        }finally{
+        } finally {
             closeAll();
         }
         return false;
     }
-    
+
     public static void main(String[] args) {
         LeaveDAO leaveDAO = new LeaveDAO();
         System.out.println(leaveDAO.getLeaveDTO(1, "2024-02-01"));

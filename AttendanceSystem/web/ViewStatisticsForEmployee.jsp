@@ -17,8 +17,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.29.0/dist/apexcharts.min.css">
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
         <title>JSP Page</title>
         <style>
@@ -101,13 +103,19 @@
         </style>
     </head>
     <body>
-        <%
-            
-        %>
         <c:set var="statistics" value="${requestScope.statistics}" />
         <c:set var="employee" value="${sessionScope.ACCOUNT}" />
         <c:set var="startDate" value="${requestScope.startDate}" />
         <c:set var="endDate" value="${requestScope.endDate}" />
+
+        <c:set var="workedDays" value="${requestScope.workedDays}" />
+        <c:set var="notWorkedDays" value="${requestScope.notWorkedDays}" />
+        <c:set var="leaveDays" value="${requestScope.leaveDays}" />
+        <c:set var="scheduledDays" value="${requestScope.scheduledDays}" />
+
+        <c:set var="totalShift" value="${requestScope.totalShift}" />
+        <c:set var="totalOT" value="${requestScope.totalOT}" />
+        <c:set var="totalHour" value="${requestScope.totalHour}" />
         <div class="content">
             <h1 class="text-center">View Statistics</h1>
             <div class="content-redirect">
@@ -125,11 +133,23 @@
                 </div>
             </div>
 
+            <input type="hidden" id="scheduledDays" value="${scheduledDays}">
+            <input type="hidden" id="workedDays" value="${workedDays}">
+            <input type="hidden" id="notWorkedDays" value="${notWorkedDays}">
+            <input type="hidden" id="leaveDays" value="${leaveDays}">
+
+            <input type="hidden" id="totalShift" value="${totalShift}">
+            <input type="hidden" id="totalOT" value="${totalOT}">
+            <input type="hidden" id="totalHour" value="${totalHour}">
+
+
             <form id="statisticsForm" action="GetEmployeeStatisticsServlet" method="Post">
                 <div class="form-statistic">
                     <div class="statistic-items">
                         <label for="startDate">Ngày Bắt Đầu: </label>
                         <input type="date" name="startDate" id="startDate" 
+                               min="${employee.getStartDate()}"
+                               max="${requestScope.current}"
                                <c:if test="${startDate != null}">
                                    value="${startDate}"
                                </c:if>
@@ -141,6 +161,9 @@
                     <div class="statistic-items">
                         <label for="endDate">Đến: </label>
                         <input type="date" name="endDate" id="endDate" 
+                               min="${employee.getStartDate()}"
+                               max="${requestScope.current}"
+
                                <c:if test="${endDate != null}">
                                    value="${endDate}"
                                </c:if>
@@ -154,6 +177,15 @@
             <%--<c:if test="${statistics.size()>0}">--%>
             <%--<%@include file="include_Statistics.jsp" %>--%>
             <%--</c:if>--%>
+            <div class="d-flex">
+                <div id="chart_days" class="col-md-6"></div>
+                <div id="chart_hours" class="col-md-6"></div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <p>Days</p>
+                <p>Hours</p>
+            </div>
+
             <%@include  file="Include_Statistics.jsp" %>
 
         </div>
@@ -234,5 +266,77 @@
             var form = document.getElementById("export-form");
             form.submit();
         }
+        // Sample data
+
+
+        var totalShift = document.getElementById("totalShift").value;
+        var totalOT = document.getElementById("totalOT").value;
+        var totalHour = document.getElementById("totalHour").value;
+
+        var workedDays = document.getElementById("workedDays").value;
+        var notWorkedDays = document.getElementById("notWorkedDays").value;
+        var leaveDays = document.getElementById("leaveDays").value;
+        var scheduledDays = document.getElementById("scheduledDays").value;
+        
+        var options_days = {
+            series: [
+                parseFloat(((workedDays / scheduledDays) * 100).toFixed(2)),
+                parseFloat(((leaveDays / scheduledDays) * 100).toFixed(2)),
+                parseFloat(((notWorkedDays / scheduledDays) * 100).toFixed(2))
+            ],
+            chart: {
+                type: 'pie',
+                height: 350
+            },
+            labels: [
+                'Ngày đi làm: ' + workedDays,
+                'Ngày xin nghỉ: ' + leaveDays,
+                'Ngày không đi làm: ' + notWorkedDays
+            ],
+            colors: ['#19C37D', '#FEB019', '#202124'],
+            responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+        };
+        var options_hours = {
+            series: [
+                parseFloat(((totalShift / totalHour) * 100).toFixed(2)),
+                parseFloat(((totalOT / totalHour) * 100).toFixed(2))
+            ],
+            chart: {
+                type: 'pie',
+                height: 350
+            },
+            labels: ['Ca Thường: ' + totalShift + ' Hrs',
+                'OverTime: ' + totalOT + ' Hrs'],
+            colors: ['#FF5722', '#202124'],
+            responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+        };
+
+
+        // Create a pie chart using ApexCharts
+        var chart_days = new ApexCharts(document.querySelector("#chart_days"), options_days);
+        chart_days.render();
+        var chart_hours = new ApexCharts(document.querySelector("#chart_hours"), options_hours);
+        chart_hours.render();
+
     </script>
 </html>

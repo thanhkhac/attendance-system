@@ -462,8 +462,8 @@
                         <button name="btAction" value="InsertEmployee" type="submit">+ Add Employee ...</button>
                     </div>
                 </form>
-                <div class="import-btn ">
-                    <a  href="ImportEmployees.jsp">Import From Excel</a>
+                <div class="mt-4">
+                    <a class="btn btn-success" href="ImportEmployees.jsp">Import From Excel</a>
                 </div>
             </div>
 

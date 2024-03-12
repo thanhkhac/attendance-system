@@ -52,6 +52,41 @@
                 margin-top: 15px;
             }
 
+            #pagination-container {
+                display: flex;
+                justify-content: flex-end;
+                margin-top: 20px;
+            }
+
+            .pagination-ul {
+                list-style: none;
+                padding: 0;
+                display: flex;
+                flex-wrap: wrap;
+            }
+
+            .pagination-ul li {
+                margin: 5px;
+            }
+
+            .pagination-ul li a {
+                text-decoration: none;
+                padding: 8px 12px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                color: #333;
+                background-color: #fff;
+                cursor: pointer;
+            }
+
+            .pagination-ul li a:hover {
+                background-color: #ddd;
+            }
+            .pagination-ul li.active a {
+                background-color: #007bff; /* Set the background color for the active page */
+                color: #fff; /* Set the text color for the active page */
+            }
+
         </style>
     </head>
     <body>
@@ -228,6 +263,9 @@
                                     value="Insert into Database">
 
                             </div>
+                            <div id="pagination-container">
+                                <ul id="acc-pagination" class="pagination-ul"></ul>
+                            </div>
                         </div>
                         <div>
                             <c:forEach items="${isError}" var="e">
@@ -348,6 +386,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div id="pagination-container">
+                    <ul id="err-pagination" class="pagination-ul"></ul>
+                </div>
             </c:if>
             <c:if test="${empty employees}">
                 <div class="text-center mt-5">
@@ -382,6 +423,10 @@
             var acceptable_rows = document.getElementsByClassName("accept-rows");
             var table_head = document.getElementById("table-header");
             var insert_btn = document.getElementById("insert-btn");
+            var pag_nav_acc = document.getElementById("acc-pagination");
+            pag_nav_acc.style.display = 'block';
+            var pag_nav_err = document.getElementById("err-pagination");
+            pag_nav_err.style.display = 'none';
             if (insert_btn !== null) {
                 console.log(insert_btn.value);
                 insert_btn.classList.remove("d-none");
@@ -403,6 +448,10 @@
             var error_rows = document.getElementsByClassName("error-rows");
             var acceptable_rows = document.getElementsByClassName("accept-rows");
             var table_head = document.getElementById("table-header");
+            var pag_nav_acc = document.getElementById("acc-pagination");
+            pag_nav_acc.style.display = 'none';
+            var pag_nav_err = document.getElementById("err-pagination");
+            pag_nav_err.style.display = 'block';
             table_head.style.display = 'table-row';
             var insert_btn = document.getElementById("insert-btn");
             if (insert_btn !== null) {
@@ -476,22 +525,6 @@
             var txt_endDate = document.getElementById("endDate-" + ID).value;
             var txt_id = ID;
 
-            console.log(txt_id);
-            console.log(txt_firstName);
-            console.log(txt_middleName);
-            console.log(txt_lastName);
-            console.log(txt_email);
-            console.log(txt_cccd);
-            console.log(txt_phone);
-            console.log(txt_password);
-            console.log(txt_gender);
-            console.log(txt_birthDate);
-            console.log(txt_departmentID);
-            console.log(txt_typeID);
-            console.log(txt_roleID);
-            console.log(txt_startDate);
-            console.log(txt_endDate);
-
 
             $.ajax({
                 url: "/AttendanceSystem/HandleTempEmployeeAJAX",
@@ -523,5 +556,100 @@
                 }
             });
         }
+
+        var pageSize = 10; // Số lượng dòng mỗi trang
+        var currentPage = 1; // Trang hiện tại
+
+        function showPage_Error(page) {
+            event.preventDefault();
+            var rows = document.getElementsByClassName('error-rows');
+            var pageCount = Math.ceil(rows.length / pageSize);
+
+            // Ẩn tất cả các dòng
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].style.display = 'none';
+            }
+
+            // Hiển thị các dòng của trang hiện tại
+            var startIndex = (page - 1) * pageSize;
+            var endIndex = startIndex + pageSize;
+            for (var i = startIndex; i < endIndex && i < rows.length; i++) {
+                rows[i].style.display = 'table-row';
+            }
+
+            // Tạo nút điều hướng phân trang
+            var paginationElement = document.getElementById('err-pagination');
+            paginationElement.innerHTML = '';
+
+            // Previous button
+            var prevLi = document.createElement('li');
+            var prevA = document.createElement('a');
+            prevA.href = '#';
+            prevA.innerHTML = 'Previous';
+            prevA.addEventListener('click', function () {
+                if (currentPage > 1) {
+                    currentPage--;
+                    showPage_Error(currentPage);
+                }
+            });
+            prevLi.appendChild(prevA);
+            paginationElement.appendChild(prevLi);
+
+            // Add ellipsis if there are more than 10 pages
+            if (pageCount > 5 && currentPage > 5) {
+                var ellipsisLi = document.createElement('li');
+                var ellipsisSpan = document.createElement('span');
+                ellipsisSpan.innerHTML = '...';
+                ellipsisLi.appendChild(ellipsisSpan);
+                paginationElement.appendChild(ellipsisLi);
+            }
+
+            // Hiển thị các trang có thể chọn
+            for (var i = Math.max(1, currentPage - 3); i <= Math.min(pageCount, currentPage + 3); i++) {
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.href = '#';
+                a.innerHTML = i;
+                if (i === currentPage) {
+                    li.classList.add('active'); // Add the 'active' class to highlight the current page
+                }
+                a.addEventListener('click', function (e) {
+                    currentPage = parseInt(e.target.innerHTML);
+                    showPage_Error(currentPage);
+                });
+                li.appendChild(a);
+                paginationElement.appendChild(li);
+            }
+
+            // Add ellipsis if there are more than 10 pages
+            if (pageCount > 4 && currentPage < pageCount - 4) {
+                var ellipsisLi = document.createElement('li');
+                var ellipsisSpan = document.createElement('span');
+                ellipsisSpan.innerHTML = '...';
+                ellipsisLi.appendChild(ellipsisSpan);
+                paginationElement.appendChild(ellipsisLi);
+            }
+
+            // Next button
+            var nextLi = document.createElement('li');
+            var nextA = document.createElement('a');
+            nextA.href = '#';
+            nextA.innerHTML = 'Next';
+            nextA.addEventListener('click', function () {
+                if (currentPage < pageCount) {
+                    currentPage++;
+                    showPage_Error(currentPage);
+                }
+            });
+            nextLi.appendChild(nextA);
+            paginationElement.appendChild(nextLi);
+        }
+
+        // Hiển thị trang đầu tiên khi trang được tải
+        document.addEventListener('DOMContentLoaded', function () {
+            showPage_Error(currentPage);
+        });
+
+
     </script>
 </html>

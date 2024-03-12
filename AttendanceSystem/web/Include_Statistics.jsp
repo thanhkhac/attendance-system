@@ -88,15 +88,15 @@
                     <tr class="table-active">
                         <th>YYYY-mm-DD</th>
                         <th></th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
-                        <th>HH:MM:SS</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
+                        <th>HH:MM</th>
                     </tr>
                 </thead>
                 <tbody>

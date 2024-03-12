@@ -12,11 +12,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.text.DecimalFormat;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import model.EmployeeDTO;
+import model.LeaveDAO;
+import model.LeaveDTO;
 import model.StatisticsDAO;
 import model.StatisticsDTO;
+import model.TimesheetDTO;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import ultility.datetimeutil.DateTimeUtil;
 
 /**
@@ -38,9 +45,71 @@ public class GetEmployeeStatisticsServlet extends HttpServlet {
     private double getTotalHours(ArrayList<StatisticsDTO> statistics) {
         double total = 0;
         for (StatisticsDTO s : statistics) {
-            total += (s.getTotalDay().toMinutes() / 60);
+            double hours = (double) s.getTotalDay().toMinutes() / 60;
+            total += hours;
         }
         return total;
+    }
+
+    private double getTotalOT(ArrayList<StatisticsDTO> statistics) {
+        double total = 0;
+        for (StatisticsDTO s : statistics) {
+            double hours = (double) s.getOtHours().toMinutes() / 60;
+            total += hours;
+        }
+        return total;
+    }
+
+    private double getTotalShift(ArrayList<StatisticsDTO> statistics) {
+        double total = 0;
+        for (StatisticsDTO s : statistics) {
+            double hours = (double) s.getShiftHours().toMinutes() / 60;
+            total += hours;
+        }
+        return total;
+    }
+
+    private int getTotalScheduledDay(ArrayList<StatisticsDTO> statistics) {
+        int count = 0;
+        for (StatisticsDTO s : statistics) {
+            if (s.getStartTime() != null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int getTotalNotWorkedDay(ArrayList<StatisticsDTO> statistics) {
+        int count = 0;
+        for (StatisticsDTO s : statistics) {
+            if (s.getStartTime() != null && s.getCheckIn() == null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int getTotalWorkedDays(ArrayList<StatisticsDTO> statistics) {
+        int count = 0;
+        for (StatisticsDTO s : statistics) {
+            if (s.getStartTime() != null && s.getCheckIn() != null) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private int getLeaveDay(LeaveDTO leave) {
+        long daysBetween = ChronoUnit.DAYS.between(leave.getStartDate(), leave.getEndDate());
+        return Math.toIntExact(daysBetween);
+    }
+
+    private int getTotalLeaveDays(ArrayList<LeaveDTO> leaves) {
+        int count = 0;
+        for (LeaveDTO l : leaves) {
+            count += getLeaveDay(l);
+        }
+        return count + 1;
     }
 
     private final DateTimeUtil DATE_UTIL = new DateTimeUtil();
@@ -54,7 +123,8 @@ public class GetEmployeeStatisticsServlet extends HttpServlet {
         String endDate_txt = request.getParameter("endDate");
         LocalDate startDate = DATE_UTIL.parseSqlDate(employee.getStartDate());
         LocalDate endDate = DATE_UTIL.getVNLocalDateNow();
-
+        LeaveDAO leaveDAO = new LeaveDAO();
+        ArrayList<LeaveDTO> leaves = leaveDAO.getLeaveInRange(employee.getEmployeeID(), startDate, endDate);
         ArrayList<StatisticsDTO> statistics = new ArrayList<>();
         StatisticsDAO staDAO = new StatisticsDAO();
         try {
@@ -73,7 +143,22 @@ public class GetEmployeeStatisticsServlet extends HttpServlet {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        System.out.println(getTotalHours(statistics));
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        System.out.println("Total Scheduled Days: " + getTotalScheduledDay(statistics));
+        System.out.println("Total worked Days: " + getTotalWorkedDays(statistics));
+        System.out.println("Total notworked Days: " + getTotalNotWorkedDay(statistics));
+        System.out.println("Total leaves Days: " + getTotalLeaveDays(leaves));
+
+        request.setAttribute("workedDays", getTotalWorkedDays(statistics));
+        request.setAttribute("notWorkedDays", getTotalNotWorkedDay(statistics));
+        request.setAttribute("leaveDays", getTotalLeaveDays(leaves));
+        request.setAttribute("scheduledDays", getTotalScheduledDay(statistics));
+
+        request.setAttribute("totalShift", Double.parseDouble(decimalFormat.format(getTotalShift(statistics))));
+        request.setAttribute("totalOT", Double.parseDouble(decimalFormat.format(getTotalOT(statistics))));
+        request.setAttribute("totalHour", Double.parseDouble(decimalFormat.format(getTotalHours(statistics))));
+
         request.setAttribute("startDate", startDate);
         request.setAttribute("endDate", endDate);
         request.setAttribute("current", DATE_UTIL.getVNLocalDateNow());

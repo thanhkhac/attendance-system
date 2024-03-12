@@ -211,13 +211,22 @@ public class StatisticsDAO extends dbhelper.DAOBase {
                 if (s.getDate().equals(ts.getDate())) {
                     s.setEmployeeID(id);
                     s.setShiftName(dao.getShiftName(listShift, ts.getShiftID()));
-                    s.setStartTime(dao.getStartTime(listShift, id));
-                    s.setEndTime(dao.getEndTime(listShift, id));
+                    s.setStartTime(dao.getStartTime(listShift, ts.getShiftID()));
+                    s.setEndTime(dao.getEndTime(listShift, ts.getShiftID()));
+
                     if (ts.getCheckin() != null) {
-                        s.setCheckIn(ts.getCheckin());
+                        if (ts.getCheckin().isBefore(s.getStartTime()) && s.getStartTime() != null) {
+                            s.setCheckIn(s.getStartTime());
+                        } else {
+                            s.setCheckIn(ts.getCheckin());
+                        }
                     }
                     if (ts.getCheckout() != null) {
-                        s.setCheckOut(ts.getCheckout());
+                        if (ts.getCheckout().isAfter(s.getEndTime()) && s.getEndTime() != null) {
+                            s.setCheckOut(s.getEndTime());
+                        } else {
+                            s.setCheckOut(ts.getCheckout());
+                        }
                     }
                     if (ts.getCheckin() != null && ts.getCheckout() != null) {
                         s.setShiftHours(Duration.between(ts.getCheckin(), ts.getCheckout()));
@@ -364,7 +373,9 @@ public class StatisticsDAO extends dbhelper.DAOBase {
         }
         return null;
     }
-
+    
+    
+    
     public static void main(String[] args) {
         StatisticsDAO dao = new StatisticsDAO();
         int id = 3;
@@ -391,9 +402,8 @@ public class StatisticsDAO extends dbhelper.DAOBase {
 //        for (LocalDate d : days) {
 //            System.out.println(d.toString());
 //        }
-
         ArrayList<StatisticsDTO> listS = dao.getStatistics(id, startDate, endDate);
-        for(StatisticsDTO s: listS){
+        for (StatisticsDTO s : listS) {
             System.out.println(s.toString());
         }
     }
