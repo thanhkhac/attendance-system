@@ -86,6 +86,15 @@
                 box-sizing: border-box;
                 min-width: 250px;
             }
+            .statistic-items input{
+                outline: none;
+                border: none;
+                font-size: 20px;
+                font-weight: 600
+            }
+            .font-monospace{
+                font-size: large;
+            }
             @media (max-width: 768px) {
                 .form-statistic {
                     flex-direction: column;
@@ -123,8 +132,8 @@
             </div>
             <div class="menu">
                 <div class="employee-infor">
-                    <p>Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
-                    <p>Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
+                    <p class="font-monospace">Nhân viên : ${employee.getLastName()} ${employee.getMiddleName()} ${employee.getFirstName()}</p>
+                    <p class="font-monospace">Thời Hạn: ${employee.getStartDate()} - ${employee.getEndDate()}</p>
                 </div>
                 <div class="exportButton">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -133,14 +142,14 @@
                 </div>
             </div>
 
-            <input type="hidden" id="scheduledDays" value="${scheduledDays}">
+
             <input type="hidden" id="workedDays" value="${workedDays}">
             <input type="hidden" id="notWorkedDays" value="${notWorkedDays}">
             <input type="hidden" id="leaveDays" value="${leaveDays}">
 
             <input type="hidden" id="totalShift" value="${totalShift}">
             <input type="hidden" id="totalOT" value="${totalOT}">
-            <input type="hidden" id="totalHour" value="${totalHour}">
+
 
 
             <form id="statisticsForm" action="GetEmployeeStatisticsServlet" method="Post">
@@ -177,11 +186,21 @@
             <%--<c:if test="${statistics.size()>0}">--%>
             <%--<%@include file="include_Statistics.jsp" %>--%>
             <%--</c:if>--%>
+            <div class="d-flex justify-content-lg-around m-5">
+                <div class="statistic-items">
+                    <label for="scheduledDays">Tổng ngày có lịch làm việc: </label>
+                    <input readonly="" type="text" id="scheduledDays" value="${scheduledDays}">
+                </div>
+                <div class="statistic-items">
+                    <label for="totalHour">Tổng số giờ đã làm</label>
+                    <input readonly="" type="text" id="totalHour" value="${totalHour}">
+                </div>
+            </div>
             <div class="d-flex">
                 <div id="chart_days" class="col-md-6"></div>
                 <div id="chart_hours" class="col-md-6"></div>
             </div>
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-around">
                 <p>Days</p>
                 <p>Hours</p>
             </div>
@@ -277,7 +296,7 @@
         var notWorkedDays = document.getElementById("notWorkedDays").value;
         var leaveDays = document.getElementById("leaveDays").value;
         var scheduledDays = document.getElementById("scheduledDays").value;
-        
+
         var options_days = {
             series: [
                 parseFloat(((workedDays / scheduledDays) * 100).toFixed(2)),
