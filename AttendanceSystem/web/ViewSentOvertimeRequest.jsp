@@ -120,7 +120,7 @@
         
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
         int employeeID = acc.getEmployeeID();
-        ArrayList<OverTimeRequestDTO> list = otDAO.getOTRequetsByEmployeeID(5);
+        ArrayList<OverTimeRequestDTO> list = otDAO.getOTRequetsByEmployeeID(employeeID);
     %>
     <body>
         <div>
