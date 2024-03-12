@@ -20,7 +20,6 @@
             }
 
 
-
             @media screen and (max-width: 768px) {
                 .xSidebar {
                     display: none;

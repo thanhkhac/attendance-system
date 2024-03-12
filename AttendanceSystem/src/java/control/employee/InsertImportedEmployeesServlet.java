@@ -42,10 +42,18 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
         HttpSession session = request.getSession();
         ArrayList<EmployeeDTO> employees = (ArrayList<EmployeeDTO>) session.getAttribute("employees");
         ArrayList<EmployeeDTO> isAcceptable = (ArrayList<EmployeeDTO>) session.getAttribute("isAcceptable");
-//        ArrayList<EmployeeDTO> isError = (ArrayList<EmployeeDTO>) session.getAttribute("isError");
+        ArrayList<EmployeeDTO> isError = (ArrayList<EmployeeDTO>) session.getAttribute("isError");
+
+        ArrayList<EmployeeDTO> employees_inserted = new ArrayList<>();
+
         EmployeeDAO emDAO = new EmployeeDAO();
+
         int count = 0;
         try {
+            for (EmployeeDTO e : employees) {
+                employees_inserted.add(e);
+            }
+
             for (EmployeeDTO e : isAcceptable) {
                 boolean rs = emDAO.insertEmployee(
                         e.getFirstName(), e.getMiddleName(), e.getLastName(), e.getGender(),
@@ -54,16 +62,23 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
                         DATE_UTIL.parseSqlDate(e.getEndDate()), false);
                 if (rs) {
                     count++;
-                    isAcceptable.remove(e);
-                    employees.remove(e);
                 }
             }
+//            if (isError.size() > 0) {
+//                for (EmployeeDTO e : isError) {
+//                    employees_inserted.add(e);
+//                }
+//            }
+            for (EmployeeDTO e : isAcceptable) {
+                employees_inserted.remove(e);
+            }
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        session.setAttribute("employees", employees);
-        session.setAttribute("isAcceptable", isAcceptable);
+        session.setAttribute("employees", employees_inserted);
+        session.setAttribute("isAcceptable", null);
         request.setAttribute("SuccessMSG", "Inserted [" + count + "] Employee Successfully !");
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
 
