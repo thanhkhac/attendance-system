@@ -800,7 +800,8 @@ public class EmployeeDAO extends DBContext {
                         "WHERE \n" +
                         "	MONTH(TS.[Date]) = ?\n" +
                         "	AND YEAR (TS.[Date]) = ?\n" +
-                        "	AND TS.[Date] >= GETDATE()\n" +
+                        "	AND TS.[Date] >= CONVERT(Date, GETDATE())" +
+                        "       AND TS.CheckIn is null\n" +
                         ")\n" +
                         "AND IsActive = 1;";
                 stm = connection.prepareStatement(sql);
