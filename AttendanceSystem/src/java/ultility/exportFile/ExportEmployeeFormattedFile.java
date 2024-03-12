@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.BuiltinFormats;
@@ -83,7 +82,7 @@ public class ExportEmployeeFormattedFile {
 //        writeHeader(sheet, rowIndex);
         // Write data
         rowIndex++;
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= 100; i++) {
             // Create row
             Row row = sheet.createRow(rowIndex);
             // Write data on row
@@ -317,7 +316,6 @@ public class ExportEmployeeFormattedFile {
 
         cell = row.createCell(COLUMN_INDEX_END_DATE);
         cell.setCellStyle(cellStyle);
-
 
     }
 
