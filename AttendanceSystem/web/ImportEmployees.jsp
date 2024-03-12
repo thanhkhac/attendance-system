@@ -52,17 +52,25 @@
                 margin-top: 15px;
             }
 
-            #pagination-container {
-                display: flex;
-                justify-content: flex-end;
-                margin-top: 20px;
-            }
-
+            /*            #err-pagination-container
+                        {
+                            display: flex;
+                            justify-content: flex-end;
+                            margin-top: 20px;
+                        }
+                        #acc-pagination-container
+                        {
+                            display: flex;
+                            justify-content: flex-end;
+                            margin-top: 20px;
+                        }*/
+            
             .pagination-ul {
                 list-style: none;
                 padding: 0;
                 display: flex;
                 flex-wrap: wrap;
+                justify-content: flex-end;
             }
 
             .pagination-ul li {
@@ -263,9 +271,7 @@
                                     value="Insert into Database">
 
                             </div>
-                            <div id="pagination-container">
-                                <ul id="acc-pagination" class="pagination-ul"></ul>
-                            </div>
+
                         </div>
                         <div>
                             <c:forEach items="${isError}" var="e">
@@ -386,8 +392,11 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="pagination-container">
-                    <ul id="err-pagination" class="pagination-ul"></ul>
+                <div id="err-pagination-container">
+                    <ul id="err-pagination" class="pagination-ul d-flex"></ul>
+                </div>
+                <div id="acc-pagination-container">
+                    <ul id="acc-pagination" class="pagination-ul d-flex"></ul>
                 </div>
             </c:if>
             <c:if test="${empty employees}">
@@ -401,7 +410,6 @@
     </body>
 
     <script>
-
 
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -423,9 +431,9 @@
             var acceptable_rows = document.getElementsByClassName("accept-rows");
             var table_head = document.getElementById("table-header");
             var insert_btn = document.getElementById("insert-btn");
-            var pag_nav_acc = document.getElementById("acc-pagination");
+            var pag_nav_acc = document.getElementById("acc-pagination-container");
             pag_nav_acc.style.display = 'block';
-            var pag_nav_err = document.getElementById("err-pagination");
+            var pag_nav_err = document.getElementById("err-pagination-container");
             pag_nav_err.style.display = 'none';
             if (insert_btn !== null) {
                 console.log(insert_btn.value);
@@ -443,14 +451,17 @@
             for (var i = 0; i < error_rows.length; i++) {
                 error_rows[i].style.display = 'none';
             }
+            showPage_Acc(currentPage_acc);
         }
+
+
         function Error_Table() {
             var error_rows = document.getElementsByClassName("error-rows");
             var acceptable_rows = document.getElementsByClassName("accept-rows");
             var table_head = document.getElementById("table-header");
-            var pag_nav_acc = document.getElementById("acc-pagination");
+            var pag_nav_acc = document.getElementById("acc-pagination-container");
             pag_nav_acc.style.display = 'none';
-            var pag_nav_err = document.getElementById("err-pagination");
+            var pag_nav_err = document.getElementById("err-pagination-container");
             pag_nav_err.style.display = 'block';
             table_head.style.display = 'table-row';
             var insert_btn = document.getElementById("insert-btn");
@@ -469,6 +480,7 @@
             for (var i = 0; i < error_rows.length; i++) {
                 error_rows[i].style.display = 'table-row';
             }
+            showPage_Error(currentPage_err);
         }
 
 
@@ -558,7 +570,9 @@
         }
 
         var pageSize = 10; // Số lượng dòng mỗi trang
-        var currentPage = 1; // Trang hiện tại
+        var currentPage_err = 1; // Trang hiện tại
+        var currentPage_acc = 1; // Trang hiện tại
+
 
         function showPage_Error(page) {
             event.preventDefault();
@@ -587,16 +601,16 @@
             prevA.href = '#';
             prevA.innerHTML = 'Previous';
             prevA.addEventListener('click', function () {
-                if (currentPage > 1) {
-                    currentPage--;
-                    showPage_Error(currentPage);
+                if (currentPage_err > 1) {
+                    currentPage_err--;
+                    showPage_Error(currentPage_err);
                 }
             });
             prevLi.appendChild(prevA);
             paginationElement.appendChild(prevLi);
 
             // Add ellipsis if there are more than 10 pages
-            if (pageCount > 5 && currentPage > 5) {
+            if (pageCount > 5 && currentPage_err > 5) {
                 var ellipsisLi = document.createElement('li');
                 var ellipsisSpan = document.createElement('span');
                 ellipsisSpan.innerHTML = '...';
@@ -605,24 +619,24 @@
             }
 
             // Hiển thị các trang có thể chọn
-            for (var i = Math.max(1, currentPage - 3); i <= Math.min(pageCount, currentPage + 3); i++) {
+            for (var i = Math.max(1, currentPage_err - 3); i <= Math.min(pageCount, currentPage_err + 3); i++) {
                 var li = document.createElement('li');
                 var a = document.createElement('a');
                 a.href = '#';
                 a.innerHTML = i;
-                if (i === currentPage) {
+                if (i === currentPage_err) {
                     li.classList.add('active'); // Add the 'active' class to highlight the current page
                 }
                 a.addEventListener('click', function (e) {
-                    currentPage = parseInt(e.target.innerHTML);
-                    showPage_Error(currentPage);
+                    currentPage_err = parseInt(e.target.innerHTML);
+                    showPage_Error(currentPage_err);
                 });
                 li.appendChild(a);
                 paginationElement.appendChild(li);
             }
 
             // Add ellipsis if there are more than 10 pages
-            if (pageCount > 4 && currentPage < pageCount - 4) {
+            if (pageCount > 4 && currentPage_err < pageCount - 4) {
                 var ellipsisLi = document.createElement('li');
                 var ellipsisSpan = document.createElement('span');
                 ellipsisSpan.innerHTML = '...';
@@ -636,20 +650,99 @@
             nextA.href = '#';
             nextA.innerHTML = 'Next';
             nextA.addEventListener('click', function () {
-                if (currentPage < pageCount) {
-                    currentPage++;
-                    showPage_Error(currentPage);
+                if (currentPage_err < pageCount) {
+                    currentPage_err++;
+                    showPage_Error(currentPage_err);
                 }
             });
             nextLi.appendChild(nextA);
             paginationElement.appendChild(nextLi);
         }
 
-        // Hiển thị trang đầu tiên khi trang được tải
-        document.addEventListener('DOMContentLoaded', function () {
-            showPage_Error(currentPage);
-        });
+        function showPage_Acc(page) {
+            event.preventDefault();
+            var rows = document.getElementsByClassName('accept-rows');
+            var pageCount = Math.ceil(rows.length / pageSize);
 
+            // Ẩn tất cả các dòng
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].style.display = 'none';
+            }
+
+            // Hiển thị các dòng của trang hiện tại
+            var startIndex = (page - 1) * pageSize;
+            var endIndex = startIndex + pageSize;
+            for (var i = startIndex; i < endIndex && i < rows.length; i++) {
+                rows[i].style.display = 'table-row';
+            }
+
+            // Tạo nút điều hướng phân trang
+            var paginationElement = document.getElementById('acc-pagination');
+            paginationElement.innerHTML = '';
+
+            // Previous button
+            var prevLi = document.createElement('li');
+            var prevA = document.createElement('a');
+            prevA.href = '#';
+            prevA.innerHTML = 'Previous';
+            prevA.addEventListener('click', function () {
+                if (currentPage_acc > 1) {
+                    currentPage_acc--;
+                    showPage_Acc(currentPage_acc);
+                }
+            });
+            prevLi.appendChild(prevA);
+            paginationElement.appendChild(prevLi);
+
+            // Add ellipsis if there are more than 10 pages
+            if (pageCount > 5 && currentPage_acc > 5) {
+                var ellipsisLi = document.createElement('li');
+                var ellipsisSpan = document.createElement('span');
+                ellipsisSpan.innerHTML = '...';
+                ellipsisLi.appendChild(ellipsisSpan);
+                paginationElement.appendChild(ellipsisLi);
+            }
+
+            // Hiển thị các trang có thể chọn
+            for (var i = Math.max(1, currentPage_acc - 3); i <= Math.min(pageCount, currentPage_acc + 3); i++) {
+                var li = document.createElement('li');
+                var a = document.createElement('a');
+                a.href = '#';
+                a.innerHTML = i;
+                if (i === currentPage_acc) {
+                    li.classList.add('active'); // Add the 'active' class to highlight the current page
+                }
+                a.addEventListener('click', function (e) {
+                    currentPage_acc = parseInt(e.target.innerHTML);
+                    showPage_Acc(currentPage_acc);
+                });
+                li.appendChild(a);
+                paginationElement.appendChild(li);
+            }
+
+            // Add ellipsis if there are more than 10 pages
+            if (pageCount > 4 && currentPage_acc < pageCount - 4) {
+                var ellipsisLi = document.createElement('li');
+                var ellipsisSpan = document.createElement('span');
+                ellipsisSpan.innerHTML = '...';
+                ellipsisLi.appendChild(ellipsisSpan);
+                paginationElement.appendChild(ellipsisLi);
+            }
+
+            // Next button
+            var nextLi = document.createElement('li');
+            var nextA = document.createElement('a');
+            nextA.href = '#';
+            nextA.innerHTML = 'Next';
+            nextA.addEventListener('click', function () {
+                if (currentPage_acc < pageCount) {
+                    currentPage_acc++;
+                    showPage_Acc(currentPage_acc);
+                }
+            });
+            nextLi.appendChild(nextA);
+            paginationElement.appendChild(nextLi);
+        }
 
     </script>
 </html>
