@@ -1,6 +1,6 @@
 <%-- 
-    Document   : NavigateRequestForHR
-    Created on : Mar 10, 2024, 9:44:01 PM
+    Document   : NavigateSentRequest
+    Created on : Mar 11, 2024, 9:43:15 AM
     Author     : nguye
 --%>
 
@@ -14,8 +14,8 @@
     <form id="myForm" action="" method="post">
         <select id="mySelect" name="mySelect">
             <option value="">Đơn</option>
-            <option value="ViewOverTimeRequestForHR.jsp">Overtime Request</option>
-            <option value="ViewLeaveRequestForHR.jsp">Leave Request</option>
+            <option value="ViewSentLeaveRequest.jsp">Leave request</option>
+            <option value="ViewSentOvertimeRequest.jsp">Overtime Request</option>
         </select>
     </form>
 

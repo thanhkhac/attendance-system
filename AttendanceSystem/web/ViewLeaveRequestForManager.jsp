@@ -17,13 +17,6 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <style>
-            .right{
-                /*                position: absolute;
-                                width: 83%;
-                                right: 0px;*/
-                padding: 30px;
-
-            }
             .tdbreak {
                 word-break: break-word;
                 max-width: 150px;
@@ -81,9 +74,8 @@
                 border-color: #007bff;
             }
             
-            /* CSS cho modal */
             .modal {
-                display: none; /* Ẩn modal ban đầu */
+                display: none;
                 position: fixed;
                 z-index: 1;
                 left: 0;
@@ -136,10 +128,10 @@
             <div class="content">
                 <h1>Thông Báo</h1>
                 <div class="content-redirect">
-                    <p><a href="ThanhCong.html">Home</a> | <a href="javascript:history.back()">Trở Lại</a> | Process Request For Manager</p>
+                    <p><a href="ThanhCong.html">Home</a> | Process Request For Manager</p>
                 </div>
                 <div class="text-center">
-                    <h1 style="margin: 30px">Danh sách đơn (Manager)</h1>
+                    <h1 style="margin: 30px">Danh sách đơn xin nghỉ phép (Manager)</h1>
                 </div>
             </div>    
             <div>
@@ -218,17 +210,13 @@
                             }
                         %>
                     </table>
-                    <!-- Pagination -->
                     <div id="pagination-container">
                         <ul id="pagination" class="pagination justify-content-center"></ul>
                     </div>
-                    <!-- Modal -->
                     <div id="myModal" class="modal">
-                        <!-- Nội dung modal -->
                         <div class="modal-content" style="width: 30%">
-                            <!--<span class="close" onclick="closeModal()">&times;</span>-->
                             <div id="modal-body">
-                                <!-- Nội dung chi tiết sẽ được cập nhật bằng JavaScript -->
+
                             </div>
                         </div>
                     </div>
@@ -241,7 +229,6 @@
                 var xacNhan = confirm("Bạn có chắc chắn muốn thực hiện hành động này không?");
                 if (xacNhan) {
                     alert("Hành động đã được xác nhận!");
-                    // Thực hiện hành động khi xác nhận
                     if (action === 'Accept') {
                         window.location.href = "AcceptLeaveRequestServlet?leaveRequestID=" + leaveRequestID + "&btAction=Accept";
                     } else if (action === 'Deny') {
@@ -249,7 +236,6 @@
                     }
                 } else {
                     alert("Hành động đã bị hủy bỏ!");
-                    //Thực hiện hành động khi hủy bỏ
                 }
                 event.preventDefault();
             }
@@ -263,19 +249,16 @@
                 var rows = document.getElementsByClassName('employee-row');
                 var pageCount = Math.ceil(rows.length / pageSize);
 
-                // Ẩn tất cả các dòng
                 for (var i = 0; i < rows.length; i++) {
                     rows[i].style.display = 'none';
                 }
 
-                // Hiển thị các dòng của trang hiện tại
                 var startIndex = (page - 1) * pageSize;
                 var endIndex = startIndex + pageSize;
                 for (var i = startIndex; i < endIndex && i < rows.length; i++) {
                     rows[i].style.display = 'table-row';
                 }
 
-                // Tạo nút điều hướng phân trang
                 var paginationElement = document.getElementById('pagination');
                 paginationElement.innerHTML = '';
                 for (var i = 1; i <= pageCount; i++) {
@@ -292,7 +275,6 @@
                 }
             }
 
-            // Hiển thị trang đầu tiên khi trang được tải
             document.addEventListener('DOMContentLoaded', function () {
                 showPage(currentPage);
             });
@@ -302,7 +284,7 @@
         function showDetailPopup(row) {
                 var modal = document.getElementById("myModal");
                 var modalBody = document.getElementById("modal-body");
-                // Lấy dữ liệu từ các ô trong hàng
+
                 var leaveRequestID = row.cells[0].innerHTML; // Mã đơn
                 var employeeName = row.cells[1].innerHTML; // Họ và tên nhân viên
                 var sentDate = row.cells[2].innerHTML; // Ngày gửi
@@ -312,7 +294,6 @@
                 var managerStatus = row.cells[6].innerText; // Trạng thái (Manager)
                 var managerName = row.cells[7].innerText; // Người phê duyệt (Manager)
 
-                // Cập nhật nội dung của modal với dữ liệu từ hàng
                 modalBody.innerHTML = `
                     <h2 style="border-bottom: 1px solid black;" >Chi Tiết Đơn Nghỉ Phép</h2>
                         <div class="details">
@@ -348,17 +329,14 @@
                             </div>
                         </div>
                 `;
-                // Hiển thị modal
                 modal.style.display = "block";
             }
 
-            // Hàm đóng modal
             function closeModal() {
                 var modal = document.getElementById("myModal");
                 modal.style.display = "none";
             }
 
-            // Đóng modal khi người dùng click bên ngoài modal
             window.onclick = function (event) {
                 var modal = document.getElementById("myModal");
                 if (event.target == modal) {
