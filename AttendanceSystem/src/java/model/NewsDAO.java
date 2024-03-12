@@ -61,6 +61,32 @@ public class NewsDAO extends dbhelper.DBContext {
         return newsList;
     }
     
+    public ArrayList<NewsDTO> get5News() {   
+        ArrayList<NewsDTO> newsList = new ArrayList<>();
+        NewsDAO n = new NewsDAO();
+        String sql = "select top 5 * from News\n" +
+"Order by DateTime Desc";
+
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    NewsDTO news = new NewsDTO();
+                    news.setNewId(rs.getInt("NewsID"));
+                    news.setTitle(rs.getString("Title"));
+                    news.setContent(rs.getString("Content"));
+                    news.setFilePath(rs.getString("FilePath"));
+                    news.setDateTime(rs.getTimestamp("DateTime"));
+                    news.setCreateBy(n.getEmployeeById(rs.getInt("CreatedBy")).getFirstName());
+                    newsList.add(news);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return newsList;
+    }
+    
 
     public NewsDTO getNewsById(int newsId) {
         String sql = "SELECT * FROM News WHERE NewsID = ?";
