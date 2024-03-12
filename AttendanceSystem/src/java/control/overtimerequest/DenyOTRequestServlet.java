@@ -61,6 +61,7 @@ public class DenyOTRequestServlet extends HttpServlet {
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
                 if (otDAO.overtimeRequestApproveByHr(0, acc.getEmployeeID(), overTimeRequestID_raw)) {
+                    otDAO.updateStatus(0, overTimeRequestID_raw);
                     response.sendRedirect("ViewOverTimeRequestForHR.jsp");
                 }
             }

@@ -121,7 +121,7 @@
                                             <c:set var="count" value="${0}"/>
                                          <c:forEach var="list" items="${requestScope.listOvertime}">   
                                              <c:if test = "${wkday.compareTo(list)==0}">
-                                                 <a href="overtimeByDay?Day=${wkday}" class="box">
+                                                 <a href="overtimeByDay?Day=${wkday}&&Check=CHUAQUA" class="box">
                                            <div class="shift notyet text-center">
                                                         <div class="shift__title">
                                                                Tăng ca <br>
