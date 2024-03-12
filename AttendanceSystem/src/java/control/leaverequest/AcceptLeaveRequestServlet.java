@@ -83,6 +83,7 @@ public class AcceptLeaveRequestServlet extends HttpServlet {
                 out.println("|| RoleID-2(Quan li nhan su) : " + acc.getRoleID());
                 // Duyet don theo role quan li nhan su
                 if (lrDAO.approvalOfApplicationByHr(1, acc.getEmployeeID(), leaveRequestID_raw)) {
+                    lrDAO.updateStatus(1, leaveRequestID_raw);
                     // import Leave khi HR Approve
                     lDAO.insertLeave(employeeID, startDate.toString(), endDate.toString(), filePath, reason, createdDate.toString(), createdBy);
                     response.sendRedirect("ViewLeaveRequestForHR.jsp");

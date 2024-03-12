@@ -1,5 +1,6 @@
 package control.attendance;
 
+import authorization.PortConstants;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,6 +18,12 @@ public class TakeAttendanceOvertime extends HttpServlet {
     private static final String URL = "TakeAttendance.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getServerPort() == PortConstants.ONLINE) {
+            request.setAttribute("modalMessage", "<a href=\"http://localhost:8081/AttendanceSystem/TakeAttendance\">Vui lòng truy cập vào trang nội bộ</a>");
+            request.getRequestDispatcher(URL).forward(request, response);
+            return;
+        }
+
         int id = ((EmployeeDTO) request.getSession().getAttribute("ACCOUNT")).getEmployeeID();
         OvertimeDAO overtimeDAO = new OvertimeDAO();
         OvertimeDTO currentOT = overtimeDAO.getCurrentOvertimeByDay(id);
