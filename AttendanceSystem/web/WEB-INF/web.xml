@@ -16,6 +16,7 @@
         <servlet-name>ViewAllEmployeeAjax</servlet-name>
         <servlet-class>control.employee.ViewAllEmployeeAjax</servlet-class>
     </servlet>
+    
     <servlet>
         <servlet-name>ViewScheduleServlet</servlet-name>
         <servlet-class>controllers.ViewCalendarServlet</servlet-class>
