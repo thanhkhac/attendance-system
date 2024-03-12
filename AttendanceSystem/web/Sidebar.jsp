@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </div>
-            <a href="ThanhCong.html" class="w3-bar-item w3-button fw-bold  text-white">
+            <a href="HomePage.jsp" class="w3-bar-item w3-button fw-bold  text-white">
                 <i class="fa-solid fa-house"></i>
                 Trang chủ
             </a>
@@ -125,9 +125,11 @@
                 <i class="fa-solid fa-chart-simple"></i> Thống kê
                 <i class="fa fa-caret-down float-end"></i>
             </a>
+
             <div class="collapse ps-4" id="submenu6">
                 <a href="#" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu</a>
             </div>
+            
 
 
 
