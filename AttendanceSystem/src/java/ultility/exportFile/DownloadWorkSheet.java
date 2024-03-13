@@ -21,8 +21,8 @@ public class DownloadWorkSheet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String startDate = request.getParameter("StartDate");
-            String endDate = request.getParameter("EndDate");
+            String startDate = request.getParameter("startDate");
+            String endDate = request.getParameter("endDate");
             
             DBContext db = new DBContext();
             Connection connection = db.connection;
