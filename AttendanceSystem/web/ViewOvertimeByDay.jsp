@@ -259,7 +259,7 @@
         <%}%>
         <%
            String Day = (String) request.getAttribute("DAY");
-           String DAQUA = (String) request.getAttribute("DAQUA");
+           String DAQUA = (String) request.getAttribute("CHECK");
            ArrayList<OvertimeDTO> list = (ArrayList<OvertimeDTO>) request.getAttribute("LISTOVERTIME"); 
         %>
         <input type="hidden" id="QUA" name="name" value="<%=DAQUA%>">
@@ -364,7 +364,7 @@
                                                                     <td><%=listemp.getEmployeeId()%></td>
                                                                     <td>
                                                                         <ul class="list-inline mb-0">
-                                                                           <%if(DAQUA!=null){}else{%>
+                                                                           <%if(DAQUA.equals("DAQUA")){}else{%>
                                                                             <li class="list-inline-item">
                                                                                 <a style="color:red" href="javascript:void(0);" class="deleteEmp"  title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
                                                                             </li>
@@ -387,7 +387,7 @@
                                                             </tbody>
                                                         </table>
                                                         <div>
-                                                             <%if(DAQUA!=null){}else{%>
+                                                             <%if(DAQUA.equals("DAQUA")){}else{%>
                                                             <a href="#" style="position: absolute;left:22px;    background-color: #d61a1a;" class="btn btn-primary deleteAll">Xóa ca</a>
 <%}%>
                                                             <ul class="pagination" style="
@@ -431,7 +431,7 @@
 
 
                                             <div>
-                                                 <%if(DAQUA!=null){}else{%>
+                                                 <%if(DAQUA.equals("DAQUA")){}else{%>
                                                 <a href="addEmployeeOvertime?startTime=<%=overtime.getStartTime()%>&&endTime=<%=overtime.getEndTime()%>&&date=<%=overtime.getDate()%>&&Add=add" class="btn btn-primary addEmp"><i class="bx bx-plus me-1"></i> Thêm nhân viên</a>
 <%}%>
                                             </div>                                                                                       
@@ -598,15 +598,15 @@
     $(document).on("click", ".page-item", function () {
         var txtSearch = $(".txtSearch").val();
         var Date = $("#date").val();
-        var DaQUA = $("#QUA").val();
         var startEnd = $(this).closest(".overlay").find(".startTime").val();
         var endTime = $(this).closest(".overlay").find(".endTime").val();
         var chonPhong = $(this).closest(".overlay").find(".form-select").val();
-var QUA = $("#QUA").val();
+         var DaQUA = $("#QUA").val();
         // Lấy giá trị của thuộc tính data-index từ phần tử <a> con
         var dataIndex = $(this).find("a").attr("data-index");
 
         var listEmployee = $(this).closest(".overlay").find(".listEmployee");
+        console.log(DaQUA);
         $.ajax({
             url: "/AttendanceSystem/listEmployeeOvertimeAjax",
             type: "get",
@@ -635,12 +635,14 @@ var QUA = $("#QUA").val();
             var endTime = $(this).closest(".overlay").find(".endTime").val();
             var chonPhong = $(this).closest(".overlay").find(".form-select").val();
             var DeleteAll = "ok";
+            var DaQUA = $("#QUA").val();
             // Lấy giá trị của thuộc tính data-index từ phần tử <a> con   
             var listEmployee = $(this).closest(".overlay").find(".listEmployee");
             $.ajax({
                 url: "/AttendanceSystem/listEmployeeOvertimeAjax",
                 type: "get",
                 data: {
+                    QUA:DaQUA,
                     txt: txtSearch,
                     date: Date,
                     deleteAll: DeleteAll,
@@ -672,6 +674,7 @@ var QUA = $("#QUA").val();
             var DeleteID = $(this).closest(".overlay").find(".deleteID").val();
             var txtSearch = $(".txtSearch").val();
             var Date = $("#date").val();
+            var DaQUA = $("#QUA").val();
             var startEnd = $(this).closest(".overlay").find(".startTime").val();
             var endTime = $(this).closest(".overlay").find(".endTime").val();
             var chonPhong = $(this).closest(".overlay").find(".form-select").val();
@@ -685,6 +688,7 @@ var QUA = $("#QUA").val();
                 url: "/AttendanceSystem/listEmployeeOvertimeAjax",
                 type: "get",
                 data: {
+                    QUA:DaQUA,
                     deleteStart: DeleteStart,
                     deleteEnd: DeleteEnd,
                     deleteDate: DeleteDate,
