@@ -1027,7 +1027,7 @@ public class EmployeeDAO extends DBContext {
                         "LEFT JOIN Overtimes ON Employees.EmployeeID = Overtimes.EmployeeID and Overtimes.Date = ?\n" +
                         "LEFT JOIN Timesheet ON Timesheet.EmployeeID = Employees.EmployeeID and Timesheet.Date = ?\n" +
                         "LEFT JOIN Shifts ON Timesheet.ShiftID = Shifts.ShiftID\n" +
-                        "WHERE Overtimes.Date IS NULL \n" +
+                        "WHERE Overtimes.Date IS NULL and TimeSheetID is null \n" +
                         "and (Shifts.StartTime is null or CONVERT(TIME,?) > Shifts.EndTime\n" +
                         "or CONVERT(TIME, ?) < Shifts.StartTime)";
                 stm = connection.prepareStatement(sql);
