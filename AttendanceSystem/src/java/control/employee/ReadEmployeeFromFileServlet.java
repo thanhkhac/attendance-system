@@ -89,10 +89,10 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
         } else {
             isErr = true;
         }
-        
+
         return isErr;
     }
-    
+
     private ArrayList<EmployeeDTO> assignTempID(ArrayList<EmployeeDTO> employees) {
         ArrayList<EmployeeDTO> newEmployees = employees;
         int i = 1;
@@ -102,7 +102,7 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
         }
         return newEmployees;
     }
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 //        response.setContentType("text/html;charset=UTF-8");
@@ -137,28 +137,27 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
-        
+
         DepartmentDAO deDAO = new DepartmentDAO();
         EmployeeTypeDAO emDAO = new EmployeeTypeDAO();
         RoleDAO roleDAO = new RoleDAO();
-        
+
         ArrayList<EmployeeDTO> employees = new ArrayList<>();
         ArrayList<EmployeeDTO> isAcceptable = new ArrayList<>();
         ArrayList<EmployeeDTO> isError = new ArrayList<>();
         ArrayList<DepartmentDTO> department = deDAO.getListDepartment();
         ArrayList<EmployeeTypeDTO> employeeType = emDAO.getEmployeeTypeList();
         ArrayList<RoleDTO> roles = roleDAO.getRoleList();
-        
+
         ReadFileModule readFileModule = new ReadFileModule();
         HttpSession session = request.getSession();
-        
+
         try {
             //get file from request
             Part file = request.getPart("file");
             //get file from input stream
             InputStream fileContent = file.getInputStream();
             employees = readFileModule.readExcel(fileContent);
-            
             if (employees.size() > 0) {
                 employees = assignTempID(employees);
                 for (EmployeeDTO e : employees) {
@@ -169,18 +168,23 @@ public class ReadEmployeeFromFileServlet extends HttpServlet {
                     }
                 }
             }
+            if (isAcceptable.size() <= 0 && isError.size() <= 0) {
+
+            } else {
+                session.setAttribute("employees", employees);
+                session.setAttribute("isAcceptable", isAcceptable);
+                session.setAttribute("isError", isError);
+            }
 //            System.out.println(employees.size());
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-        session.setAttribute("employees", employees);
-        session.setAttribute("isAcceptable", isAcceptable);
-        session.setAttribute("isError", isError);
+
         session.setAttribute("departments", department);
         session.setAttribute("types", employeeType);
         session.setAttribute("roles", roles);
-        
+
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
     }
 

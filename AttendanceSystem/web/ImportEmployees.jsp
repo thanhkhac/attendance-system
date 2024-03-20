@@ -64,7 +64,7 @@
                             justify-content: flex-end;
                             margin-top: 20px;
                         }*/
-            
+
             .pagination-ul {
                 list-style: none;
                 padding: 0;
@@ -399,7 +399,7 @@
                     <ul id="acc-pagination" class="pagination-ul d-flex"></ul>
                 </div>
             </c:if>
-            <c:if test="${empty employees}">
+            <c:if test="${employees.size() < 0 or empty employees}">
                 <div class="text-center mt-5">
                     <h2>  There is no employee data is loaded !</h2>
                     <h5  style="color: red"><i class="fa-solid fa-triangle-exclamation"></i> Make sure using formatted file to upload data !</h5>
