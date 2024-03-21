@@ -203,7 +203,7 @@
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             } else if (requestTypeID === "2") {
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
-            } else if (requestTypeID === "3") {
+            } else {
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             }
         }

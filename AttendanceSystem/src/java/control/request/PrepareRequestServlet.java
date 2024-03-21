@@ -57,6 +57,10 @@ public class PrepareRequestServlet extends HttpServlet {
         }
         if (requestTypeID != null) {
             switch (requestTypeID) {
+                case "0": {
+                    URL = "SendRequest.jsp";
+                    break;
+                }
                 case "1": {
                     URL = "OverTimeRequest.jsp";
                     break;
@@ -65,12 +69,8 @@ public class PrepareRequestServlet extends HttpServlet {
                     URL = "LeaveRequest.jsp";
                     break;
                 }
-                case "3": {
-                    URL = "ResignationRequest.jsp";
-                    break;
-                }
                 default: {
-                    URL = "SendRequest.jsp";
+                    URL = "SendOtherRequest.jsp";
                     break;
                 }
             }

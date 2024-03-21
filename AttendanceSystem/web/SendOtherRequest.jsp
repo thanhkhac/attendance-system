@@ -15,7 +15,7 @@
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
         <script src="assets/js/moment.js"></script>
-        <title>OverTimeRequest</title>
+        <title>Send other requests</title>
         <style>
             body{
                 font-family: sans-serif;
@@ -170,34 +170,14 @@
         <c:set var="msg" value="${requestScope.msg}" />
         <c:set var="err" value="${requestScope.error}" />
         <div class="content">
-            <h1>Attendance System</h1>
             <div class="content-redirect">
                 <p><a href="ThanhCong.html">Home</a> | Send Request</p>
             </div>
-            <c:if test="${not empty msg}">
-                <div class="content-message">
-                    <p><i class="fa-solid fa-xmark"></i>${msg}</p>
-                </div>
-            </c:if>
-            <div class="content-note">
-                <h1>OverTime Request (Yêu cầu xin tăng ca)</h1>
-                <p class="content-note-items">
-                    <span>Lưu ý:</span> Khi gửi đơn, yêu cầu tới các phòng ban !
-                </p>
-
-                <p class="content-note-items">*Bộ phận xử lý đơn / yêu cầu sẽ tiếp nhận và xử lý trong vòng 24h.</p>
-
-                <p class="content-note-items">*Để tránh SPAM, thời gian phản hồi đơn / yêu cầu sẽ được diễn ra theo quy tắc: Nếu gửi N (N&gt;1) đơn / yêu cầu
-                    với cùng một mục đích thì thời gian phản hồi sẽ diễn ra trong vòng Nx48h.</p>
-                <p class="content-note-items">*Vì vậy hãy cân nhắc kĩ trước khi gửi đơn / yêu cầu !</p>
-                <p  class="content-note-items">Trân Trọng !</p>
-
-            </div>
-            <form  id="form-request" action="InsertOverTimeRequestServlet" method="Post" >
+            <form  id="form-request" enctype="multipart/form-data" action="SendOtherRequest" method="Post" >
                 <div class="content-request">
                     <div class="content-request-type">
                         <label for="request-type">Request Type: </label>
-                        <select name="requestID" id="request-type" onchange="Tranformation()" >
+                        <select name="requestTypeID" id="request-type" onchange="Tranformation()" >
                             <c:forEach items="${listType}" var="t">
                                 <option id="requestTypeID" value="${t.getRequestTypeID()}"
                                         <c:if test="${requestTypeID eq t.getRequestTypeID()}">
@@ -209,106 +189,55 @@
                     </div>
                     <div class="content-request-body" id="request-body">
                         <div id="overtime-request">
-                            <div class="request-policy">
-                                <p>Quy định ngày nghỉ : </p>
-                                <!--<p>Năm: xử lý tối đa trong 1 năm tới.</p>-->
-                                <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
-                                <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
-                            </div>
                             <div class="request-input-box">
-                                <span >Full Name (Tên tôi là): </span>
-                                <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
+                                <span >Full Name: </span>
+                                <input readonly type="text"  id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
                             </div>
                             <div class="request-input-box">
                                 <span >Email: </span>
-                                <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
+                                <input readonly type="text" id="email" value="${account.getEmail()}">
                             </div>
                             <div class="request-input-box">
-                                <span >Phone(Số Điện Thoại): </span>
-                                <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
+                                <span >Phone: </span>
+                                <input readonly type="text" id="phoneNumber" value="${account.getPhoneNumber()}">
                             </div>
                             <div class="request-input-box">
-                                <span >Hiện Đang Là (Nhân Viên): </span>
+                                <span >Position: </span>
                                 <c:forEach items="${listEmployeeType}" var="type">
                                     <c:if test="${account.getEmployeeTypeID() == type.getEmployeeTypeID()}">
-                                        <input readonly type="text" name="employeeType" id="employeeType" 
+                                        <input readonly type="text"  id="employeeType" 
                                                value="${type.getName()}" >
                                     </c:if>
                                 </c:forEach>
                             </div>
                             <div class="request-input-box">
-                                <span >Công Tác Tại (Phòng / Ban): </span>
+                                <span >Department: </span>
                                 <c:forEach items="${listDepartment}" var="de">
                                     <c:if test="${account.getDepartmentID() == de.getDepartmentID()}">
-                                        <input readonly type="text" name="department" id="department" 
+                                        <input readonly type="text"  id="department" 
                                                value="${de.getName()}" >
                                     </c:if>
                                 </c:forEach>
                             </div>
-                            <div class="request-input-box"
-                                 <c:if test="${err.getInvalidRole_error() !=null}">
-                                     style="margin-bottom: 20px;"
-                                 </c:if>
-                                 >
-                                <span >Với Vai Trò Là (Chức Vụ): </span>
-                                <c:forEach items="${listRole}" var="r">
-                                    <c:if test="${account.getRoleID() == r.getRoleID()}">
-                                        <input readonly type="text" name="role" id="role" 
-                                               value="${r.getName()}" >
-                                    </c:if>
-                                </c:forEach>
-                            </div>
-                            <c:if test="${err.getInvalidRole_error() !=null}">
-                                <div class="content-message">
-                                    <p><i class="fa-solid fa-xmark"></i>  ${err.getInvalidRole_error()}</p>
-                                </div>
-                            </c:if>
-                            <div class="request-input-box"
-                                 <c:if test="${err.getInvalidDate_error() !=null}">
-                                     style="margin-bottom: 20px;"
-                                 </c:if>
-                                 >
-                                <span style="color: red">Date (Ngày Thực Hiện): </span>
-                                <input type="date" name="date" id="overTime-date" required=""
-                                       <c:if test="${not empty date}">
-                                           value="${date}"
-                                       </c:if>
-                                       >
-                            </div>
-                            <c:if test="${err.getInvalidDate_error() !=null}">
-                                <div class="content-message">
-                                    <p><i class="fa-solid fa-xmark"></i>  ${err.getInvalidDate_error()}</p>
-                                </div>
-                            </c:if>
                             <div class="request-input-box">
-                                <span style="color: red">Start Time (Giờ Bắt Đầu): </span>
-                                <input type="time" name="startTime" id="startTime" required=""
-                                       <c:if test="${not empty startTime}">
-                                           value="${startTime}"
-                                       </c:if>
-                                       >
+                                <span >Title: </span>
+                                <input required type="text" name="title">
                             </div>
-                            <div class="request-input-box"
-                                 <c:if test="${err.getInvalidRole_error() !=null}">
-                                     style="margin-bottom: 20px;"
-                                 </c:if>
-                                 >
-                                <span style="color: red">End Time (Giờ Kết Thúc): </span>
-                                <input type="time" name="endTime" id="endTime" required=""
-                                       <c:if test="${not empty endTime}">
-                                           value="${endTime}"
-                                       </c:if>
-                                       >
+                            <div class="request-input-box">
+                                <span >Content: </span>
+                                <textarea required name="content" style="width: 500px"  rows="5"></textarea>
                             </div>
-                            <c:if test="${err.getInvalidTime_error() !=null}">
-                                <div class="content-message">
-                                    <p><i class="fa-solid fa-xmark"></i>  ${err.getInvalidTime_error()}</p>
-                                </div>
-                            </c:if>
-                            <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">
+                            <div class="request-input-box">
+                                <span >File: </span>
+                                <input type="file" name="file" >
+                            </div>
                         </div>
                     </div>
+                    <div>
+                        <button class="btn-success btn">Submit</button>
+                    </div>
                 </div>
+
             </form>
         </div>
     </body>
@@ -321,7 +250,7 @@
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             } else if (requestTypeID === "2") {
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
-            } else{
+            } else {
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             }
         }

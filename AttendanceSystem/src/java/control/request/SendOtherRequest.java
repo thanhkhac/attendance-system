@@ -9,7 +9,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import model.EmployeeDTO;
+import model.request.RequestDAO;
+import model.request.RequestDTO;
 import ultility.filehandler.UploadFile;
 
 @WebServlet(name = "SendOtherRequest", urlPatterns = {"/SendOtherRequest"})
@@ -22,11 +26,12 @@ public class SendOtherRequest extends HttpServlet {
     public static final String SAVE_DIRECTORY = "RequestFiles";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
+
         String title = request.getParameter("title");
-        String content = request.getParameter("title");
-        
-        
+        String content = request.getParameter("content");
+        String r_RequestType = request.getParameter("requestTypeID");
+        int employeeID = ((EmployeeDTO) request.getSession().getAttribute("ACCOUNT")).getEmployeeId();
+                
         String appPath = request.getServletContext().getRealPath("");
         String fullSavePath = appPath + File.separator + SAVE_DIRECTORY;
         String backUpPath = fullSavePath.replace(File.separator + "build", "");
@@ -35,12 +40,20 @@ public class SendOtherRequest extends HttpServlet {
         savePaths.add(fullSavePath);
 
         //Đây sẽ là đường dẫn cần lấy và lưu vào database
-        String MyPath = new UploadFile().saveFile(request, "file", savePaths, SAVE_DIRECTORY);
-        System.out.println(MyPath);
-        if (MyPath != null) {
-            response.sendRedirect("Success.jsp");
-        }
+        String filepath = new UploadFile().saveFile(request, "file", savePaths, SAVE_DIRECTORY);
         
+        RequestDAO requestDAO = new RequestDAO();
+        
+        RequestDTO requestDTO = new RequestDTO();
+        requestDTO.setContent(content);
+        requestDTO.setEmployeeID(employeeID);
+        requestDTO.setTitle(title);
+        requestDTO.setTypeID(Integer.parseInt(r_RequestType));
+        requestDTO.setFilePath(filepath);
+        
+        requestDAO.insert(requestDTO);
+        
+        response.sendRedirect("Success.jsp");
         
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
