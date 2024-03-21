@@ -16,6 +16,10 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <style>
+            body{
+                font-family: sans-serif;
+                background-color: steelblue;
+            }
             .tdbreak {
                 word-break: break-word;
                 max-width: 150px;
@@ -105,6 +109,28 @@
                 text-decoration: none;
                 cursor: pointer;
             }
+            .content-request{
+                margin-top: 50px;
+                padding-bottom: 30px;
+                /*border-bottom: 1px solid grey;*/
+            }
+            .content-request-type{
+                border: 1px solid grey;
+                padding: 10px;
+                font-size: larger;
+                font-weight: 600;
+            }
+            .content-request-type label{
+                padding-right: 10px;
+                border-right: 1px solid grey;
+            }
+            .content-request-type select{
+                margin-left: 10px;
+                font-size: medium;
+                border: 1px solid grey;
+                border-radius: 5px;
+                padding: 5px;
+            }
         </style>
 
     </head>
@@ -128,15 +154,23 @@
             <div class="content">
                 <h1>Thông Báo</h1>
                 <div class="content-redirect">
-                    <p><a href="ThanhCong.html">Home</a> | List of applications for overtime work</p>
+                    <p><a href="HomePage.jsp">Trang chủ</a> | Duyệt đơn làm thêm</p>
                 </div>  
-            </div>
-            <div class="text-center">
-                <h1 style="margin: 30px">Danh sách đơn đăng kí làm ngoài giờ của <%=deDTO.getName()%> (Manager)</h1>
-            </div>
-            <div>
+                <div class="text-center">
+                    <h1 style="margin: 30px">Danh sách đơn đăng kí làm ngoài giờ của <%=deDTO.getName()%> (Manager)</h1>
+                </div>
+                <div class="content-request">
+                    <div class="content-request-type">
+                        <label for="request-type">Loại đơn: </label>
+                        <select id="mySelect" name="mySelect">
+                            <option value="">Chọn Loại Đơn</option>
+                            <option value="ViewLeaveRequestForManager.jsp">Đơn nghỉ phép</option>
+                            <option value="ViewOverTimeRequestForManager.jsp">Đơn làm ngoài giờ</option>
+                        </select>
+                    </div>
+                </div>
                 <form action="DispatchController" method="POST">
-                    <table class="table" style="width: 95%; margin: auto;">
+                    <table class="table" style="width: 100%; margin: auto;">
                         <tr style="background-color: #CFE2FF">
                             <th class="text-center">Mã đơn</th>
                             <th class="text-center">Họ và tên</th>
@@ -146,7 +180,7 @@
                             <th style="display: none" class="text-center">Giờ kết thúc</th>
                             <th class="text-center">Trạng thái <br> (Manager)</th>  
                             <th class="text-center">Người phê duyệt <br> (Manager)</th>
-                            <th class="text-center">check</th>
+                            <th class="text-center">Phê duyệt</th>
                         </tr>
                         <%
                             for (OverTimeRequestExtendDTO otrq : list) {
@@ -166,15 +200,15 @@
                                     Boolean managerApprove = otrq.getManagerApprove();
                                     if(managerApprove == null){
                                 %>
-                                <p class="fw-bold">Pending</p>
+                                <p class="fw-bold">Chờ xử lý</p>
                                 <%
                                     }else if (managerApprove == true){
                                 %>
-                                <p class="text-success fw-bold" >Accepted</p>
+                                <p class="text-success fw-bold" >Chấp nhận</p>
                                 <%
                                     }else if (managerApprove == false){
                                 %>
-                                <p class="text-danger fw-bold">Denied</p>
+                                <p class="text-danger fw-bold">Từ chối</p>
                                 <%
                                     }
                                 %>
@@ -187,7 +221,7 @@
                                 <%
                                     }else{
                                 %>
-                                <p class="text-center fw-bold">Pending</p>
+                                <p class="text-center fw-bold">Chờ xử lý</p>
                                 <%
                                     }
                                 %>
@@ -198,9 +232,9 @@
                                     }else if(otrq.getConflict() != null && otrq.getConflict().equalsIgnoreCase("conflict")){
                                 %>
                                 <p class="text-danger" title="Conflicts with existing work shifts"><i class="fa-solid fa-triangle-exclamation"></i></p>
-                                <%
-                                    }else{
-                                %>
+                                    <%
+                                        }else{
+                                    %>
                                 <button onclick="xacNhan('Accept', '<%= otrq.getOverTimeRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= otrq.getOverTimeRequestID() %>">
                                     <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
                                 </button>
@@ -344,7 +378,15 @@
                 }
             }
         </script>
-        
+        <script>
+            document.getElementById('mySelect').addEventListener('change', function () {
+                var selectedOption = this.options[this.selectedIndex].value;
+                if (selectedOption !== "") {
+                    //                    window.open(selectedOption, '_blank');
+                    window.location.href = selectedOption;
+                }
+            });
+        </script>
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>
