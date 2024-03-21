@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalTime;
 import static model.ShiftDAO.DATE_UTIL;
+import model.request.RequestDTO;
 
 public class SampleDAO extends DAOBase {
 
@@ -21,6 +22,21 @@ public class SampleDAO extends DAOBase {
             while (rs.next()) {
 
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return null;
+    }
+
+    public RequestDTO insert(RequestDTO request) {
+        connect();
+        query = "";
+        try {
+            //Mở kết nối
+            super.connect();
+            ps = connection.prepareStatement(query);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
