@@ -1,13 +1,14 @@
 ﻿USE master
-ALTER DATABASE Attendance_DB_Final SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-
-ALTER DATABASE Attendance_DB_Final SET MULTI_USER;
-
 
 GO
 IF EXISTS (SELECT name from master.dbo.sysdatabases WHERE name = 'Attendance_DB_Final')
+BEGIN
+ALTER DATABASE Attendance_DB_Final SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
+ALTER DATABASE Attendance_DB_Final SET MULTI_USER;
 DROP DATABASE Attendance_DB_Final;
 
+END;
 GO
 CREATE DATABASE Attendance_DB_Final;
 
@@ -132,26 +133,6 @@ CREATE TABLE LeaveRequests(
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
 )
 
-CREATE TABLE ResignationRequests(
-	ResignationRequestID int PRIMARY KEY IDENTITY(1,1),
-	[EmployeeID] int,
-	StartDateContract date,
-	EndDateContract date,
-	[SentDate] datetime,
-	[ExtendDate] date,
-	Reason nvarchar(max),
-	ManagerApprove bit,
-	HrApprove bit,
-	ManagerID int,
-	HrID int,
-	[Status] bit default(0),
-
-	FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
-	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
-	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
-)
-
-
 CREATE TABLE Overtimes(
 	[Date] date,
 	[EmployeeID] int,
@@ -241,9 +222,11 @@ INSERT INTO Roles(RoleID, [Name]) VALUES (4, N'Quản lý');
 INSERT INTO Roles(RoleID, [Name]) VALUES (5, N'Quản lý kiêm quản lý nhân sự');
 
 --====================EmployeeType
-INSERT INTO EmployeeTypes([Name]) VALUES (N'Part Time');
-INSERT INTO EmployeeTypes([Name]) VALUES (N'Full Time');
-INSERT INTO EmployeeTypes([Name]) VALUES (N'Intern');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Nhân viên');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Nhân viên parttime');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Thực tập');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Giám đốc');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Trưởng phòng');
 
 --====================Department
 INSERT INTO Departments([Name]) VALUES (N'Phòng nhân sự')
@@ -252,9 +235,9 @@ INSERT INTO Departments([Name]) VALUES (N'Phòng tiếp thị')
 
 
 
-DECLARE @TYPE_FULLTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Full time');
-DECLARE @TYPE_PARTTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Part time');
-DECLARE @TYPE_CONTRACTOR int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Contractor');
+DECLARE @TYPE_FULLTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Nhân viên');
+DECLARE @TYPE_PARTTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Thực tập');
+DECLARE @TYPE_CONTRACTOR int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Trưởng phòng');
 
 
 
@@ -363,3 +346,4 @@ VALUES
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
 
 
+  SELECT * FROM Employees
