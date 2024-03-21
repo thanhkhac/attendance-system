@@ -1,6 +1,6 @@
 <%-- 
-    Document   : navigate
-    Created on : Mar 21, 2024, 5:47:54 PM
+    Document   : NavigateRequestForManager
+    Created on : Mar 21, 2024, 5:55:12 PM
     Author     : nguye
 --%>
 
@@ -58,18 +58,18 @@
             <div class="content">
                 <h1>Thông Báo</h1>
                 <div class="content-redirect">
-                    <p><a href="ThanhCong.html">Home</a> | View Request</p>
+                    <p><a href="ThanhCong.html">Home</a> | Process Request</p>
                 </div>
                 <div class="text-center">
-                    <h1 style="margin: 30px">Danh sách đơn chờ phê duyệt</h1>
+                    <h1 style="margin: 30px">Danh sách đơn cần phê duyệt bởi Manager</h1>
                 </div>
                 <div class="content-request">
                     <div class="content-request-type">
                         <label for="request-type">Request Type: </label>
                         <select id="mySelect" name="mySelect">
                             <option value="">Chọn Loại Đơn</option>
-                            <option value="ViewSentLeaveRequest.jsp">Đơn nghỉ phép</option>
-                            <option value="ViewSentOvertimeRequest.jsp">Đơn làm ngoài giờ</option>
+                            <option value="ViewLeaveRequestForManager.jsp">Đơn nghỉ phép</option>
+                            <option value="ViewOverTimeRequestForManager.jsp">Đơn làm ngoài giờ</option>
                         </select>
                     </div>
                 </div>
