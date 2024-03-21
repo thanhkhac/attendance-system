@@ -135,7 +135,7 @@
                                          <c:if test = "${count==0}">
                                              
                                                  <div style="display:flex;justify-content: center">
-                                             <a class="box shift__title" href="overtimeByDay?Day=${wkday}">
+                                             <a class="box shift__title" href="overtimeByDay?Day=${wkday}&&Check=CHUAQUA">
                                                  <p class="paragraph">Trống</p>
                                                 </a>
                                                      </div>
