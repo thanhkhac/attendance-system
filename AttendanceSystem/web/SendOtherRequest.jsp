@@ -19,7 +19,7 @@
         <style>
             body{
                 font-family: sans-serif;
-                background-color: steelblue;
+                background-color: steelblue !important;
             }
             .content{
                 background-color: white;
@@ -158,6 +158,7 @@
         </style>
     </head>
     <body>
+         <%@include file="Sidebar.jsp" %>
         <c:set var="listTpe" value="${requestScope.listType}" />
         <c:set var="account" value="${sessionScope.ACCOUNT}" />
         <c:set var="listDepartment" value="${requestScope.listDepartment}" />
