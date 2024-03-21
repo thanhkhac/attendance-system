@@ -24,6 +24,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.commons.math3.linear.*;
 import ultility.datetimeutil.DateTimeUtil;
 
 /**
@@ -165,7 +166,7 @@ public class ReadFileModule {
                     }
                     case COLUMN_INDEX_PHONE_NUMBER: {
                         // Set phoneNumber property
-                        
+
                         if (getCellValue(cell).toString().equals("--")) {
                             employee.setPhoneNumber("");
                         } else {
@@ -264,28 +265,34 @@ public class ReadFileModule {
     private static Object getCellValue(Cell cell) {
         CellType cellType = cell.getCellTypeEnum();
         Object cellValue = null;
-        switch (cellType) {
-            case BOOLEAN:
-                cellValue = cell.getBooleanCellValue();
-                break;
-            case FORMULA:
-                Workbook workbook = cell.getSheet().getWorkbook();
-                FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-                cellValue = evaluator.evaluate(cell).getNumberValue();
-                break;
-            case NUMERIC:
-                cellValue = cell.getNumericCellValue();
-                break;
-            case STRING:
-                cellValue = cell.getStringCellValue();
-                break;
-            case _NONE:
-            case BLANK:
-            case ERROR:
-                break;
+        try {
+            switch (cellType) {
+                case BOOLEAN:
+                    cellValue = cell.getBooleanCellValue();
+                    break;
+                case FORMULA:
+                    Workbook workbook = cell.getSheet().getWorkbook();
+                    FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+                    cellValue = evaluator.evaluate(cell).getNumberValue();
+                    break;
+                case NUMERIC:
+                    cellValue = cell.getNumericCellValue();
+                    break;
+                case STRING:
+                    cellValue = cell.getStringCellValue();
+                    break;
+                case _NONE:
+                case BLANK:
+                case ERROR:
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } finally {
         }
 
         return cellValue;
