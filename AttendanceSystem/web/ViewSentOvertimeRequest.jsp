@@ -17,6 +17,10 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <style>
+            body{
+                font-family: sans-serif;
+                background-color: steelblue;
+            }
             .tdbreak {
                 word-break: break-word;
                 max-width: 150px;
@@ -37,7 +41,7 @@
                 margin: 0px;
                 font-size: large;
             }
-            
+
             #pagination-container {
                 margin-top: 20px;
                 text-align: right;
@@ -73,7 +77,7 @@
                 background-color: #007bff;
                 border-color: #007bff;
             }
-            
+
             .modal {
                 display: none;
                 position: fixed;
@@ -107,6 +111,28 @@
                 text-decoration: none;
                 cursor: pointer;
             }
+            .content-request{
+                margin-top: 50px;
+                padding-bottom: 30px;
+                /*border-bottom: 1px solid grey;*/
+            }
+            .content-request-type{
+                border: 1px solid grey;
+                padding: 10px;
+                font-size: larger;
+                font-weight: 600;
+            }
+            .content-request-type label{
+                padding-right: 10px;
+                border-right: 1px solid grey;
+            }
+            .content-request-type select{
+                margin-left: 10px;
+                font-size: medium;
+                border: 1px solid grey;
+                border-radius: 5px;
+                padding: 5px;
+            }
         </style>
     </head>
     <%
@@ -127,70 +153,82 @@
             <div class="content">
                 <h1>Thông Báo</h1>
                 <div class="content-redirect">
-                    <p><a href="ThanhCong.html">Home</a> | Application</p>
+                    <p><a href="HomePage.jsp">Trang chủ</a> | Tình trạng đơn</p>
                 </div>
                 <div class="text-center">
                     <h1 style="margin: 30px">Đơn Làm Ngoài Giờ đã gửi</h1>
                 </div>
-            </div>    
-                <div>
-                    <form action="DispatchController" method="POST">
-                        <table class="table" style="width: 95%; margin: auto;">
-                            <tr style="background-color: #CFE2FF">
-                                <th class="text-center">Mã đơn</th>
-                                <th class="text-center">Họ và tên</th>
-                                <th class="text-center">Ngày gửi</th>
-                                <th style="display: none" class="text-center">Giờ bắt đầu</th>
-                                <th style="display: none" class="text-center">Giờ kết thúc</th>
-                                <th class="text-center">Trạng thái</th>
-                            </tr>
-                            <%
-                                for (OverTimeRequestDTO otrq : list) {
-                                    emDTO = dao.getEmployeeDTO(otrq.getEmployeeID());
-                                    managerDTO = dao.getEmployeeDTO(otrq.getManagerID());
-                                    hrDTO = dao.getEmployeeDTO(otrq.getHrID());
-                            %>
-                            <tr class="employee-row" onclick="showDetailPopup(this)">
-                                <td class="text-center"><%=otrq.getOverTimeRequestID()%></td>
-                                <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
-                                <td class="text-center"><%=otrq.getSentDate()%></td>
-                                <td style="display: none" class="text-center"><%=otrq.getStartTime()%></td>     
-                                <td style="display: none" class="text-center"><%=otrq.getEndTime()%></td>
-                                <td class="text-center tdbreak">
-                                    <%
-                                        boolean status = otrq.getStatus();
-                                        if(status == true){
-                                    %>
-                                        <p class="text-success fw-bold" >Accepted</p>
-                                    <%
-                                        }else{
-                                    %>
-                                        <p class="text-danger fw-bold">Denied</p>
-                                    <%        
-                                        }
-                                    %>
-                                </td>
-                            </tr>
-                            <%
-                                }
-                            %>
-                        </table>
-                        <div id="pagination-container">
-                            <ul id="pagination" class="pagination justify-content-center"></ul>
-                        </div>
-                        <div id="myModal" class="modal">
-                            <div class="modal-content" style="width: 25%">
-                                <div id="modal-body">
-                                    
-                                </div>
+                <div class="content-request">
+                    <div class="content-request-type">
+                        <label for="request-type">Loại đơn: </label>
+                        <select id="mySelect" name="mySelect">
+                            <option value="">Chọn Loại Đơn</option>
+                            <option value="ViewSentLeaveRequest.jsp">Đơn nghỉ phép</option>
+                            <option value="ViewSentOvertimeRequest.jsp">Đơn làm ngoài giờ</option>
+                        </select>
+                    </div>
+                </div>
+                <form action="DispatchController" method="POST">
+                    <table class="table" style="width: 100%; margin: auto;">
+                        <tr style="background-color: #CFE2FF">
+                            <th class="text-center">Mã đơn</th>
+                            <th class="text-center">Họ và tên</th>
+                            <th class="text-center">Ngày gửi</th>
+                            <th style="display: none" class="text-center">Giờ bắt đầu</th>
+                            <th style="display: none" class="text-center">Giờ kết thúc</th>
+                            <th class="text-center">Trạng thái</th>
+                        </tr>
+                        <%
+                            for (OverTimeRequestDTO otrq : list) {
+                                emDTO = dao.getEmployeeDTO(otrq.getEmployeeID());
+                                managerDTO = dao.getEmployeeDTO(otrq.getManagerID());
+                                hrDTO = dao.getEmployeeDTO(otrq.getHrID());
+                        %>
+                        <tr class="employee-row" onclick="showDetailPopup(this)">
+                            <td class="text-center"><%=otrq.getOverTimeRequestID()%></td>
+                            <td class="text-center tdbreak"><%= emDTO.getLastName() + " " +  emDTO.getMiddleName() + " " + emDTO.getFirstName() %></td>
+                            <td class="text-center"><%=otrq.getSentDate()%></td>
+                            <td style="display: none" class="text-center"><%=otrq.getStartTime()%></td>     
+                            <td style="display: none" class="text-center"><%=otrq.getEndTime()%></td>
+                            <td class="text-center tdbreak">
+                                <%
+                                    Boolean status = otrq.getStatus();
+                                    if(status == true){
+                                %>
+                                <p class="text-success fw-bold" >Chấp nhận</p>
+                                <%
+                                    }else if(status == false){
+                                %>
+                                <p class="text-danger fw-bold">Từ chối</p>
+                                <%        
+                                    } else if(status == null){
+                                %>
+                                <p class="text-danger fw-bold">Chờ phê duyệt</p>
+                                <%
+                                    }    
+                                %>
+                            </td>
+                        </tr>
+                        <%
+                            }
+                        %>
+                    </table>
+                    <div id="pagination-container">
+                        <ul id="pagination" class="pagination justify-content-center"></ul>
+                    </div>
+                    <div id="myModal" class="modal">
+                        <div class="modal-content" style="width: 25%">
+                            <div id="modal-body">
+
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
 
 
         </div>
-        
+
         <script>
             var pageSize = 10; // Số lượng dòng mỗi trang
             var currentPage = 1; // Trang hiện tại
@@ -229,7 +267,7 @@
                 showPage(currentPage);
             });
         </script>
-        
+
         <script>
             function showDetailPopup(row) {
                 var modal = document.getElementById("myModal");
@@ -288,7 +326,15 @@
                 }
             }
         </script>
-        
+        <script>
+            document.getElementById('mySelect').addEventListener('change', function () {
+                var selectedOption = this.options[this.selectedIndex].value;
+                if (selectedOption !== "") {
+//                    window.open(selectedOption, '_blank');
+                    window.location.href = selectedOption;
+                }
+            });
+        </script>
         <script src="https://kit.fontawesome.com/c2b5cd9aa7.js" crossorigin="anonymous"></script>
         <script src="assets/Bootstrap5/js/bootstrap.bundle.min.js"></script>
     </body>

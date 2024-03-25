@@ -12,6 +12,10 @@
         <title>JSP Page</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <style>
+            body{
+                font-family: sans-serif;
+                background-color: steelblue;
+            }
             .content{
                 background-color: white;
                 max-width: 65%;
@@ -58,14 +62,14 @@
             <div class="content">
                 <h1>Thông Báo</h1>
                 <div class="content-redirect">
-                    <p><a href="ThanhCong.html">Home</a> | Process Request</p>
+                    <p><a href="HomePage.jsp">Trang chủ</a> | Duyệt đơn</p>
                 </div>
                 <div class="text-center">
                     <h1 style="margin: 30px">Danh sách đơn cần phê duyệt bởi Manager</h1>
                 </div>
                 <div class="content-request">
                     <div class="content-request-type">
-                        <label for="request-type">Request Type: </label>
+                        <label for="request-type">Loại đơn: </label>
                         <select id="mySelect" name="mySelect">
                             <option value="">Chọn Loại Đơn</option>
                             <option value="ViewLeaveRequestForManager.jsp">Đơn nghỉ phép</option>
