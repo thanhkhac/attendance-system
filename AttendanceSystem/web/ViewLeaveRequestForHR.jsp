@@ -165,6 +165,7 @@
                             <option value="">Chọn Loại Đơn</option>
                             <option value="ViewLeaveRequestForHR.jsp">Đơn nghỉ phép</option>
                             <option value="ViewOverTimeRequestForHR.jsp">Đơn làm ngoài giờ</option>
+                            <option value="ViewOtherRequestListHR">Đơn khác</option>
                         </select>
                     </div>
                 </div>

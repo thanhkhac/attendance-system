@@ -50,7 +50,6 @@
                         <div>
                             <div class="dropdown">
                                 <div style="cursor: pointer" class=" dropdown-toggle" data-bs-toggle="dropdown">
-
                                     ${account.lastName} ${account.middleName} ${account.firstName}
                                 </div>
                                 <ul class="dropdown-menu">
@@ -86,7 +85,7 @@
             </a>
             <div class="collapse ps-4" id="submenu3">
                 <a href="PrepareRequestServlet" class="w3-bar-item w3-button fw-bold  text-white">Gửi đơn</a>
-                <a href="" class="w3-bar-item w3-button fw-bold text-white">Đơn đã gửi</a>
+                <a href="NavigateSentRequest.jsp" class="w3-bar-item w3-button fw-bold text-white">Đơn đã gửi</a>
             </div>
 
             <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu1">

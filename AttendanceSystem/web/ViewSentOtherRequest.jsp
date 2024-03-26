@@ -6,7 +6,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Danh sách đơn khác</title>
+        <title>Danh sách đơn đã gửi</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
         <style>
@@ -57,18 +57,26 @@
     </head>
     <body>
         <div class="content">
-            <h1>Thông Báo</h1>
             <div class="content-redirect">
-                <p><a href="HomePage.jsp">Trang chủ</a> | Duyệt đơn khác</p>
+                <p><a href="HomePage.jsp">Trang chủ</a> | Tình trạng đơn</p>
             </div>  
             <div class="text-center">
-                <h1 style="margin: 30px">Danh sách đơn khác </h1>
+                <h1 style="margin: 30px">Danh sách đơn đã gửi</h1>
             </div>
-            
+            <div class="content-request">
+                <div class="content-request-type">
+                    <label for="request-type">Loại đơn: </label>
+                    <select id="mySelect" name="mySelect">
+                        <option value="">Chọn Loại Đơn</option>
+                        <option value="ViewSentLeaveRequest.jsp">Đơn nghỉ phép</option>
+                        <option value="ViewSentOvertimeRequest.jsp">Đơn làm ngoài giờ</option>
+                        <option value="ViewSentOtherRequest">Đơn khác</option>
+                    </select>
+                </div>
+            </div>
             <table class="table table-bordered">
                 <thead class="table-primary">
                     <tr>
-                        <th>Nhân viên</th>
                         <th>Tiêu đề</th>
                         <th>Ngày gửi</th>
                         <th>Loại đơn</th>
@@ -80,12 +88,6 @@
                     <c:forEach items="${requests}" var="request">
                         <tr data-toggle="modal" data-target="#modal${request.requestID}">
                             <!--<td>${request.requestID}</td>-->
-
-                            <c:forEach var="e" items="${employees}" varStatus="counter">
-                                <c:if test="${e.employeeId eq request.employeeID}">
-                                    <td>${e.lastName} ${e.middleName} ${e.firstName}</td>
-                                </c:if>
-                            </c:forEach>
 
                             <td>${request.title}</td>
 
@@ -130,7 +132,7 @@
                     <ul class="pagination justify-content-center">
                         <c:if test="${currentPage > 1}">
                             <li class="page-item">
-                                <a class="page-link" href="ViewOtherRequestListHR?page=${currentPage - 1}" aria-label="Previous">
+                                <a class="page-link" href="ViewSentOtherRequest?page=${currentPage - 1}" aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
                                     <span class="sr-only">Previous</span>
                                 </a>
@@ -145,14 +147,14 @@
                                 </c:when>
                                 <c:otherwise>
                                     <li class="page-item">
-                                        <a class="page-link" href="ViewOtherRequestListHR?page=${i}">${i}</a>
+                                        <a class="page-link" href="ViewSentOtherRequest?page=${i}">${i}</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
                         </c:forEach>
                         <c:if test="${currentPage < numberOfPages}">
                             <li class="page-item">
-                                <a class="page-link" href="ViewOtherRequestListHR?page=${currentPage + 1}" aria-label="Next">
+                                <a class="page-link" href="ViewSentOtherRequest?page=${currentPage + 1}" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                     <span class="sr-only">Next</span>
                                 </a>
@@ -229,9 +231,9 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>Note của người duyệt</th>
+                                        <th>Phản hồi của người duyệt</th>
                                         <td>
-                                            <textarea id="id" name="processnote" rows="5" class="form-control" >${request.processNote}</textarea>
+                                            <textarea readonly id="id" name="processnote" rows="5" class="form-control" >${request.processNote}</textarea>
                                         </td>
                                     </tr>
                                     <tr>
@@ -250,9 +252,6 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" name="status" value="true" class="btn btn-success">Duyệt</button>
-                                <button type="submit" name="status" value="false" class="btn btn-danger">Từ chối</button>
-                                <input name="requestId" type="hidden" value="${request.requestID}">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                             </div>
                         </form>
@@ -265,10 +264,15 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
         <script>
-                            function confirmSubmit() {
-                                return confirm("Please confirm processing of this application");
-                            }
+                            document.getElementById('mySelect').addEventListener('change', function () {
+                                var selectedOption = this.options[this.selectedIndex].value;
+                                if (selectedOption !== "") {
+//                    window.open(selectedOption, '_blank');
+                                    window.location.href = selectedOption;
+                                }
+                            });
         </script>
     </body>
 </html>

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import model.*;
 import model.OvertimeDAO;
 import model.OvertimeDTO;
 
@@ -32,7 +33,9 @@ public class GetConflicts extends HttpServlet {
             }
         }
         overtimeDAO.close();
-        
+        ArrayList<EmployeeDTO> employees = new EmployeeDAO().GetAllEmployees();
+        request.setAttribute("employees", employees);
+
         request.setAttribute("conflicts", conflicts);
         request.getRequestDispatcher("ScheduleWorkConflicts.jsp").forward(request, response);
     }

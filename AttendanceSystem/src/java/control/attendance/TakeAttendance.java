@@ -19,7 +19,7 @@ public class TakeAttendance extends HttpServlet {
 
         String modalMessage = "";
 
-        if (request.getServerPort() == PortConstants.ONLINE) {
+        if (request.getServerPort() != PortConstants.LOCAL) {
             modalMessage = ("<a href=\"http://localhost:8081/AttendanceSystem/TakeAttendance.jsp\">Vui lòng truy cập vào trang nội bộ</a>");
             request.setAttribute("modalMessage", modalMessage);
             request.getRequestDispatcher(URL).forward(request, response);
