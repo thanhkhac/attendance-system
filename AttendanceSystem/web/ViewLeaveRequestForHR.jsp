@@ -151,7 +151,7 @@
     <body>
         <div>
             <div class="content">
-                <h1>Thông Báo</h1>
+                <%--<h1>Thông Báo</h1>--%>
                 <div class="content-redirect">
                     <p><a href="HomePage.jsp">Trang chủ</a> | Duyệt đơn nghỉ phép </p>
                 </div>
@@ -165,10 +165,11 @@
                             <option value="">Chọn Loại Đơn</option>
                             <option value="ViewLeaveRequestForHR.jsp">Đơn nghỉ phép</option>
                             <option value="ViewOverTimeRequestForHR.jsp">Đơn làm ngoài giờ</option>
+                            <option value="ViewOtherRequestListHR">Đơn khác</option>
                         </select>
                     </div>
                 </div>
-            <!--</div>-->chController" method="POST">
+            <form action="DispatchController" method="POST">
                 <table class="table" style="width: 100%; margin: auto;">
                     <tr style="background-color: #CFE2FF">
                         <th class="text-center">Mã đơn</th>

@@ -60,7 +60,6 @@
     <body>
         <div>
             <div class="content">
-                <h1>Thông Báo</h1>
                 <div class="content-redirect">
                     <p><a href="HomePage.jsp">Trang chủ</a> | Xem thông tin đơn</p>
                 </div>
@@ -74,6 +73,7 @@
                             <option value="">Chọn Loại Đơn</option>
                             <option value="ViewSentLeaveRequest.jsp">Đơn nghỉ phép</option>
                             <option value="ViewSentOvertimeRequest.jsp">Đơn làm ngoài giờ</option>
+                            <option value="ViewSentOtherRequest">Đơn khác</option>
                         </select>
                     </div>
                 </div>

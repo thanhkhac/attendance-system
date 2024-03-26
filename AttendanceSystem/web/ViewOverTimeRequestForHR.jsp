@@ -150,7 +150,7 @@
     <body>
         <div>
             <div class="content">
-                <h1>Thông Báo</h1>
+                <%--<h1>Thông Báo</h1>--%>
                 <div class="content-redirect">
                     <p><a href="HomePage.jsp">Trang chủ</a> | Duyệt đơn làm thêm</p>
                 </div> 
@@ -164,6 +164,7 @@
                             <option value="">Chọn Loại Đơn</option>
                             <option value="ViewLeaveRequestForHR.jsp">Đơn nghỉ phép</option>
                             <option value="ViewOverTimeRequestForHR.jsp">Đơn làm ngoài giờ</option>
+                            <option value="ViewOtherRequestListHR">Đơn khác</option>
                         </select>
                     </div>
                 </div>

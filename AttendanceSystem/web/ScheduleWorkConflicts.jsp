@@ -36,7 +36,7 @@
                     </a>
                 </div>
                 <form action="InsertTimesheetServlet" method="POST">
-                    <table class="table">
+                    <table class="table mx-3">
                         <tr>
                             <th>Ngày tăng ca</th>
                             <th>Mã nhân viên</th>
@@ -48,7 +48,13 @@
                             <tr class="conflict-row">
                                 <td>${dto.date}</td>
                                 <td>${dto.employeeID}</td>
-                                <td>${dto.employeeID}</td>
+                                <td>                                
+                                    <c:forEach var="e" items="${employees}" varStatus="counter">
+                                        <c:if test="${e.employeeId eq dto.employeeID}">
+                                            ${e.lastName} ${e.middleName} ${e.firstName}
+                                        </c:if>
+                                    </c:forEach>
+                                </td>
                                 <td>${dto.startTime}</td>
                                 <td>${dto.endTime}</td>
                             </tr>

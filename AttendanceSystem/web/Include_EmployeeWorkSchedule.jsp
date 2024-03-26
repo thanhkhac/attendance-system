@@ -157,7 +157,6 @@
                                                         </table>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary">Chấm công</button>
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close</button>
                                                     </div>
@@ -234,13 +233,6 @@
                                                     </table>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <c:if test = "${wkday.date eq today}">
-                                                        <a href="TakeAttendanceOvertime">
-                                                            <button type="button" class="btn btn-primary">
-                                                                Chấm công
-                                                            </button>
-                                                        </a>
-                                                    </c:if>
                                                     <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close</button>
                                                 </div>
