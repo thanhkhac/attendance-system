@@ -151,7 +151,7 @@
     <body>
         <div>
             <div class="content">
-                <h1>Thông Báo</h1>
+                <%--<h1>Thông Báo</h1>--%>
                 <div class="content-redirect">
                     <p><a href="HomePage.jsp">Trang chủ</a> | Tình trạng đơn</p>
                 </div>
@@ -192,18 +192,23 @@
                             <td style="display: none" class="text-center"><%=otrq.getEndTime()%></td>
                             <td class="text-center tdbreak">
                                 <%
-                                    Boolean status = otrq.getStatus();
-                                    if(status == true){
-                                %>
-                                <p class="text-success fw-bold" >Chấp nhận</p>
-                                <%
-                                    }else if(status == false){
+                                    Boolean status = otrq.getHrApprove();
+                                    Boolean statusMana = otrq.getManagerApprove();
+                                    if(statusMana != null && statusMana == false){
                                 %>
                                 <p class="text-danger fw-bold">Từ chối</p>
-                                <%        
-                                    } else if(status == null){
+                                <% 
+                                    }else if(status == null){
                                 %>
-                                <p class="text-danger fw-bold">Chờ phê duyệt</p>
+                                <p class="text-center fw-bold">Chờ xử lý</p>
+                                <%
+                                    }else if(status == true){
+                                %>
+                                <p class="text-success fw-bold" >Chấp nhận</p>
+                                <%        
+                                    } else if(status == false){
+                                %>
+                                <p class="text-danger fw-bold">Từ chối</p>
                                 <%
                                     }    
                                 %>
