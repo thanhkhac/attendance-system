@@ -450,7 +450,7 @@
                         <h2 class="textKoCa">Chưa có ca nào</h2>
                     </div>
 <%}
-             if(DAQUA!=null){}else{   
+             if(DAQUA.equals("DAQUA")){}else{   
 %>
 
 
@@ -468,6 +468,7 @@
                     
                     <form action="addEmployeeOvertime">
                         <input type="hidden" name="date" value="<%=Day%>">
+                        <input type="hidden" name="CHECK" value="<%=DAQUA%>">
                         <!-- The Modal -->
                         <div class="modal" id="myModal">
                             <div class="modal-dialog modal-dialog-centered">
@@ -495,7 +496,7 @@
                                     <!-- Modal footer -->
                                     <div class="modal-footer mt-2" style="">
                                         
-                                        <form action="addEmployeeOvertime">
+                                        
                                              
                                             <button type="submit" style="    background: #000000d1;height: 39px;margin-top: 10px;
                                                     border: 0px;" type="button" class="btn btn-danger" data-bs-dismiss="modal">Chọn nhân viên</button>

@@ -1,13 +1,14 @@
 ﻿USE master
-ALTER DATABASE Attendance_DB_Final SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-
-ALTER DATABASE Attendance_DB_Final SET MULTI_USER;
-
 
 GO
 IF EXISTS (SELECT name from master.dbo.sysdatabases WHERE name = 'Attendance_DB_Final')
+BEGIN
+ALTER DATABASE Attendance_DB_Final SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+
+ALTER DATABASE Attendance_DB_Final SET MULTI_USER;
 DROP DATABASE Attendance_DB_Final;
 
+END;
 GO
 CREATE DATABASE Attendance_DB_Final;
 
@@ -132,26 +133,6 @@ CREATE TABLE LeaveRequests(
 	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
 )
 
-CREATE TABLE ResignationRequests(
-	ResignationRequestID int PRIMARY KEY IDENTITY(1,1),
-	[EmployeeID] int,
-	StartDateContract date,
-	EndDateContract date,
-	[SentDate] datetime,
-	[ExtendDate] date,
-	Reason nvarchar(max),
-	ManagerApprove bit,
-	HrApprove bit,
-	ManagerID int,
-	HrID int,
-	[Status] bit default(0),
-
-	FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID),
-	FOREIGN KEY (HrID) REFERENCES Employees(EmployeeID),
-	FOREIGN KEY ([EmployeeID]) REFERENCES Employees(EmployeeID)
-)
-
-
 CREATE TABLE Overtimes(
 	[Date] date,
 	[EmployeeID] int,
@@ -222,7 +203,6 @@ CREATE TABLE [Requests](
 	[FilePath] nvarchar(max),
 	[Status] bit,
 	ProcessNote nvarchar(max),
-	[ApproveDate] datetime,
 	[ResponedBy] int,
 
 	FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID),
@@ -241,9 +221,11 @@ INSERT INTO Roles(RoleID, [Name]) VALUES (4, N'Quản lý');
 INSERT INTO Roles(RoleID, [Name]) VALUES (5, N'Quản lý kiêm quản lý nhân sự');
 
 --====================EmployeeType
-INSERT INTO EmployeeTypes([Name]) VALUES (N'Part Time');
-INSERT INTO EmployeeTypes([Name]) VALUES (N'Full Time');
-INSERT INTO EmployeeTypes([Name]) VALUES (N'Intern');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Nhân viên');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Nhân viên parttime');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Thực tập');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Giám đốc');
+INSERT INTO EmployeeTypes([Name]) VALUES (N'Trưởng phòng');
 
 --====================Department
 INSERT INTO Departments([Name]) VALUES (N'Phòng nhân sự')
@@ -252,9 +234,9 @@ INSERT INTO Departments([Name]) VALUES (N'Phòng tiếp thị')
 
 
 
-DECLARE @TYPE_FULLTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Full time');
-DECLARE @TYPE_PARTTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Part time');
-DECLARE @TYPE_CONTRACTOR int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Contractor');
+DECLARE @TYPE_FULLTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Nhân viên');
+DECLARE @TYPE_PARTTIME int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Thực tập');
+DECLARE @TYPE_CONTRACTOR int = (SELECT EmployeeTypeID FROM EmployeeTypes WHERE [Name] = N'Trưởng phòng');
 
 
 
@@ -325,11 +307,11 @@ INSERT INTO Shifts ([Name], [StartTime], [EndTime], [OpenAt], [CloseAt], [IsActi
 (N'Ca chiều', '13:30', '17:30','13:15', '17:45', 1)
 
 INSERT INTO RequestsType([Name])
-VALUES (N'OverTime Request (Yêu Cầu Tăng Ca)')
+VALUES (N'OverTime Request')
 INSERT INTO RequestsType([Name])
-VALUES (N'Leave Request (Yêu Cầu Xin Nghỉ)')
+VALUES (N'Leave Request')
 INSERT INTO RequestsType([Name])
-VALUES (N'Resignation Request (Yêu Cầu Gia Hạn Hợp Đồng)')
+VALUES (N'Resignation Request')
 INSERT INTO RequestsType (Name) VALUES
 (N'Xin Nghỉ Phép'),
 (N'Thay Đổi Thông Tin Cá Nhân'),
@@ -361,5 +343,15 @@ VALUES
   (1, '2024-02-10', '2024-02-12', 'path3', 1),
   (1, '2024-02-15', '2024-02-18', 'path4', 1),
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
+
+  SELECT * FROM Requests
+
+DECLARE @RequestTypeID INT = 1; -- ID của loại yêu cầu (ở đây là OverTime Request)
+  
+  INSERT INTO Requests (EmployeeID, Title, SentDate, TypeID, Content, FilePath, Status, ProcessNote, ResponedBy)
+VALUES
+  (1, N'Yêu cầu tăng ca ngày 01/03/2024', GETDATE(), @RequestTypeID, N'Tôi muốn đăng ký tăng ca vào ngày 01/03/2024 từ 17:00 đến 19:30.', NULL, NULL, NULL, NULL),
+  (2, N'Yêu cầu tăng ca ngày 03/03/2024', GETDATE(), @RequestTypeID, N'Tôi muốn đăng ký tăng ca vào ngày 03/03/2024 từ 15:00 đến 17:30.', NULL, NULL, NULL, NULL);
+
 
 

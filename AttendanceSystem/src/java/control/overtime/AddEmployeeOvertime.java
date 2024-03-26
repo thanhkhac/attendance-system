@@ -48,7 +48,7 @@ public class AddEmployeeOvertime extends HttpServlet {
         OvertimeDAO daoOver = new OvertimeDAO();
         ArrayList<OvertimeDTO> listOvertime = daoOver.getOverTimeDTOByDay(Date);
         ArrayList<OvertimeDTO> list = new ArrayList();
-        
+        String CHECK = request.getParameter("CHECK");
         
         
         for(OvertimeDTO overtime : listOvertime){
@@ -76,6 +76,7 @@ public class AddEmployeeOvertime extends HttpServlet {
         if(start.isAfter(end) || start.equals(end)){
         request.setAttribute("LISTOVERTIME", list);
         request.setAttribute("DAY", date);  
+        request.setAttribute("CHECK", CHECK);  
         request.setAttribute("ERRORSTARTTIME", "error");
         request.getRequestDispatcher("ViewOvertimeByDay.jsp").forward(request, response);
         }
@@ -92,7 +93,7 @@ public class AddEmployeeOvertime extends HttpServlet {
             endPage = countPage / 10 + 1;
         }
         String EndPage = String.valueOf(endPage);
-        
+            request.setAttribute("CHECK", CHECK); 
             request.setAttribute("DAY", date);    
             request.setAttribute("STARTTIME", startTime);
             request.setAttribute("ENDTIME", endTime);
@@ -101,6 +102,7 @@ public class AddEmployeeOvertime extends HttpServlet {
             request.getRequestDispatcher("AddListEmployeeOvertime.jsp").forward(request, response);
         }
         else{
+            request.setAttribute("CHECK", CHECK); 
         request.setAttribute("LISTOVERTIME", list);
         request.setAttribute("DAY", date);       
         request.setAttribute("ERROROVERTIME", "Ca này đã tồn tại");
