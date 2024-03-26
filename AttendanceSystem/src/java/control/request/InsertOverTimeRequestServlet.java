@@ -38,12 +38,14 @@ public class InsertOverTimeRequestServlet extends HttpServlet {
      */
     private boolean isAcceptableTime(Time startTime, Time endTime) {
         Time currentTime = new Time(System.currentTimeMillis());
-        final Time fixedStartTime = Time.valueOf("0:00:00");
+        final Time fixedStartTime = Time.valueOf("00:00:00");
         final Time fixedEndTime = Time.valueOf("23:59:59");
 
-        if ((startTime.after(fixedStartTime) || startTime.equals(fixedStartTime)) 
-                && (endTime.before(fixedEndTime)||endTime.equals(fixedEndTime))) {
-            return true;
+        if (startTime.before(endTime)) {
+            if ((startTime.after(fixedStartTime) || startTime.equals(fixedStartTime))
+                    && (endTime.before(fixedEndTime) || endTime.equals(fixedEndTime))) {
+                return true;
+            }
         }
         return false;
     }
@@ -56,9 +58,7 @@ public class InsertOverTimeRequestServlet extends HttpServlet {
     public boolean isAcceptableDate(LocalDate date) {
         LocalDate currentDate = LocalDate.now();
         if (date.isAfter(currentDate) || date.isEqual(currentDate)) { //date >= current
-            if (date.isBefore(timeAfterNMonths(date, 1)) || date.isEqual(timeAfterNMonths(date, 1))) { //date<=current+1month (xu li don trong 1 thang toi)
-                return true;
-            }
+            return true;
         }
         return false;
     }
@@ -117,6 +117,9 @@ public class InsertOverTimeRequestServlet extends HttpServlet {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
+        System.out.println(startTime);
+        System.out.println(endTime);
+        System.out.println(isAcceptableTime(startTime, endTime));
         if (!isAcceptableTime(startTime, endTime)) {
             isErr = true;
             err.setInvalidTime_error("Khoảng thời gian không hợp lệ !");

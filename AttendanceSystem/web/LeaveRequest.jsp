@@ -165,7 +165,7 @@
         </style>
     </head>
     <body>
-         <%@include file="Sidebar.jsp" %>
+        <%@include file="Sidebar.jsp" %>
         <c:set var="listTpe" value="${requestScope.listType}" />
         <c:set var="account" value="${sessionScope.ACCOUNT}" />
         <c:set var="listDepartment" value="${requestScope.listDepartment}" />
@@ -219,9 +219,7 @@
                         <div id="leave-request">
                             <div class="request-policy">
                                 <p>Quy định ngày nghỉ : </p>
-                                <p>Năm: xử lý tối đa trong 1 năm tới.</p>
-                                <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
-                                <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
+                                <p>* Yêu cầu sẽ chỉ được chấp nhận kể từ thời điểm hiện tại.</p>
                             </div>
                             <div class="request-input-box">
                                 <span >Full Name: </span>
@@ -272,10 +270,10 @@
                                            >
                                 </div>
                                 <div class="request-input-box"
-                                 <c:if test="${err.getInvalidDate_error() !=null}">
-                                     style="margin-bottom: 20px;"
-                                 </c:if>
-                                 >
+                                     <c:if test="${err.getInvalidDate_error() !=null}">
+                                         style="margin-bottom: 20px;"
+                                     </c:if>
+                                     >
                                     <span style="color: red" >EndDate: </span>
                                     <input type="date" name="endDate" id="leave-endDate" required=""
                                            <c:if test="${endDate != null}">
