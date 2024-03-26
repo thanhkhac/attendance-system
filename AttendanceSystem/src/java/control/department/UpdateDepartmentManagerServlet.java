@@ -11,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.DepartmentDAO;
 
 /**
@@ -32,7 +33,7 @@ public class UpdateDepartmentManagerServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        HttpSession session = request.getSession();
         String msg = "";
         String departmentID = request.getParameter("departmentID");
         String managerID = request.getParameter("managerIDAssigned");
@@ -43,6 +44,7 @@ public class UpdateDepartmentManagerServlet extends HttpServlet {
         } else {
             msg = "Error During Process !";
         }
+        session.setAttribute("RequestAssignManager", null);
         request.setAttribute("msg", msg);
         request.getRequestDispatcher("DepartmentServlet").forward(request, response);
 

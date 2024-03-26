@@ -224,7 +224,7 @@
                                 <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
                             </div>
                             <div class="request-input-box">
-                                <span >Full Name (Tên tôi là): </span>
+                                <span >Full Name: </span>
                                 <input readonly type="text" name="fullName" id="name" value="${account.getLastName()} ${account.getMiddleName()} ${account.getFirstName()} ">
                             </div>
                             <div class="request-input-box">
@@ -232,11 +232,11 @@
                                 <input readonly type="text" name="email" id="email" value="${account.getEmail()}">
                             </div>
                             <div class="request-input-box">
-                                <span >Phone(Số Điện Thoại): </span>
+                                <span >Phone: </span>
                                 <input readonly type="text" name="phoneNumber" id="phoneNumber" value="${account.getPhoneNumber()}">
                             </div>
                             <div class="request-input-box">
-                                <span >Hiện Đang Là (Nhân Viên): </span>
+                                <span >Employee Type: </span>
                                 <c:forEach items="${listEmployeeType}" var="type">
                                     <c:if test="${account.getEmployeeTypeID() == type.getEmployeeTypeID()}">
                                         <input readonly type="text" name="employeeType" id="employeeType" 
@@ -245,7 +245,7 @@
                                 </c:forEach>
                             </div>
                             <div class="request-input-box">
-                                <span >Công Tác Tại (Phòng / Ban): </span>
+                                <span >Department: </span>
                                 <c:forEach items="${listDepartment}" var="de">
                                     <c:if test="${account.getDepartmentID() == de.getDepartmentID()}">
                                         <input readonly type="text" name="department" id="department" 
@@ -254,7 +254,7 @@
                                 </c:forEach>
                             </div>
                             <div class="request-input-box">
-                                <span >Với Vai Trò Là (Chức Vụ): </span>
+                                <span >Role: </span>
                                 <c:forEach items="${listRole}" var="r">
                                     <c:if test="${account.getRoleID() == r.getRoleID()}">
                                         <input readonly type="text" name="role" id="role" 
@@ -264,7 +264,7 @@
                             </div>
                             <div>
                                 <div class="request-input-box">
-                                    <span style="color: red">StartDate (Từ Ngày): </span>
+                                    <span style="color: red">StartDate: </span>
                                     <input type="date" name="startDate" id="leave-startDate" required=""
                                            <c:if test="${startDate != null}">
                                                value="${startDate}"
@@ -276,7 +276,7 @@
                                      style="margin-bottom: 20px;"
                                  </c:if>
                                  >
-                                    <span style="color: red" >EndDate (Đến Ngày): </span>
+                                    <span style="color: red" >EndDate: </span>
                                     <input type="date" name="endDate" id="leave-endDate" required=""
                                            <c:if test="${endDate != null}">
                                                value="${endDate}"
@@ -290,7 +290,7 @@
                                 </c:if>
                             </div>
                             <div class="request-input-box" style="margin-top: 50px;">
-                                <span style="color: red" >Reason (Lý do): </span>
+                                <span style="color: red" >Reason: </span>
                                 <c:if test="${reason.length()>0}">
                                     <textarea 
                                         name="reason" 
@@ -315,7 +315,7 @@
                                 </c:if>
                             </div>
                             <div class="content-request-file">
-                                <span class="body-span">File đính kèm (nếu có):</span>
+                                <span class="body-span">Attach File:</span>
                                 <input type="file" name="file" id="leave-file">
                             </div>
                             <input onclick="checkInfor()" class="btn btn-success" type="submit" name="btAction" value="Gửi">

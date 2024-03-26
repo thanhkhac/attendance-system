@@ -38,8 +38,8 @@ public class InsertOverTimeRequestServlet extends HttpServlet {
      */
     private boolean isAcceptableTime(Time startTime, Time endTime) {
         Time currentTime = new Time(System.currentTimeMillis());
-        final Time fixedStartTime = Time.valueOf("07:30:00");
-        final Time fixedEndTime = Time.valueOf("20:00:00");
+        final Time fixedStartTime = Time.valueOf("0:00:00");
+        final Time fixedEndTime = Time.valueOf("23:59:59");
 
         if ((startTime.after(fixedStartTime) || startTime.equals(fixedStartTime)) 
                 && (endTime.before(fixedEndTime)||endTime.equals(fixedEndTime))) {

@@ -74,7 +74,8 @@
                 margin-left: 150px;
             }
             .form-output p{
-                color: blue;
+                color: green;
+                font-weight: 600
             }
             .err{
                 color: red;
@@ -440,7 +441,7 @@
                                     </div>
                                     <div class="form-output">
                                         <c:if test="${msg!=null}" >
-                                            <p class="sucess">${msg}</p>
+                                            <p>${msg}</p>
                                         </c:if>
                                     </div>
                                 </div>

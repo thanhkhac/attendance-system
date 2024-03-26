@@ -33,7 +33,17 @@ public class GetAllEmployeeByHRServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         EmployeeDAO dao = new EmployeeDAO();
+        DepartmentDAO deDao = new DepartmentDAO();
+        EmployeeTypeDAO employeeTypeDao = new EmployeeTypeDAO();
+        RoleDAO roleDao = new RoleDAO();
+        ArrayList<DepartmentDTO> listDepartment = deDao.getListDepartment();
+        ArrayList<EmployeeTypeDTO> listEmType = employeeTypeDao.getEmployeeTypeList();
+        ArrayList<RoleDTO> listRole = roleDao.getRoleList();
         ArrayList<EmployeeGeneral> list = dao.getEmployeeInfo();
+
+        request.setAttribute("departments", listDepartment);
+        request.setAttribute("types", listEmType);
+        request.setAttribute("roles", listRole);
         request.setAttribute("List", list);
         request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);
 
