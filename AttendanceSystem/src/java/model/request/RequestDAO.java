@@ -101,18 +101,7 @@ public class RequestDAO extends DAOBase {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                RequestDTO request = new RequestDTO();
-                request.setRequestID(rs.getInt("RequestID"));
-                request.setEmployeeID(rs.getInt("EmployeeID"));
-                request.setTitle(rs.getString("Title"));
-                request.setSentDate(rs.getTimestamp("SentDate").toLocalDateTime());
-                request.setTypeID(rs.getInt("TypeID"));
-                request.setContent(rs.getNString("Content"));
-                request.setFilePath((String) rs.getObject("FilePath"));
-                request.setStatus((Boolean) rs.getObject("Status"));
-                request.setProcessNote((String) rs.getObject("ProcessNote"));
-                request.setRespondedBy((Integer) rs.getObject("ResponedBy"));
-                requests.add(request);
+                requests.add(getRequestDTO(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -120,6 +109,50 @@ public class RequestDAO extends DAOBase {
             closeAll();
         }
         return requests;
+    }
+
+    public ArrayList<RequestDTO> getSentRequests(int startRowIndex, int endRowIndex, int employeeId) {
+        ArrayList<RequestDTO> requests = new ArrayList<>();
+        connect();
+        try {
+            String sql = "SELECT * " +
+                    "FROM Requests " +
+                    "WHERE EmployeeID = ? " +
+                    "ORDER BY SentDate DESC " +
+                    "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, employeeId);
+            ps.setInt(2, startRowIndex);
+            ps.setInt(3, endRowIndex);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                requests.add(getRequestDTO(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return requests;
+    }
+    
+        public int getNumberOfSentRequests(int employeeId) {
+        connect();
+        int numberOfRequests = 0;
+        try {
+            String sql = "SELECT COUNT(*) AS NumberOfRequests FROM Requests WHERE employeeId = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, employeeId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                numberOfRequests = rs.getInt("NumberOfRequests");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeAll();
+        }
+        return numberOfRequests;
     }
 
     public RequestDTO getRequestByID(int id) {
@@ -182,33 +215,26 @@ public class RequestDAO extends DAOBase {
     }
 
     public static void main(String[] args) {
-        // Thiết lập các chỉ số hàng bắt đầu và kết thúc cho việc truy vấn
-        int startRowIndex = 1; // Chỉ số hàng bắt đầu
-        int endRowIndex = 10; // Chỉ số hàng kết thúc
+        int startRowIndex = 1;
+        int endRowIndex = 10;
 
-        // Khởi tạo đối tượng thực hiện việc lấy dữ liệu từ cơ sở dữ liệu
         RequestDAO requestDAO = new RequestDAO();
 
-        // Gọi phương thức để lấy danh sách các yêu cầu từ cơ sở dữ liệu
         ArrayList<RequestDTO> requests = requestDAO.getRequests(startRowIndex, endRowIndex);
 
-        // In thông tin các yêu cầu ra màn hình
         for (RequestDTO request : requests) {
             System.out.println(request);
         }
 
         System.out.println(requestDAO.getRequestByID(1));
 
-        // Tạo một đối tượng RequestDTO để chèn vào cơ sở dữ liệu
         RequestDTO requestToInsert = new RequestDTO();
-        requestToInsert.setEmployeeID(2); // Thiết lập EmployeeID
-        requestToInsert.setTitle("Test Request"); // Thiết lập Title
-        requestToInsert.setTypeID(1); // Thiết lập TypeID
-        requestToInsert.setContent("Test content"); // Thiết lập Content
-        requestToInsert.setFilePath("/path/to/file"); // Thiết lập FilePath
+        requestToInsert.setEmployeeID(2);
+        requestToInsert.setTitle("Test Request");
+        requestToInsert.setTypeID(1);
+        requestToInsert.setContent("Test content");
+        requestToInsert.setFilePath("/path/to/file");
 
-        // Tạo một đối tượng RequestDAO để thực hiện việc chèn dữ liệu
-        // Thực hiện chèn dữ liệu và kiểm tra kết quả
         int insertResult = requestDAO.insert(requestToInsert);
         if (insertResult > 0) {
             System.out.println("Insert successful");
@@ -216,20 +242,18 @@ public class RequestDAO extends DAOBase {
             System.out.println("Insert failed");
         }
 
-        // Tạo một đối tượng RequestDTO để cập nhật vào cơ sở dữ liệu
         RequestDTO requestToUpdate = new RequestDTO();
-        requestToUpdate.setRequestID(1); // Thiết lập RequestID của yêu cầu cần cập nhật
-        requestToUpdate.setEmployeeID(1); // Thiết lập EmployeeID mới
-        requestToUpdate.setSentDate(LocalDateTime.now()); // Thiết lập EmployeeID mới
-        requestToUpdate.setTitle("Updated Title"); // Thiết lập Title mới
-        requestToUpdate.setTypeID(2); // Thiết lập TypeID mới
-        requestToUpdate.setContent("Updated content"); // Thiết lập Content mới
-        requestToUpdate.setFilePath("/updated/path/to/file"); // Thiết lập FilePath mới
-        requestToUpdate.setStatus(true); // Thiết lập Status mới
-        requestToUpdate.setProcessNote("Updated process note"); // Thiết lập ProcessNote mới
-        requestToUpdate.setRespondedBy(1); // Thiết lập RespondedBy mới
+        requestToUpdate.setRequestID(1);
+        requestToUpdate.setEmployeeID(1);
+        requestToUpdate.setSentDate(LocalDateTime.now());
+        requestToUpdate.setTitle("Updated Title");
+        requestToUpdate.setTypeID(2);
+        requestToUpdate.setContent("Updated content");
+        requestToUpdate.setFilePath("/updated/path/to/file");
+        requestToUpdate.setStatus(true);
+        requestToUpdate.setProcessNote("Updated process note");
+        requestToUpdate.setRespondedBy(1);
 
-        // Thực hiện cập nhật dữ liệu và kiểm tra kết quả
         int updateResult = requestDAO.update(requestToUpdate);
         if (updateResult > 0) {
             System.out.println("Update successful");

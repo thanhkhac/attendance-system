@@ -158,6 +158,7 @@
                 <div class="text-center">
                     <h1 style="margin: 30px">Đơn Làm Ngoài Giờ đã gửi</h1>
                 </div>
+                
                 <div class="content-request">
                     <div class="content-request-type">
                         <label for="request-type">Loại đơn: </label>
@@ -165,6 +166,7 @@
                             <option value="">Chọn Loại Đơn</option>
                             <option value="ViewSentLeaveRequest.jsp">Đơn nghỉ phép</option>
                             <option value="ViewSentOvertimeRequest.jsp">Đơn làm ngoài giờ</option>
+                            <option value="ViewSentOtherRequest">Đơn khác</option>
                         </select>
                     </div>
                 </div>
