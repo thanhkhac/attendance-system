@@ -12,10 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
-import model.DepartmentDAO;
-import model.DepartmentDTO;
-import model.EmployeeDAO;
-import model.EmployeeGeneral;
+import model.*;
 
 /**
  *
@@ -40,16 +37,23 @@ public class SendRequestAssignServlet extends HttpServlet {
         HttpSession session = request.getSession();
         EmployeeDAO Emdao = new EmployeeDAO();
         DepartmentDAO Dedao = new DepartmentDAO();
+        EmployeeTypeDAO employeeTypeDao = new EmployeeTypeDAO();
+        RoleDAO roleDao = new RoleDAO();
         DepartmentDTO department = new DepartmentDTO();
         try {
-            //dddd
             int departmentID = Integer.parseInt(txt_departmentID);
             department = Dedao.getDepartmentById(departmentID);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         ArrayList<EmployeeGeneral> list = Emdao.getEmployeeInfo();
+        ArrayList<DepartmentDTO> listDepartment = Dedao.getListDepartment();
+        ArrayList<EmployeeTypeDTO> listEmType = employeeTypeDao.getEmployeeTypeList();
+        ArrayList<RoleDTO> listRole = roleDao.getRoleList();
         request.setAttribute("List", list);
+        request.setAttribute("departments", listDepartment);
+        request.setAttribute("types", listEmType);
+        request.setAttribute("roles", listRole);
         //RequestAssignManager = departmentID
         session.setAttribute("RequestAssignManager", department);
         request.getRequestDispatcher("ViewAllEmployee.jsp").forward(request, response);

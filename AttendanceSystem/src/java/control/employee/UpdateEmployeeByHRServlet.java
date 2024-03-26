@@ -144,10 +144,10 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             request.setAttribute("txt_birthDate", txt_birthday);
 
         }
-        if (txt_typeID.equals("3") && !txt_roleID.equals("1")) {
-            msg = "Vai trò hiện tại không thể giao cho nhân viên Intern !";
-            isErr = true;
-        }
+//        if (txt_typeID.equals("3") && !txt_roleID.equals("1")) {
+//            msg = "Vai trò hiện tại không thể giao cho nhân viên Intern !";
+//            isErr = true;
+//        }
         if (!isErr) {
             boolean rs = dao.UpdateEmployeeByHR(txt_firstName, txt_middleName, txt_lastName,
                     gender, txt_cccd, txt_phoneNumber, txt_email, txt_password,

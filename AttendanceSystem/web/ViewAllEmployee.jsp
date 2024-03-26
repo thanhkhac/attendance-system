@@ -354,6 +354,9 @@
     <body>
 
         <c:set var="List" value="${requestScope.List}" />
+        <c:set var="departments" value="${requestScope.departments}" />
+        <c:set var="types" value="${requestScope.types}" />
+        <c:set var="roles" value="${requestScope.roles}" />
         <!--RequestAssignManager = departmentID-->
         <c:set var="RequestAssignManager" value="${sessionScope.RequestAssignManager}" />
         <%@include file="Sidebar.jsp" %>
@@ -378,8 +381,9 @@
                         <select class="form-select" 
                                 id="txtDepartment">
                             <option value="0">Mặc Định</option>
-                            <option value="1">HR</option>
-                            <option value="2">Marketing</option>
+                            <c:forEach items="${departments}" var="d">
+                                <option value="${d.getDepartmentID()}">${d.getName()}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="input-group mb-3 select-bar">
@@ -387,9 +391,9 @@
                         <select class="form-select" 
                                 id="txtType">
                             <option value="0">Mặc Định</option>
-                            <option value="1">Part-Time</option>
-                            <option value="2">Full-Time</option>
-                            <option value="3">Intern</option>
+                            <c:forEach items="${types}" var="et">
+                                <option value="${et.getEmployeeTypeID()}">${et.getName()}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <div class="input-group mb-3 select-bar">
@@ -481,66 +485,66 @@
 
         <!--<script src="assets/Bootstrap5/js/bootstrap.min.js"></script>-->
         <script>
-                        function confirmation(employee) {
-                            event.stopPropagation();
-                            const departmentID = document.getElementById("requestDepartmentID").value;
-                            const departmentName = document.getElementById("requestDepartmentName").value;
-                            const employeeData = employee.value;
-                            let arrEmployeeData = employeeData.split("-");
-                            const assignedManagerID = arrEmployeeData[0];
-                            const employeeName = arrEmployeeData[1];
+            function confirmation(employee) {
+                event.stopPropagation();
+                const departmentID = document.getElementById("requestDepartmentID").value;
+                const departmentName = document.getElementById("requestDepartmentName").value;
+                const employeeData = employee.value;
+                let arrEmployeeData = employeeData.split("-");
+                const assignedManagerID = arrEmployeeData[0];
+                const employeeName = arrEmployeeData[1];
 
 //                            console.log("Value: deID: " + departmentID + ", assign: " + assignedManagerID);
-                            if ((departmentID !== null && departmentID !== '') && (assignedManagerID !== null && assignedManagerID !== '')) {
-                                var confirmation = confirm("Assign Employee: " + employeeName + " as Quản lý : " + departmentName);
-                                if (confirmation) {
+                if ((departmentID !== null && departmentID !== '') && (assignedManagerID !== null && assignedManagerID !== '')) {
+                    var confirmation = confirm("Assign Employee: " + employeeName + " as Quản lý : " + departmentName);
+                    if (confirmation) {
 //                                    console.log(departmentID + " - " + assignedManagerID);
 
-                                    window.location.href = "/AttendanceSystem/DispatchController?btAction=Assign&departmentID=" + departmentID + "&managerIDAssigned=" + assignedManagerID;
-                                } else {
-                                    alert("Cancelled!");
-                                }
-                            }
-                        }
+                        window.location.href = "/AttendanceSystem/DispatchController?btAction=Assign&departmentID=" + departmentID + "&managerIDAssigned=" + assignedManagerID;
+                    } else {
+                        alert("Cancelled!");
+                    }
+                }
+            }
 
-                        function check() {
-                            console.log("hi");
-                        }
-                        document.addEventListener("DOMContentLoaded", function () {
-                            const employeeRows = document.querySelectorAll(".employeeRow");
-                            employeeRows.forEach((row) => {
-                                row.addEventListener("click", function () {
-                                    const id = row.getAttribute("data-employee-id");
-                                    const firstName = row.cells[3].innerText;
-                                    const middleName = row.cells[2].innerText;
-                                    const lastName = row.cells[1].innerText;
-                                    const email = row.cells[4].innerText;
-                                    const gender = row.cells[5].innerText;
-                                    const birthDate = row.cells[6].innerText;
-                                    const cccd = row.cells[7].innerText;
-                                    const phoneNumber = row.cells[8].innerText;
-                                    const employeeType = row.cells[9].innerText;
-                                    const department = row.cells[10].innerText;
-                                    const role = row.cells[11].innerText;
-                                    const startDate = row.cells[12].innerText;
-                                    const endDate = row.cells[13].innerText;
-                                    console.log("Clicked row:", id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
-                                    displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
-                                });
-                            });
-                        });
-                        function displayPopup(id, firstName, middleName,
-                                lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate) {
-                            const fullName = lastName + " " + middleName + " " + firstName;
-                            const popup = document.getElementById("popup");
-                            const popupTitle = document.getElementById("popupTitle");
-                            const popupBody = document.getElementById("popupBody");
-                            const popupInfo = document.getElementById("popupInfo");
-                            popupInfo.innerHTML = `<h2>\${fullName}</h2>
+            function check() {
+                console.log("hi");
+            }
+            document.addEventListener("DOMContentLoaded", function () {
+                const employeeRows = document.querySelectorAll(".employeeRow");
+                employeeRows.forEach((row) => {
+                    row.addEventListener("click", function () {
+                        const id = row.getAttribute("data-employee-id");
+                        const firstName = row.cells[3].innerText;
+                        const middleName = row.cells[2].innerText;
+                        const lastName = row.cells[1].innerText;
+                        const email = row.cells[4].innerText;
+                        const gender = row.cells[5].innerText;
+                        const birthDate = row.cells[6].innerText;
+                        const cccd = row.cells[7].innerText;
+                        const phoneNumber = row.cells[8].innerText;
+                        const employeeType = row.cells[9].innerText;
+                        const department = row.cells[10].innerText;
+                        const role = row.cells[11].innerText;
+                        const startDate = row.cells[12].innerText;
+                        const endDate = row.cells[13].innerText;
+                        console.log("Clicked row:", id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
+                        displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
+                    });
+                });
+            });
+            function displayPopup(id, firstName, middleName,
+                    lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate) {
+                const fullName = lastName + " " + middleName + " " + firstName;
+                const popup = document.getElementById("popup");
+                const popupTitle = document.getElementById("popupTitle");
+                const popupBody = document.getElementById("popupBody");
+                const popupInfo = document.getElementById("popupInfo");
+                popupInfo.innerHTML = `<h2>\${fullName}</h2>
                                                    <h4>\${department}</h4>
                                                    <h4>\${role}</h4>
                                                    <h4>\${employeeType}</h4> `;
-                            popupBody.innerHTML = `<div class="popupBody-container">
+                popupBody.innerHTML = `<div class="popupBody-container">
                                                         <h3 class="popupBody-title">Employee Information</h3>
                                                         <div class="popupBody-content">
                                                             <div class="popupBody-content-left">
@@ -599,62 +603,62 @@
                                                             </div>
                                                         </div>
                                                    </div> `;
-                            popup.style.display = "block";
+                popup.style.display = "block";
 //                            console.log("Data: ", id,fullName, email, gender, birthDate, cccd, phoneNumber);
-                        }
-                        function closePopup() {
-                            const popup = document.getElementById("popup");
-                            popup.style.display = "none";
-                        }
-                        function searchByChange(event) {
-                            event.preventDefault();
-                            var txt_Search = document.getElementById("txtSearchValue").value;
-                            var txt_Department = document.getElementById("txtDepartment").value;
-                            var txt_Type = document.getElementById("txtType").value;
-                            var txt_Order = document.getElementById("txtOrder").value;
-                            console.log("Value: " + txt_Search + ", " + txt_Department + ", " + txt_Type + ", " + txt_Order);
-                            $.ajax({
-                                url: "/AttendanceSystem/ViewAllEmployeeAjax",
-                                type: "get", //send it through get method
-                                data: {
-                                    txtSearchValue: txt_Search,
-                                    txtDepartment: txt_Department,
-                                    txtType: txt_Type,
-                                    txtOrder: txt_Order
-                                },
-                                success: function (data) {
-                                    var tbody = document.getElementById("table-container");
-                                    tbody.innerHTML = data;
-                                    console.log("Success ! ");
-                                    initializePopup();
-                                },
-                                error: function (xhr, error) {
-                                    console.log("Error: ", error);
-                                }
-                            });
-                        }
-                        function initializePopup() {
-                            document.querySelectorAll('#table-container tr').forEach(function (row) {
-                                row.addEventListener('click', function () {
-                                    const id = row.getAttribute("data-employee-id");
-                                    const firstName = row.cells[3].innerText;
-                                    const middleName = row.cells[2].innerText;
-                                    const lastName = row.cells[1].innerText;
-                                    const email = row.cells[4].innerText;
-                                    const gender = row.cells[5].innerText;
-                                    const birthDate = row.cells[6].innerText;
-                                    const cccd = row.cells[7].innerText;
-                                    const phoneNumber = row.cells[8].innerText;
-                                    const employeeType = row.cells[9].innerText;
-                                    const department = row.cells[10].innerText;
-                                    const role = row.cells[11].innerText;
-                                    const startDate = row.cells[12].innerText;
-                                    const endDate = row.cells[13].innerText;
+            }
+            function closePopup() {
+                const popup = document.getElementById("popup");
+                popup.style.display = "none";
+            }
+            function searchByChange(event) {
+                event.preventDefault();
+                var txt_Search = document.getElementById("txtSearchValue").value;
+                var txt_Department = document.getElementById("txtDepartment").value;
+                var txt_Type = document.getElementById("txtType").value;
+                var txt_Order = document.getElementById("txtOrder").value;
+                console.log("Value: " + txt_Search + ", " + txt_Department + ", " + txt_Type + ", " + txt_Order);
+                $.ajax({
+                    url: "/AttendanceSystem/ViewAllEmployeeAjax",
+                    type: "get", //send it through get method
+                    data: {
+                        txtSearchValue: txt_Search,
+                        txtDepartment: txt_Department,
+                        txtType: txt_Type,
+                        txtOrder: txt_Order
+                    },
+                    success: function (data) {
+                        var tbody = document.getElementById("table-container");
+                        tbody.innerHTML = data;
+                        console.log("Success ! ");
+                        initializePopup();
+                    },
+                    error: function (xhr, error) {
+                        console.log("Error: ", error);
+                    }
+                });
+            }
+            function initializePopup() {
+                document.querySelectorAll('#table-container tr').forEach(function (row) {
+                    row.addEventListener('click', function () {
+                        const id = row.getAttribute("data-employee-id");
+                        const firstName = row.cells[3].innerText;
+                        const middleName = row.cells[2].innerText;
+                        const lastName = row.cells[1].innerText;
+                        const email = row.cells[4].innerText;
+                        const gender = row.cells[5].innerText;
+                        const birthDate = row.cells[6].innerText;
+                        const cccd = row.cells[7].innerText;
+                        const phoneNumber = row.cells[8].innerText;
+                        const employeeType = row.cells[9].innerText;
+                        const department = row.cells[10].innerText;
+                        const role = row.cells[11].innerText;
+                        const startDate = row.cells[12].innerText;
+                        const endDate = row.cells[13].innerText;
 
-                                    displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
-                                });
-                            });
-                        }
+                        displayPopup(id, firstName, middleName, lastName, email, gender, birthDate, cccd, phoneNumber, employeeType, department, role, startDate, endDate);
+                    });
+                });
+            }
 
         </script>
     </body>
