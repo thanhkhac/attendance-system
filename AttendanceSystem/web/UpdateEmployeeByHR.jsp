@@ -134,7 +134,7 @@
                     <div class="card mb-4 mt-4">
                         <div class="card-header">Employee Information</div>
                         <div class="card-body">
-                            <form action="DispatchController" method="Post">
+                            <form action="UpdateEmployeeByHRServlet" method="Post">
 
                                 <!-- Form Row-->
                                 <div class="row gx-3 mb-3">
@@ -433,10 +433,10 @@
                                     <div class="form-output-button">
                                         <input type="hidden" name="txt_employeeID" value="${Employee.getEmployeeID()}">
                                         <input
-                                            class="btn btn-primary"
+                                            class="btn btn-success"
                                             type="submit"
                                             name="btAction"
-                                            value="Lưu Thay Đổi"
+                                            value="Save Changes"
                                             />
                                     </div>
                                     <div class="form-output">
