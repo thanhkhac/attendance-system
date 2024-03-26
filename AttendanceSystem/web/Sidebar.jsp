@@ -38,7 +38,7 @@
         request.setAttribute("departments", departments);
     %>
     <body>
-         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
+        <c:set var="account" value="${sessionScope.ACCOUNT}"/>
         <div class="w3-sidebar w3-bar-block xSidebar fs-6" id="mySidebar">
             <button class="w-100 w3-button closebutton text-white" onclick="w3_close()">&#9776;</button>
             <div  class="w3-bar-item  fw-bold text-white" style="background-color: #4096F1">
@@ -50,7 +50,7 @@
                         <div>
                             <div class="dropdown">
                                 <div style="cursor: pointer" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                                   
+
                                     ${account.lastName} ${account.middleName} ${account.firstName}
                                 </div>
                                 <ul class="dropdown-menu">
@@ -124,10 +124,12 @@
             </a>
 
             <div class="collapse ps-4" id="submenu6">
-                <a href="GetEmployeeStatisticsServlet" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu</a>
-                 <a href="GetAllNewsByHR" class="w3-bar-item w3-button fw-bold  text-white">Quản lý tin tức</a>
+                <a href="GetEmployeeStatisticsServlet" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu cá nhân</a>
+                <a href="DownloadWorkSheet" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu cá nhân</a>
+
+                <a href="GetAllNewsByHR" class="w3-bar-item w3-button fw-bold  text-white">Quản lý tin tức</a>
             </div>
-            
+
 
 
 

@@ -29,13 +29,11 @@ Attendance System is a comprehensive web application designed to streamline the 
     - Submit leave requests.
     - Process leave requests.
 
-5. **Real-time Chat**
-
-6. **News:**
+5. **News:**
     - Post, update, and delete news articles.
     - Comment on news articles.
 
-7. **Statistics:**
+6. **Statistics:**
     - View timekeeping statistics.
     - Export data to an Excel file.
 
