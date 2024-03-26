@@ -153,7 +153,7 @@
     <body>
         <div>
             <div class="content">
-                <h1>Thông Báo</h1>
+                <%--<h1>Thông Báo</h1>--%>
                 <div class="content-redirect">
                     <p><a href="HomePage.jsp">Trang chủ</a> | Duyệt đơn nghỉ phép</p>
                 </div>
