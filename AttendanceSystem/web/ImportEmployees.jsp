@@ -36,8 +36,11 @@
                 font-size: large;
             }
             .modal-custom-size{
-                min-width: 1200px;
+                min-width: 1250px;
                 height: auto;
+            }
+            .information-items{
+                margin-bottom: 10px;
             }
             .information-items label{
                 min-width: 100px;
@@ -50,6 +53,12 @@
             }
             .modal-label{
                 margin-top: 15px;
+            }
+            .modal-body{
+                width: 100%;
+            }
+            .updated{
+                background-color: #d4edda;
             }
 
             /*            #err-pagination-container
@@ -303,9 +312,9 @@
                                                 <form 
                                                     action="UpdateTempEmployeeServlet"
                                                     id="update-form-${e.getEmployeeID()}"
-                                                    class="update-forms"
-                                                    class="row g-3">
-                                                    <div class="information-items" style="max-width: 350px; margin-left: 10px">
+                                                    class="update-forms row g-3"
+                                                    >
+                                                    <div class="information-items" style="max-width: 350px; margin-left: 30px">
                                                         <input type="hidden" name="tmpID" value="${e.getEmployeeID()}">
                                                         <label class="modal-label">Last Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})" id="lastName-${e.getEmployeeID()}" type="text" name="lastName" value="${e.getLastName()}"><br>
                                                         <label class="modal-label">Middle Name</label><input oninput="checkByChange(event,${e.getEmployeeID()})"  id="middleName-${e.getEmployeeID()}" type="text" name="middleName" value="${e.getMiddleName()}"><br>
@@ -358,6 +367,7 @@
                                                     <div class="information-items"  style="max-width: 350px;">
                                                         <label class="modal-label">StartDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="startDate-${e.getEmployeeID()}" type="date" name="StartDate" value="${e.getStartDate()}" max="2099-01-01"><br>
                                                         <label class="modal-label">EndDate</label><input  onchange="checkByChange(event, ${e.getEmployeeID()})"  id="endDate-${e.getEmployeeID()}" type="date" name="EndDate" value="${e.getEndDate()}" max="2099-01-01"><br>
+                                                        <button style="margin-top: 20px" class="btn btn-danger" onclick="checkByChange(event, ${e.getEmployeeID()})">Check</button>
                                                     </div>
                                                 </form>
                                             </div>

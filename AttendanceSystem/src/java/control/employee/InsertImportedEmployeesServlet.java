@@ -36,6 +36,61 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
      */
     private final DateTimeUtil DATE_UTIL = new DateTimeUtil();
 
+    private boolean isErrorEmployee(EmployeeDTO e) {
+        boolean isErr = false;
+        EmployeeDAO emDAO = new EmployeeDAO();
+        String regexName = "^[^\\d\\p{Punct}]+$";
+        if (e.getFirstName() == null
+                || e.getMiddleName() == null
+                || e.getLastName() == null) {
+            isErr = true;
+        } else if (e.getFirstName().length() <= 0
+                || e.getMiddleName().length() <= 0
+                || e.getLastName().length() <= 0) {
+            isErr = true;
+        } else if (!e.getFirstName().matches(regexName)
+                || !e.getMiddleName().matches(regexName)
+                || !e.getLastName().matches(regexName)) {
+            isErr = true;
+        }
+        if (!e.getCccd().matches("^0\\d{11}$")
+                || e.getCccd() == null
+                || e.getCccd().equals(emDAO.getCCCD(e.getCccd()))) {
+            isErr = true;
+        }
+        if (!e.getPhoneNumber().matches("^0\\d{9}$")
+                || e.getPhoneNumber() == null
+                || e.getPhoneNumber().equals(emDAO.getPhonenumber(e.getPhoneNumber()))) {
+            isErr = true;
+        }
+        if (!e.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+                || e.getEmail() == null
+                || e.getEmail().equals(emDAO.getEmail(e.getEmail()))) {
+            isErr = true;
+        }
+        if (!e.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d\\s])[A-Za-z\\d@$!%*?&.,]{6,16}$")
+                || e.getPassword() == null) {
+            isErr = true;
+        }
+        if (e.getBirthDate() != null) {
+            if (LocalDate.now().getYear() - e.getBirthDate().getYear() < 18
+                    || LocalDate.now().getYear() - e.getBirthDate().getYear() < 0) {
+                isErr = true;
+            }
+        } else {
+            isErr = true;
+        }
+        if (e.getStartDate() != null && e.getEndDate() != null) {
+            if (e.getStartDate().after(e.getEndDate())) {
+                isErr = true;
+            }
+        } else {
+            isErr = true;
+        }
+
+        return isErr;
+    }
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -43,35 +98,42 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
         ArrayList<EmployeeDTO> employees = (ArrayList<EmployeeDTO>) session.getAttribute("employees");
         ArrayList<EmployeeDTO> isAcceptable = (ArrayList<EmployeeDTO>) session.getAttribute("isAcceptable");
         ArrayList<EmployeeDTO> isError = (ArrayList<EmployeeDTO>) session.getAttribute("isError");
-
+        if (isError == null) {
+            isError = new ArrayList<>();
+        }
         ArrayList<EmployeeDTO> employees_inserted = new ArrayList<>();
 
         EmployeeDAO emDAO = new EmployeeDAO();
 
         int count = 0;
+        int countErr = 0;
         try {
             for (EmployeeDTO e : employees) {
                 employees_inserted.add(e);
             }
 
             for (EmployeeDTO e : isAcceptable) {
-                boolean rs = emDAO.insertEmployee(
-                        e.getFirstName(), e.getMiddleName(), e.getLastName(), e.getGender(),
-                        DATE_UTIL.parseSqlDate(e.getBirthDate()), e.getEmail(), e.getPassword(), e.getCccd(), e.getPhoneNumber(),
-                        e.getEmployeeTypeID(), e.getDepartmentID(), e.getRoleID(), DATE_UTIL.parseSqlDate(e.getStartDate()),
-                        DATE_UTIL.parseSqlDate(e.getEndDate()), false);
-                if (rs) {
-                    count++;
+                if (isErrorEmployee(e)) {
+                    isError.add(e);
+                    countErr++;
+                } else {
+                    boolean rs = emDAO.insertEmployee(
+                            e.getFirstName(), e.getMiddleName(), e.getLastName(), e.getGender(),
+                            DATE_UTIL.parseSqlDate(e.getBirthDate()), e.getEmail(), e.getPassword(), e.getCccd(), e.getPhoneNumber(),
+                            e.getEmployeeTypeID(), e.getDepartmentID(), e.getRoleID(), DATE_UTIL.parseSqlDate(e.getStartDate()),
+                            DATE_UTIL.parseSqlDate(e.getEndDate()), false);
+                    if (rs) {
+                        employees_inserted.remove(e);
+                        count++;
+                    }
                 }
             }
-//            if (isError.size() > 0) {
-//                for (EmployeeDTO e : isError) {
-//                    employees_inserted.add(e);
+
+//            for (EmployeeDTO e : isAcceptable) {
+//                if (!isErrorEmployee(e)) {
+//                    employees_inserted.remove(e);
 //                }
 //            }
-            for (EmployeeDTO e : isAcceptable) {
-                employees_inserted.remove(e);
-            }
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -79,7 +141,10 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
         }
         session.setAttribute("employees", employees_inserted);
         session.setAttribute("isAcceptable", null);
-        request.setAttribute("SuccessMSG", "Inserted [" + count + "] Employee Successfully !");
+        session.setAttribute("isError", isError);
+        request.setAttribute("SuccessMSG", "Inserted [" + count + "] employee Successfully \n"
+                + "and found [" + countErr + "] employees error while inserting !");
+
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
 
     }

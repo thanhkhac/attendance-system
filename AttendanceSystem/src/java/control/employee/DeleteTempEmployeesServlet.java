@@ -41,8 +41,11 @@ public class DeleteTempEmployeesServlet extends HttpServlet {
         ArrayList<EmployeeDTO> isError_deleted = new ArrayList<>();
         ArrayList<EmployeeDTO> employees_deleted = new ArrayList<>();
 
-        for (EmployeeDTO e : isAcceptable) {
+        for (EmployeeDTO e : employees) {
             employees_deleted.add(e);
+        }
+        for(EmployeeDTO e: isError){
+            employees_deleted.remove(e);
         }
 
         session.setAttribute("employees", employees_deleted);
