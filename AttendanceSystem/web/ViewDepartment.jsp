@@ -62,6 +62,14 @@
                     Duplicate department name. Please choose a different name.
                 </div>
             </c:if>
+            
+            <!-- Display cannot delete -->
+            <c:if test="${requestScope.cannotDelete}">
+                <div class="alert alert-danger" role="alert">
+                    This department cannot be deleted because it contains employees.
+                </div>
+            </c:if>
+
 
 
             <!-- Search Department -->

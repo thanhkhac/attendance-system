@@ -92,7 +92,18 @@ public class DepartmentController extends HttpServlet {
     private List<DepartmentDTO> delete(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         int departmentId = Integer.parseInt(request.getParameter("id"));
-        boolean isDelete = departmentDAO.deleteById(departmentId);
+
+        // Kiểm tra xem phòng ban có chứa nhân viên không
+        boolean hasEmployees = departmentDAO.hasEmployees(departmentId);
+
+        if (hasEmployees) {
+            // Nếu có, đặt thuộc tính cannotDelete là true
+            request.setAttribute("cannotDelete", true);
+        } else {
+            // Nếu không, tiến hành xóa phòng ban
+            boolean isDelete = departmentDAO.deleteById(departmentId);
+        }
+
         return departmentDAO.getListDepartment();
     }
 
