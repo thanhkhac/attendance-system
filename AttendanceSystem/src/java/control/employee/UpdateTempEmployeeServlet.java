@@ -50,7 +50,7 @@ public class UpdateTempEmployeeServlet extends HttpServlet {
         return null;
     }
 
-    private boolean isExit(ArrayList<EmployeeDTO> employee, int id) {
+    private boolean isExist(ArrayList<EmployeeDTO> employee, int id) {
         for (EmployeeDTO e : employee) {
             if (e.getEmployeeID() == id) {
                 return true;
@@ -182,7 +182,7 @@ public class UpdateTempEmployeeServlet extends HttpServlet {
         }
 
         if (!isErr) {
-            if (!isExit(isAcceptable, e.getEmployeeID())) {
+            if (!isExist(isAcceptable, e.getEmployeeID())) {
                 isAcceptable.add(e);
             }
             isError.remove(e);

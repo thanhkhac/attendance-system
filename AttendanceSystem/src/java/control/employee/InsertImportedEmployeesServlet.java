@@ -98,6 +98,8 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
         ArrayList<EmployeeDTO> employees = (ArrayList<EmployeeDTO>) session.getAttribute("employees");
         ArrayList<EmployeeDTO> isAcceptable = (ArrayList<EmployeeDTO>) session.getAttribute("isAcceptable");
         ArrayList<EmployeeDTO> isError = (ArrayList<EmployeeDTO>) session.getAttribute("isError");
+        ArrayList<EmployeeDTO> isAcceptable_inserted = new ArrayList<>();
+
         if (isError == null) {
             isError = new ArrayList<>();
         }
@@ -109,11 +111,11 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
         int countErr = 0;
         try {
             for (EmployeeDTO e : employees) {
-                employees_inserted.add(e);
+                employees_inserted.add(e); //refresh list avoid currently in use
             }
 
             for (EmployeeDTO e : isAcceptable) {
-                if (isErrorEmployee(e)) {
+                if (isErrorEmployee(e)) { //if error while inserting -> add to isError list
                     isError.add(e);
                     countErr++;
                 } else {
@@ -123,7 +125,7 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
                             e.getEmployeeTypeID(), e.getDepartmentID(), e.getRoleID(), DATE_UTIL.parseSqlDate(e.getStartDate()),
                             DATE_UTIL.parseSqlDate(e.getEndDate()), false);
                     if (rs) {
-                        employees_inserted.remove(e);
+                        employees_inserted.remove(e); //remove in employees total
                         count++;
                     }
                 }
@@ -134,13 +136,12 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
 //                    employees_inserted.remove(e);
 //                }
 //            }
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
         session.setAttribute("employees", employees_inserted);
-        session.setAttribute("isAcceptable", null);
+        session.setAttribute("isAcceptable", isAcceptable_inserted);
         session.setAttribute("isError", isError);
         request.setAttribute("SuccessMSG", "Inserted [" + count + "] employee Successfully \n"
                 + "and found [" + countErr + "] employees error while inserting !");

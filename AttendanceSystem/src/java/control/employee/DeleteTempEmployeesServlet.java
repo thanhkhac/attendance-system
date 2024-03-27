@@ -38,18 +38,22 @@ public class DeleteTempEmployeesServlet extends HttpServlet {
         ArrayList<EmployeeDTO> employees = (ArrayList<EmployeeDTO>) session.getAttribute("employees");
         ArrayList<EmployeeDTO> isError = (ArrayList<EmployeeDTO>) session.getAttribute("isError");
         ArrayList<EmployeeDTO> isAcceptable = (ArrayList<EmployeeDTO>) session.getAttribute("isAcceptable");
-        ArrayList<EmployeeDTO> isError_deleted = new ArrayList<>();
+        ArrayList<EmployeeDTO> isError_deleted = new ArrayList<>(); //refresh list avoid currently in use
         ArrayList<EmployeeDTO> employees_deleted = new ArrayList<>();
 
-        for (EmployeeDTO e : employees) {
-            employees_deleted.add(e);
+        if (isAcceptable == null) {
+            isAcceptable = new ArrayList<>();
         }
-        for(EmployeeDTO e: isError){
-            employees_deleted.remove(e);
+        for (EmployeeDTO e : employees) {
+            employees_deleted.add(e); //refresh list avoid currently in use
+        }
+        for (EmployeeDTO e : isError) {
+            employees_deleted.remove(e); //remove deleted from total employees
         }
 
         session.setAttribute("employees", employees_deleted);
         session.setAttribute("isError", isError_deleted);
+        session.setAttribute("isAcceptable", isAcceptable);
         request.setAttribute("ErrorMSG", "Deleted [" + isError.size() + "] Employee Successfully !");
         request.getRequestDispatcher("ImportEmployees.jsp").forward(request, response);
     }
