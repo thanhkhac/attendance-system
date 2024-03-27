@@ -74,11 +74,11 @@
                 <i class="fa-solid fa-newspaper"></i>
                 Tin tức
             </a>
-            <a href="TakeAttendance.jsp" class="w3-bar-item w3-button fw-bold  text-white">
+            <a href="Attendance" class="w3-bar-item w3-button fw-bold  text-white">
                 <i class="fa-solid fa-check-to-slot"></i>
                 Chấm công
             </a>
-            <a href="WorkSchedule.jsp" class="w3-bar-item w3-button fw-bold  text-white"><i class="fa-solid fa-calendar"></i> Lịch làm việc</a>
+            <a href="WorkSchedule" class="w3-bar-item w3-button fw-bold  text-white"><i class="fa-solid fa-calendar"></i> Lịch làm việc</a>
             <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu3">
                 <i class="fa-solid fa-envelope"></i> Đơn từ
                 <i class="fa fa-caret-down float-end"></i>
@@ -102,9 +102,9 @@
                 <i class="fa fa-caret-down float-end"></i>
             </a>
             <div class="collapse ps-4" id="submenu2">
-                <a href="ShiftManagement.jsp" class="w3-bar-item w3-button fw-bold  text-white">Ca làm</a>
-                <a href="ScheduleWork.jsp" class="w3-bar-item w3-button fw-bold  text-white">Xếp lịch cho nhân viên</a>
-                <a href="ScheduledEmployees.jsp" class="w3-bar-item w3-button fw-bold text-white">Danh sách nhân viên được xếp lịch</a>
+                <a href="ShiftManagement" class="w3-bar-item w3-button fw-bold  text-white">Ca làm</a>
+                <a href="ScheduleWork" class="w3-bar-item w3-button fw-bold  text-white">Xếp lịch cho nhân viên</a>
+                <a href="ScheduledEmployees" class="w3-bar-item w3-button fw-bold text-white">Danh sách nhân viên được xếp lịch</a>
                 <a href="Overtime.jsp" class="w3-bar-item w3-button fw-bold text-white">Xếp lịch tăng ca</a>
             </div>
 
@@ -113,8 +113,8 @@
                 <i class="fa fa-caret-down float-end"></i>
             </a>
             <div class="collapse ps-4" id="submenu5">
-                <a href="#" class="w3-bar-item w3-button fw-bold  text-white">Quản lý nhân sự</a>
-                <a href="#" class="w3-bar-item w3-button fw-bold  text-white">Phòng ban</a>
+                <a href="NavigateRequestForHR.jsp" class="w3-bar-item w3-button fw-bold  text-white">Quản lý nhân sự</a>
+                <a href="NavigateRequestForManager.jsp" class="w3-bar-item w3-button fw-bold  text-white">Phòng ban</a>
             </div>
 
             <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu6">
@@ -124,7 +124,7 @@
 
             <div class="collapse ps-4" id="submenu6">
                 <a href="GetEmployeeStatisticsServlet" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu cá nhân</a>
-                <a href="DownloadWorkSheet" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu cá nhân</a>
+                <a href="DownloadWorksheet.jsp" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu của nhân viên</a>
 
                 <a href="GetAllNewsByHR" class="w3-bar-item w3-button fw-bold  text-white">Quản lý tin tức</a>
             </div>

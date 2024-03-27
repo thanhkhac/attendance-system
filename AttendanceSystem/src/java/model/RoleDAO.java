@@ -42,9 +42,9 @@ public class RoleDAO extends DAOBase {
         ResultSet rs = null;
 //        if (connection != null) {
         try {
-            String sql = "SELECT *\r\n"
+            String sql = "SELECT * "
                     + //
-                    "  FROM [Attendance_DB].[dbo].[Roles]\r\n"
+                    "  FROM Roles "
                     + //
                     "  where RoleID = ?";
             connect();
@@ -59,11 +59,9 @@ public class RoleDAO extends DAOBase {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
         } finally {
             closeAll();
         }
-//        }
         return null;
     }
 

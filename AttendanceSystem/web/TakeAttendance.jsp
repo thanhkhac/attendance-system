@@ -51,6 +51,7 @@
         </style>
     </head>
     <%
+        /*
         EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
         OvertimeDAO overtimeDAO = new OvertimeDAO();
         
@@ -61,6 +62,7 @@
         request.setAttribute("overtime" , overtime);
         request.setAttribute("timesheet" , timesheet);
         request.setAttribute("shifts" , shifts);
+        */
     %>
 
     <body>

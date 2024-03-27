@@ -207,14 +207,6 @@
                                         <td>${request.content}</td>
                                     </tr>
                                     <tr>
-                                        <th>Tệp</th>
-                                        <td>
-                                            <c:if test = "${not empty request.filePath}">
-                                                <a href="${request.filePath}">File đính kèm</a>
-                                            </c:if>
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <th>Trạng thái</th>
                                         <td>
                                             <c:choose>

@@ -19,44 +19,44 @@
         </style>
     </head>
     <%
-        DateTimeUtil dateTimeUtil = new DateTimeUtil();
-
-        int year = dateTimeUtil.getVNLocalDateNow().getYear();
-        int month = dateTimeUtil.getVNLocalDateNow().getMonthValue();
-
-        String txtyear = request.getParameter("year");
-        String txtmonth = request.getParameter("month");
-
-        if (txtyear != null || txtmonth != null) {
-            try {
-                year = Integer.parseInt(txtyear);
-                month = Integer.parseInt(txtmonth);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            try {
-                month = Integer.parseInt(txtmonth);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        
-        
-        TimesheetDAO tsDAO = new TimesheetDAO();
-        ArrayList<LocalDate> calendar = dateTimeUtil.getCalendar(year, month);
-        
-        EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
-
-        ArrayList<WorkDayDetails> workingdays = new ArrayList<>();
-        for (LocalDate localDate : calendar) {
-            workingdays.add(new WorkDayDetails(localDate, employeeDTO.getEmployeeID()));
-        }
-        
-        HashMap<Integer, ShiftDTO> shiftMap = new ShiftDAO().getAllShiftHashMap();
-        LocalDate today = dateTimeUtil.getVNLocalDateNow();
-        request.setAttribute("workingdays", workingdays);
-        request.setAttribute("today", today);
-        request.setAttribute("shiftMap", shiftMap);
+        //DateTimeUtil dateTimeUtil = new DateTimeUtil();
+//
+        //int year = dateTimeUtil.getVNLocalDateNow().getYear();
+        //int month = dateTimeUtil.getVNLocalDateNow().getMonthValue();
+//
+        //String txtyear = request.getParameter("year");
+        //String txtmonth = request.getParameter("month");
+//
+        //if (txtyear != null || txtmonth != null) {
+        //    try {
+        //        year = Integer.parseInt(txtyear);
+        //        month = Integer.parseInt(txtmonth);
+        //    } catch (Exception e) {
+        //        e.printStackTrace();
+        //    }
+        //    try {
+        //        month = Integer.parseInt(txtmonth);
+        //    } catch (Exception e) {
+        //        e.printStackTrace();
+        //    }
+        //}
+        //
+        //
+        //TimesheetDAO tsDAO = new TimesheetDAO();
+        //ArrayList<LocalDate> calendar = dateTimeUtil.getCalendar(year, month);
+        //
+        //EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
+//
+        //ArrayList<WorkDayDetails> workingdays = new ArrayList<>();
+        //for (LocalDate localDate : calendar) {
+        //    workingdays.add(new WorkDayDetails(localDate, employeeDTO.getEmployeeID()));
+        //}
+        //
+        //HashMap<Integer, ShiftDTO> shiftMap = new ShiftDAO().getAllShiftHashMap();
+        //LocalDate today = dateTimeUtil.getVNLocalDateNow();
+        //request.setAttribute("workingdays", workingdays);
+        //request.setAttribute("today", today);
+        //request.setAttribute("shiftMap", shiftMap);
     %>
     <body>
         <div class="container">

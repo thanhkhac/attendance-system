@@ -4,6 +4,8 @@
  */
 package filter;
 
+import authorization.PathConstants;
+import authorization.RoleConstants;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -118,7 +120,7 @@ public class RouterFilter implements Filter {
         System.out.println(url);
 
         EmployeeDTO employee = (EmployeeDTO) httpRequest.getSession().getAttribute("ACCOUNT");
-        
+
         //
         try {
             if (employee == null) {
@@ -171,12 +173,23 @@ public class RouterFilter implements Filter {
             if (!isLoginPath && !isGeneralPath) {
                 System.out.println("Người dùng chưa đăng nhập");
                 httpResponse.sendRedirect("cookieLogin");
+                return;
             }
         } else {
             if (isLoginPath) {
                 System.out.println("Người dùng đã đăng nhập");
                 httpResponse.sendRedirect("ThanhCong.html");
+                return;
             }
+//            if (employee.getRoleID() == RoleConstants.EMPLOYEE) {
+//                System.out.println(!PathConstants.EMPLOYEE_PATH_LIST.stream().anyMatch(url.toLowerCase()::equalsIgnoreCase));
+//                if (!PathConstants.EMPLOYEE_PATH_LIST.stream().anyMatch(url.toLowerCase()::equalsIgnoreCase) && !isGeneralPath) {
+//                    httpResponse.sendRedirect("DenyAccess.html");
+//                    return;
+//                }
+//            }
+            
+            
         }
 
         //--Kết thúc phân quyền

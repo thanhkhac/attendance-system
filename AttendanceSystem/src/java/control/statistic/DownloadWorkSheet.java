@@ -1,4 +1,4 @@
-package ultility.exportFile;
+package control.statistic;
 
 import dbhelper.DBContext;
 import jakarta.servlet.ServletException;
@@ -108,13 +108,11 @@ public class DownloadWorkSheet extends HttpServlet {
                 row.createCell(9).setCellValue(resultSet.getString("Leave"));
             }
 
-            // Lưu workbook vào OutputStream
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.setHeader("Content-Disposition", "attachment; filename=output.xlsx");
+            response.setHeader("Content-Disposition", "attachment; filename=worksheet.xlsx");
             OutputStream outputStream = response.getOutputStream();
             workbook.write(outputStream);
 
-            // Đóng các resource
             workbook.close();
             resultSet.close();
             ps.close();
