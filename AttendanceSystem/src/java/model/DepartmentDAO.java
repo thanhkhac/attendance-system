@@ -74,9 +74,9 @@ public class DepartmentDAO extends DBContext {
 
         if (connection != null) {
             try {
-                String sql = "UPDATE Departments " +
-                        "SET ManagerID = ? " +
-                        "WHERE DepartmentID = ? ";
+                String sql = "UPDATE Departments "
+                        + "SET ManagerID = ? "
+                        + "WHERE DepartmentID = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setInt(1, Integer.parseInt(managerID));
                 stm.setInt(2, Integer.parseInt(departmentID));
@@ -100,8 +100,8 @@ public class DepartmentDAO extends DBContext {
         ResultSet rs = null;
 //        if (connection != null) {
         try {
-            String sql = "  Select * from Departments " +
-                    "      WHERE DepartmentID = ? ";
+            String sql = "  Select * from Departments "
+                    + "      WHERE DepartmentID = ? ";
 
             stm = connection.prepareStatement(sql);
             stm.setInt(1, departmentID);
@@ -124,8 +124,8 @@ public class DepartmentDAO extends DBContext {
 
     public boolean deleteById(int departmentId) {
         connect();
-        String sql = "DELETE FROM [dbo].[Departments]\n" +
-                "      WHERE DepartmentID = ? ";
+        String sql = "DELETE FROM [dbo].[Departments]\n"
+                + "      WHERE DepartmentID = ? ";
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
@@ -147,8 +147,10 @@ public class DepartmentDAO extends DBContext {
 
     public boolean edit(DepartmentDTO dto) {
         connect();
-        String sql = "UPDATE [dbo].[Departments]\r\n" + //
-                "   SET [Name] = ?\r\n" + //
+        String sql = "UPDATE [dbo].[Departments]\r\n"
+                + //
+                "   SET [Name] = ?\r\n"
+                + //
                 " WHERE DepartmentID = ?";
         PreparedStatement stm = null;
         ResultSet rs = null;
@@ -172,10 +174,10 @@ public class DepartmentDAO extends DBContext {
 
     public boolean addDepartment(DepartmentDTO dto) {
         connect();
-        String sql = "INSERT INTO [dbo].[Departments]\n" +
-                "           ([Name])           \n" +
-                "     VALUES\n" +
-                "           (?)";
+        String sql = "INSERT INTO [dbo].[Departments]\n"
+                + "           ([Name])           \n"
+                + "     VALUES\n"
+                + "           (?)";
         PreparedStatement stm = null;
         ResultSet rs = null;
         if (connection != null) {
@@ -229,9 +231,9 @@ public class DepartmentDAO extends DBContext {
         int id = 0;
         if (connection != null) {
             try {
-                String sql = "SELECT DepartmentID \n" +
-                        "FROM Departments \n" +
-                        "WHERE [Name] = ? ";
+                String sql = "SELECT DepartmentID \n"
+                        + "FROM Departments \n"
+                        + "WHERE [Name] = ? ";
                 stm = connection.prepareStatement(sql);
                 stm.setNString(1, departmentName);
                 rs = stm.executeQuery();
@@ -249,11 +251,35 @@ public class DepartmentDAO extends DBContext {
         return id;
     }
 
+    public boolean hasEmployees(int departmentId) {
+        connect();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        boolean hasEmployees = false;
+        if (connection != null) {
+            try {
+                String sql = "SELECT COUNT(*) AS employeeCount FROM Employees WHERE DepartmentID = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setInt(1, departmentId);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    int employeeCount = rs.getInt("employeeCount");
+                    hasEmployees = (employeeCount > 0);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                close();
+            }
+        }
+        return hasEmployees;
+    }
+
     public static void main(String[] args) {
         DepartmentDAO deDao = new DepartmentDAO();
         int a = deDao.getDepartmentIDByName("Phòng nhân sự");
-        
-        System.out.println(a);  
+
+        System.out.println(a);
     }
 
 }
