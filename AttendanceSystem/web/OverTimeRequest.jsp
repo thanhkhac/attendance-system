@@ -158,7 +158,7 @@
         </style>
     </head>
     <body>
-         <%@include file="Sidebar.jsp" %>
+        <%@include file="Sidebar.jsp" %>
         <c:set var="listTpe" value="${requestScope.listType}" />
         <c:set var="account" value="${sessionScope.ACCOUNT}" />
         <c:set var="listDepartment" value="${requestScope.listDepartment}" />
@@ -213,8 +213,7 @@
                             <div class="request-policy">
                                 <p>Quy định ngày nghỉ : </p>
                                 <!--<p>Năm: xử lý tối đa trong 1 năm tới.</p>-->
-                                <p>Tháng: Nghỉ tối đa 6 tháng (Thai Sản).</p>
-                                <p>Ngày: Bắt đầu từ 1 tháng sau trở về thời điểm hiện tại.</p>
+                                <p>* Yêu cầu sẽ chỉ được chấp nhận kể từ thời điểm hiện tại.</p>
                             </div>
                             <div class="request-input-box">
                                 <span >Full Name: </span>
@@ -322,7 +321,7 @@
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             } else if (requestTypeID === "2") {
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
-            } else{
+            } else {
                 window.location.href = "PrepareRequestServlet?requestTypeID=" + requestTypeID;
             }
         }

@@ -43,13 +43,12 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
         String txt_email = request.getParameter("txt_email").trim();
         String txt_password = request.getParameter("txt_password").trim();
         String txt_phoneNumber = request.getParameter("txt_phoneNumber").trim();
-
         String txt_birthday = request.getParameter("txt_birthday");
-
         String txt_departmentID = request.getParameter("txt_departmentID");
         String txt_typeID = request.getParameter("txt_typeID");
         String txt_roleID = request.getParameter("txt_roleID");
         String txt_employeeID = request.getParameter("txt_employeeID");
+        String txt_isActive = request.getParameter("txt_isActive");
         UpdateInfoError err = new UpdateInfoError();
         LocalDate birthDay = LocalDate.now();
         EmployeeDAO dao = new EmployeeDAO();
@@ -59,6 +58,7 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
         int roleID = 0;
         int employeeID = 0;
         Boolean gender = null;
+        boolean isActive = false;
         boolean isErr = false;
         String regexName = "^[^\\d\\p{Punct}]+$";
         String messageNameError = "Thành phần của Tên ko được chứa số hay kí tự đặc biệt !";
@@ -69,6 +69,9 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             roleID = Integer.parseInt(txt_roleID);
             gender = Boolean.parseBoolean(txt_gender);
             employeeID = Integer.parseInt(txt_employeeID);
+            if (txt_isActive != null) {
+                isActive = true;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
@@ -138,7 +141,7 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
             request.setAttribute("txt_password", txt_password);
 
         }
-        if  ((LocalDate.now().getYear() - birthDay.getYear() < 18) || LocalDate.now().getYear() - birthDay.getYear() < 0) {
+        if ((LocalDate.now().getYear() - birthDay.getYear() < 18) || LocalDate.now().getYear() - birthDay.getYear() < 0) {
             isErr = true;
             err.setDate_invalid("Ngày sinh không hợp lệ [ " + LocalDate.now().getYear() + " - năm sinh ] >= 18 !");
             request.setAttribute("txt_birthDate", txt_birthday);
@@ -151,7 +154,7 @@ public class UpdateEmployeeByHRServlet extends HttpServlet {
         if (!isErr) {
             boolean rs = dao.UpdateEmployeeByHR(txt_firstName, txt_middleName, txt_lastName,
                     gender, txt_cccd, txt_phoneNumber, txt_email, txt_password,
-                    txt_birthday, departmentID, typeID, roleID, employeeID);
+                    txt_birthday, departmentID, typeID, roleID, employeeID, isActive);
             if (rs) {
                 msg = "Cập Nhật Thông Tin Thành Công !";
             } else {
