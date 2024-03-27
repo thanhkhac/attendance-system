@@ -1,4 +1,4 @@
-package control.workday;
+package control.schedulework;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,14 +10,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import model.EmployeeDTO;
-import model.ShiftDAO;
-import model.ShiftDTO;
-import model.TimesheetDAO;
+import model.*;
 import ultility.datetimeutil.DateTimeUtil;
 
-@WebServlet(name = "GetWorkDayDetails", urlPatterns = {"/GetWorkDayDetails"})
-public class GetWorkDayDetails extends HttpServlet {
+@WebServlet(name="ScheduleWork", urlPatterns={"/ScheduleWork"})
+public class ScheduleWork extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
@@ -41,30 +38,31 @@ public class GetWorkDayDetails extends HttpServlet {
                 e.printStackTrace();
             }
         }
-
-        TimesheetDAO tsDAO = new TimesheetDAO();
+        
+        
         ArrayList<LocalDate> calendar = dateTimeUtil.getCalendar(year, month);
-
-        EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
-
-        ArrayList<WorkDayDetails> workingdays = new ArrayList<>();
-        for (LocalDate localDate : calendar) {
-            workingdays.add(new WorkDayDetails(localDate, employeeDTO.getEmployeeID()));
+        ArrayList<ShiftDTO> shiftList = new ShiftDAO().getActiveShiftDTO();
+        
+        HashMap<String, ShiftDTO> shiftMap = new HashMap<>();
+        for (ShiftDTO shift : shiftList) {
+            shiftMap.put(String.valueOf(shift.getShiftID()), shift);
         }
-
-        HashMap<Integer, ShiftDTO> shiftMap = new ShiftDAO().getAllShiftHashMap();
+        
         LocalDate today = dateTimeUtil.getVNLocalDateNow();
-        request.setAttribute("workingdays", workingdays);
         request.setAttribute("today", today);
+        request.setAttribute("calendar", calendar);
+        request.setAttribute("month", month);
+        request.setAttribute("year", year);
+        request.setAttribute("shiftList", shiftList);
         request.setAttribute("shiftMap", shiftMap);
-        request.getRequestDispatcher("ViewCalendar.jsp").forward(request, response);
-    }
+        
+        request.getRequestDispatcher("ScheduleWork.jsp").forward(request, response);
+    } 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
-    }
+    } 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

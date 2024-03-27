@@ -64,7 +64,18 @@
             <div class="text-center">
                 <h1 style="margin: 30px">Danh sách đơn khác </h1>
             </div>
-            
+            <div class="content-request">
+                <div class="content-request-type">
+                    <label for="request-type">Loại đơn: </label>
+                    <select id="mySelect" name="mySelect">
+                        <option value="">Chọn Loại Đơn</option>
+                        <option value="ViewLeaveRequestForHR.jsp">Đơn nghỉ phép</option>
+                        <option value="ViewOverTimeRequestForHR.jsp">Đơn làm ngoài giờ</option>
+                        <option value="ViewOtherRequestListHR">Đơn khác</option>
+                    </select>
+                </div>
+            </div>
+
             <table class="table table-bordered">
                 <thead class="table-primary">
                     <tr>
@@ -269,6 +280,16 @@
                             function confirmSubmit() {
                                 return confirm("Please confirm processing of this application");
                             }
+        </script>
+
+        <script>
+            document.getElementById('mySelect').addEventListener('change', function () {
+                var selectedOption = this.options[this.selectedIndex].value;
+                if (selectedOption !== "") {
+                    //                    window.open(selectedOption, '_blank');
+                    window.location.href = selectedOption;
+                }
+            });
         </script>
     </body>
 </html>

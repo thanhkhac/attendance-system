@@ -53,9 +53,7 @@
                 justify-content: space-between;
                 padding: 10px;
             }
-            .exportButton input{
 
-            }
             .fa-download{
                 font-size: large;
                 margin-left: 10px;
@@ -67,46 +65,6 @@
                 background-color: #f5f5f5;
                 border-radius: 8px;
                 box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
-            .form-statistic {
-                display: flex;
-                gap: 20px;
-                align-items: center;
-                justify-content: space-around;
-            }
-            .form-statistic label {
-                font-weight: 600;
-                min-width: 250px;
-                display: inline;
-            }
-            .form-statistic input {
-                padding: 8px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                box-sizing: border-box;
-                min-width: 250px;
-            }
-            .statistic-items input{
-                outline: none;
-                border: none;
-                font-size: 20px;
-                font-weight: 600
-            }
-            .font-monospace{
-                font-size: large;
-            }
-            @media (max-width: 768px) {
-                .form-statistic {
-                    flex-direction: column;
-                }
-                .form-statistic label{
-                    margin-right: 100px;
-                    min-width: 250px;
-                }
-                .form-statistic input{
-                    margin-right: 100px;
-                    min-width: 250px;
-                }
             }
 
         </style>
@@ -130,18 +88,20 @@
             <input type="hidden" id="totalOT" value="${totalOT}">
 
             <form  action="DownloadWorkSheet" method="Post">
-                <div class="form-statistic">
-                    <div class="statistic-items">
-                        <label for="startDate">Ngày Bắt Đầu: </label>
-                        <input type="date" name="startDate" id="startDate" value="2022-01-01">
-                    </div>
-                    <div class="statistic-items">
-                        <label for="endDate">Đến: </label>
-                        <input type="date" name="endDate" id="startDate" value="2025-01-01">
-                    </div>
-                    <div>
-                        <div class="exportButton">
-                            <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <div class="form-statistic mx-5 bg-light p-5 rounded-3">
+                    <div class="d-flex justify-content-between mx-5">
+                        <div class="statistic-items">
+                            <label class="fw-bold" for="startDate">Ngày Bắt Đầu: </label>
+                            <input class="form-control" type="date" name="startDate" id="startDate" value="2022-01-01">
+                        </div>
+                        <div class="statistic-items ">
+                            <label class="fw-bold" for="endDate">Đến: </label>
+                            <input  class="form-control" type="date" name="endDate" id="startDate" value="2025-01-01">
+                        </div>
+
+                        <div class="statistic-items">
+                            <label class="fw-bold" for="endDate"> </label>
+                            <button type="submit" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 Export To Excel
                             </button>
                         </div>

@@ -39,6 +39,7 @@
         </style>
     </head>
     <%
+        /*
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
 
         int year = dateTimeUtil.getVNLocalDateNow().getYear();
@@ -77,6 +78,7 @@
         request.setAttribute("year", year);
         request.setAttribute("shiftList", shiftList);
         request.setAttribute("shiftMap", shiftMap);
+*/
     %>
     <body>
         <div class="container">

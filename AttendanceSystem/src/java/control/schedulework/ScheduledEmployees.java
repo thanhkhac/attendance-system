@@ -1,4 +1,4 @@
-package control.workday;
+package control.schedulework;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,27 +7,21 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import model.EmployeeDTO;
-import model.ShiftDAO;
-import model.ShiftDTO;
-import model.TimesheetDAO;
+import model.*;
 import ultility.datetimeutil.DateTimeUtil;
 
-@WebServlet(name = "GetWorkDayDetails", urlPatterns = {"/GetWorkDayDetails"})
-public class GetWorkDayDetails extends HttpServlet {
+@WebServlet(name = "ScheduledEmployees", urlPatterns = {"/ScheduledEmployees"})
+public class ScheduledEmployees extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
 
         int year = dateTimeUtil.getVNLocalDateNow().getYear();
         int month = dateTimeUtil.getVNLocalDateNow().getMonthValue();
-
         String txtyear = request.getParameter("year");
         String txtmonth = request.getParameter("month");
-
         if (txtyear != null || txtmonth != null) {
             try {
                 year = Integer.parseInt(txtyear);
@@ -42,22 +36,21 @@ public class GetWorkDayDetails extends HttpServlet {
             }
         }
 
-        TimesheetDAO tsDAO = new TimesheetDAO();
-        ArrayList<LocalDate> calendar = dateTimeUtil.getCalendar(year, month);
+        ArrayList<EmployeeDTO> EmployeeList = new EmployeeDAO().getScheduledEmployees(month, year);
 
-        EmployeeDTO employeeDTO = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
+        ArrayList<EmployeeTypeDTO> employeeTypeList = new EmployeeTypeDAO().getEmployeeTypeList();
+        ArrayList<DepartmentDTO> listDepartment = new DepartmentDAO().getListDepartment();
+        ArrayList<RoleDTO> roleList = new RoleDAO().getRoleList();
 
-        ArrayList<WorkDayDetails> workingdays = new ArrayList<>();
-        for (LocalDate localDate : calendar) {
-            workingdays.add(new WorkDayDetails(localDate, employeeDTO.getEmployeeID()));
-        }
+        request.setAttribute("EmployeeList", EmployeeList);
+        request.setAttribute("employeeTypeList", employeeTypeList);
+        request.setAttribute("listDepartment", listDepartment);
+        request.setAttribute("roleList", roleList);
+        request.setAttribute("month", month);
+        request.setAttribute("year", year);
 
-        HashMap<Integer, ShiftDTO> shiftMap = new ShiftDAO().getAllShiftHashMap();
-        LocalDate today = dateTimeUtil.getVNLocalDateNow();
-        request.setAttribute("workingdays", workingdays);
-        request.setAttribute("today", today);
-        request.setAttribute("shiftMap", shiftMap);
-        request.getRequestDispatcher("ViewCalendar.jsp").forward(request, response);
+        request.getRequestDispatcher("ScheduledEmployees.jsp").forward(request, response);
+
     }
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
 

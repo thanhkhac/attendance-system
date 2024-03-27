@@ -29,7 +29,7 @@
             <%@include file="Sidebar.jsp" %>
             <div class="calendar">
                 <div class="text-center pt-3" style="font-family: sans-serif; font-weight: 900">
-                    <h2>Lịch làm việc của </h2>
+                    <h2>Lịch làm việc</h2>
                 </div>
                 <div class="d-flex justify-content-around px-3 py-3 align-middle">
                     <select id="month" class="form-select">

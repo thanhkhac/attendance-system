@@ -14,8 +14,10 @@ import model.ShiftDTO;
 @WebServlet(name = "InsertShift", urlPatterns = {"/InsertShift"})
 public class InsertShift extends HttpServlet {
 
+    String URL = "ShiftManagement";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String URL = "ShiftManagement.jsp";
+        
 
         String txtShiftName = request.getParameter("txtShiftName");
         String txtShiftStartTime = request.getParameter("txtShiftStartTime");

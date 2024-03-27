@@ -96,7 +96,7 @@
                         Thành công
                     </div>
                     <div class="modal-footer">
-                        <a href="ScheduleWork.jsp">
+                        <a href="ScheduleWork">
                             <button class="btn btn-info" type="button">
                                 Trở về trang xếp lịch
                             </button>

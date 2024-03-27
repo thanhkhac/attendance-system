@@ -135,12 +135,12 @@ public class RequestDAO extends DAOBase {
         }
         return requests;
     }
-    
-        public int getNumberOfSentRequests(int employeeId) {
+
+    public int getNumberOfSentRequests(int employeeId) {
         connect();
         int numberOfRequests = 0;
         try {
-            String sql = "SELECT COUNT(*) AS NumberOfRequests FROM Requests WHERE employeeId = ?";
+                String sql = "SELECT COUNT(*) AS NumberOfRequests FROM Requests WHERE employeeId = ?";
             ps = connection.prepareStatement(sql);
             ps.setInt(1, employeeId);
             rs = ps.executeQuery();

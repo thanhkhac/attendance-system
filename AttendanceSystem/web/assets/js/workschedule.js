@@ -58,7 +58,8 @@ $(document).ready(function () {
         var selectedYear = $("#year").val();
         $.ajax({
             type: "POST",
-            url: "ViewCalendar.jsp",
+//            url: "ViewCalendar.jsp",
+            url: "GetWorkDayDetails",
             data: {
                 month: selectedMonth,
                 year: selectedYear
@@ -105,7 +106,8 @@ $(document).ready(function () {
         var selectedYear = $("#year").val();
         $.ajax({
             type: "POST",
-            url: "ViewCalendar.jsp",
+//            url: "ViewCalendar.jsp",
+            url: "GetWorkDayDetails",
             data: {
                 month: selectedMonth,
                 year: selectedYear

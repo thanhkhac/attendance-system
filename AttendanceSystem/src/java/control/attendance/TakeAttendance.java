@@ -13,14 +13,14 @@ import model.*;
 @WebServlet(name = "TakeAttendance", urlPatterns = {"/TakeAttendance"})
 public class TakeAttendance extends HttpServlet {
 
-    private static final String URL = "TakeAttendance.jsp";
+    private static final String URL = "Attendance";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String modalMessage = "";
 
         if (request.getServerPort() != PortConstants.LOCAL) {
-            modalMessage = ("<a href=\"http://localhost:8081/AttendanceSystem/TakeAttendance.jsp\">Vui lòng truy cập vào trang nội bộ</a>");
+            modalMessage = ("<a href=\"http://localhost:8081/AttendanceSystem/Attendance\">Vui lòng truy cập vào trang nội bộ</a>");
             request.setAttribute("modalMessage", modalMessage);
             request.getRequestDispatcher(URL).forward(request, response);
             return;

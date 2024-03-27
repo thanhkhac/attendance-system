@@ -105,7 +105,8 @@
                     var selectedYear = $("#year").val();
                     $.ajax({
                         type: "POST",
-                        url: "ScheduledEmployeeList.jsp",
+//                        url: "ScheduledEmployeeList.jsp",
+                        url: "ScheduledEmployeeList",
                         data: {
                             month: selectedMonth,
                             year: selectedYear
@@ -152,7 +153,8 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "ScheduledEmployeeList.jsp",
+//                        url: "ScheduledEmployeeList.jsp",
+                        url: "ScheduledEmployeeList",
                         data: {
                             month: selectedMonth,
                             year: selectedYear

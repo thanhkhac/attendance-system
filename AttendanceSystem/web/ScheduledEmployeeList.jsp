@@ -29,6 +29,7 @@
 
     </head>
     <%
+        /*
     DateTimeUtil dateTimeUtil = new DateTimeUtil();
 
     
@@ -62,6 +63,7 @@
     request.setAttribute("roleList", roleList);
     request.setAttribute("month", month);
     request.setAttribute("year", year);
+    */
     %>
     <body>
         <div>
@@ -189,46 +191,46 @@
                     allRows.forEach(function (row) {
                         row.style.display = "";
                     });
-                    
+
                     var inputSearch = document.getElementById("input-search").value.toLowerCase();
                     var selectDepartment = document.getElementById("select-department").value;
                     var selectEmployeeType = document.getElementById("select-employeeType").value;
                     var selectRole = document.getElementById("select-role").value;
                     var selectStatus = document.getElementById("select-status").value; // Thêm dòng này
-                    
+
                     var rows = document.querySelectorAll(".employee-row");
-                    
+
                     rows.forEach(function (row) {
                         var employeeName = row.querySelector(".employee-name").innerText.toLowerCase();
                         var department = row.children[4].innerText;
                         var employeeType = row.children[5].innerText;
                         var role = row.children[6].innerText;
-                        
+
                         var isChecked = row.querySelector(".rowCheckbox").checked;
-                        
+
                         var showRow =
                                 employeeName.includes(inputSearch) &&
                                 (selectDepartment === "" || department === selectDepartment) &&
                                 (selectEmployeeType === "" || employeeType === selectEmployeeType) &&
                                 (selectRole === "" || role === selectRole) &&
                                 (selectStatus === "" || (selectStatus === "selected" && isChecked) || (selectStatus === "unselected" && !isChecked));
-                        
+
                         row.style.display = showRow ? "" : "none";
                     });
-                    
+
                 }
-                
+
                 document.getElementById("input-search").addEventListener("input", filterEmployees);
                 document.getElementById("select-department").addEventListener("change", filterEmployees);
                 document.getElementById("select-employeeType").addEventListener("change", filterEmployees);
                 document.getElementById("select-role").addEventListener("change", filterEmployees);
                 document.getElementById("select-status").addEventListener("change", filterEmployees); // Thêm dòng này
-                
+
             });
-            
+
             function selectAllRows(select) {
                 var rowCheckboxes = document.querySelectorAll(".rowCheckbox");
-                
+
                 rowCheckboxes.forEach(function (checkbox) {
                     var parentRow = checkbox.closest(".employee-row");
                     if (parentRow.style.display !== "none") {
@@ -236,25 +238,25 @@
                     }
                 });
             }
-            
+
             $(document).ready(function () {
                 $("#form-submit-button").click(function (event) {
                     event.preventDefault();
-                    
+
                     var confirmation = confirm("Bạn có muốn xóa lịch làm việc của các nhân viên này không");
                     if (!confirmation) {
                         return;
                     }
-                    
+
                     var checkedCheckboxes = document.querySelectorAll(".rowCheckbox:checked");
-                    
+
                     if (checkedCheckboxes.length === 0) {
                         alert("Vui lòng chọn ít nhất một nhân viên");
                         return;
                     }
-                    
+
                     var formData = $("form").serialize();
-                    
+
                     $.ajax({
                         type: "POST",
                         url: "DeleteTimesheetForEmployees",
@@ -266,7 +268,7 @@
                                 var selectedYear = $("#year").val();
                                 $.ajax({
                                     type: "POST",
-                                    url: "ScheduledEmployeeList.jsp",
+                                    url: "ScheduledEmployeeList",
                                     data: {
                                         month: selectedMonth,
                                         year: selectedYear

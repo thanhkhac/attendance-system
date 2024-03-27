@@ -22,7 +22,6 @@ public class GetEmployeeProfileServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         EmployeeDAO employeeDAO = new EmployeeDAO();
         DepartmentDAO departmentDAO = new DepartmentDAO();

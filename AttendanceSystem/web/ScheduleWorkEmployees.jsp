@@ -30,7 +30,7 @@
             <div class="right">
                 <div class="text-center pt-3" style="font-family: sans-serif; font-weight: 900">
                     <h2>Danh sách nhân viên</h2>
-                    <form action="ScheduleWork.jsp?">
+                    <form action="ScheduleWork">
                         <input type="hidden" name="month" value="${param.month}">
                         <input type="hidden" name="year" value="${param.year}">
                         <c:forEach var="dto" items="${paramValues.shift}" varStatus="counter">

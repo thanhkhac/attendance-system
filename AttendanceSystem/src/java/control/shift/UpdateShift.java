@@ -15,7 +15,7 @@ import model.ShiftDTO;
 public class UpdateShift extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String URL = "ShiftManagement.jsp";
+        String URL = "ShiftManagement";
 
         String txtShiftID = request.getParameter("shiftID");
         String txtShiftName = request.getParameter("udName");

@@ -46,7 +46,6 @@
 
         </div>
         <script>
-//            Hiển thị ra dropdown của năm, nếu là năm hiện tại => Selected
             var yearDropdown = document.getElementById("year");
             var currentYear = new Date().getFullYear();
             for (var i = currentYear - 5; i <= currentYear + 5; i++) {
@@ -82,7 +81,8 @@
                     var selectedYear = $("#year").val();
                     $.ajax({
                         type: "POST",
-                        url: "ScheduleWorkCalendar.jsp",
+//                        url: "ScheduleWorkCalendar.jsp",
+                        url: "ScheduleWorkCalendar",
                         data: {
                             month: selectedMonth,
                             year: selectedYear
@@ -129,7 +129,8 @@
 
                     $.ajax({
                         type: "POST",
-                        url: "ScheduleWorkCalendar.jsp",
+//                        url: "ScheduleWorkCalendar.jsp",
+                        url: "ScheduleWorkCalendar",
                         data: {
                             month: selectedMonth,
                             year: selectedYear
@@ -146,7 +147,6 @@
 
         </script>
         <script>
-            // Function to get URL parameters by name
             function getUrlParameter(name) {
                 name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
                 var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
@@ -159,18 +159,15 @@
                 var urlMonth = getUrlParameter('month');
                 var urlYear = getUrlParameter('year');
 
-                // Set selected month in dropdown
                 if (urlMonth !== '') {
                     $("#month").val(urlMonth);
                 }
 
-                // Set selected year in dropdown
                 if (urlYear !== '') {
                     $("#year").val(urlYear);
                 }
             }
 
-            // Call the function to set selected values from URL when the page loads
             $(document).ready(function () {
                 setSelectedValuesFromUrl();
             });

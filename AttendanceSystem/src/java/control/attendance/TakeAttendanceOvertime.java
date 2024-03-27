@@ -15,11 +15,11 @@ import model.OvertimeDTO;
 @WebServlet(name = "TakeAttendanceOvertime", urlPatterns = {"/TakeAttendanceOvertime"})
 public class TakeAttendanceOvertime extends HttpServlet {
 
-    private static final String URL = "TakeAttendance.jsp";
+    private static final String URL = "Attendance";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getServerPort() == PortConstants.ONLINE) {
-            request.setAttribute("modalMessage", "<a href=\"http://localhost:8081/AttendanceSystem/TakeAttendance.jsp\">Vui lòng truy cập vào trang nội bộ</a>");
+            request.setAttribute("modalMessage", "<a href=\"http://localhost:8081/AttendanceSystem/Attendance.jsp\">Vui lòng truy cập vào trang nội bộ</a>");
             request.getRequestDispatcher(URL).forward(request, response);
             return;
         }

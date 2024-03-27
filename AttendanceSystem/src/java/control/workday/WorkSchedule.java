@@ -16,10 +16,11 @@ import model.ShiftDTO;
 import model.TimesheetDAO;
 import ultility.datetimeutil.DateTimeUtil;
 
-@WebServlet(name = "GetWorkDayDetails", urlPatterns = {"/GetWorkDayDetails"})
-public class GetWorkDayDetails extends HttpServlet {
+@WebServlet(name="WorkSchedule", urlPatterns={"/WorkSchedule"})
+public class WorkSchedule extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         DateTimeUtil dateTimeUtil = new DateTimeUtil();
 
         int year = dateTimeUtil.getVNLocalDateNow().getYear();
@@ -57,14 +58,13 @@ public class GetWorkDayDetails extends HttpServlet {
         request.setAttribute("workingdays", workingdays);
         request.setAttribute("today", today);
         request.setAttribute("shiftMap", shiftMap);
-        request.getRequestDispatcher("ViewCalendar.jsp").forward(request, response);
-    }
+        request.getRequestDispatcher("WorkSchedule.jsp").forward(request, response);
+    } 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request, response);
-    }
+    } 
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
