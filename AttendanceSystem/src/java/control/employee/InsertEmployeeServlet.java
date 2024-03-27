@@ -42,7 +42,8 @@ public class InsertEmployeeServlet extends HttpServlet {
     final String ERR_FORMAT_CCCD = "Sai định dạng CCCD";
     final String ERR_FORMAT_SDT = "Sai định dạng SĐT";
     final String ERR_FORMAT_DATE = "Sai định dạng ngày tháng năm";
-
+    final String ERR_NOT_SELECTED = "Vui lòng chọn";
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -143,6 +144,21 @@ public class InsertEmployeeServlet extends HttpServlet {
             isErr = true;
         }
 
+        if(employeeTypeID.isEmpty()){
+            request.setAttribute("ERR_SELECTED_EM_TYPE", ERR_NOT_SELECTED);
+            isErr = true;
+        }
+        
+        if(departmentID.isEmpty()){
+            request.setAttribute("ERR_DEPART", ERR_NOT_SELECTED);
+            isErr = true;
+        }
+        
+        if(roleID.isEmpty()){
+            request.setAttribute("ERR_ROLE", ERR_NOT_SELECTED);
+            isErr = true;
+        }
+        
         if (startDate.isEmpty()) {
             request.setAttribute("ERR_S_DATE", NO_EMPTY);
             isErr = true;

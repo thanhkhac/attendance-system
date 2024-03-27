@@ -57,8 +57,9 @@
         String err_cccd = (String) request.getAttribute("ERR_CCCD");
         String err_s_date = (String) request.getAttribute("ERR_S_DATE");
         String err_e_date = (String) request.getAttribute("ERR_E_DATE");
-        
-        
+        String err_em_type = (String) request.getAttribute("ERR_SELECTED_EM_TYPE");
+        String err_depart = (String) request.getAttribute("ERR_DEPART");
+        String err_role = (String) request.getAttribute("ERR_ROLE");
         
         if(lastname == null){
             lastname = "";
@@ -96,6 +97,15 @@
         }
         if(err_phonenum == null){
             err_phonenum = "";
+        }
+        if(err_em_type == null){
+            err_em_type = "";
+        }
+        if(err_depart == null){
+            err_depart = "";
+        }
+        if(err_role == null){
+            err_role = "";
         }
         if(err_cccd == null){
            err_cccd = "";
@@ -286,8 +296,8 @@
                                     <div class="row">
                                         <div class="col-md-4 mb-4">
 
-                                            <select class="select form-control-lg display-color" name="txtEmployeeTypeID" " >
-                                                <option value="" disabled>Choose option</option>
+                                            <select style="width: 250px" class="select form-control-lg display-color" name="txtEmployeeTypeID" " >
+                                                <option value="">Choose option</option>
 
                                                 <%
                                                 for (EmployeeTypeDTO employeeTypeDTO : listEmployeeType) {
@@ -305,13 +315,20 @@
                                                 %>
                                             </select> 
                                             <label class="form-label select-label">Loại nhân viên</label>
-
+                                            <%
+                                                if(err_em_type.length() > 0){
+                                            %>
+                                            <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_em_type%></p>
+                                            <%    
+                                                }
+                                            %>
+                                            
                                         </div>
 
                                         <div class="col-md-4 mb-4">
 
-                                            <select class="select form-control-lg display-color" name="txtDepartmentID" ">
-                                                <option value="" disabled>Choose option</option>
+                                            <select style="width: 250px" class="select form-control-lg display-color" name="txtDepartmentID" ">
+                                                <option value="">Choose option</option>
                                                 <%
                                                 for (DepartmentDTO departmentDTO : listDepartment) {
                                                     if(departmentid != null && departmentid.equals(departmentDTO.getName())){
@@ -327,13 +344,19 @@
                                                 %>
                                             </select> 
                                             <label class="form-label select-label">Phòng ban</label>
-
+                                            <%
+                                                if(err_depart.length() > 0){
+                                            %>
+                                            <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_depart%></p>
+                                            <%    
+                                                }
+                                            %>
                                         </div>
 
                                         <div class="col-md-4 mb-4">
 
-                                            <select class="select form-control-lg display-color" name="txtRoleID" ">
-                                                <option value="1" disabled>Choose option</option>
+                                            <select style="width: 250px" class="select form-control-lg display-color" name="txtRoleID" ">
+                                                <option value="">Choose option</option>
                                                 <%
                                                 for (RoleDTO roleDTO : listRole) {
                                                     if(roleid != null && roleid.equals(roleDTO.getName())){
@@ -349,7 +372,13 @@
                                                 %>
                                             </select> 
                                             <label class="form-label select-label">Chức vụ</label>
-
+                                            <%
+                                                if(err_role.length() > 0){
+                                            %>
+                                            <p style="color: #ff0000"><i class="fa-solid fa-triangle-exclamation"></i><%=err_role%></p>
+                                            <%    
+                                                }
+                                            %>
                                         </div>
                                     </div>
 
@@ -394,8 +423,7 @@
                                     </div>
 
                                     <div class="row">
-
-                                        <div class="col-md-6 mb-4 form-check form-switch">
+                                        <div class="col-md-6 mb-4 form-check form-switch" >
                                             <input class="form-check-input" type="checkbox" id="isActive" name="txtIsActive">
                                             <label class="form-check-label" for="isActive">Kích hoạt tài khoản</label>
                                         </div>
