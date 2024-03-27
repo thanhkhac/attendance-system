@@ -92,7 +92,18 @@ public class DepartmentController extends HttpServlet {
     private List<DepartmentDTO> delete(HttpServletRequest request, HttpServletResponse response) {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         int departmentId = Integer.parseInt(request.getParameter("id"));
-        boolean isDelete = departmentDAO.deleteById(departmentId);
+
+        // Kiểm tra xem phòng ban có chứa nhân viên không
+        boolean hasEmployees = departmentDAO.hasEmployees(departmentId);
+
+        if (hasEmployees) {
+            // Nếu có, đặt thuộc tính cannotDelete là true
+            request.setAttribute("cannotDelete", true);
+        } else {
+            // Nếu không, tiến hành xóa phòng ban
+            boolean isDelete = departmentDAO.deleteById(departmentId);
+        }
+
         return departmentDAO.getListDepartment();
     }
 
@@ -100,12 +111,24 @@ public class DepartmentController extends HttpServlet {
         DepartmentDAO departmentDAO = new DepartmentDAO();
         int departmentId = Integer.parseInt(request.getParameter("departmentId"));
         String name = request.getParameter("departmentName");
-        DepartmentDTO dto = new DepartmentDTO();
-        dto.setDepartmentID(departmentId);
-        dto.setName(name);
-        boolean isEditSuccess = departmentDAO.edit(dto);
-        return departmentDAO.getListDepartment();
 
+        // Kiểm tra xem tên phòng ban mới đã tồn tại hay không
+        List<DepartmentDTO> list = departmentDAO.getListDepartment();
+        boolean isDuplicateName = list.stream()
+                .anyMatch(depart -> depart.getName().equals(name) && depart.getDepartmentID() != departmentId);
+
+        if (isDuplicateName) {
+            // Nếu tên đã tồn tại, hiển thị thông báo và không thực hiện sửa đổi
+            request.setAttribute("duplicateName", true);
+        } else {
+            // Nếu không trùng tên, thực hiện sửa đổi
+            DepartmentDTO dto = new DepartmentDTO();
+            dto.setDepartmentID(departmentId);
+            dto.setName(name);
+            boolean isEditSuccess = departmentDAO.edit(dto);
+        }
+
+        return departmentDAO.getListDepartment();
     }
 
     private List<DepartmentDTO> add(HttpServletRequest request, HttpServletResponse response) {

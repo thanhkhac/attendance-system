@@ -53,16 +53,24 @@
             <h1 class="h3 mb-2 text-gray-800">Department</h1>
 
             <!-- Add Department Button -->
-   
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDepartment">
-                    Add Department
-                </button>
-                <c:if test="${requestScope.duplicateName}">
-                    <div class="alert alert-danger" role="alert">
-                        Duplicate department name. Please choose a different name.
-                    </div>
-                </c:if>
-      
+
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDepartment">
+                Add Department
+            </button>
+            <c:if test="${requestScope.duplicateName}">
+                <div class="alert alert-danger" role="alert">
+                    Duplicate department name. Please choose a different name.
+                </div>
+            </c:if>
+            
+            <!-- Display cannot delete -->
+            <c:if test="${requestScope.cannotDelete}">
+                <div class="alert alert-danger" role="alert">
+                    This department cannot be deleted because it contains employees.
+                </div>
+            </c:if>
+
+
 
             <!-- Search Department -->
             <form class="row g-3" action="DepartmentServlet?action=search" method="POST">
@@ -86,9 +94,9 @@
                         <th scope="col">Department Name</th>
                         <th scope="col">Manager's name</th>
                         <th>Total Employees</th>
-                          
-                            <th>Action</th>
-                   
+
+                        <th>Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -116,27 +124,27 @@
                                 ${employeeCount}
 
                             </td>
-                    
-                                <td>
-                                    <!-- Assign Manager Form -->
-                                    <form action="DispatchController" method="POST" style="display: inline;">
-                                        <input type="hidden" value="${d.getDepartmentID()}" name="departmentID"/>
-                                        <input type="submit" value="Assign Manager" name="btAction" class="btn btn-danger"/>
-                                    </form>
 
-                                    <!-- Update Button -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDepartmentModal"
-                                            onclick="editDepartment(this)">
-                                        Update
-                                    </button>
+                            <td>
+                                <!-- Assign Manager Form -->
+                                <form action="DispatchController" method="POST" style="display: inline;">
+                                    <input type="hidden" value="${d.getDepartmentID()}" name="departmentID"/>
+                                    <input type="submit" value="Assign Manager" name="btAction" class="btn btn-danger"/>
+                                </form>
 
-                                    <!-- Delete Button -->
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
-                                            onclick="deleteDepartment(${d.getDepartmentID()})">
-                                        Delete
-                                    </button>
-                                </td>
-                        
+                                <!-- Update Button -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editDepartmentModal"
+                                        onclick="editDepartment(this)">
+                                    Update
+                                </button>
+
+                                <!-- Delete Button -->
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                                        onclick="deleteDepartment(${d.getDepartmentID()})">
+                                    Delete
+                                </button>
+                            </td>
+
                         </tr>
 
                     </c:forEach>
@@ -152,6 +160,13 @@
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                        <!-- Check if duplicateName attribute is true for update action, if yes, display the message -->
+                        <c:if test="${requestScope.updateDuplicateName}">
+                            <div class="alert alert-danger" role="alert">
+                                Duplicate department name. Please choose a different name.
+                            </div>
+                        </c:if>
+
                     </div>
                     <div class="modal-body">
                         <form id="editDepartmentForm" action="DepartmentServlet?action=edit" method="POST">
@@ -234,28 +249,28 @@
             </div>
         </div>
 
-<!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
+        <!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
         <script>
-                                                const msg = document.getElementById("msg").innerText;
-                                                if (msg !== null && msg !== '') {
-                                                    console.log(msg);
-                                                    alert(msg);
-                                                }
+            const msg = document.getElementById("msg").innerText;
+            if (msg !== null && msg !== '') {
+                console.log(msg);
+                alert(msg);
+            }
 
-                                                function deleteDepartment(id) {
-                                                    $('#idDeleteInput').val(id);
-                                                }
+            function deleteDepartment(id) {
+                $('#idDeleteInput').val(id);
+            }
 
-                                                function editDepartment(e) {
-                                                    let tr = e.closest('tr');
-                                                    // Lấy thông tin từ các ô trong table
-                                                    let departmentId = tr.querySelector('td[name="id"]').innerText;
-                                                    let departmentName = tr.querySelector('td[name="name"]').innerText;
-                                                    console.log(departmentId);
-                                                    // Gán thông tin vào form
-                                                    $('#departmentIdEditInput').val(departmentId);
-                                                    $('#departmentNameEditInput').val(departmentName);
-                                                }
+            function editDepartment(e) {
+                let tr = e.closest('tr');
+                // Lấy thông tin từ các ô trong table
+                let departmentId = tr.querySelector('td[name="id"]').innerText;
+                let departmentName = tr.querySelector('td[name="name"]').innerText;
+                console.log(departmentId);
+                // Gán thông tin vào form
+                $('#departmentIdEditInput').val(departmentId);
+                $('#departmentNameEditInput').val(departmentName);
+            }
         </script>
 
     </body>
