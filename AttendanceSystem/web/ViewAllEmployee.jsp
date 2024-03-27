@@ -423,7 +423,7 @@
                     <div id="list-content" >
                         <c:forEach items="${List}" var="a">
                             <div class="table-row-container">
-                                <tr onclick="check()" class="table-primary space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
+                                <tr onclick="check()" class="table-light space-under employeeRow" data-employee-id="${a.getEmployeeID()}">
                                     <td>${a.getEmployeeID()}</td>
                                     <td>${a.getLastName()}</td>
                                     <td>${a.getMiddleName()}</td>

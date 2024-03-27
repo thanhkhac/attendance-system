@@ -86,12 +86,19 @@
             .whole-content{
                 padding-left: 150px;
             }
+            .form-check{
+
+            }
             @media screen and (orientation: portrait) {
                 .whole-content{
                     padding: 0;
                 }
                 .form-output-error{
                     margin-left: 50px;
+                }
+                .form-check{
+                    margin-top: 0;
+                    margin-left: 0;
                 }
             }
             @media (min-width:1000px) {
@@ -378,7 +385,7 @@
                                 <div class="row gx-3 mb-3">
                                     <div class="card-header">Specification</div>
                                     <!-- Form Select (department)-->
-                                    <div class="col-md-4 select-items">
+                                    <div class="col-md-3 select-items">
                                         <label class="large mb-1" for="department"
                                                >Department</label
                                         >
@@ -396,8 +403,8 @@
                                             </c:forEach>
                                         </select>
                                     </div>
-                                    <div class="col-md-4 select-items">
-                                        <label class="large mb-1" for="department">Type</label>
+                                    <div class="col-md-3 select-items">
+                                        <label class="large mb-1" for="Type">Type</label>
                                         <select
                                             class="form-select form-select-sm form-control-lg"
                                             aria-label=".form-select-lg "
@@ -412,8 +419,8 @@
                                             </c:forEach>
                                         </select>
                                     </div>
-                                    <div class="col-md-4 select-items">
-                                        <label class="large mb-1" for="department">Role</label>
+                                    <div class="col-md-3 select-items">
+                                        <label class="large mb-1" for="role">Role</label>
                                         <select
                                             class="form-select form-select-sm form-control-lg"
                                             aria-label=".form-select-lg "
@@ -428,10 +435,21 @@
                                             </c:forEach>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="form-output">
-                                    <div class="form-output-button">
-                                        <input type="hidden" name="txt_employeeID" value="${Employee.getEmployeeID()}">
+                                    <div class="col-md-3 select-items form-check form-switch" 
+                                         style=" margin-top: 32px;
+                                         padding-left: 60px; ">
+                                        <label class="large mb-1" for="status">Active / Deactive Account</label>
+                                        <input class="form-check-input"
+                                               type="checkbox" 
+                                               id="status" 
+                                               name="txt_isActive"
+                                               <c:if test="${Employee.isIsActived()}">checked</c:if>
+                                                   >
+                                        </div>
+                                    </div>
+                                    <div class="form-output">
+                                        <div class="form-output-button">
+                                            <input type="hidden" name="txt_employeeID" value="${Employee.getEmployeeID()}">
                                         <input
                                             class="btn btn-success"
                                             type="submit"

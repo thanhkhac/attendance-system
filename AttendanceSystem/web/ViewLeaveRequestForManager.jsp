@@ -171,7 +171,7 @@
                     </div>
                 </div>
                 <form action="DispatchController" method="POST">
-                    <table class="table" style="width: 100%; margin: auto;">
+                    <table class="table table-hover" style="width: 100%; margin: auto;">
                         <tr style="background-color: #CFE2FF">
                             <th class="text-center">Mã đơn</th>
                             <th class="text-center">Họ và tên</th>
