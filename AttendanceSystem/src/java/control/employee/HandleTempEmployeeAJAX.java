@@ -182,14 +182,13 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
                 + "                                            </div>");
         out.print("<div id=\"body-ajax-" + e.getEmployeeID() + "\" class=\"modal-body d-flex p-3\">\n"
                 + "                                                <form action=\"UpdateTempEmployeeServlet\"\n"
-                + "                                                      id=\"update-form-" + e.getEmployeeID() + "\n"
-                + "                                                      class=\"update-forms\"\n"
-                + "                                                      class=\"row g-3\">\n"
-                + "                                                    <div class=\"information-items\" style=\"max-width: 350px; margin-left: 10px\">\n"
+                + "                                                      id=\"update-form-" + e.getEmployeeID() +"\"\n"
+                + "                                                      class=\" update-forms updated d-flex\">\n"
+                + "                                                    <div class=\"information-items\" style=\"min-width: 235px; margin-left: 10px\">\n"
                 + "                                                        <input type=\"hidden\" name=\"tmpID\" value=\"" + e.getEmployeeID() + "\">\n"
-                + "                                                        <label class=\"modal-label\">Last Name</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\" id=\"lastName-" + e.getEmployeeID() + "\" type=\"text\" name=\"lastName\" value=\"" + txt_lastName + "\"><br>\n"
-                + "                                                        <label class=\"modal-label\">Middle Name</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"middleName-" + e.getEmployeeID() + "\" type=\"text\" name=\"middleName\" value=\"" + txt_middleName + "\"><br>\n"
-                + "                                                        <label class=\"modal-label\">First Name</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"firstName-" + e.getEmployeeID() + "\" type=\"text\" name=\"firstName\" value=\"" + txt_firstName + "\"><br>\n");
+                + "                                                        <label class=\"modal-label\">Last Name</label></br><input readonly id=\"lastName-" + e.getEmployeeID() + "\" type=\"text\" name=\"lastName\" value=\"" + txt_lastName + "\"><br>\n"
+                + "                                                        <label class=\"modal-label\">Middle Name</label></br><input  readonly  id=\"middleName-" + e.getEmployeeID() + "\" type=\"text\" name=\"middleName\" value=\"" + txt_middleName + "\"><br>\n"
+                + "                                                        <label class=\"modal-label\">First Name</label></br><input readonly  id=\"firstName-" + e.getEmployeeID() + "\" type=\"text\" name=\"firstName\" value=\"" + txt_firstName + "\"><br>\n");
         if (err.getNull_error() != null) {
             out.print("<p style=\"color:red;\" >*Không bỏ trống !</p>");
         }
@@ -197,42 +196,42 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
             out.print("<p style=\"color:red;\" >*Tên chỉ chứa chữ cái !</p>");
         }
         out.print("                                                    </div>\n"
-                + "                                                    <div class=\"information-items\"  style=\"max-width: 350px;\">\n"
-                + "                                                        <label class=\"modal-label\">Email</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"email-" + e.getEmployeeID() + "\" type=\"text\" name=\"Email\" value=\"" + txt_email + "\"><br>\n");
+                + "                                                    <div class=\"information-items\"  style=\"min-width: 235px;\">\n"
+                + "                                                        <label class=\"modal-label\">Email</label><br><input readonly  id=\"email-" + e.getEmployeeID() + "\" type=\"text\" name=\"Email\" value=\"" + txt_email + "\"><br>\n");
         if (err.getEmail_format_error() != null) {
             out.print("<p style=\"color:red;\" >*Không đúng định dạng Email</p>");
         } else if (isEmailExist) {
             out.print("<p style=\"color:red;\" >*Email đã tồn tại</p>");
         }
-        out.print("                                                        <label class=\"modal-label\">CCCD</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"cccd-" + e.getEmployeeID() + "\"  type=\"text\" name=\"CCCD\" value=\"" + txt_cccd + "\"><br>\n");
+        out.print("                                                        <label class=\"modal-label\">CCCD</label></br><input readonly id=\"cccd-" + e.getEmployeeID() + "\"  type=\"text\" name=\"CCCD\" value=\"" + txt_cccd + "\"><br>\n");
         if (err.getCccd_format_error() != null) {
             out.print("<p style=\"color:red;\" >*Không đúng định dạng CCCD</p>");
         } else if (isCCCDExist) {
             out.print("<p style=\"color:red;\" >*CCCD đã tồn tại</p>");
         }
-        out.print("                                                        <label class=\"modal-label\">Phone</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"phone-" + e.getEmployeeID() + "\"  type=\"text\" name=\"Phone\" value=\"" + txt_phoneNumber + "\"><br>\n");
+        out.print("                                                        <label class=\"modal-label\">Phone</label></br><input readonly  id=\"phone-" + e.getEmployeeID() + "\"  type=\"text\" name=\"Phone\" value=\"" + txt_phoneNumber + "\"><br>\n");
         if (err.getPhone_format_error() != null) {
             out.print("<p style=\"color:red;\" >*Không đúng định dạng SĐT</p>");
         } else if (isPhoneNumberExist) {
             out.print("<p style=\"color:red;\" >*SĐT đã tồn tại</p>");
         }
         out.print("                                                    </div>\n"
-                + "                                                    <div class=\"information-items\"  style=\"max-width: 350px;\">\n"
-                + "                                                        <label class=\"modal-label\">Gender</label>");
-        out.print("<input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\" id=\"gender-" + e.getEmployeeID() + "\" type=\"text\" name=\"Gender\" value=\"" + (e.getGender() ? "Nam" : "Nữ") + "\"><br>\n"
+                + "                                                    <div class=\"information-items\"  style=\"min-width: 235px;\">\n"
+                + "                                                        <label class=\"modal-label\">Gender</label><br>");
+        out.print("<input readonly  id=\"gender-" + e.getEmployeeID() + "\" type=\"text\" name=\"Gender\" value=\"" + (e.getGender() ? "Nam" : "Nữ") + "\"><br>\n"
                 //                + "<select  disable  onchange=\"checkByChange(event," + e.getEmployeeID() + ")\"  name=\"Gender\" id=\"gender-" + e.getEmployeeID() + "\">\n"
                 //                + "<option " + e.getGender() + " == true?'selected':'' value=\"true\">Nam</option>\n"
                 //                + "<option " + e.getGender() + " == false?'selected':''value=\"false\">Nữ</option>\n"
                 //                + "</select><br>\n"
 
-                + "                                                        <label class=\"modal-label\">BirthDate</label><input onchange=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"birthDate-" + e.getEmployeeID() + "\" type=\"date\" name=\"BirthDate\" value=\"" + txt_birthday + "\"><br>\n");
+                + "                                                        <label class=\"modal-label\">BirthDate</label></br><input readonly id=\"birthDate-" + e.getEmployeeID() + "\" type=\"date\" name=\"BirthDate\" value=\"" + txt_birthday + "\"><br>\n");
         if (err.getDate_invalid() != null) {
             out.print("<p style=\"color:red;\" >*Số tuổi >= 18</p>");
         }
-        out.print("                                                        <label class=\"modal-label\">Password</label><input oninput=\"checkByChange(event," + e.getEmployeeID() + ")\"  id=\"password-" + e.getEmployeeID() + "\" type=\"text\" name=\"Password\" value=\"" + txt_password + "\"><br>\n"
+        out.print("                                                        <label class=\"modal-label\">Password</label></br><input readonly id=\"password-" + e.getEmployeeID() + "\" type=\"text\" name=\"Password\" value=\"" + txt_password + "\"><br>\n"
                 + "                                                    </div>\n"
-                + "                                                    <div class=\"information-items\"  style=\"max-width: 350px;\">\n"
-                + "                                                        <label class=\"modal-label\">TypeID</label><select disable onchange=\"checkByChange(event," + e.getEmployeeID() + ")\"  name=\"EmployeeType\" id=\"type-" + e.getEmployeeID() + "\">\n");
+                + "                                                    <div class=\"information-items\"  style=\"min-width: 235px;\">\n"
+                + "                                                        <label class=\"modal-label\">TypeID</label><br><select disabled  name=\"EmployeeType\" id=\"type-" + e.getEmployeeID() + "\">\n");
 
         for (EmployeeTypeDTO t : employeeType) {
             out.print("                                                                <option \n");
@@ -243,7 +242,7 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
             out.print("</option>\n");
         }
         out.print("                                                        </select><br>\n"
-                + "                                                        <label class=\"modal-label\">DepartmentID</label><select disable onchange=\"checkByChange(event," + e.getEmployeeID() + ")\"  name=\"Department\" id=\"department-" + e.getEmployeeID() + "\">\n");
+                + "                                                        <label class=\"modal-label\">DepartmentID</label></br><select disabled   name=\"Department\" id=\"department-" + e.getEmployeeID() + "\">\n");
         for (DepartmentDTO d : department) {
             out.print("                                                                <option \n");
             if (d.getDepartmentID() == departmentID) {
@@ -253,7 +252,7 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
             out.print("</option>\n");
         }
         out.print("                                                        </select><br>\n"
-                + "                                                        <label class=\"modal-label\">RoleID</label><select disable  onchange=\"checkByChange(event," + e.getEmployeeID() + ")\"  name=\"Role\" id=\"role-" + e.getEmployeeID() + "\">\n");
+                + "                                                        <label class=\"modal-label\">RoleID</label></br><select disabled    name=\"Role\" id=\"role-" + e.getEmployeeID() + "\">\n");
         for (RoleDTO r : roles) {
             out.print("                                                                <option \n");
             if (r.getRoleID() == roleID) {
@@ -264,9 +263,9 @@ public class HandleTempEmployeeAJAX extends HttpServlet {
         }
         out.print("                                                        </select><br>\n"
                 + "                                                    </div>\n"
-                + "                                                    <div class=\"information-items\"  style=\"max-width: 350px;\">\n"
-                + "                                                        <label class=\"modal-label\">StartDate</label><input onchange=\"checkByChange(event," + e.getEmployeeID() + ")\" id=\"startDate-" + e.getEmployeeID() + "\" type=\"date\" name=\"StartDate\" value=\"" + txt_startDate + "\"><br>\n"
-                + "                                                        <label class=\"modal-label\">EndDate</label><input onchange=\"checkByChange(event," + e.getEmployeeID() + ")\" id=\"endDate-" + e.getEmployeeID() + "\" type=\"date\" name=\"EndDate\" value=\"" + txt_endDate + "\"><br>\n");
+                + "                                                    <div class=\"information-items\"  style=\"min-width: 235px;\">\n"
+                + "                                                        <label class=\"modal-label\">StartDate</label></br><input readonly id=\"startDate-" + e.getEmployeeID() + "\" type=\"date\" name=\"StartDate\" value=\"" + txt_startDate + "\"><br>\n"
+                + "                                                        <label class=\"modal-label\">EndDate</label></br><input readonly id=\"endDate-" + e.getEmployeeID() + "\" type=\"date\" name=\"EndDate\" value=\"" + txt_endDate + "\"><br>\n");
         if (endDate != null && startDate != null) {
             if (endDate.isBefore(timeAfterNMonths(startDate, 6))) {
                 out.print("<p style=\"color:red;\" >EndDate > StartDate (ít nhất 6 tháng)</p>");

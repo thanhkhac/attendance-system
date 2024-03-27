@@ -341,7 +341,6 @@ VALUES
   (1, '2024-02-15', '2024-02-18', 'path4', 1),
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
 
-  SELECT * FROM Requests
 
 DECLARE @RequestTypeID INT = 1; 
   INSERT INTO Requests (EmployeeID, Title, SentDate, TypeID, Content, FilePath, Status, ProcessNote, ResponedBy)
