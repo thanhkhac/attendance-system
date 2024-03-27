@@ -98,7 +98,7 @@ public class InsertImportedEmployeesServlet extends HttpServlet {
         ArrayList<EmployeeDTO> employees = (ArrayList<EmployeeDTO>) session.getAttribute("employees");
         ArrayList<EmployeeDTO> isAcceptable = (ArrayList<EmployeeDTO>) session.getAttribute("isAcceptable");
         ArrayList<EmployeeDTO> isError = (ArrayList<EmployeeDTO>) session.getAttribute("isError");
-        ArrayList<EmployeeDTO> isAcceptable_inserted = new ArrayList<>();
+        ArrayList<EmployeeDTO> isAcceptable_inserted = new ArrayList<>();//refresh list avoid currently in use
 
         if (isError == null) {
             isError = new ArrayList<>();
