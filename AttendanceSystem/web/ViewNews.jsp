@@ -82,12 +82,12 @@
                             <div class="mb-4 row">
                                 <div class="col-md-3 mb-2">
                                     <label for="fromDate" class="form-label">From Date:</label>
-                                    <input type="date" class="form-control" id="fromDate" name="fromDate" placeholder="Select From Date">
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate" value="${param.fromDate}" placeholder="Select From Date">
                                 </div>
 
                                 <div class="col-md-3 mb-2">
                                     <label for="toDate" class="form-label">To Date:</label>
-                                    <input type="date" class="form-control" id="toDate" name="toDate" placeholder="Select To Date" >
+                                    <input type="date" class="form-control" id="toDate" name="toDate" value="${param.toDate}" placeholder="Select To Date" >
                                 </div>
 
                                 <div class="col-md-2 mb-2 d-flex align-items-end">

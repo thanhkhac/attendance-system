@@ -14,7 +14,7 @@
         <style>
             body{
                 font-family: sans-serif;
-                background-color: steelblue;
+                background-color: steelblue!important;
             }
             .content{
                 background-color: white;
@@ -22,6 +22,7 @@
                 margin: auto;
                 padding: 20px;
                 margin-top: 10px;
+                height: 100vh;
             }
             .content-redirect{
                 background-color: #F5F5F5;
@@ -58,6 +59,7 @@
 
     </head>
     <body>
+        <%@include file="Sidebar.jsp" %>
         <div>
             <div class="content">
                 <div class="content-redirect">

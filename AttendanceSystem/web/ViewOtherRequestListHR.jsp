@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +11,7 @@
         <style>
             body{
                 font-family: sans-serif;
-                background-color: steelblue;
+                background-color: steelblue !important;
             }
             .content{
                 background-color: white;
@@ -56,6 +55,7 @@
 
     </head>
     <body>
+        <%@include file="Sidebar.jsp" %>
         <div class="content">
             <h1>Thông Báo</h1>
             <div class="content-redirect">

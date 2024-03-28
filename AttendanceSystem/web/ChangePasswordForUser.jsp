@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <style>
             body {
-                background-image: url('assets/img/image007_9.jpg');
+                background-image: url('assets/img/fpt-background.JPG');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;

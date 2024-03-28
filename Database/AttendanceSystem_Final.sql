@@ -342,11 +342,11 @@ VALUES
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
 
 
-DECLARE @RequestTypeID INT = 1; 
+DECLARE @RequestTypeID INT = 4; 
   INSERT INTO Requests (EmployeeID, Title, SentDate, TypeID, Content, FilePath, Status, ProcessNote, ResponedBy)
 VALUES
-  (1, N'Yêu cầu tăng ca ngày 01/03/2024', GETDATE(), @RequestTypeID, N'Tôi muốn đăng ký tăng ca vào ngày 01/03/2024 từ 17:00 đến 19:30.', NULL, NULL, NULL, NULL),
-  (2, N'Yêu cầu tăng ca ngày 03/03/2024', GETDATE(), @RequestTypeID, N'Tôi muốn đăng ký tăng ca vào ngày 03/03/2024 từ 15:00 đến 17:30.', NULL, NULL, NULL, NULL);
+  (1, N'Yêu cầu ban quản lý xem xét', GETDATE(), @RequestTypeID, N'', NULL, NULL, NULL, NULL),
+  (2, N'Yêu cầu ban quản lý xem xét', GETDATE(), @RequestTypeID, N'Tôi muốn đăng ký tăng ca vào ngày 03/03/2024 từ 15:00 đến 17:30.', NULL, NULL, NULL, NULL);
 
  
 INSERT INTO [LeaveRequests] ( [EmployeeID], [SentDate], [StartDate], [EndDate], [FilePath], [Reason], [ManagerApprove], [HrApprove], [ManagerID], [HrID], [CreatedBy], [Status]) VALUES ( 1, CAST(N'2024-03-28T00:00:00.000' AS DateTime), CAST(N'2024-03-29' AS Date), CAST(N'2024-03-30' AS Date), N'Leave-Request-AttachedFiles/fb87a0b5-eccb-11ee-b9dd-6dbcbbb18060.pdf', N'Nghỉ phép', 1, NULL, 3, NULL, 3, 0)
@@ -354,3 +354,45 @@ INSERT INTO [LeaveRequests] ( [EmployeeID], [SentDate], [StartDate], [EndDate], 
 
 
   SELECT * FROM LeaveRequests
+  SELECT * FROM News
+
+
+insert into LeaveRequests
+values  (6 , '2024-03-01' , '2024-03-02' , '2024-03-02' , '' , N'việc gia đình' , 1 , 1 , 4 , 2 , 6 , 1)
+
+insert into LeaveRequests
+values  (6 , '2024-03-01' , '2024-03-02' , '2024-03-02' , '' , N'việc gia đình' , 1 , 1 , 4 , 2 , 6 , 1)
+
+insert into LeaveRequests
+values  (6 , '2024-03-01' , '2024-03-02' , '2024-03-02' , '' , N'việc gia đình' , 1 , 1 , 4 , 2 , 6 , 1)
+
+insert into LeaveRequests
+values  (6 , '2024-03-01' , '2024-03-02' , '2024-03-02' , '' , N'việc gia đình' , 1 , 1 , 4 , 2 , 6 , 1)
+
+insert into LeaveRequests
+values  (6 , '2024-03-01' , '2024-03-02' , '2024-03-02' , '' , N'việc gia đình' , 1 , 1 , 4 , 2 , 6 , 1)
+
+insert into LeaveRequests
+values  (6 , '2024-03-01' , '2024-03-02' , '2024-03-02' , '' , N'việc gia đình' , 1 , 1 , 4 , 2 , 6 , 1)
+
+insert into LeaveRequests
+values  (6 , '2024-03-01' , '2024-03-02' , '2024-03-02' , '' , N'việc gia đình' , 1 , 1 , 4 , 2 , 6 , 1)
+
+
+
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Quy định chấm công', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong4.html', CAST(N'2021-03-28T15:20:17.130' AS DateTime), 2)
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Quy định chấm công', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong5.html', CAST(N'2022-03-28T15:20:17.130' AS DateTime), 2)
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Quy định chấm công', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong6.html', CAST(N'2023-03-28T15:20:17.130' AS DateTime), 2)
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Quy định chấm công', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong7.html', CAST(N'2024-03-28T15:20:17.130' AS DateTime), 2)
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Quy định chấm công 2024', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong.html', CAST(N'2020-03-28T15:20:17.130' AS DateTime), 2)
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Thông báo ngày 28/03/2024', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong1.html', CAST(N'2019-03-28T15:20:17.130' AS DateTime), 2)
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Quy định mới', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong2.html', CAST(N'2024-03-28T15:20:17.130' AS DateTime), 2)
+
+INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Thông báo ngày 20/02/2024', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong3.html', CAST(N'2024-03-28T15:20:17.130' AS DateTime), 2)

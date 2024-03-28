@@ -58,7 +58,6 @@ public class PathConstants {
         employeeRestrictPaths.add("/deletenews");
         employeeRestrictPaths.add("/FilteringByHR");
         employeeRestrictPaths.add("/GetAllNewsByHR");
-        employeeRestrictPaths.add("/getdetailnew");
         employeeRestrictPaths.add("/GetInfoNews");
         employeeRestrictPaths.add("/insertNews");
         employeeRestrictPaths.add("/SearchNewsByHR");
@@ -120,7 +119,6 @@ public class PathConstants {
         managerRestrictPaths.add("/deletenews");
         managerRestrictPaths.add("/FilteringByHR");
         managerRestrictPaths.add("/GetAllNewsByHR");
-        managerRestrictPaths.add("/getdetailnew");
         managerRestrictPaths.add("/GetInfoNews");
         managerRestrictPaths.add("/insertNews");
         managerRestrictPaths.add("/SearchNewsByHR");

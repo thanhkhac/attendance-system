@@ -101,7 +101,7 @@
                                                 <p class="LoginGoole">Login with Google</p>
                                             </div>
                                             <div class="icon-container iconGoole">
-                                                <a class="LinkGoogle" href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:9999/AttendanceSystem/loginGoogle&response_type=code&client_id=310236709220-reloijlvas77i2jdhkh43il56o7ebbn1.apps.googleusercontent.com&approval_prompt=force"><i class="fa-regular fa-envelope"></i></a>
+                                                <a class="LinkGoogle" href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/AttendanceSystem/loginGoogle&response_type=code&client_id=310236709220-reloijlvas77i2jdhkh43il56o7ebbn1.apps.googleusercontent.com&approval_prompt=force"><i class="fa-regular fa-envelope"></i></a>
                                             </div>
                                         </div>
                                     </form>
