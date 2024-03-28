@@ -19,7 +19,7 @@ public class TakeAttendanceOvertime extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getServerPort() == PortConstants.ONLINE) {
-            request.setAttribute("modalMessage", "<a href=\"http://localhost:8081/AttendanceSystem/Attendance.jsp\">Vui lòng truy cập vào trang nội bộ</a>");
+            request.setAttribute("modalMessage", "<a href=\"http://localhost:8081/AttendanceSystem/Attendance\">Vui lòng truy cập vào trang nội bộ</a>");
             request.getRequestDispatcher(URL).forward(request, response);
             return;
         }

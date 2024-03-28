@@ -18,7 +18,7 @@
         <style>
             body{
                 font-family: sans-serif;
-                background-color: steelblue;
+                background-color: steelblue!important;
             }
             .tdbreak {
                 word-break: break-word;
@@ -150,6 +150,7 @@
         deDTO = deDao.getDepartmentById(departmentID);
     %>
     <body>
+        <%@include file="Sidebar.jsp" %>
         <div>
             <div class="content">
                 <%--<h1>Thông Báo</h1>--%>

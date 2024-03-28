@@ -183,17 +183,17 @@
                         <form action="SearchNewsByHR" method="get" class="col-md-10 row">
                             <div class="col-md-3 mb-2">
                                 <label for="searchTitle" class="form-label">Title:</label>
-                                <input type="text" class="form-control" id="searchTitle" name="title" placeholder="Enter Title">
+                                <input type="text" class="form-control" id="searchTitle" value="${param.title}" name="title" placeholder="Enter Title">
                             </div>
 
                             <div class="col-md-3 mb-2">
                                 <label for="fromDate" class="form-label">From Date:</label>
-                                <input type="date" class="form-control" id="fromDate" name="fromDate" placeholder="Select From Date" onchange="saveDateToStorage('fromDate', this.value)">
+                                <input type="date" class="form-control" id="fromDate" value="${param.fromDate}" name="fromDate" placeholder="Select From Date" onchange="saveDateToStorage('fromDate', this.value)">
                             </div>
 
                             <div class="col-md-3 mb-2">
                                 <label for="toDate" class="form-label">To Date:</label>
-                                <input type="date" class="form-control" id="toDate" name="toDate" placeholder="Select To Date" onchange="saveDateToStorage('toDate', this.value)">
+                                <input type="date" class="form-control" id="toDate" name="toDate" value="${param.toDate}" placeholder="Select To Date" onchange="saveDateToStorage('toDate', this.value)">
                             </div>
 
 

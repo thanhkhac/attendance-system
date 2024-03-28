@@ -85,7 +85,7 @@
     </head>
 
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
             <div class="row">
                 <div class="col-md-2">
                     <!-- Sidebar -->
@@ -94,7 +94,7 @@
                 <div class="col-md-10">
                     <!-- Nội dung chính -->
                     <div class="container mt-5">
-                        <h2 class="mb-4">New Detail</h2>
+                        <h2 class="mb-4">Details</h2>
 
                         <%-- Lấy đối tượng tin tức từ requestScope --%>
                         <c:set var="newsdto" value="${news}" />

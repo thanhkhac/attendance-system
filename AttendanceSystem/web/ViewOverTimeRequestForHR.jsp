@@ -18,7 +18,7 @@
         <style>
             body{
                 font-family: sans-serif;
-                background-color: steelblue;
+                background-color: steelblue !important;
             }
             .tdbreak {
                 word-break: break-word;
@@ -148,6 +148,7 @@
         ArrayList<OverTimeRequestExtendDTO> list = otDAO.getOverTimeListForHR(1);
     %>
     <body>
+        <%@include file="Sidebar.jsp" %>
         <div>
             <div class="content">
                 <%--<h1>Thông Báo</h1>--%>

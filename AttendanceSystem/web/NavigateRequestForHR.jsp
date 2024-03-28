@@ -16,7 +16,7 @@
         <style>
             body{
                 font-family: sans-serif;
-                background-color: steelblue;
+                background-color: steelblue !important;
             }
             .content{
                 background-color: white;
@@ -60,6 +60,7 @@
 
     </head>
     <body>
+        <%@include file="Sidebar.jsp" %>
         <div>
             <div class="content">
                 <h1>Thông Báo</h1>

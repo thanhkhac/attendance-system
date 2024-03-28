@@ -20,7 +20,7 @@
         <style>
             body{
                 font-family: sans-serif;
-                background-color: steelblue;
+                background-color: steelblue!important;
             }
             .tdbreak {
                 word-break: break-word;
@@ -149,6 +149,7 @@
         EmployeeDTO acc = (EmployeeDTO) request.getSession().getAttribute("ACCOUNT");
     %>
     <body>
+        <%@include file="Sidebar.jsp" %>
         <div>
             <div class="content">
                 <%--<h1>Thông Báo</h1>--%>
@@ -272,7 +273,7 @@
                                 %>
                                 <form action="DispatchController" method="Post">
                                     <input type="hidden" name="requestID" value="<%=lr.getLeaveRequestID()%>">
-                                    <button type="submit" name="btAction" class="btn btn-primary" value="Schedule">Xếp Lịch</button>  
+                                    <button <t></t>ype="submit" name="btAction" class="btn btn-primary" value="Schedule">Xếp Lịch</button>  
                                 </form>
                                 <% 
                                    }
