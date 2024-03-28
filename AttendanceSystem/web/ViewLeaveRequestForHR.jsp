@@ -264,6 +264,7 @@
                                     }
                                 %>
                             </td>
+                            <td style="display: none" class="tdbreak"><%=lr.getFilePath()%></td>
                             <td class="text-center">
                                 <%
                                     if( lr.getHrApprove() != null && lr.getHrApprove()){
@@ -378,6 +379,7 @@
                 var hrStatus = row.cells[8].innerText; // Trạng thái (HR)
                 var managerName = row.cells[9].innerText; // Người phê duyệt (Manager)
                 var hrName = row.cells[10].innerText; // Người phê duyệt (HR)
+                var file = row.cells[11].innerText;
 
                 modalBody.innerHTML = `
                     <h2 style="border-bottom: 1px solid black;" >Chi Tiết Đơn Nghỉ Phép</h2>
@@ -415,6 +417,9 @@
                                     <span class="label">Ngày kết thúc: </span>
                                     <span class="value">\${endDate}</span>
                                 </div>
+                            </div>
+                            <div class="detail-row">
+                                <span class="value"><a href="#">\${file}</a></span>
                             </div>
                         </div>
                 `;
