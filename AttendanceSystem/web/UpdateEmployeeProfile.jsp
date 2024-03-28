@@ -93,8 +93,7 @@
                                                 <img class="img-rounded rounded-circle img-responsive" src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="">
                                             </figure>
                                             <div class="form-inline col-md-9 col-sm-9 col-xs-12 mt-4 ">
-                                                <input type="file" class="file-uploader pull-left mt-4 mb-2">
-                                                <button type="submit" class="btn btn-primary">Update Image</button>
+                                                <input type="file" class="file-uploader pull-left mt-4 mb-2">                     
                                             </div>
                                         </div>
                                     </div>
@@ -115,7 +114,7 @@
                                     <div class="row mb-2">
                                         <div class="col-md-6">
                                             <label class="small mb-1" for="txtPhone">Phone number</label>
-                                            <input class="form-control" type="text" name="txtPhone" id="txtPhone" value="<%=employee.getPhoneNumber()%>" required >
+                                            <input class="form-control" type="text" name="txtPhone" id="txtPhone" value="<%=employee.getPhoneNumber()%>" readonly >
                                             <%
                                                       String checkPhone = (String) request.getAttribute("CHECKPHONE");
                                                       if(checkPhone!=null){
@@ -143,23 +142,20 @@
                                             <%
                                               if(employee.getGender()){
                                             %>
-                                            <select class="form-control" name="txtGender" id="txtGender">
-                                                <option value="Male">Male</option>
-                                                <option value="Female" selected="">Female</option>
+                                            <select class="form-control" name="txtGender" id="txtGender" >
+                                                <option  disabled value="Male">Male</option>
+                                                <option value="Female"  selected="">Female</option>
                                             </select>
                                             <%
                                                 } else{
                                             %>
                                             <select class="form-control" name="txtGender" id="txtGender">
-                                                <option value="Male" selected="">Male</option>
-                                                <option value="Female" >Female</option>
+                                                <option value="Male"  selected="">Male</option>
+                                                <option disabled value="Female" >Female</option>
                                             </select>
                                             <%}%>
                                         </div>
-                                        <div class="">
-                                            <label class="small " for="txtAddress">Address</label>
-                                            <input class="form-control" type="text" name="txtAddress" id="txtAddress" value=""  >
-                                        </div>
+                                        
                                     </div>
                                     <%
                                          String check = (String) request.getAttribute("CHECK");

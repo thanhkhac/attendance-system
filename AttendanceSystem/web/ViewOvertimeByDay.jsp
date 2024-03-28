@@ -271,7 +271,7 @@
                         <a href="javascript:history.back()" class="btn btn-outline-secondary" style="    width: 106px;position: absolute; left: 15px; top: 15px;">
                             <i class="bi bi-arrow-left"></i> Trở lại
                         </a>
-                        <h3 class="h2 bg-primary-after after-50px pb-3 mb-3">Các ca tăng ca trong ngày <%=Day%> <%=list.size()%></h3>
+                        <h3 class="h2 bg-primary-after after-50px pb-3 mb-3">Các ca tăng ca trong ngày <%=Day%></h3>
                     </div>
                 </div>
                 <div class="row">
