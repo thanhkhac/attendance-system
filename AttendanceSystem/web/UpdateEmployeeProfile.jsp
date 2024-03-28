@@ -89,13 +89,13 @@
                                     <div class="mb-2">
 
                                         <div class="row form-group avatar">
-                                            <figure class="figure col-md-3 col-sm-3 col-xs-12">
+<!--                                            <figure class="figure col-md-3 col-sm-3 col-xs-12">
                                                 <img class="img-rounded rounded-circle img-responsive" src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="">
-                                            </figure>
-                                            <div class="form-inline col-md-9 col-sm-9 col-xs-12 mt-4 ">
+                                            </figure>-->
+<!--                                            <div class="form-inline col-md-9 col-sm-9 col-xs-12 mt-4 ">
                                                 <input type="file" class="file-uploader pull-left mt-4 mb-2">
                                                 <button type="submit" class="btn btn-primary">Update Image</button>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
                                     <div class="mb-2">
@@ -156,10 +156,10 @@
                                             </select>
                                             <%}%>
                                         </div>
-                                        <div class="">
+<!--                                        <div class="">
                                             <label class="small " for="txtAddress">Address</label>
                                             <input class="form-control" type="text" name="txtAddress" id="txtAddress" value=""  >
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <%
                                          String check = (String) request.getAttribute("CHECK");
@@ -171,9 +171,9 @@
                                         Update thành công!!!
                                     </div>
                                     <%}%>
-                                    <div class="">
+<!--                                    <div class="">
                                         <button class="btn btn-primary mt-3" name="btAction" value="UpdateProfile" type="submit">Save changes</button>
-                                    </div>
+                                    </div>-->
 
                                 </form>
                             </div>

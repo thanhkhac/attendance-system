@@ -115,7 +115,7 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" >${shiftMap[timesheet.shiftID].name}</h5>
+                                                        <h5 class="modal-title" >Tên ca: ${shiftMap[timesheet.shiftID].name}</h5>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
@@ -123,25 +123,33 @@
                                                         <table>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>Tình trạng </td>  
+                                                                    <td class="fw-bold">Tình trạng </td>  
                                                                     <td class="shift-status"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Giờ vào:</td>
+                                                                    <td class="fw-bold">Giờ vào:</td>
                                                                     <td class="startTime"> ${requestScope.shiftMap[timesheet.shiftID].startTime}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Giờ ra: </td>
+                                                                    <td class="fw-bold">Giờ ra: </td>
                                                                     <td class="endTime">${requestScope.shiftMap[timesheet.shiftID].endTime}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Chấm công vào: </td>
+                                                                    <td class="fw-bold">Cổng mở:</td>
+                                                                    <td class="startTime"> ${requestScope.shiftMap[timesheet.shiftID].openAt}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="fw-bold">Cổng đóng: </td>
+                                                                    <td class="endTime">${requestScope.shiftMap[timesheet.shiftID].closeAt}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="fw-bold">Chấm công vào: </td>
                                                                     <td class="checkIn">
                                                                         ${timesheet.checkin}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Chấm công ra: </td>
+                                                                    <td class="fw-bold">Chấm công ra: </td>
                                                                     <td class="checkOut">
                                                                         ${timesheet.checkout}
                                                                     </td>
@@ -188,37 +196,37 @@
                                                         <table>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>Tình trạng </td>           
+                                                                    <td class="fw-bold">Tình trạng </td>           
                                                                     <td class="shift-status"></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Giờ vào:</td>
+                                                                    <td class="fw-bold">Giờ vào:</td>
                                                                     <td class="startTime"> ${wkday.overtime.startTime}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Giờ ra: </td>
+                                                                    <td class="fw-bold">Giờ ra: </td>
                                                                     <td class="endTime">${wkday.overtime.endTime}</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Chấm công vào: </td>
+                                                                    <td class="fw-bold">Chấm công vào: </td>
                                                                     <td class="checkIn">
                                                                         ${wkday.overtime.checkIn}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Chấm công ra: </td>
+                                                                    <td class="fw-bold">Chấm công ra: </td>
                                                                     <td class="checkOut">
                                                                         ${wkday.overtime.checkOut}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Cổng chấm công mở trước: </td>
+                                                                    <td class="fw-bold">Cổng mở: </td>
                                                                     <td class="opentAt">
                                                                         ${wkday.overtime.openAt}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Cổng chấm công đóng sau: </td>
+                                                                    <td class="fw-bold">Cổng đóng: </td>
                                                                     <td class="closeAt">
                                                                         ${wkday.overtime.closeAt}
                                                                     </td>

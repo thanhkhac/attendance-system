@@ -79,7 +79,7 @@
                             <th>Tìm kiếm</th>
                             <th>Phòng ban</th>
                             <th>Loại nhân viên</th>
-                            <th>Role</th>
+                            <th></th>
                             <th>Đã chọn</th>
                         </tr>
                         <tr>
@@ -103,7 +103,7 @@
                                 </select>   
                             </td>
                             <td>
-                                <select class="form-select" id="select-role">
+                                <select class="form-select d-none" id="select-role">
                                     <option value="" selected="">Tất cả</option>
                                     <c:forEach var="dto" items="${roleList}" varStatus="counter">
                                         <option value="${dto.name}">${dto.name}</option>
@@ -134,7 +134,7 @@
                                 <th>CCCD</th>
                                 <th>Phòng ban</th>
                                 <th>Loại nhân viên</th>
-                                <th>Role</th>
+                                <th class="d-none">Role</th>
                             </tr>
                             <c:forEach var="employee" items="${requestScope.EmployeeList}" varStatus="counter">
                                 <tr class="employee-row">
@@ -162,7 +162,7 @@
                                             </c:if>
                                         </c:forEach>
                                     </td>
-                                    <td>
+                                    <td class="d-none">
                                         <c:forEach var="dto" items="${roleList}" varStatus="counter">
                                             <c:if test="${dto.roleID eq employee.roleID}">
                                                 ${dto.name}
@@ -172,7 +172,7 @@
                                 </tr>
                             </c:forEach>
                         </table>
-                        <div class=" my-3">
+                        <div class=" my-3 mx-2">
                             <button type="submit" class="btn btn-danger" id="form-submit-button">Xóa</button>
                             <input type="hidden" name="btAction" value="DeleteMultipleTimesheet">
                             <input type="hidden" name="month" value="${requestScope.month}">
