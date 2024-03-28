@@ -43,6 +43,10 @@
                 padding: 4px 9px;
                 border-radius: 9px;
             }
+            .card{
+                width: 57vw;
+    margin-left: 16%;
+            }
 
         </style>
     </head>
@@ -61,41 +65,28 @@
                      else Department = "Phòng tiếp thị";
                 %>
                 <div class="row">
-                    <div class="col-xl-4">
-                        <div class="card"> 
-                            <div class="card-header">
-                                Employee profile
-                            </div>
-                            <div>
-                                <div class="text-center">
-                                    <img class="img-profile rounded-circle mb-2 mt-4" src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="">
-                                    <div class="font-italic text-muted mb-2"><%=employee.getLastName()+" "+employee.getMiddleName()+" "+employee.getFirstName()%></div>
-                                    <div class="d-flex justify-content-center align-items-center"> <p class="department"><%=Department%></p></div>
-                                    <div class="font-italic text-muted"><a href="#"><p><%=employee.getEmail()%></p></a></div>
-                                    <div class="small font-italic text-muted mb-2">Date of starting work: <%=employee.getStartDate()%></div>
-                                </div>
-                            </div>
-                        </div>
+                   <div class="">
+                       </div>
 
-                    </div>
-
-                    <div class="col-xl-8">
+                    <div class="">
                         <div class="card">
                             <div class="card-header">
                                 Account Details
+                            </div>
+                             <div>
+                                <div class="text-center">
+                                    <img class="img-profile rounded-circle mb-2 mt-2" src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="">
+                                    <div class="font-italic text-muted mb-2"><%=employee.getLastName()+" "+employee.getMiddleName()+" "+employee.getFirstName()%></div>
+                                    <div class="d-flex justify-content-center align-items-center"> <p class="department"><%=Department%></p></div>
+                                    <div class="font-italic text-muted"><a href="#"><p><%=employee.getEmail()%></p></a></div>
+                                    <div class="small font-italic text-muted ">Date of starting work: <%=employee.getStartDate()%></div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <form action="DispatchController">
                                     <div class="mb-2">
 
-                                        <div class="row form-group avatar">
-                                            <figure class="figure col-md-3 col-sm-3 col-xs-12">
-                                                <img class="img-rounded rounded-circle img-responsive" src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="">
-                                            </figure>
-                                            <div class="form-inline col-md-9 col-sm-9 col-xs-12 mt-4 ">
-                                                <input type="file" class="file-uploader pull-left mt-4 mb-2">                     
-                                            </div>
-                                        </div>
+                                      
                                     </div>
                                     <div class="mb-2">
                                         <label class="small mb-1" for="txtName">Full name</label>
@@ -167,9 +158,7 @@
                                         Update thành công!!!
                                     </div>
                                     <%}%>
-                                    <div class="">
-                                        <button class="btn btn-primary mt-3" name="btAction" value="UpdateProfile" type="submit">Save changes</button>
-                                    </div>
+                                    
 
                                 </form>
                             </div>
