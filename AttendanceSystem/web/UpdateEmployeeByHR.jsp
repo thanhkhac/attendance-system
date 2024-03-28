@@ -112,6 +112,7 @@
         <%@include file="Sidebar.jsp" %>
     </head>
     <body>
+        <c:set var="account" value="${sessionScope.ACCOUNT}" />
         <c:set var="ListDepartment" value="${requestScope.ListDepartment}" />
         <c:set var="ListType" value="${requestScope.ListType}" />
         <c:set var="ListRole" value="${requestScope.ListRole}" />
@@ -438,8 +439,12 @@
                                     <div class="col-md-3 select-items form-check form-switch" 
                                          style=" margin-top: 32px;
                                          padding-left: 60px; ">
+
                                         <label class="large mb-1" for="status">Active / Deactive Account</label>
-                                        <input class="form-check-input"
+                                        <input class="form-check-input"  
+                                               <c:if test="${Employee.getEmployeeID() == account.getEmployeeID()}">
+                                                   disabled
+                                               </c:if>
                                                type="checkbox" 
                                                id="status" 
                                                name="txt_isActive"
