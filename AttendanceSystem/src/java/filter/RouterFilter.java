@@ -151,7 +151,7 @@ public class RouterFilter implements Filter {
         } catch (Exception e) {
         }
 
-        if (url.equals("ThanhCong.html")) {
+        if (url.toLowerCase().equals("/ThanhCong.html".toLowerCase())) {
             httpResponse.sendRedirect("HomePage.jsp");
             return;
         }
