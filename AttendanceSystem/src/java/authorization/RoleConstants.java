@@ -9,4 +9,7 @@ public class RoleConstants {
     private RoleConstants(){
         
     }
+    public static void main(String[] args) {
+
+    }
 }

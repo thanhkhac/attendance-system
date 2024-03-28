@@ -58,7 +58,7 @@ public class CheckLoginServlet extends HttpServlet {
             response.addCookie(mail);
             response.addCookie(pass);
             }
-            response.sendRedirect("ThanhCong.html");
+            response.sendRedirect("HomePage.jsp");
             }else{
                 String Error = "Account is currently locked";
                 request.setAttribute("Error", Error);
