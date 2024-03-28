@@ -68,7 +68,7 @@ public class LoginGoogleServlet extends HttpServlet {
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
             response.sendRedirect("cookieLogin");
         }
 

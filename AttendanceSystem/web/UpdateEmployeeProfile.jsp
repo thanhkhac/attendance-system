@@ -86,7 +86,9 @@
                                 <form action="DispatchController">
                                     <div class="mb-2">
 
+
                                       
+
                                     </div>
                                     <div class="mb-2">
                                         <label class="small mb-1" for="txtName">Full name</label>
@@ -146,7 +148,9 @@
                                             </select>
                                             <%}%>
                                         </div>
+
                                         
+
                                     </div>
                                     <%
                                          String check = (String) request.getAttribute("CHECK");
@@ -158,7 +162,7 @@
                                         Update thành công!!!
                                     </div>
                                     <%}%>
-                                    
+
 
                                 </form>
                             </div>
