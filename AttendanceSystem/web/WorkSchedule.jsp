@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div style="position: fixed; bottom: 20px; right: 20px;">
-                <button onclick="scrollToday()" type="button" name="gotoToday" class="btn btn-primary">Go to Today</button>
+                <button onclick="scrollToday()" type="button" name="gotoToday" class="btn btn-primary">Hôm nay</button>
             </div>
         </div>
         <script src="assets/js/workschedule.js"></script>

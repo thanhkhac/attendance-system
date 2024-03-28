@@ -178,7 +178,7 @@
                     </c:if>    
                 </div>
                 <div class="container">
-                    <h2 class="mb-4">List Management</h2>
+                    <h2 class="mb-4">News List Management</h2>
                     <div class="row align-items-end">
                         <form action="SearchNewsByHR" method="get" class="col-md-10 row">
                             <div class="col-md-3 mb-2">

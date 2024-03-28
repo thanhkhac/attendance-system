@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
@@ -48,7 +48,7 @@ public class OverTimeByDay extends HttpServlet {
             else{
                 int count = 0;
                 for(OvertimeDTO check : list2){
-                    if(check.getStartTime() == overtime.getStartTime() && check.getEndTime() == overtime.getEndTime()){
+                    if(check.getStartTime().equals(overtime.getStartTime()) && check.getEndTime().equals(overtime.getEndTime())){
                      count =1 ;   
                     }
                 }
@@ -59,6 +59,7 @@ public class OverTimeByDay extends HttpServlet {
         request.setAttribute("LISTOVERTIME", list2);
         request.setAttribute("DAY", Day);
         request.setAttribute("CHECK", Check);
+ 
         request.getRequestDispatcher("ViewOvertimeByDay.jsp").forward(request, response);
     } 
 
