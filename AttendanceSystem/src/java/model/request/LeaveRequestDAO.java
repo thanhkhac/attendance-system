@@ -79,49 +79,49 @@ public class LeaveRequestDAO extends DAOBase {
         PreparedStatement stm = null;
         ResultSet rs = null;
 //        if (connection != null) {
-            try {
-                String sql = "SELECT LeaveRequestID ,\n"
-                        + "		l.EmployeeID,\n"
-                        + "		SentDate,\n"
-                        + "		l.StartDate,\n"
-                        + "		l.EndDate,\n"
-                        + "		FilePath,\n"
-                        + "		Reason,\n"
-                        + "		ManagerApprove,\n"
-                        + "		HrApprove,\n"
-                        + "		ManagerID,\n"
-                        + "		HrID,\n"
-                        + "		[Status],\n"
-                        + "		e.DepartmentID\n"
-                        + "FROM LeaveRequests l\n"
-                        + "JOIN Employees e ON l.EmployeeID = e.EmployeeID\n"
-                        + "WHERE e.DepartmentID like '%" + deID + "%'\n"
-                        + "ORDER BY ManagerApprove ASC , LeaveRequestID ASC";
-                stm = connection.prepareStatement(sql);
-                rs = stm.executeQuery();
-                while (rs.next()) {
-                    int leaveRequestID = rs.getInt("LeaveRequestID");
-                    int employeeID = rs.getInt("EmployeeID");
-                    int departmentID = rs.getInt("DepartmentID");
-                    LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
-                    LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
-                    LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
-                    String filePath = rs.getNString("FilePath");
-                    String reason = rs.getNString("Reason");
-                    Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
-                    Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
-                    int managerID = rs.getInt("ManagerID");
-                    int hrID = rs.getInt("HrID");
-                    Boolean status = parseBoolean(rs.getString("Status"));
-                    LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, departmentID, sentDate, startDate, endDate, filePath, reason, managerApprove, hrApprove, managerID, hrID, status);
-                    list.add(lr);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e);
-            } finally {
-                closeAll();
+        try {
+            String sql = "SELECT LeaveRequestID ,\n"
+                    + "		l.EmployeeID,\n"
+                    + "		SentDate,\n"
+                    + "		l.StartDate,\n"
+                    + "		l.EndDate,\n"
+                    + "		FilePath,\n"
+                    + "		Reason,\n"
+                    + "		ManagerApprove,\n"
+                    + "		HrApprove,\n"
+                    + "		ManagerID,\n"
+                    + "		HrID,\n"
+                    + "		[Status],\n"
+                    + "		e.DepartmentID\n"
+                    + "FROM LeaveRequests l\n"
+                    + "JOIN Employees e ON l.EmployeeID = e.EmployeeID\n"
+                    + "WHERE e.DepartmentID like '%" + deID + "%'\n"
+                    + "ORDER BY ManagerApprove ASC , LeaveRequestID ASC";
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int leaveRequestID = rs.getInt("LeaveRequestID");
+                int employeeID = rs.getInt("EmployeeID");
+                int departmentID = rs.getInt("DepartmentID");
+                LocalDate sentDate = DATE_UTIL.parseSqlDate(rs.getDate("SentDate"));
+                LocalDate startDate = DATE_UTIL.parseSqlDate(rs.getDate("StartDate"));
+                LocalDate endDate = DATE_UTIL.parseSqlDate(rs.getDate("EndDate"));
+                String filePath = rs.getNString("FilePath");
+                String reason = rs.getNString("Reason");
+                Boolean managerApprove = parseBoolean(rs.getString("ManagerApprove"));
+                Boolean hrApprove = parseBoolean(rs.getString("HrApprove"));
+                int managerID = rs.getInt("ManagerID");
+                int hrID = rs.getInt("HrID");
+                Boolean status = parseBoolean(rs.getString("Status"));
+                LeaveRequestDTO lr = new LeaveRequestDTO(leaveRequestID, employeeID, departmentID, sentDate, startDate, endDate, filePath, reason, managerApprove, hrApprove, managerID, hrID, status);
+                list.add(lr);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        } finally {
+            closeAll();
+        }
 //        }
         return list;
     }
@@ -181,25 +181,25 @@ public class LeaveRequestDAO extends DAOBase {
     public boolean approvalOfApplicationByManager(int status, int managerID, int requestID) {
         connect();
 //        if (connection != null) {
-            try {
-                String sql = "UPDATE LeaveRequests\n"
-                        + "SET ManagerApprove = ?, ManagerID = ?\n"
-                        + "WHERE LeaveRequestID = ?";
-                ps = connection.prepareStatement(sql);
-                ps.setInt(1, status);
-                ps.setInt(2, managerID);
-                ps.setInt(3, requestID);
-                int row = ps.executeUpdate();
-                if (row > 0) {
-                    return true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e);
-
-            } finally {
-                closeAll();
+        try {
+            String sql = "UPDATE LeaveRequests\n"
+                    + "SET ManagerApprove = ?, ManagerID = ?\n"
+                    + "WHERE LeaveRequestID = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, status);
+            ps.setInt(2, managerID);
+            ps.setInt(3, requestID);
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+
+        } finally {
+            closeAll();
+        }
 //        }
         return false;
     }
@@ -207,24 +207,24 @@ public class LeaveRequestDAO extends DAOBase {
     public boolean approvalOfApplicationByHr(int status, int hrID, int requestID) {
         connect();
 //        if (connection != null) {
-            try {
-                String sql = "UPDATE LeaveRequests\n"
-                        + "SET HrApprove = ?, HrID = ?\n"
-                        + "WHERE LeaveRequestID = ?";
-                ps = connection.prepareStatement(sql);
-                ps.setInt(1, status);
-                ps.setInt(2, hrID);
-                ps.setInt(3, requestID);
-                int row = ps.executeUpdate();
-                if (row > 0) {
-                    return true;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(e);
-            } finally {
-                closeAll();
+        try {
+            String sql = "UPDATE LeaveRequests\n"
+                    + "SET HrApprove = ?, HrID = ?\n"
+                    + "WHERE LeaveRequestID = ?";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, status);
+            ps.setInt(2, hrID);
+            ps.setInt(3, requestID);
+            int row = ps.executeUpdate();
+            if (row > 0) {
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        } finally {
+            closeAll();
+        }
 //        }
         return false;
     }
@@ -232,27 +232,27 @@ public class LeaveRequestDAO extends DAOBase {
     public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason, String filePath, int CreatedBy) {
         connect();
 //        if (connection != null) {
-            try {
-                String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason, FilePath, CreatedBy) "
-                        + "VALUES (?,?,?,?,?,?,?) ";
-                ps = connection.prepareStatement(sql);
-                ps.setInt(1, e.getEmployeeID());
-                ps.setString(2, sentDate.toString());
-                ps.setString(3, startDate.toString());
-                ps.setString(4, endDate.toString());
-                ps.setString(5, reason);
-                ps.setNString(6, filePath);
-                ps.setInt(7, CreatedBy);
-                int result = ps.executeUpdate();
-                if (result > 0) {
-                    return true;
-                }
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-                ex.printStackTrace();
-            } finally {
-                closeAll();
+        try {
+            String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason, FilePath, CreatedBy) "
+                    + "VALUES (?,?,?,?,?,?,?) ";
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, e.getEmployeeID());
+            ps.setString(2, sentDate.toString());
+            ps.setString(3, startDate.toString());
+            ps.setString(4, endDate.toString());
+            ps.setString(5, reason);
+            ps.setNString(6, filePath);
+            ps.setInt(7, CreatedBy);
+            int result = ps.executeUpdate();
+            if (result > 0) {
+                return true;
             }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            closeAll();
+        }
 //        }
         return false;
     }
@@ -298,15 +298,18 @@ public class LeaveRequestDAO extends DAOBase {
         return null;
     }
 
-    public boolean updateRequestStatus(int requestID) {
+    public boolean updateRequestStatus(int requestID, int employeeID) {
         connect();
         try {
             String sql = "UPDATE LeaveRequests "
-                    + "SET Status = 1 "
+                    + "SET Status = 1, "
+                    + "HrApprove = 1, "
+                    + "HrID = ? "
                     + "WHERE LeaveRequestID = ? ";
             connect();
             ps = connection.prepareStatement(sql);
-            ps.setInt(1, requestID);
+            ps.setInt(1, employeeID);
+            ps.setInt(2, requestID);
             int rs = ps.executeUpdate();
             if (rs > 0) {
                 return true;
@@ -320,9 +323,9 @@ public class LeaveRequestDAO extends DAOBase {
         return false;
     }
 
-    public void updateStatus(int status , int requestID){
+    public void updateStatus(int status, int requestID) {
         connect();
-        try{
+        try {
             String sql = "UPDATE LeaveRequests "
                     + "SET Status = ? "
                     + "WHERE LeaveRequestID = ? ";
@@ -331,14 +334,14 @@ public class LeaveRequestDAO extends DAOBase {
             ps.setInt(1, status);
             ps.setInt(2, requestID);
             int rs = ps.executeUpdate();
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         } finally {
             closeAll();
         }
     }
-    
+
     public boolean scheduleLeaveForRequest(LeaveRequestDTO request, int id) {
         connect();
         try {

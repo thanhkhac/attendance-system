@@ -232,10 +232,10 @@
                                     if(lr.getManagerApprove() != null){
                                     }else{
                                 %>
-                                <button onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
+                                <button class="border btn btn-success" onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)"  type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
                                     <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
                                 </button>
-                                <button onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-danger" type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
+                                <button class="border btn btn-danger" onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)" type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
                                     <i class="fa-solid fa-x" style="color: #FFFFFF"></i>
                                 </button>
                             </td>
@@ -261,6 +261,7 @@
         </div>
         <script>
             function xacNhan(action, leaveRequestID, event) {
+                event.preventDefault();
                 var xacNhan = confirm("Bạn có chắc chắn muốn thực hiện hành động này không?");
                 if (xacNhan) {
                     alert("Hành động đã được xác nhận!");
@@ -271,6 +272,10 @@
                     }
                 } else {
                     alert("Hành động đã bị hủy bỏ!");
+                }
+                if (event.target.tagName.toLowerCase() !== 'button') {
+                    // Stop the propagation of the click event on the button
+                    event.stopPropagation();
                 }
                 event.preventDefault();
             }

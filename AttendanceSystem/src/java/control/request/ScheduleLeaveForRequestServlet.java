@@ -82,7 +82,9 @@ public class ScheduleLeaveForRequestServlet extends HttpServlet {
         }
         boolean rs1 = lrDAO.scheduleLeaveForRequest(leave, employee.getEmployeeID());
         if (rs1) {
-            boolean rs2 = lrDAO.updateRequestStatus(requestID);
+            System.out.println("1");
+            boolean rs2 = lrDAO.updateRequestStatus(requestID, employee.getEmployeeID());
+            System.out.println(employee.getEmployeeID());
             if (rs2) {
                 URL = "Success.jsp";
             }

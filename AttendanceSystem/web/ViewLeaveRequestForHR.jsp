@@ -274,13 +274,13 @@
                                     <button type="submit" name="btAction" class="btn btn-primary" value="Schedule">Xếp Lịch</button>  
                                 </form>
                                 <% 
-                                        }
+                                   }
                                     }else if(lr.getHrApprove()==null){
                                 %>
-                                <button onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-success" type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
+                                <button class="btn btn-success" onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)"  type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
                                     <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
                                 </button>
-                                <button onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)" class="border bg-danger" type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
+                                <button class="btn btn-danger" onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)"  type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
                                     <i class="fa-solid fa-x" style="color: #FFFFFF"></i>
                                 </button>
                                 <%  
@@ -307,17 +307,22 @@
         </div>
         <script>
             function xacNhan(action, leaveRequestID, event) {
+                event.preventDefault();
                 var xacNhan = confirm("Bạn có chắc chắn muốn thực hiện hành động này không?");
                 if (xacNhan) {
-                    alert("Hành động đã được xác nhận!");
                     if (action === 'Accept') {
-                        window.location.href = "AcceptLeaveRequestServlet?leaveRequestID=" + leaveRequestID + "&btAction=Accept";
-//                window.location.href = "PrepareScheduleLeaveRequestServlet?requestID=" + leaveRequestID + "&btAction=Accept";
+                        //window.location.href = "AcceptLeaveRequestServlet?leaveRequestID=" + leaveRequestID + "&btAction=Accept";
+                        window.location.href = "PrepareScheduleLeaveRequestServlet?requestID=" + leaveRequestID + "&btAction=Accept";
                     } else if (action === 'Deny') {
+                        alert("Hành động đã được xác nhận!");
                         window.location.href = "DenyLeaveRequestServlet?leaveRequestID=" + leaveRequestID + "&btAction=Deny";
                     }
                 } else {
                     alert("Hành động đã bị hủy bỏ!");
+                }
+                if (event.target.tagName.toLowerCase() !== 'button') {
+                    // Stop the propagation of the click event on the button
+                    event.stopPropagation();
                 }
                 event.preventDefault();
             }
