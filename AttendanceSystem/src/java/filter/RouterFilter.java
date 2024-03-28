@@ -123,33 +123,33 @@ public class RouterFilter implements Filter {
 
         EmployeeDTO employee = (EmployeeDTO) httpRequest.getSession().getAttribute("ACCOUNT");
 
-        //
-        try {
-            if (employee == null) {
-                if (httpRequest.getCookies() != null) {
-                    Cookie arr[] = httpRequest.getCookies();
-                    String email = null;
-                    String password = null;
-                    for (Cookie cookie : arr) {
-                        if (cookie.getName().equals("EmailCookie")) {
-                            email = cookie.getValue();
-                        }
-                        if (cookie.getName().equals("PassWordCookie")) {
-                            password = cookie.getValue();
-                        }
-                    }
-
-                    EmployeeDAO dao = new EmployeeDAO();
-                    EmployeeDTO Account = dao.checkAccount(email, password);
-                    if (Account != null) {
-                        if (Account.isIsActived()) {
-                            httpRequest.getSession().setAttribute("ACCOUNT", Account);
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-        }
+//        //
+//        try {
+//            if (employee == null) {
+//                if (httpRequest.getCookies() != null) {
+//                    Cookie arr[] = httpRequest.getCookies();
+//                    String email = null;
+//                    String password = null;
+//                    for (Cookie cookie : arr) {
+//                        if (cookie.getName().equals("EmailCookie")) {
+//                            email = cookie.getValue();
+//                        }
+//                        if (cookie.getName().equals("PassWordCookie")) {
+//                            password = cookie.getValue();
+//                        }
+//                    }
+//
+//                    EmployeeDAO dao = new EmployeeDAO();
+//                    EmployeeDTO Account = dao.checkAccount(email, password);
+//                    if (Account != null) {
+//                        if (Account.isIsActived()) {
+//                            httpRequest.getSession().setAttribute("ACCOUNT", Account);
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//        }
 
         if (url.toLowerCase().equals("/ThanhCong.html".toLowerCase())) {
             httpResponse.sendRedirect("HomePage.jsp");
