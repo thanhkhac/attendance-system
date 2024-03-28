@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>JSP Page</title>
+    <title>Tăng ca</title>
     <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css" />
     <style>
       .calendar {

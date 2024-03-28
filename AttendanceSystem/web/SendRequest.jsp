@@ -16,7 +16,7 @@
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
         <script src="assets/js/moment.js"></script>
 
-        <title>JSP Page</title>
+        <title>Hệ thống điểm danh</title>
         <style>
             body{
                 font-family: sans-serif;

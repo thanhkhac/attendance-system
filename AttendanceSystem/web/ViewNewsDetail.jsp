@@ -81,7 +81,7 @@
                 margin-bottom: 5px;
             }
         </style>
-        <title>News Detail</title>
+        <title>Hệ thống điểm danh</title>
     </head>
 
     <body>

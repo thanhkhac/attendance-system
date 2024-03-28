@@ -18,7 +18,7 @@
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> 
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
-        <title>JSP Page</title>
+        <title>Thêm nhân viên</title>
         <style>
 
             .content{
