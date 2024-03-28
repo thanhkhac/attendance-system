@@ -66,12 +66,8 @@
         </group>
         <group>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/ViewOvertimeByDay.jsp</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/EmployeeDAO.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/web/OvertimeScheduleWork.jsp</file>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/ListEmployeeOvertimeAjax.java</file>
             <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/model/OvertimeDAO.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/OverTimeByDay.java</file>
-            <file>file:/C:/Users/Admin/Desktop/master/attendance-system/AttendanceSystem/src/java/control/overtime/AddEmployeeOvertime.java</file>
         </group>
         <group name="java-modules">
             <file>file:/C:/Users/thanh/Desktop/attendance-system/AttendanceSystem/src/java/control/attendance/TakeAttendance.java</file>

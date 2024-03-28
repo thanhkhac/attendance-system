@@ -129,7 +129,7 @@ public class ListEmployeeOvertimeAjax extends HttpServlet {
                     + "                                                                        "
                     + "<ul class=\"list-inline mb-0\">\n"
                     + "  <li class=\"list-inline-item\">                                                                          \n"
-                    + " <a style=\"color:red\" href=\"javascript:void(0);\" class=\"deleteEmp\"  title=\"Delete\" class=\"px-2 text-danger\"><i class=\"bx bx-trash-alt font-size-18\"></i></a>\n"
+                    + " <a style=\"color:red\" href=\"javascript:void(0);\" value=\""+list.getEmployeeId()+"\" class=\"deleteEmp\"  title=\"Delete\" class=\"px-2 text-danger\"><i class=\"bx bx-trash-alt font-size-18\"></i></a>\n"
                     + "                   </li>                                                        \n"
                     + "                                                                            \n"
                     + "\n"
