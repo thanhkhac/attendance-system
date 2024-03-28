@@ -348,5 +348,9 @@ VALUES
   (1, N'Yêu cầu tăng ca ngày 01/03/2024', GETDATE(), @RequestTypeID, N'Tôi muốn đăng ký tăng ca vào ngày 01/03/2024 từ 17:00 đến 19:30.', NULL, NULL, NULL, NULL),
   (2, N'Yêu cầu tăng ca ngày 03/03/2024', GETDATE(), @RequestTypeID, N'Tôi muốn đăng ký tăng ca vào ngày 03/03/2024 từ 15:00 đến 17:30.', NULL, NULL, NULL, NULL);
 
+ 
+INSERT INTO [LeaveRequests] ( [EmployeeID], [SentDate], [StartDate], [EndDate], [FilePath], [Reason], [ManagerApprove], [HrApprove], [ManagerID], [HrID], [CreatedBy], [Status]) VALUES ( 1, CAST(N'2024-03-28T00:00:00.000' AS DateTime), CAST(N'2024-03-29' AS Date), CAST(N'2024-03-30' AS Date), N'Leave-Request-AttachedFiles/fb87a0b5-eccb-11ee-b9dd-6dbcbbb18060.pdf', N'Nghỉ phép', 1, NULL, 3, NULL, 3, 0)
+INSERT INTO [LeaveRequests] ( [EmployeeID], [SentDate], [StartDate], [EndDate], [FilePath], [Reason], [ManagerApprove], [HrApprove], [ManagerID], [HrID], [CreatedBy], [Status]) VALUES ( 3, CAST(N'2024-03-28T00:00:00.000' AS DateTime), CAST(N'2024-03-29' AS Date), CAST(N'2024-03-30' AS Date), N'Leave-Request-AttachedFiles/1674862d-eccd-11ee-be20-ad5297dcc3d7.pdf', N'Không có chi', NULL, NULL, NULL, NULL, 3, 0)
 
 
+  SELECT * FROM LeaveRequests

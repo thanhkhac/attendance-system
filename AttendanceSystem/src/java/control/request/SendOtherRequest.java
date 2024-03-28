@@ -36,7 +36,7 @@ public class SendOtherRequest extends HttpServlet {
         String fullSavePath = appPath + File.separator + SAVE_DIRECTORY;
         String backUpPath = fullSavePath.replace(File.separator + "build", "");
         ArrayList<String> savePaths = new ArrayList<>();
-//        savePaths.add(backUpPath);
+        savePaths.add(backUpPath);
         savePaths.add(fullSavePath);
 
         //Đây sẽ là đường dẫn cần lấy và lưu vào database

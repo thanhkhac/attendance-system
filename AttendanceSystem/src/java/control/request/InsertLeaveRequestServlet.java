@@ -4,6 +4,7 @@
  */
 package control.request;
 
+import static control.request.SendOtherRequest.SAVE_DIRECTORY;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -15,9 +16,11 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import model.EmployeeDTO;
 import model.request.LeaveRequestDAO;
 import model.request.SendRequestError;
+import ultility.filehandler.UploadFile;
 
 /**
  *
@@ -123,39 +126,20 @@ public class InsertLeaveRequestServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String fullSavePath = null;
-        try {
-            //Duong dan tuyet doi toi thu muc chua webapp
-            String appPath = request.getServletContext().getRealPath("");
-            appPath = appPath.replace("\\", "/");
+        
+        
+        String appPath = request.getServletContext().getRealPath("");
+        String fullSavePath = appPath + File.separator + SAVE_DIRECTORY;
+        String backUpPath = fullSavePath.replace(File.separator + "build", "");
+        ArrayList<String> savePaths = new ArrayList<>();
+        savePaths.add(backUpPath);
+        savePaths.add(fullSavePath);
 
-            //Thu muc de save file tai len
-            if (appPath.endsWith("/")) {
-                fullSavePath = appPath + SAVE_DIRECTORY;
-            } else {
-                fullSavePath = appPath + "/" + SAVE_DIRECTORY;
-            }
-
-            //Tao Thu muc neu no ko ton tai
-            File fileSaveDir = new File(fullSavePath);
-            if (!fileSaveDir.exists()) {
-                fileSaveDir.mkdir();
-            }
-            //Danh muc cac phan da upload len    (Mot File)
-            for (Part part : request.getParts()) {
-                String fileName = extractFileName(part);
-                if (fileName != null && fileName.length() > 0) {
-                    String filePath = fullSavePath + File.separator + fileName;
-                    System.out.println("Write Attachment to File: " + filePath);
-
-                    //Ghi vao File
-                    part.write(filePath);
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("Error - LeaveRequest - File");
-        }
+        //Đây sẽ là đường dẫn cần lấy và lưu vào database
+        String filepath = new UploadFile().saveFile(request, "file", savePaths, SAVE_DIRECTORY);
+        
+        
+        
         HttpSession session = request.getSession();
         LeaveRequestDAO dao = new LeaveRequestDAO();
         String URL = "Error.jsp";
@@ -180,7 +164,7 @@ public class InsertLeaveRequestServlet extends HttpServlet {
         }
         
         if (!isErr) {
-            boolean rs = dao.InsertLeaveRequest(account, sentDate, startDate, endDate, reason, fullSavePath);
+            boolean rs = dao.InsertLeaveRequest(account, sentDate, startDate, endDate, reason, filepath, account.getEmployeeId());
             if (rs) {
                 URL = "Success.jsp";
             } else {

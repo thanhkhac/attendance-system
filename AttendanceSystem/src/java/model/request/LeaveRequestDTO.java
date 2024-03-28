@@ -6,10 +6,7 @@ package model.request;
 
 import java.time.LocalDate;
 
-/**
- *
- * @author nguye
- */
+
 public class LeaveRequestDTO {
 
     private int leaveRequestID;
