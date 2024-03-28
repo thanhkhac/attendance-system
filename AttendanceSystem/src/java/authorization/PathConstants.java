@@ -129,8 +129,8 @@ public class PathConstants {
         managerRestrictPaths.add("/addListEmloyeeOvertime");
         managerRestrictPaths.add("/listAddEmployeeAjax");
         managerRestrictPaths.add("/listEmployeeOvertimeAjax");
-        managerRestrictPaths.add("/AcceptOTRequestServlet");
-        managerRestrictPaths.add("/DenyOTRequestServlet");
+//        managerRestrictPaths.add("/AcceptOTRequestServlet");
+//        managerRestrictPaths.add("/DenyOTRequestServlet");
         managerRestrictPaths.add("/ViewOtherRequestListHR");
         managerRestrictPaths.add("/DeleteTimesheetForEmployees");
         managerRestrictPaths.add("/GetConflicts");
