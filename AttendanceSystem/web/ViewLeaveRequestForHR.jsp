@@ -419,7 +419,7 @@
                                 </div>
                             </div>
                             <div class="detail-row">
-                                <span class="value"><a href="#">\${file}</a></span>
+                                <span class="value" ><a href="\${file}" target="_blank">Chi tiết đơn</a></span>
                             </div>
                         </div>
                 `;
