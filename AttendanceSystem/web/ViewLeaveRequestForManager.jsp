@@ -227,6 +227,7 @@
                                     }
                                 %>
                             </td>
+                            <td style="display: none" class="tdbreak"><%=lr.getFilePath()%></td>
                             <td class="text-center">
                                 <%
                                     if(lr.getManagerApprove() != null){
@@ -333,6 +334,7 @@
                 var reason = row.cells[5].innerHTML; // Lí do
                 var managerStatus = row.cells[6].innerText; // Trạng thái (Manager)
                 var managerName = row.cells[7].innerText; // Người phê duyệt (Manager)
+                var file = row.cells[8].innerText;
 
                 modalBody.innerHTML = `
                     <h2 style="border-bottom: 1px solid black;" >Chi Tiết Đơn Nghỉ Phép</h2>
@@ -366,6 +368,9 @@
                                     <span class="label">Ngày kết thúc: </span>
                                     <span class="value">\${endDate}</span>
                                 </div>
+                            </div>
+                            <div class="detail-row">
+                                <span class="value"><a href="\${file}" target="_blank">Chi tiết đơn</a></span>
                             </div>
                         </div>
                 `;

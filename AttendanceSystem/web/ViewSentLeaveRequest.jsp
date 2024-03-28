@@ -216,6 +216,7 @@
                                     }
                                 %>
                             </td>
+                            <td style="display: none" class="tdbreak"><%=lr.getFilePath()%></td>
                         </tr>
                         <%
                             }
@@ -288,9 +289,10 @@
                 var endDate = row.cells[4].innerHTML; // Giờ kết thúc
                 var reason = row.cells[5].innerText; // Trạng thái (Manager)
                 var status = row.cells[6].innerText; // Người phê duyệt (Manager)
+                var file = row.cells[7].innerText;
 
                 modalBody.innerHTML = `
-                    <h2 style="border-bottom: 1px solid black;" >Chi Tiết Đơn Ngoài Giờ</h2>
+                    <h2 style="border-bottom: 1px solid black;" >Chi Tiết Đơn Nghỉ Phép</h2>
                         <div class="details">
                             <div class="detail-row">
                                 <span class="label">Mã Đơn:</span>
@@ -322,6 +324,9 @@
                                 <span class="label">Trạng thái: </span>
                                 <span class="value">\${status}</span>
                             </div>
+                            <div class="detail-row">
+                                <span class="value"><a href="\${file}" target="_blank">Chi tiết đơn</a></span>
+                            </div>
                         </div>
                 `;
                 modal.style.display = "block";
@@ -339,6 +344,7 @@
                 }
             }
         </script>
+        
         <script>
             document.getElementById('mySelect').addEventListener('change', function () {
                 var selectedOption = this.options[this.selectedIndex].value;

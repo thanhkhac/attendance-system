@@ -353,7 +353,7 @@
                 <div style="padding-left:20px;margin-top: 75px;" class="row justify-content-center">
 
                     <div class="col-md-2 chucNang" >
-                        <a style="text-decoration: auto;" href="WorkSchedule.jsp" target="target">
+                        <a style="text-decoration: auto;" href="WorkSchedule" target="target">
                             <img class="mt-3 image" src="assets/img/timetable.png" alt="alt"/>  
                             <p class="text">Lịch làm việc</p>
                             <p>Nhân viên xem lịch làm việc</p>
@@ -361,7 +361,7 @@
                     </div>
 
                     <div class="col-md-2 chucNang" >
-                        <a style="text-decoration: auto;" href="TakeAttendance.jsp" target="target">
+                        <a style="text-decoration: auto;" href="Attendance" target="target">
                             <img class="mt-3 image" src="assets/img/business.png" alt="alt"/>  
                             <p class="text">Chấm công</p>
                             <p>Chấm công khi vào ca làm</p>
@@ -370,7 +370,7 @@
                     </div>
 
                     <div class="col-md-2 chucNang" >
-                        <a style="text-decoration: auto;" href="WorkSchedule.jsp" target="target">
+                        <a style="text-decoration: auto;" href="WorkSchedule" target="target">
                             <img class="mt-3 image" src="assets/img/overtime.png" alt="alt"/>  
                             <p class="text">Lịch tăng ca</p>
                             <p>Nhân viên xem lịch tăng ca</p>
