@@ -151,6 +151,11 @@ public class RouterFilter implements Filter {
         } catch (Exception e) {
         }
 
+        if (url.equals("ThanhCong.html")) {
+            httpResponse.sendRedirect("HomePage.jsp");
+            return;
+        }
+
 //      Danh sách cáng đường dẫn mà tất cả mọi người đều có thể truy cập
         ArrayList<String> generalPaths = new ArrayList<>();
         generalPaths.add("/assets".toLowerCase());
@@ -202,8 +207,7 @@ public class RouterFilter implements Filter {
                     return;
                 }
             }
-            
-            
+
         }
 
         //--Kết thúc phân quyền
