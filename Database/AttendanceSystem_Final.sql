@@ -305,6 +305,8 @@ INSERT INTO Shifts ([Name], [StartTime], [EndTime], [OpenAt], [CloseAt], [IsActi
 (N'Ca sáng', '7:30', '11:30', '7:15', '11:45', 1)
 INSERT INTO Shifts ([Name], [StartTime], [EndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
 (N'Ca chiều', '13:30', '17:30','13:15', '17:45', 1)
+INSERT INTO Shifts ([Name], [StartTime], [EndTime], [OpenAt], [CloseAt], [IsActive]) VALUES
+(N'Ca tối', '19:30', '22:30','19:15', '22:45', 1)
 
 INSERT INTO RequestsType([Name])
 VALUES (N'Tăng ca')
@@ -318,19 +320,31 @@ INSERT INTO RequestsType (Name) VALUES
 (N'Xin Nghỉ Việc')
 
 DECLARE @EmployeeID INT = 1;
-DECLARE @ShiftID INT = 1;
-DECLARE @DateList TABLE (SelectedDate DATE);
 
 DECLARE @CurrentDate DATE = '2024-02-01';
-WHILE @CurrentDate <= '2024-02-28'
+WHILE @CurrentDate <= '2024-03-31'
 BEGIN  
-    IF DATEPART(WEEKDAY, @CurrentDate) BETWEEN 2 AND 6
-        INSERT INTO @DateList (SelectedDate) VALUES (@CurrentDate);
+ --   IF DATEPART(WEEKDAY, @CurrentDate) BETWEEN 2 AND 6
+	--BEGIN
+		INSERT INTO Timesheet ([Date], EmployeeID, ShiftID, CreatedBy, CheckIn, CheckOut)
+			VALUES( @CurrentDate, @EmployeeID, 1, 2, '7:15', '11:45')
+		IF @CurrentDate < '2024-03-15' OR @CurrentDate = CONVERT(DATE, GETDATE())
+		INSERT INTO Timesheet ([Date], EmployeeID, ShiftID, CreatedBy, CheckIn)
+			VALUES( @CurrentDate, @EmployeeID, 2, 2, '13:30')
+		IF @CurrentDate > '2024-03-15'
+		INSERT INTO Timesheet ([Date], EmployeeID, ShiftID, CreatedBy, CheckIn)
+			VALUES( @CurrentDate, @EmployeeID, 3, 2, NULL)
+	--END;
 	SET @CurrentDate = DATEADD(DAY, 1, @CurrentDate);
 END
-INSERT INTO Timesheet ([Date], EmployeeID, ShiftID, CreatedBy)
-SELECT SelectedDate, @EmployeeID, @ShiftID, 2
-FROM @DateList;
+
+UPDATE Timesheet 
+SET CheckIn = null, CheckOut = null
+WHERE Date >= CONVERT(date, GETDATE()) 
+
+
+
+
 
 
 INSERT INTO Leaves ([EmployeeID], [StartDate], [EndDate], FilePath, CreatedBy)
@@ -341,6 +355,14 @@ VALUES
   (1, '2024-02-15', '2024-02-18', 'path4', 1),
   (1, '2024-02-20', '2024-02-22', 'path5', 1);
 
+INSERT INTO Leaves ([EmployeeID], [StartDate], [EndDate], FilePath, CreatedBy)
+VALUES
+  (1, '2024-02-01', '2024-02-03', 'path1', 1),
+  (1, '2024-02-05', '2024-02-07', 'path2', 1),
+  (1, '2024-02-10', '2024-02-12', 'path3', 1),
+  (1, '2024-02-15', '2024-02-18', 'path4', 1),
+  (1, '2024-03-01', '2024-03-5', 'path5', 1);
+
 
 DECLARE @RequestTypeID INT = 4; 
   INSERT INTO Requests (EmployeeID, Title, SentDate, TypeID, Content, FilePath, Status, ProcessNote, ResponedBy)
@@ -350,11 +372,11 @@ VALUES
 
  
 INSERT INTO [LeaveRequests] ( [EmployeeID], [SentDate], [StartDate], [EndDate], [FilePath], [Reason], [ManagerApprove], [HrApprove], [ManagerID], [HrID], [CreatedBy], [Status]) VALUES ( 1, CAST(N'2024-03-28T00:00:00.000' AS DateTime), CAST(N'2024-03-29' AS Date), CAST(N'2024-03-30' AS Date), N'Leave-Request-AttachedFiles/fb87a0b5-eccb-11ee-b9dd-6dbcbbb18060.pdf', N'Nghỉ phép', 1, NULL, 3, NULL, 3, 0)
-INSERT INTO [LeaveRequests] ( [EmployeeID], [SentDate], [StartDate], [EndDate], [FilePath], [Reason], [ManagerApprove], [HrApprove], [ManagerID], [HrID], [CreatedBy], [Status]) VALUES ( 3, CAST(N'2024-03-28T00:00:00.000' AS DateTime), CAST(N'2024-03-29' AS Date), CAST(N'2024-03-30' AS Date), N'Leave-Request-AttachedFiles/1674862d-eccd-11ee-be20-ad5297dcc3d7.pdf', N'Không có chi', NULL, NULL, NULL, NULL, 3, 0)
+INSERT INTO [LeaveRequests] ( [EmployeeID], [SentDate], [StartDate], [EndDate], [FilePath], [Reason], [ManagerApprove], [HrApprove], [ManagerID], [HrID], [CreatedBy], [Status]) VALUES ( 3, CAST(N'2024-03-28T00:00:00.000' AS DateTime), CAST(N'2024-03-29' AS Date), CAST(N'2024-03-30' AS Date), N'Leave-Request-AttachedFiles/1674862d-eccd-11ee-be20-ad5297dcc3d7.pdf', N'Yêu cầu', NULL, NULL, NULL, NULL, 3, 0)
 
 
-  SELECT * FROM LeaveRequests
-  SELECT * FROM News
+SELECT * FROM LeaveRequests
+SELECT * FROM News
 
 
 insert into LeaveRequests
