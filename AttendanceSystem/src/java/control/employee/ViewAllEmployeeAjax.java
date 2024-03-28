@@ -71,7 +71,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
         if (requestAssignManager != null) {
             for (EmployeeGeneral e : list) {
                 out.print(" <div class=\"table-row-container\">\n"
-                        + "                            <tr class=\"table-primary space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
+                        + "                            <tr class=\"table-light space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
                         + "                                <td>" + e.getEmployeeID() + "</td>\n"
                         + "                                <td>" + e.getLastName() + "</td>\n"
                         + "                                <td>" + e.getMiddleName() + "</td>\n"
@@ -104,7 +104,7 @@ public class ViewAllEmployeeAjax extends HttpServlet {
         } else {
             for (EmployeeGeneral e : list) {
                 out.print(" <div class=\"table-row-container\">\n"
-                        + "                            <tr class=\"table-primary space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
+                        + "                            <tr class=\"table-light space-under employeeRow\" data-employee-id=\"" + e.getEmployeeID() + "\">\n"
                         + "                                <td>" + e.getEmployeeID() + "</td>\n"
                         + "                                <td>" + e.getLastName() + "</td>\n"
                         + "                                <td>" + e.getMiddleName() + "</td>\n"

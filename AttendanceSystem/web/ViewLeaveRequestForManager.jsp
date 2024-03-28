@@ -171,6 +171,9 @@
                         </select>
                     </div>
                 </div>
+                <%
+                    if(!list.isEmpty()){
+                %>
                 <form action="DispatchController" method="POST">
                     <table class="table table-hover" style="width: 100%; margin: auto;">
                         <tr style="background-color: #CFE2FF">
@@ -258,6 +261,13 @@
                         </div>
                     </div>
                 </form>
+                <%
+            }else{
+                %>
+                <h3 class="text-center">Chưa có đơn cần phê duyệt</h3>
+                <%
+                }
+                %>
             </div>
 
         </div>
@@ -369,12 +379,14 @@
                                     <span class="label">Ngày kết thúc: </span>
                                     <span class="value">\${endDate}</span>
                                 </div>
-                            </div>
-                            <div class="detail-row">
-                                <span class="value"><a href="\${file}" target="_blank">Chi tiết đơn</a></span>
-                            </div>
-                        </div>
-                `;
+                            </div>`;
+                if (file.trim() !== "") {
+                    modalBody.innerHTML += `<div class="detail-row">
+                                        <span class="value" ><a href="\${file}" target="_blank">Chi tiết đơn</a></span>
+                                    </div>`;
+                }
+
+                modalBody.innerHTML += `</div>`;
                 modal.style.display = "block";
             }
 

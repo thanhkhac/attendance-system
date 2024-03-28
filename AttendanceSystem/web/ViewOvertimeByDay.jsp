@@ -271,7 +271,7 @@
                         <a href="javascript:history.back()" class="btn btn-outline-secondary" style="    width: 106px;position: absolute; left: 15px; top: 15px;">
                             <i class="bi bi-arrow-left"></i> Trở lại
                         </a>
-                        <h3 class="h2 bg-primary-after after-50px pb-3 mb-3">Các ca tăng ca trong ngày <%=Day%> <%=list.size()%></h3>
+                        <h3 class="h2 bg-primary-after after-50px pb-3 mb-3">Các ca tăng ca trong ngày <%=Day%></h3>
                     </div>
                 </div>
                 <div class="row">
@@ -365,8 +365,8 @@
                                                                     <td>
                                                                         <ul class="list-inline mb-0">
                                                                            <%if(DAQUA.equals("DAQUA")){}else{%>
-                                                                            <li class="list-inline-item">
-                                                                                <a style="color:red" href="javascript:void(0);" class="deleteEmp"  title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
+                                                                            <li class="list-inline-item ">
+                                                                                <a style="color:red" href="javascript:void(0);" value="<%=listemp.getEmployeeId()%>" class="deleteEmp"  title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
                                                                             </li>
                                                                              <%}%>
                                                                         </ul>
@@ -672,7 +672,7 @@
             var DeleteStart = $(this).closest(".overlay").find(".deleteStart").val();
             var DeleteEnd = $(this).closest(".overlay").find(".deleteEnd").val();
             var DeleteDate = $(this).closest(".overlay").find(".deleteDate").val();
-            var DeleteID = $(this).closest(".overlay").find(".deleteID").val();
+            var DeleteID = $(this).attr("value");
             var txtSearch = $(".txtSearch").val();
             var Date = $("#date").val();
             var DaQUA = $("#QUA").val();
@@ -682,9 +682,8 @@
 
             // Lấy giá trị của thuộc tính data-index từ phần tử <a> con
             var dataIndex = $(this).find("a").attr("data-index");
-
-            var listEmployee = $(this).closest(".overlay").find(".listEmployee");
             console.log(DeleteID);
+            var listEmployee = $(this).closest(".overlay").find(".listEmployee");
             $.ajax({
                 url: "/AttendanceSystem/listEmployeeOvertimeAjax",
                 type: "get",

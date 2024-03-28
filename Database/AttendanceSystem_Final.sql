@@ -256,7 +256,7 @@ INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email,
 (N'Trường', N'Xuân', N'Phạm', 1, '2003-01-01', N'truongpxhe173501@fpt.edu.vn', '12345678', '036204003385', '0382293842', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYNHANSU, '2022-02-15', '2024-12-31')
 
 INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber, EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) VALUES
-(N'Đức', N'Tân', N'Nguyễn', 1, '2003-01-01', N'ducnthe173064@fpt.edu.vn', '12345678', '031203001933', '017452672343', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLY, '2022-02-15', '2024-12-31')
+(N'Đức', N'Tân', N'Nguyễn', 1, '2003-01-01', N'ducnthe173064@fpt.edu.vn', '12345678', '031203001933', '017452672343', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYNHANSU, '2022-02-15', '2024-12-31')
 
 INSERT INTO Employees(FirstName, MiddleName, LastName, Gender, BirthDate, Email, [Password], CCCD, PhoneNumber, EmployeeTypeID, DepartmentID, RoleID, StartDate, EndDate) VALUES
 (N'Dương', N'Mạnh', N'Nguyễn', 1, '2003-01-01', N'duongnmhe172724@fpt.edu.vn', '12345678', '014203001933', '0174526723433', @TYPE_PARTTIME, @DEPART_PHONGTIEPTHI, @ROLE_QUANLYKIEMQUANLYNHANSU, '2022-02-15', '2024-12-31')
@@ -419,6 +419,7 @@ INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) V
 INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Thông báo ngày 20/02/2024', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong3.html', CAST(N'2024-03-28T15:20:17.130' AS DateTime), 2)
 
 
+
 INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)
 values ('2024-03-20', 1, '17:00', '19:30', '16:30', '20:00', '17:15', '20:00',2),
 ('2024-03-20', 5, '17:00', '19:30', '16:30', '20:00', '17:15', '20:00',2),
@@ -541,3 +542,4 @@ VALUES	('2024-03-29' , 1 , '2024-03-24 09:00:00'  , '18:00:00' , '20:30:00' , 1,
 		('2024-04-05' , 16 , '2024-03-27 12:45:00' , '15:00:00' , '17:30:00' , 1, 0, 3, 4, 21, 1),
 		('2024-04-05' , 17 , '2024-03-27 09:00:00' , '18:00:00' , '20:30:00' , NULL, NULL, NULL, NULL, 12, 0),
 		('2024-04-05' , 17 , '2024-03-27 10:30:00' , '15:30:00' , '18:30:00' , 1, 1, 4, 5, 21, 1);
+
