@@ -48,7 +48,7 @@ public class OverTimeByDay extends HttpServlet {
             else{
                 int count = 0;
                 for(OvertimeDTO check : list2){
-                    if(check.getStartTime() == overtime.getStartTime()){
+                    if(check.getStartTime() == overtime.getStartTime() && check.getEndTime() == overtime.getEndTime()){
                      count =1 ;   
                     }
                 }
