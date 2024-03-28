@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Lịch làm việc của nhân viên</title>
+        <title>Hệ thống điểm danh</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <style>
             .calendar{

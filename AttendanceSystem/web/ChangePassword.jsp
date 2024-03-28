@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Forgot Pasword</title>
+        <title>Thay đổi mật khẩu</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
 
         <style>

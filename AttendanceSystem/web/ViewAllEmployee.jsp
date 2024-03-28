@@ -19,7 +19,7 @@
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <!--link js drop down-->
 
-        <title>Attendance_Checking_System</title>
+        <title>Hệ thống điểm danh</title>
         <style>
 
             body {

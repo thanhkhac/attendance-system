@@ -12,7 +12,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>Recovery Password</title>
+        <title>Hệ thống điểm danh</title>
 
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css">
         <!-- <script src="bootstrap-5.3.2-dist/js/bootstrap.bundle.js"></script> -->

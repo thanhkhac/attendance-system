@@ -14,7 +14,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Hệ thống điểm danh</title>
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <style>
             body{
@@ -77,7 +77,7 @@
                 background-color: #007bff;
                 border-color: #007bff;
             }
-            
+
             .modal {
                 display: none;
                 position: fixed;
@@ -111,7 +111,7 @@
                 text-decoration: none;
                 cursor: pointer;
             }
-            
+
             .content-request{
                 margin-top: 50px;
                 padding-bottom: 30px;
@@ -314,9 +314,9 @@
                 showPage(currentPage);
             });
         </script>
-        
+
         <script>
-        function showDetailPopup(row) {
+            function showDetailPopup(row) {
                 var modal = document.getElementById("myModal");
                 var modalBody = document.getElementById("modal-body");
 

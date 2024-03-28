@@ -1,38 +1,40 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="author" content="Muhamad Nauval Azhar">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="This is a login page template based on Bootstrap 5">
-        <title>Bootstrap 5 Change Password Page</title>
+        <title>Thay đổi mật khẩu</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
         <!-- Bootstrap Font Icon CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <style>
+            body {
+                background-image: url('assets/img/image007_9.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                height: 100vh;
+                overflow: hidden;
+            }
+            .card.shadow-lg {
+                border: 2px solid #323539;
+                box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+            }
+            .label-input-group {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 1rem;
+            }
+            .label-input-group label {
+                margin-bottom: 0.5rem;
+            }
+        </style>
     </head>
-    <style>
-        body {
-            background-image: url('assets/img/image007_9.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .card.shadow-lg {
-            border: 2px solid #323539;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        .label-input-group {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-        .label-input-group label {
-            margin-bottom: 0.5rem;
-        }
-    </style>
+
     <body>
         <section class="h-100">
             <div class="container h-100">

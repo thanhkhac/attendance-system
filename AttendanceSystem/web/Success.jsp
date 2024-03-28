@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="assets/Bootstrap5/css/bootstrap.min.css"/>
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
-        <title>JSP Page</title>
+        <title>Hệ thống điểm danh</title>
         <style>
             body{
                 font-family: sans-serif;

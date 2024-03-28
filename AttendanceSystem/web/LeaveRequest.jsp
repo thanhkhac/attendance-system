@@ -15,7 +15,7 @@
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
         <script src="assets/js/moment.js"></script>
-        <title>LeaveRequest</title>
+        <title>Đơn nghỉ phép</title>
         <style>
             body{
                 font-family: sans-serif;

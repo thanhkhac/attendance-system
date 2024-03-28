@@ -15,7 +15,7 @@
         <script src="assets/Bootstrap5/js/bootstrap.min.js"></script>
         <script src="https://kit.fontawesome.com/cec63a414e.js" crossorigin="anonymous"></script>
         <script src="assets/js/moment.js"></script>
-        <title>OverTimeRequest</title>
+        <title>Yêu cầu tăng ca</title>
         <style>
             body{
                 font-family: sans-serif;
