@@ -278,10 +278,10 @@
                                    }
                                     }else if(lr.getHrApprove()==null){
                                 %>
-                                <button class="btn btn-success" onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)"  type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
+                                <button style="padding: 0" class="btn btn-success w-25" onclick="xacNhan('Accept', '<%= lr.getLeaveRequestID() %>', event)"  type="submit" name="btAction" value="Accept<%= lr.getLeaveRequestID() %>">
                                     <i class="fa-solid fa-check" style="color: #FFFFFF"></i>
                                 </button>
-                                <button class="btn btn-danger" onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)"  type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
+                                <button style="padding: 0" class="btn btn-danger w-25" onclick="xacNhan('Deny', '<%= lr.getLeaveRequestID() %>', event)"  type="submit" name="btAction" value="Deny<%= lr.getLeaveRequestID() %>">
                                     <i class="fa-solid fa-x" style="color: #FFFFFF"></i>
                                 </button>
                                 <%  
