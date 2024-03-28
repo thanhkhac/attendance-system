@@ -171,6 +171,9 @@
                         </select>
                     </div>
                 </div>
+                <%
+                    if(!list.isEmpty()){
+                %>
                 <form action="DispatchController" method="POST">
                     <table class="table" style="width: 100%; margin: auto;">
                         <tr style="background-color: #CFE2FF">
@@ -232,6 +235,13 @@
                         </div>
                     </div>
                 </form>
+                    <%
+                }else{
+                %>
+                <h3 class="text-center">Chưa có đơn cần phê duyệt</h3>
+                <%
+                }
+                %>
             </div>
 
 
