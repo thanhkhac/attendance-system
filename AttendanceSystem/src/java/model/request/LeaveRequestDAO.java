@@ -229,12 +229,12 @@ public class LeaveRequestDAO extends DAOBase {
         return false;
     }
 
-    public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason, String filePath) {
+    public boolean InsertLeaveRequest(EmployeeDTO e, LocalDate sentDate, LocalDate startDate, LocalDate endDate, String reason, String filePath, int CreatedBy) {
         connect();
 //        if (connection != null) {
             try {
-                String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason, FilePath) "
-                        + "VALUES (?,?,?,?,?,?) ";
+                String sql = "INSERT INTO LeaveRequests(EmployeeID, SentDate, StartDate, EndDate, Reason, FilePath, CreatedBy) "
+                        + "VALUES (?,?,?,?,?,?,?) ";
                 ps = connection.prepareStatement(sql);
                 ps.setInt(1, e.getEmployeeID());
                 ps.setString(2, sentDate.toString());
@@ -242,6 +242,7 @@ public class LeaveRequestDAO extends DAOBase {
                 ps.setString(4, endDate.toString());
                 ps.setString(5, reason);
                 ps.setNString(6, filePath);
+                ps.setInt(7, CreatedBy);
                 int result = ps.executeUpdate();
                 if (result > 0) {
                     return true;
