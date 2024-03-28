@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*" %>
 <%@page import="model.*"%>
+<%@page import="authorization.*"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -36,6 +37,19 @@
     <%
         HashMap<Integer, DepartmentDTO> departments =  new DepartmentDAO().getAllDepartment();
         request.setAttribute("departments", departments);
+        int roleId = ((EmployeeDTO) request.getSession().getAttribute("ACCOUNT")).getRoleID();
+        
+        int roleEmployee = RoleConstants.EMPLOYEE;
+        int roleHR = RoleConstants.HR;
+        int roleManager = RoleConstants.MANAGER;
+        int roleManagerHr = RoleConstants.MANAGER_HR;
+        
+        request.setAttribute("roleId", roleId);
+        request.setAttribute("roleEmployee", roleEmployee);
+        request.setAttribute("roleManager", roleManager);
+        request.setAttribute("roleManagerHr", roleManagerHr);
+        request.setAttribute("roleHR", roleHR);
+        
     %>
     <body>
         <c:set var="account" value="${sessionScope.ACCOUNT}"/>
@@ -44,7 +58,7 @@
             <div  class="w3-bar-item  fw-bold text-white" style="background-color: #4096F1">
                 <div class="row">
                     <div class="col-3">
-                        <img class="rounded-circle w-100" src="https://avatars.githubusercontent.com/u/152879575?v=4" alt="Avatar">
+                        <img class="rounded-circle w-100" src="https://t4.ftcdn.net/jpg/03/49/49/79/360_F_349497933_Ly4im8BDmHLaLzgyKg2f2yZOvJjBtlw5.jpg" alt="Avatar">
                     </div>
                     <div class="col-9">
                         <div>
@@ -88,45 +102,58 @@
                 <a href="NavigateSentRequest.jsp" class="w3-bar-item w3-button fw-bold text-white">Đơn đã gửi</a>
             </div>
 
-            <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu1">
-                <i class="fa-solid fa-users"></i> Quản lý nhân viên
-                <i class="fa fa-caret-down float-end"></i>
-            </a>
-            <div class="collapse ps-4" id="submenu1">
-                <a href="DispatchController?btAction=ViewEmployee" class="w3-bar-item w3-button fw-bold text-white">Nhân viên</a>
-                <a href="DepartmentServlet" class="w3-bar-item w3-button fw-bold  text-white">Phòng ban</a>
-            </div>
+            <c:if test = "${requestScope.roleId == requestScope.roleHR or requestScope.roleId == requestScope.roleManagerHr}">
+                <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu1">
+                    <i class="fa-solid fa-users"></i> Quản lý nhân viên
+                    <i class="fa fa-caret-down float-end"></i>
+                </a>
+                <div class="collapse ps-4" id="submenu1">
+                    <a href="DispatchController?btAction=ViewEmployee" class="w3-bar-item w3-button fw-bold text-white">Nhân viên</a>
+                    <a href="DepartmentServlet" class="w3-bar-item w3-button fw-bold  text-white">Phòng ban</a>
+                </div>
+                <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu2">
+                    <i class="fa-regular fa-calendar-days"></i> Quản lý lịch làm việc
+                    <i class="fa fa-caret-down float-end"></i>
+                </a>
+                <div class="collapse ps-4" id="submenu2">
+                    <a href="ShiftManagement" class="w3-bar-item w3-button fw-bold  text-white">Ca làm</a>
+                    <a href="ScheduleWork" class="w3-bar-item w3-button fw-bold  text-white">Xếp lịch cho nhân viên</a>
+                    <a href="ScheduledEmployees" class="w3-bar-item w3-button fw-bold text-white">Danh sách nhân viên được xếp lịch</a>
+                    <a href="Overtime.jsp" class="w3-bar-item w3-button fw-bold text-white">Xếp lịch tăng ca</a>
+                </div>
+            </c:if>
 
-            <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu2">
-                <i class="fa-regular fa-calendar-days"></i> Quản lý lịch làm việc
-                <i class="fa fa-caret-down float-end"></i>
-            </a>
-            <div class="collapse ps-4" id="submenu2">
-                <a href="ShiftManagement" class="w3-bar-item w3-button fw-bold  text-white">Ca làm</a>
-                <a href="ScheduleWork" class="w3-bar-item w3-button fw-bold  text-white">Xếp lịch cho nhân viên</a>
-                <a href="ScheduledEmployees" class="w3-bar-item w3-button fw-bold text-white">Danh sách nhân viên được xếp lịch</a>
-                <a href="Overtime.jsp" class="w3-bar-item w3-button fw-bold text-white">Xếp lịch tăng ca</a>
-            </div>
 
-            <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu5">
-                <i class="fa-solid fa-list-check"></i> Quản lý đơn từ
-                <i class="fa fa-caret-down float-end"></i>
-            </a>
-            <div class="collapse ps-4" id="submenu5">
-                <a href="NavigateRequestForHR.jsp" class="w3-bar-item w3-button fw-bold  text-white">Quản lý nhân sự</a>
-                <a href="NavigateRequestForManager.jsp" class="w3-bar-item w3-button fw-bold  text-white">Phòng ban</a>
-            </div>
+            <c:if test = "${requestScope.roleId != requestScope.roleEmployee}">
+                <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu5">
+                    <i class="fa-solid fa-list-check"></i> Quản lý đơn từ
+                    <i class="fa fa-caret-down float-end"></i>
+                </a>
+                <div class="collapse ps-4" id="submenu5">
+                    <c:if test = "${requestScope.roleId == requestScope.roleManagerHr}">
+                        <a href="NavigateRequestForHR.jsp" class="w3-bar-item w3-button fw-bold  text-white">Tất cả</a>
+                        <a href="NavigateRequestForManager.jsp" class="w3-bar-item w3-button fw-bold  text-white">Phòng ban</a>
+                    </c:if>
+                    <c:if test = "${requestScope.roleId == requestScope.roleManager}">
+                        <a href="NavigateRequestForManager.jsp" class="w3-bar-item w3-button fw-bold  text-white">Phòng ban</a>
+                    </c:if>
+
+                    <c:if test = "${requestScope.roleId == requestScope.roleHR}">
+                        <a href="NavigateRequestForHR.jsp" class="w3-bar-item w3-button fw-bold  text-white">Tất cả</a>
+                    </c:if>
+                </div>
+            </c:if>
 
             <a href="#" class="w3-bar-item w3-button fw-bold  text-white" data-toggle="collapse" data-target="#submenu6">
                 <i class="fa-solid fa-chart-simple"></i> Khác
                 <i class="fa fa-caret-down float-end"></i>
             </a>
-
             <div class="collapse ps-4" id="submenu6">
                 <a href="GetEmployeeStatisticsServlet" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu cá nhân</a>
-                <a href="DownloadWorksheet.jsp" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu của nhân viên</a>
-
-                <a href="GetAllNewsByHR" class="w3-bar-item w3-button fw-bold  text-white">Quản lý tin tức</a>
+                <c:if test = "${requestScope.roleId == requestScope.roleHR or requestScope.roleId == requestScope.roleManagerHr}">
+                    <a href="DownloadWorksheet.jsp" class="w3-bar-item w3-button fw-bold  text-white">Xuất dữ liệu của nhân viên</a>
+                    <a href="GetAllNewsByHR" class="w3-bar-item w3-button fw-bold  text-white">Quản lý tin tức</a>
+                </c:if>
             </div>
 
 

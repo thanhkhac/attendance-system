@@ -5,6 +5,8 @@
 package filter;
 
 import authorization.PathConstants;
+import static authorization.PathConstants.HR_RESTRICT_PATH_LIST;
+import static authorization.PathConstants.MANAGER_RESTRICT_PATH_LIST;
 import authorization.RoleConstants;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -178,16 +180,28 @@ public class RouterFilter implements Filter {
         } else {
             if (isLoginPath) {
                 System.out.println("Người dùng đã đăng nhập");
-                httpResponse.sendRedirect("ThanhCong.html");
+                httpResponse.sendRedirect("HomePage.jsp");
                 return;
             }
-//            if (employee.getRoleID() == RoleConstants.EMPLOYEE) {
-//                System.out.println(!PathConstants.EMPLOYEE_PATH_LIST.stream().anyMatch(url.toLowerCase()::equalsIgnoreCase));
-//                if (!PathConstants.EMPLOYEE_PATH_LIST.stream().anyMatch(url.toLowerCase()::equalsIgnoreCase) && !isGeneralPath) {
-//                    httpResponse.sendRedirect("DenyAccess.html");
-//                    return;
-//                }
-//            }
+            if (employee.getRoleID() == RoleConstants.EMPLOYEE) {
+                if (PathConstants.EMPLOYEE_RESTRICT_PATH_LIST.stream().anyMatch(url.toLowerCase()::equalsIgnoreCase)) {
+                    httpResponse.sendRedirect("DenyAccess.html");
+                    return;
+                }
+            }
+
+            if (employee.getRoleID() == RoleConstants.MANAGER) {
+                if (PathConstants.MANAGER_RESTRICT_PATH_LIST.stream().anyMatch(url.toLowerCase()::equalsIgnoreCase)) {
+                    httpResponse.sendRedirect("DenyAccess.html");
+                    return;
+                }
+            }
+            if (employee.getRoleID() == RoleConstants.HR) {
+                if (PathConstants.HR_RESTRICT_PATH_LIST.stream().anyMatch(url.toLowerCase()::equalsIgnoreCase)) {
+                    httpResponse.sendRedirect("DenyAccess.html");
+                    return;
+                }
+            }
             
             
         }
