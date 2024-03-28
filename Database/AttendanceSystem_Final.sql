@@ -418,3 +418,11 @@ INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) V
 INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Quy định mới', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong2.html', CAST(N'2024-03-28T15:20:17.130' AS DateTime), 2)
 
 INSERT [dbo].[News] ( [Title], [Content], [FilePath], [DateTime], [CreatedBy]) VALUES ( N'Thông báo ngày 20/02/2024', N'Quy định chấm công năm 2024', N'/htmlfile/QuyDinhChamCong3.html', CAST(N'2024-03-28T15:20:17.130' AS DateTime), 2)
+
+
+INSERT INTO Overtimes ([Date], [EmployeeID], [StartTime], [EndTime], [OpenAt], [CloseAt], [CheckIn], [CheckOut], CreatedBy)
+values ('2024-03-20', 1, '17:00', '19:30', '16:30', '20:00', '17:15', '20:00',2),
+('2024-03-20', 5, '17:00', '19:30', '16:30', '20:00', '17:15', '20:00',2),
+('2024-03-20', 6, '17:00', '19:30', '16:30', '20:00', '17:15', '20:00',2),
+('2024-03-20', 7, '17:00', '19:30', '16:30', '20:00', '17:15', '20:00',2),
+('2024-03-20', 8, '17:00', '19:30', '16:30', '20:00', '17:15', '20:00
