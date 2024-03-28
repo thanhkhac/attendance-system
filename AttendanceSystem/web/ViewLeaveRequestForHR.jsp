@@ -271,10 +271,10 @@
                                     if( lr.getHrApprove() != null && lr.getHrApprove()){
                                         if(!lr.getStatus()){
                                 %>
-                                <form action="DispatchController" method="Post">
+<!--                                <form action="DispatchController" method="Post">
                                     <input type="hidden" name="requestID" value="<%=lr.getLeaveRequestID()%>">
-                                    <button <t></t>ype="submit" name="btAction" class="btn btn-primary" value="Schedule">Xếp Lịch</button>  
-                                </form>
+                                    <button type="submit" name="btAction" class="btn btn-primary" value="Schedule">Xếp Lịch</button>  
+                                </form>-->
                                 <% 
                                    }
                                     }else if(lr.getHrApprove()==null){

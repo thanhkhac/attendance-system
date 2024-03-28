@@ -186,7 +186,7 @@
             <%--<c:if test="${statistics.size()>0}">--%>
             <%--<%@include file="include_Statistics.jsp" %>--%>
             <%--</c:if>--%>
-            <div class="d-flex justify-content-lg-around m-5">
+            <div class="d-flex justify-content-lg-around m-5">  
                 <div class="statistic-items">
                     <label for="scheduledDays">Tổng ngày có lịch làm việc: </label>
                     <input readonly="" type="text" id="scheduledDays" value="${scheduledDays}">
